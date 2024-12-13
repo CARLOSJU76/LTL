@@ -11,7 +11,7 @@ for_LOG.addEventListener('submit', function(event){
 
     formuData= new FormData(for_LOG);
 
-    fetch('../inicioLTL.php',{
+    fetch('inicioLTL.php',{
         method: 'POST',
         body:formuData
     })
@@ -49,10 +49,8 @@ function configInicio(){
     let autor= document.getElementById('autor');
     let saludoInicial= document.getElementById('saludoInicial');
         let sesion_off=document.getElementById('sesion_off');
-        let sesion_on=document.getElementById('sesion_on');
+        let sesion_on=document.getElementById('sesion_on'); 
     
-    
-
     if(sesionActual=='true'){
         saludoInicial.innerHTML=  `Hola <span style="color: #4A0D0D; font-weight:bold; ">${ElUsuario}</span>, Estás en LitolWrestling Web!!`;  
         autor.value=ElUsuario;
@@ -65,8 +63,8 @@ function configInicio(){
         sesion_off.className='opciones_activas';
     }
         
-
 }
+
 //Función para cerrar valor al elegir la opción salir:
 document.getElementById('deportista').addEventListener('change', function() {
     const selectedValue = this.value;
@@ -76,6 +74,7 @@ document.getElementById('deportista').addEventListener('change', function() {
         cerrarSesion();
     }
 });
+
 function cerrarSesion() {
     let ElUsuario= localStorage.getItem('ElUsuario');
     fetch('logout.php')
@@ -83,6 +82,7 @@ function cerrarSesion() {
     .then(result => {
         if (result === 'success') {
             localStorage.removeItem('sesionIniciada'); // 
+            localStorage.removeItem('ElUsuario');
             configInicio();
             
         }
@@ -93,3 +93,4 @@ function cerrarSesion() {
         }, 3000); 
     });
 }
+

@@ -1,7 +1,7 @@
 <?php
 
     require_once('controller/controlVistas.php');
-    $controlPrincipal= new controlVistas();
+    $controlVistas= new controlVistas();
 
 
     //require_once('controllers/UserController.php');
@@ -14,11 +14,11 @@
     switch ($action){
 
         case 'principal':
-            $controlPrincipal->principal();           
+            $controlVistas->principal();           
             break;
 
     case 'sidebar':
-            $controlPrincipal->sidebar();
+            $controlVistas->sidebar();
             break;
 
 

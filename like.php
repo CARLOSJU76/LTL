@@ -49,9 +49,9 @@ $stmt->execute();
 
 // Verificar si la actualización fue exitosa
 if ($stmt->affected_rows > 0) {
-    echo json_encode(['status' => 'success']);
+    echo json_encode(['status' => 'success', 'message'=> "Acabas de dar like!!"]);
 } else {
-    echo json_encode(['status' => 'error']);
+    echo json_encode(['status' => 'error', 'message'=>'Ha ocurrido un error =(']);
 }
 
 }

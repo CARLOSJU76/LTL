@@ -8,7 +8,7 @@ document.getElementById('formulario_SIGNUP').addEventListener('submit', function
         
         FD= new FormData(For_registro);
 
-    fetch('../registroLTL.php', {
+    fetch('registroLTL.php', {
 
         method: 'POST',
         body: FD

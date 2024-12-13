@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/stylos.css">
-
-    <link rel="stylesheet" href="../CSS/registro.css">
-    <link rel="stylesheet" href="../CSS/login.css">
-    <link rel="stylesheet" href="../CSS/comentarios.css">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/stylos.css">
+    <link rel="stylesheet" href="CSS/registro.css">
+    <link rel="stylesheet" href="CSS/login.css">
+    <link rel="stylesheet" href="CSS/comentarios.css">
 
     <title> TOLIMA'S WRESTLING LEAGUE  </title>
 </head>
@@ -22,7 +21,7 @@
     <!--Imagen de Icono Inicial  -->
     <!-- ======================================================================================= -->
         <div id="div-x">
-            <img src="../IMG/icono-de-favoritos.png" id="imagen-x">
+            <img src="IMG/icono-de-favoritos.png" id="imagen-x">
             <label id="etiqueta">
                 <input type="checkbox" id="toggleButton">
                 <div class="toggle">
@@ -36,22 +35,22 @@
     <!-- ======================================================================================= -->
         <div class="row" id="toggleElement">
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas1">
-                <img src="../IMG/icono-de-favoritos.png" id="img-icon">
+                <img src="IMG/icono-de-favoritos.png" id="img-icon">
             </div>
     <!-- Botones de la barrra -->
     <!--======================================================================================== -->
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
-                <a href="../sidebar.html" id="anchor-boton"><button id="boton-barra" >Inicio</button></a>
+                <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra" >Inicio</button></a>
             </div>
 
             <div class="col-sm-6 col-md-4 col-lg-2" id="filas">
-                <a href="sidebar.html" id="anchor-boton"><button id="boton-barra" >Calendarios</button></a>
+                <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra" >Calendarios</button></a>
             </div>
             <div class="col-sm-6 col-md-4 col-lg-2" id="filas">
-                <a href="sidebar.html" id="anchor-boton"><button id="boton-barra" >Plataforma</button></a>
+                <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra" >Plataforma</button></a>
             </div>
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
-                <a href="formulario1.html" id="anchor-boton"><button id="boton-barra">Ranking Local</button></a>
+                <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra">Ranking Local</button></a>
             </div>
             <!--Botones signup y login  /  Elegir opciones-->
 <!-- =============================================================================================== -->
@@ -92,17 +91,17 @@
      <!-- ========================================================================================= -->
     <div class="slider">
         <div class="slide">
-            <img src="../IMG/Imagen1.png" alt="imagen1" id="imagen-img">
+            <img src="IMG/Imagen1.png" alt="imagen1" id="imagen-img">
             <button class="prev"onclick="prevSlide()">&#10094</button>
             <button class="next"onclick="nextSlide()">&#10095</button>
         </div>
         <div class="slide">
-            <img src="../IMG/Imagen2.jpg" alt="imagen2" id="imagen-img">
+            <img src="IMG/Imagen2.jpg" alt="imagen2" id="imagen-img">
             <button class="prev"onclick="prevSlide()">&#10094</button>
             <button class="next"onclick="nextSlide()">&#10095</button>
         </div>
         <div class="slide">
-            <img src="../IMG/Imagen3.jpg" alt="imagen3" id="imagen-img">
+            <img src="IMG/Imagen3.jpg" alt="imagen3" id="imagen-img">
             <button class="prev"onclick="prevSlide()">&#10094</button>
             <button class="next"onclick="nextSlide()">&#10095</button>
         </div>
@@ -128,7 +127,7 @@
             <input type="submit" id="boton_LOGIN"name="boton_LOGIN" value="Iniciar Sesión">
             <!-- Para seguir mejorando: "olvidaste tu contraseña??" -->
             
-            <a href="../sidebar.html" class="elementos_LOGIN"id="olvidaste" style="text-align: center; ">Olvidaste tu contraseña?</a>
+            <a href="sidebar.html" class="elementos_LOGIN"id="olvidaste" style="text-align: center; ">Olvidaste tu contraseña?</a>
     </form>   
 
 </div>
@@ -138,7 +137,7 @@
  <div id="div_contenedor_SIGNUP" class="opciones_inactivas" >
 
 
-    <form id="formulario_SIGNUP" action="../registroLTL.php" method="POST" >
+    <form id="formulario_SIGNUP" action="registroLTL.php" method="POST" >
         <div id="cerrar_SIGNUP" >X</div>
 
         <h2 id="titulo_SIGNUP">Formularios de Registro</h2>
@@ -175,7 +174,7 @@
 
 <!--Formulario para registrar comentarios:----------------------------------------------------------------------------------------------------------------------------------------------- -->
    
-    <form id="RegistroComentarios" method="post" class="caja" action="../insertComen.php">
+    <form id="RegistroComentarios" method="post" class="caja" action="insertComen.php">
         <input type="text" id="autor" name="autor" class="caja"></input>
         <textarea id="comentario1" name="comentario" class="caja" placeholder="Escribe tu comentario" required></textarea>
         <button id="comentario2" type="submit" onclick="recargarComen()" class="caja" name="enviarcomentario" >Comparte un comentario</button>
@@ -184,12 +183,12 @@
 <!-- ============================================================================================================================================== -->
 
 
-    <script src="../JS/slide.js"></script>
-    <script src="../JS/activo_inactivo.js"></script>
-    <script src="../registro.js"></script>
-    <script src="../inicio.js"></script>
-    <script src="../JS/bootstrap.bundle.js"></script>
-    <script src="../comentarios.js"></script>
+    <script src="JS/slide.js"></script>
+    <script src="JS/activo_inactivo.js"></script>
+    <script src="JS/registro.js"></script>
+    <script src="JS/inicio.js"></script>
+    <script src="JS/bootstrap.bundle.js"></script>
+    <script src="JS/comentarios.js"></script>
 </body>
 </html>
 

@@ -1,15 +1,25 @@
 function cargarComentarios() {
-    fetch('../get_comments.php')
+    fetch('get_comments.php')
         .then(response => response.json())
         .then(data => {
             
             let comentariosTexto = '';
+            let aut= localStorage.getItem('ElUsuario');
 
             // Iterar sobre los datos y formatear el texto
+            
             data.forEach(comentario => {
-                comentariosTexto += `<br><span style= "color:orange;">${comentario.autor}<br></span>`;  
+                if(comentario.autor!=aut || comentario.autor==null){
+                    comentariosTexto += `<br><span style= "color:orange;">${comentario.autor}<br></span>`;  
+                    comentariosTexto += `${comentario.comentario}<br>`;
+                    comentariosTexto += `<span style="font-size: 10px;">Fecha: ${comentario.fecha_hora}  <button class="like-button" data-id="${comentario.id}">Like</button> ${comentario.likes} likes <br></span>`;
+                }else{
+                comentariosTexto += `<br><span style= "color:green;">${comentario.autor}<br></span>`;  
                 comentariosTexto += `${comentario.comentario}<br>`;
-                comentariosTexto += `<span style="font-size: 10px;">Fecha: ${comentario.fecha_hora}  <button class="like-button" data-id="${comentario.id}">Like</button> ${comentario.likes} likes <br></span>`;
+                comentariosTexto += `<span style="font-size: 10px;">Fecha: ${comentario.fecha_hora}  ${comentario.likes} likes <br></span>`;
+
+                }
+                
             });
             
             // Mostrar comentarios en el textarea
@@ -56,7 +66,7 @@ function incrementarLike(comentarioId,liker) {
         const currentDate = new Date().toLocaleDateString('en-CA'); // Formato: YYYY-MM-DD
         console.log(currentDate);
         
-        return fetch('../like.php', {
+        return fetch('like.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -66,7 +76,7 @@ function incrementarLike(comentarioId,liker) {
         .then(response => response.json())
         .then(result=>{
             location.reload();
-            alert('Acabas de dar like ' + currentDate);
+            alert(result.message);
             document.getElementById('comments').style.display="block";
         })
         .catch(error => console.error('Error:', error));
