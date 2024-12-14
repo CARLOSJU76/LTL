@@ -1,7 +1,9 @@
 <?php
 
     require_once('controller/controlVistas.php');
+    require_once 'controller/signupController.php';
     $controlVistas= new controlVistas();
+    $signupController= new SignupController();    
 
 
     //require_once('controllers/UserController.php');
@@ -14,11 +16,20 @@
     switch ($action){
 
         case 'principal':
-            $controlVistas->principal();           
+            $controlVistas->principal();             
             break;
 
-    case 'sidebar':
+        case 'registro':
+            if($_SERVER["REQUEST_METHOD"]=="POST"){               
+                $signupController->registrar();               
+            }else{
+                include './views/principal.html';
+            }         
+            break;
+
+        case 'sidebar':
             $controlVistas->sidebar();
+            echo"Y ahora con el sidebar";
             break;
 
 

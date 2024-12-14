@@ -7,7 +7,7 @@
             include './views/principal.html';
         }
         public function sidebar(){
-            include './sidebar.html';
+            include 'views/sidebar.html';
         }
         
     }
