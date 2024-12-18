@@ -1,10 +1,6 @@
 <?php
     class SignupModel{
         private $conn;
-        private $usuarios= 'usuarios';
-        private $ocmentarios='comentarios';
-        private $dando_like='dando_like';
-        
 
         public function __construct($db){
             $this->conn=$db;
@@ -21,7 +17,6 @@ function verificarCredenciales($user,  $email){
 
     return $conteo;
 }
-
     //función para encriptar contraseña y realizar registro: 
     
     function registrando($conteo, $user, $email, $clave) {

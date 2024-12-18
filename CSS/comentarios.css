@@ -37,9 +37,8 @@ html, body{
     
 }
 #encab_comentarios{
-    position:fixed;    
+    width: 100%; 
     background-color: #820000 ;
-    width: 20%;
     text-align: end;
     border-radius: 4px;
     color:white;

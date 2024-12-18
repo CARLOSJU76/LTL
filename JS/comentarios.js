@@ -1,13 +1,13 @@
 function cargarComentarios() {
-    fetch('get_comments.php')
+    fetch('funciones/get_comments.php')
+        
         .then(response => response.json())
         .then(data => {
-            
+           
             let comentariosTexto = '';
             let aut= localStorage.getItem('ElUsuario');
 
             // Iterar sobre los datos y formatear el texto
-            
             data.forEach(comentario => {
                 if(comentario.autor!=aut || comentario.autor==null){
                     comentariosTexto += `<br><span style= "color:orange;">${comentario.autor}<br></span>`;  
@@ -50,7 +50,7 @@ function cargarComentarios() {
             });
               
         })
-        //.catch(error => console.error('Error:', error));
+        // .catch(error => console.error('Error:', error));
 
 }
 window.onload = cargarComentarios;
@@ -66,7 +66,7 @@ function incrementarLike(comentarioId,liker) {
         const currentDate = new Date().toLocaleDateString('en-CA'); // Formato: YYYY-MM-DD
         console.log(currentDate);
         
-        return fetch('like.php', {
+        return fetch('funciones/like.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -85,10 +85,4 @@ function incrementarLike(comentarioId,liker) {
         alert("Debes iniciar sesión para interactuar en los comentarios.");
     }    
 }
-
-function recargarComen(){
-    location.reload();
-}
-
-
 

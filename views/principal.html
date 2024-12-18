@@ -57,15 +57,60 @@
 
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
                 <div id="signup">
-                    <form name="sesion_off" id="sesion_off" class="opciones_activas">
-                        <select name="opcion_uno" id="opcion_uno" class="opciones_activas" >
+                    <form  id="perfil-inicio" class="opciones_activas"> <!--id: necesario, class: necesario  -->
+                        <select  id="select-inicio" class="opciones_activas" > <!-- class: necesario -->
                             <option value="3" disabled selected>Inicio/Registro</option>
                             <option value="1">Registrate</option>
                             <option value="2">Inicia Sesión</option>
                         </select>
                     </form>
-                    <form name="sesion_on" id="sesion_on" class="opciones_inactivas">
-                        <select name="action" id="deportista" class="opciones_activas" >
+                    <!-- perfil usuario -->
+                    <form  id="perfil-usuario" class="opciones_inactivas">
+                        <select name="action"  id="select-usuario" class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
+                            <option value="1">Sumar</option>
+                            <option value="2">Restar</option>
+                            <option value="3">Multiplicar</option>
+                            <option value="4">Dividir</option>
+                            <option value="5" >Salir</option>
+                        </select>
+                    </form>
+                    <!-- perfil deportista -->
+                    <form  id="perfil-deportista" class="opciones_inactivas">
+                        <select name="action"  class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
+                            <option value="1">Sumar</option>
+                            <option value="2">Restar</option>
+                            <option value="3">Multiplicar</option>
+                            <option value="4">Dividir</option>
+                            <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
+                        </select>
+                    </form>
+                    <!-- perfil entrenador -->
+                    <form name="sesion_on" id="perfil-entrenador" class="opciones_inactivas">
+                        <select name="action"  class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
+                            <option value="1">Sumar</option>
+                            <option value="2">Restar</option>
+                            <option value="3">Multiplicar</option>
+                            <option value="4">Dividir</option>
+                            <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
+                        </select>
+                    </form>
+                    <!-- perfil dirigente -->
+                    <form  id="perfil-dirigente" class="opciones_inactivas">
+                        <select name="action"  class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
+                            <option value="1">Sumar</option>
+                            <option value="2">Restar</option>
+                            <option value="3">Multiplicar</option>
+                            <option value="4">Dividir</option>
+                            <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
+                        </select>
+                    </form>
+                    <!-- perfil administrador -->
+                    <form  id="perfil-administrador" class="opciones_inactivas">
+                        <select name="action"  class="opciones_activas" >
                             <option value="" disabled selected>Opciones de Usuario</option>
                             <option value="1">Sumar</option>
                             <option value="2">Restar</option>
@@ -112,7 +157,7 @@
  <!-- ====================================================================================================================== -->
 <div id="contenedor_LOGIN" class="opciones_inactivas">
 
-    <form id="formulario_LOGIN">
+    <form id="formulario_LOGIN" action="index.php?action=loguear" method="post">
 
             <div id="div_cerrar_LOGIN"><div  id="cerrar_LOGIN">X</div></div>
 
@@ -124,7 +169,7 @@
             <input type="password" class="elementos_LOGIN" id="passw" name="passw"required placeholder="Digita tu contraseña">
             <label for="passw"class="elementos_LOGIN" id="label_passw" >Ingresa tu contraseña!!</label>
 
-            <input type="submit" id="boton_LOGIN"name="boton_LOGIN" value="Iniciar Sesión">
+            <input type="submit" id="boton_LOGIN" value="Iniciar Sesión">
             <!-- Para seguir mejorando: "olvidaste tu contraseña??" -->
             
             <a href="sidebar.html" class="elementos_LOGIN"id="olvidaste" style="text-align: center; ">Olvidaste tu contraseña?</a>
@@ -168,18 +213,21 @@
 
 <!--SECCION DE LOS COMENTARIOS: =================================================================================================================== -->
 <!--Inserción de comentarios: --------------------------------------------->
-<div id="contenedor_comentarios">
+<div id="contenedor_comentarios" class="opciones_inactivas">
     <div id="encab_comentarios" class="caja">Comentarios de los Usuarios</div>
     <div id="comments" class="caja" readonly></div>
-
+    <div id="mensaje_COMMENT" class=""></div>
 <!--Formulario para registrar comentarios:----------------------------------------------------------------------------------------------------------------------------------------------- -->
    
-    <form id="RegistroComentarios" method="post" class="caja" action="insertComen.php">
-        <input type="text" id="autor" name="autor" class="caja"></input>
+    <form id="RegistroComentarios"  class="caja">
+        <input type="text" id="autor" name="autor" class="caja" value="">
         <textarea id="comentario1" name="comentario" class="caja" placeholder="Escribe tu comentario" required></textarea>
-        <button id="comentario2" type="submit" onclick="recargarComen()" class="caja" name="enviarcomentario" >Comparte un comentario</button>
+        <button id="comentario2" type="submit" class="caja"  >Comparte un comentario</button>
     </form>
   </div>
+  <button class= "boton-circulo"  id="enable-comments" onclick="enable_comments()"><div id="resaltado">Comentarios</div></button>
+  <button class= "opciones_inactivas"  id="disable-comments" onclick="disable_comments()"><div id="resaltado">Ocultar</div></button>
+
 <!-- ============================================================================================================================================== -->
 
 
@@ -189,6 +237,7 @@
     <script src="JS/inicio.js"></script>
     <script src="JS/bootstrap.bundle.js"></script>
     <script src="JS/comentarios.js"></script>
+    <script src="JS/insertComment.js"></script>
 </body>
 </html>
 

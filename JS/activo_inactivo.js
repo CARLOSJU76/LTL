@@ -1,6 +1,6 @@
 //listarClase();
 //Función para el select Inicio/Regisro: 
-let sign_log=document.getElementById("opcion_uno");
+let sign_log=document.getElementById("select-inicio");
 sign_log.addEventListener('change', function(){
 
 

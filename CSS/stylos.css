@@ -494,16 +494,51 @@ body{
 .opciones_inactivas{
     display: none;
 }
-/*position: relative;
-    width: 100%;
-    height: 100%;
-    margin-top: auto;
-    margin-bottom: auto;
-    border-radius: 15px;
-    transition: color 0.3s ease;
-    cursor:pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.7vw;
-    background-color: transparent;
-    color:#820000;
-    border:none;*/
+.comentarios_activos{
+    display:block;
+}
+.boton-circulo {
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #660000;
+    color: white;
+    border: solid gold 2px;
+    font-size: 0.8rem;
+    font-style: italic;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 3;
+    /* overflow: hidden; Asegura que el texto rotado no se salga del círculo */
+}
+
+.boton-circulo span {
+
+    display: inline-block; /* Asegura que el span sea un bloque en línea para poder rotarlo */
+   
+    white-space: nowrap; /* Evita que el texto se divida */
+    transform-origin: center center; /* Establece el centro como el punto de rotación */
+}
+
+.boton-circulo:hover {
+    background-color: #820000;
+}
+#resaltado{
+    background-color: white;
+    color:#660000;
+    border-radius: 10px;
+    transform: rotate(-45deg); /* Rota el texto a 45 grados */
+}
+#enable-comments{
+    z-index: 4;
+}
+#disable-comments{
+    z-index: 3;
+  
+}
