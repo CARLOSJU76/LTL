@@ -57,6 +57,7 @@
 
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
                 <div id="signup">
+                    <!-- perfil inicio -->
                     <form  id="perfil-inicio" class="opciones_activas"> <!--id: necesario, class: necesario  -->
                         <select  id="select-inicio" class="opciones_activas" > <!-- class: necesario -->
                             <option value="3" disabled selected>Inicio/Registro</option>
@@ -68,10 +69,10 @@
                     <form  id="perfil-usuario" class="opciones_inactivas">
                         <select name="action"  id="select-usuario" class="opciones_activas" >
                             <option value="" disabled selected>Opciones de Usuario</option>
-                            <option value="1">Sumar</option>
+                            <!-- <option value="1">Sumar</option>
                             <option value="2">Restar</option>
                             <option value="3">Multiplicar</option>
-                            <option value="4">Dividir</option>
+                            <option value="4">Dividir</option> -->
                             <option value="5" >Salir</option>
                         </select>
                     </form>
@@ -93,7 +94,7 @@
                             <option value="1">Sumar</option>
                             <option value="2">Restar</option>
                             <option value="3">Multiplicar</option>
-                            <option value="4">Dividir</option>
+                            <option value="4">Dividir</option> 
                             <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
                         </select>
                     </form>
@@ -172,7 +173,7 @@
             <input type="submit" id="boton_LOGIN" value="Iniciar Sesión">
             <!-- Para seguir mejorando: "olvidaste tu contraseña??" -->
             
-            <a href="sidebar.html" class="elementos_LOGIN"id="olvidaste" style="text-align: center; ">Olvidaste tu contraseña?</a>
+            <a href="#" class="elementos_LOGIN"id="olvidaste" style="text-align: center; ">Olvidaste tu contraseña?</a>
     </form>   
 
 </div>
@@ -210,6 +211,8 @@
 <div id="mensaje_SIGNUP" class=""></div>
 <div id="saludoInicial" class=""></div>
 <div id="usuarioActual"></div>
+<div id="mensaje_verifyAccount"></div>
+<div id="mensaje_verifyAccount"></div>
 
 <!--SECCION DE LOS COMENTARIOS: =================================================================================================================== -->
 <!--Inserción de comentarios: --------------------------------------------->
@@ -230,7 +233,7 @@
 
 <!-- ============================================================================================================================================== -->
 
-
+    <!-- <script src="JS/notificaciones.js"></script> -->
     <script src="JS/slide.js"></script>
     <script src="JS/activo_inactivo.js"></script>
     <script src="JS/registro.js"></script>
@@ -241,15 +244,5 @@
 </body>
 </html>
 
-<!-- <div class="sidebar1">
-    <h2>Opciones</h2>
-    <ul>
-        <li><a href="#">Habilitar Deportista</a></li>
-        <li><a href="#">Incluir Datos</a></li>
-        <li><a href="#">Consultar estadísticas</a></li>
-        <li><a href="#">Cerrar</a></li>
-    </ul>
 
-</div>
--->
 

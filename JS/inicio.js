@@ -7,6 +7,7 @@ var for_LOG= document.getElementById('formulario_LOGIN');
 let mensajeLog=document.getElementById('mensaje_LOGIN');
 let nombreUsuario="";
 
+
 for_LOG.addEventListener('submit', function(event){
     event.preventDefault();
    //alert("hola amigos");
@@ -116,5 +117,37 @@ function comentariosActivos(){
         e_comments.className='boton-circulo';
         d_comments.className='opciones_inactivas';
     }
-    
+    function reiniSesion(){
+        let nombreUsuario1=document.getElementById('user1');
+        let usuario1=nombreUsuario1.value;
+        let mensajeLogin=document.getElementById('mensaje_LOGIN');
+        mensajeLogin.textContent="Bienvenido " + $usuario1 + ", iniciaste sesión exitosamente.";
+        mensajeLogin.className="success";
+        localStorage.setItem('sesionIniciada','true'); //metodo para establecer una matriz asociativa
+        localStorage.setItem('ElUsuario', usuario1); 
+        cerrarLogin.click();
+        setTimeout(() =>{
+            location.reload();
+        }, 3000);  
+
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    let mail = document.getElementById("usuario"); // Obtener el valor del input
+    var enlace = document.getElementById("olvidaste"); // Obtener el enlace
+
+    enlace.addEventListener("click", function(event) {
+
+    event.preventDefault();
+
+//enlace.href = "rec_pass_form.php?correo=" + encodeURIComponent(texto);
+    enlace.href = "index.php?action=recover_pass&email=" + (mail.value);
+    window.location.href= enlace.href;
+
+    });
+});
+function mostrarMensaje() {
+    document.getElementById('btnEnviar').style.display = 'none';  // Ocultar el botón
+    document.getElementById('mensajeConfirmacion').style.display = 'block';  // Mostrar el mensaje
 }

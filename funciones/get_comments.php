@@ -11,6 +11,11 @@ $password = "";
 $dbname = "sistema_rank";
 $port = 3307;
 
+        // $host = "localhost";
+        // $baseDatos="ltlwqtsb_sistema_rank" ;
+        // $usuario= "ltlwqtsb_carlosju76" ;
+        // $clave= "Sistema_rank*2024";
+
 try {
     // Crear conexión con PDO
     $conn = new PDO("mysql:host=$servername;dbname=$dbname;port=$port", $username, $password);

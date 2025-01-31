@@ -15,8 +15,8 @@ document.getElementById('formulario_SIGNUP').addEventListener('submit', function
     })
     .then( respuesta =>respuesta.json())
     .then(datos => {
-        mensaje.textContent= datos.message;
-        if(datos.success=="ok"){
+        mensaje.textContent= datos.message +" "+ datos.conteo;
+        if(datos.success==="ok"){
             mensaje.className="success";
             
         }else {
