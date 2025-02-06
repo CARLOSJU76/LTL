@@ -15,8 +15,7 @@ class LoginController{
         $this->loginModel= new LoginModel($this->db);
         $this->objeto= new objeto();
     }
-    public function login(){
-     
+    public function login(){     
     
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $usuario = $_POST["usuario"];
@@ -26,17 +25,20 @@ class LoginController{
             $opcion = $array[0];
             $user1 = $array[1];
             $perfil = $array[2];
-    
-            if($opcion === 1){
+
+            if($opcion=== 5){
+                $opcion=5;
+            }else if($opcion=== 1){
                 $estado = $this->loginModel->get_mail_verified($usuario);
                 if($estado === 1){
                     $opcion = 1;
-                 
-                } else {
+                                 }else {
                     $opcion = -2;
                 }
+            }else{
+                $opcion=0;
             }
-    
+
             $this->objeto->notifilogin($opcion, $user1, $perfil);
         }
     }

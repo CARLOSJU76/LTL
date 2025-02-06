@@ -7,37 +7,43 @@
         //FUNCIONES EMPLEADAS EN EL LOGIN:
         function verificar($usuario, $passw) {
             $datos = [];
-            $clave = "";
+            $opcion = 0;
             $user1 = "";
-            
-            
-            // Consulta utilizando PDO
-            $consulta = $this->conn->prepare("SELECT passw, usuario, id_perfil FROM usuarios WHERE usuario = ? OR email = ?");
-            $consulta->execute([$usuario, $usuario]);
-            
-            // Ejecutar la consulta
-            $consulta->execute();
-            
-            // Verificar si se obtuvo algún resultado
-            if ($row = $consulta->fetch(PDO::FETCH_ASSOC)) {
-                $clave = $row['passw'];
-                $user1 = $row['usuario'];
-                $perfil= $row['id_perfil'];
-                
-                // Verificar si la contraseña es correcta
-                if (password_verify($passw, $clave)) {
-                    $opcion = 1; // Contraseña correcta
-                } else {
-                    $opcion = 0; // Contraseña incorrecta
-                }
+            $perfil = null;
+        
+            // Verificar si el usuario existe
+            $verificar = $this->conn->prepare("SELECT COUNT(*) FROM usuarios WHERE usuario = ? OR email = ?");
+            $verificar->execute([$usuario, $usuario]);
+            $conteo = (int)$verificar->fetchColumn();
+        
+            if ($conteo < 1) {
+                $opcion = 5; // Usuario no encontrado
             } else {
-                $opcion = -1; // No se encontró el usuario o email
+                // Obtener la información del usuario
+                $consulta = $this->conn->prepare("SELECT passw, usuario, id_perfil FROM usuarios WHERE usuario = ? OR email = ?");
+                $consulta->execute([$usuario, $usuario]);
+                $row = $consulta->fetch(PDO::FETCH_ASSOC);
+        
+                if ($row) { // Solo accede a los datos si $row tiene información
+                    $clave = $row['passw'];
+                    $user1 = $row['usuario'];
+                    $perfil = $row['id_perfil'];
+        
+                    if (password_verify($passw, $clave)) {
+                        $opcion = 1; // Contraseña correcta
+                    } else {
+                        $opcion = 0; // Contraseña incorrecta
+                    }
+                } else {
+                    $opcion = 5; // En caso de que la consulta no devuelva datos (precaución extra)
+                }
             }
-            
-            // Devolver los resultados en un array
+        
+            // Retornar los datos
             array_push($datos, $opcion, $user1, $perfil);
             return $datos;
         }
+        
         public function get_mail_verified($usuario){
             $stmt=$this->conn->prepare("SELECT mail_verified FROM usuarios WHERE email= ? OR usuario= ?");
             $stmt->execute([$usuario, $usuario]);

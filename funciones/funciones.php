@@ -30,13 +30,13 @@
             header('Content-Type: application/json'); // Asegurando que la respuesta sea JSON
         
             if ($opcion === 1) {
-                echo json_encode(array("status" => "success", "message" => "Bienvenido $user1, iniciaste sesión exitosamente.", "nombre" => $user1, "opcion" => 4 + $opcion));
+                echo json_encode(array("status" => "success", "message" => "Bienvenido $user1, iniciaste sesión exitosamente.Nueva actualización. Perfil: $perfil", "nombre" => $user1, "perfil" =>$perfil));
             } else if ($opcion === 0) {
-                echo json_encode(array("status" => "error", "message" => "Credenciales inválidas.", "opcion" => 4 + $opcion));
-            } else if($opcion===-1) {
-                echo json_encode(array("status" => "error", "message" => "Usuario no se encuentra registrado.", "opcion" => + $opcion));
+                echo json_encode(array("status" => "error", "message" => "Credenciales inválidas. Opción: $opcion", "opcion" => 4 + $opcion));
+            } else if($opcion === -2) {
+                echo json_encode(array("status" => "error", "message" => " La cuenta de correo no ha sido verificada. Opcion= $opcion", "opcion" => $opcion));
             }else{
-                echo json_encode(array("status" => "error", "message" => "La cuenta de correo no ha sido verificada", "opcion" => + $opcion));
+                echo json_encode(array("status" => "error", "message" => " Usuario no se encuentra registrado. Opcion: $opcion", "opcion" => $opcion));
             }
             exit(); // Termina la ejecución después de enviar la respuesta
         }

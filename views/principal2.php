@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="CSS/registro.css">
     <link rel="stylesheet" href="CSS/login.css">
     <link rel="stylesheet" href="CSS/comentarios.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous">
 
     <title> TOLIMA'S WRESTLING LEAGUE  </title>
 </head>
@@ -38,7 +37,7 @@
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas1">
                 <img src="IMG/icono-de-favoritos.png" id="img-icon">
             </div>
-    <!-- Botones de la barra -->
+    <!-- Botones de la barrra -->
     <!--======================================================================================== -->
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
                 <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra" >Inicio</button></a>
@@ -74,52 +73,51 @@
                             <option value="2">Restar</option>
                             <option value="3">Multiplicar</option>
                             <option value="4">Dividir</option> -->
-                            <option value="logout" >Salir</option>
+                            <option value="5" >Salir</option>
                         </select>
                     </form>
                     <!-- perfil deportista -->
                     <form  id="perfil-deportista" class="opciones_inactivas">
-                        <select name="action" id="select-deportista" class="opciones_activas" >
-                            <option value="" disabled selected>Opciones Deportista</option>
+                        <select name="action"  class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
                             <option value="1">Sumar</option>
                             <option value="2">Restar</option>
                             <option value="3">Multiplicar</option>
                             <option value="4">Dividir</option>
-                            <option value="logout" >Salir</option>
+                            <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
                         </select>
                     </form>
                     <!-- perfil entrenador -->
                     <form name="sesion_on" id="perfil-entrenador" class="opciones_inactivas">
-                        <select name="action" id="select-entrenador" class="opciones_activas" >
-                            <option value="" disabled selected>Opciones de Entrenador</option>
+                        <select name="action"  class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
                             <option value="1">Sumar</option>
                             <option value="2">Restar</option>
                             <option value="3">Multiplicar</option>
                             <option value="4">Dividir</option> 
-                            <option value="logout" >Salir</option>
+                            <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
                         </select>
                     </form>
                     <!-- perfil dirigente -->
                     <form  id="perfil-dirigente" class="opciones_inactivas">
-                        <select name="action" id="select-dirigente" class="opciones_activas" >
-                            <option value="" disabled selected>Opciones de Dirigente</option>
+                        <select name="action"  class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
                             <option value="1">Sumar</option>
                             <option value="2">Restar</option>
                             <option value="3">Multiplicar</option>
                             <option value="4">Dividir</option>
-                            <option value="logout" onclick="cerrarSesion()" href="#" role="button">Salir</option>
+                            <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
                         </select>
                     </form>
                     <!-- perfil administrador -->
-                    <form id="perfil-administrador" class="opciones_inactivas">
-                        <select name="action" id="select-admin" class="opciones_activas">
-                            <option value="" disabled selected>Opciones de Administrador</option>
-                            <option value="club_manage">Gestión de clubes</option>
-                            <option value="dep_entr">Deportistas y Entrenadores</option>
-                            <option value="event_manage">Eventos</option>
-                            <option value="my_performance">My performances</option>
-                            <option value="elements_manage">Gestor de elementos</option>
-                            <option value="logout">Salir</option>
+                    <form  id="perfil-administrador" class="opciones_inactivas">
+                        <select name="action"  class="opciones_activas" >
+                            <option value="" disabled selected>Opciones de Usuario</option>
+                            <option value="1">Sumar</option>
+                            <option value="2">Restar</option>
+                            <option value="3">Multiplicar</option>
+                            <option value="4">Dividir</option>
+                            <option value="5" onclick="cerrarSesion()" href="#" role="button">Salir</option>
                         </select>
                     </form>
                 </div>
@@ -180,7 +178,6 @@
 
 </div>
 <div id="mensaje_LOGIN" class="" ></div>
-<input type="hidden" id="perfil_de_usuario" >
 <!-- FORMULARIO SIGN UP  -->
  <!--========================================================================================================================= -->
  <div id="div_contenedor_SIGNUP" class="opciones_inactivas" >
@@ -214,7 +211,7 @@
 <div id="mensaje_SIGNUP" class=""></div>
 <div id="saludoInicial" class=""></div>
 <div id="usuarioActual"></div>
-
+<div id="mensaje_verifyAccount"></div>
 <div id="mensaje_verifyAccount"></div>
 
 <!--SECCION DE LOS COMENTARIOS: =================================================================================================================== -->
@@ -237,8 +234,6 @@
 <!-- ============================================================================================================================================== -->
 
     <!-- <script src="JS/notificaciones.js"></script> -->
-     <script src="JS/logout.js"></script>
-    <script src="JS/logout.js"></script>
     <script src="JS/slide.js"></script>
     <script src="JS/activo_inactivo.js"></script>
     <script src="JS/registro.js"></script>

@@ -6,8 +6,6 @@ let con_comentarios= document.getElementById('contenedor_comentarios');
 var for_LOG= document.getElementById('formulario_LOGIN');
 let mensajeLog=document.getElementById('mensaje_LOGIN');
 let nombreUsuario="";
-let perfil_input= document.getElementById('perfil_de_usuario');
-let id_perfil= localStorage.getItem('id_perfil');
 
 
 for_LOG.addEventListener('submit', function(event){
@@ -23,14 +21,11 @@ for_LOG.addEventListener('submit', function(event){
     .then(respuesta =>respuesta.json())
     .then(datos => {
         mensajeLog.textContent= decodeURIComponent(datos.message);
-        nombreUsuario=datos.nombre; 
-        id_perfil= datos.perfil;
-            
+        nombreUsuario=datos.nombre;       
         
         if(datos.status=="success"){
             localStorage.setItem('sesionIniciada','true'); //metodo para establecer una matriz asociativa
             localStorage.setItem('ElUsuario', nombreUsuario); 
-            localStorage.setItem('id_perfil', id_perfil);        
                
             mensajeLog.className='success'; 
         }else{         
@@ -53,38 +48,51 @@ function configInicio(){
     const ElUsuario= localStorage.getItem('ElUsuario');
     let autor= document.getElementById('autor');
     let saludoInicial= document.getElementById('saludoInicial');
-        
-        let perfil_inicial=document.getElementById('perfil-inicio'); 
         let perfil_usuario=document.getElementById('perfil-usuario');
-        let perfil_deportista=document.getElementById('perfil-deportista');
-        let perfil_entrenador=document.getElementById('perfil-entrenador');
-        let perfil_dirigente=document.getElementById('perfil-dirigente');
-        let perfil_administrador=document.getElementById('perfil-administrador');
+        let perfil_inicial=document.getElementById('perfil-inicio'); 
     
     if(sesionActual=='true'){
         saludoInicial.innerHTML=  `Hola <span style="color: #4A0D0D; font-weight:bold; ">${ElUsuario}</span>, Estás en LitolWrestling Web!!`;  
         autor.value=ElUsuario;
    
-    
+    perfil_usuario.className='opciones_activas';
     perfil_inicial.className='opciones_inactivas';
-        if(localStorage.getItem('id_perfil')==1){
-        perfil_usuario.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==2){
-        perfil_deportista.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==3){
-        perfil_entrenador.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==4){
-        perfil_dirigente.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==5){
-        perfil_administrador.className='opciones_activas';
-        }  
-    }else{       
+   
+    }else{
+        perfil_usuario.className='opciones_inactivas';
         perfil_inicial.className='opciones_activas';
-    }        
+    }
+        
 }
 
+//Función para cerrar valor al elegir la opción salir:
+document.getElementById('select-usuario').addEventListener('change', function() {
+    const selectedValue = this.value;
+    
+    if (selectedValue === '5') {
+        // Si la opción "Salir" es seleccionada, realizar una petición para cerrar la sesión.
+        cerrarSesion();
+    }
+});
 
-//====================================================================================================
+function cerrarSesion() {
+    let ElUsuario= localStorage.getItem('ElUsuario');
+    fetch('funciones/logout.php')
+    .then(response => response.text())
+    .then(result => {
+        if (result === 'success') {
+            localStorage.removeItem('sesionIniciada'); // 
+            localStorage.removeItem('ElUsuario');
+            localStorage.removeItem('Cont_comentarios');
+            configInicio();            
+        }
+        mensajeLog.className='error';
+        mensajeLog.textContent= ElUsuario + ", acabaste de Cerrar la Sesión!!";
+        setTimeout(() =>{
+            location.reload();
+        }, 3000); 
+    });
+}
 //función al obturar botón cerrar o mostrar comentarios
 let e_comments=document.getElementById('enable-comments');
 let d_comments= document.getElementById('disable-comments');
@@ -110,6 +118,8 @@ function comentariosActivos(){
         d_comments.className='opciones_inactivas';
     }
     
+
+    
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -129,24 +139,4 @@ document.addEventListener("DOMContentLoaded", function() {
 function mostrarMensaje() {
     document.getElementById('btnEnviar').style.display = 'none';  // Ocultar el botón
     document.getElementById('mensajeConfirmacion').style.display = 'block';  // Mostrar el mensaje
-}
-function cerrarSesion() {
-    let ElUsuario= localStorage.getItem('ElUsuario');
-    fetch('funciones/logout.php')
-    .then(response => response.text())
-    .then(result => {
-        if (result === 'success') {
-            localStorage.removeItem('sesionIniciada'); // 
-            localStorage.removeItem('ElUsuario');
-            localStorage.removeItem('Cont_comentarios');
-            localStorage.removeItem('id_perfil');
-           
-            configInicio();            
-        }
-        mensajeLog.className='error';
-        mensajeLog.textContent= ElUsuario + ", acabaste de Cerrar la Sesión!!";
-        setTimeout(() =>{
-            location.reload();
-        }, 3000); 
-    });
 }
