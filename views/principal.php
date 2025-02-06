@@ -107,7 +107,7 @@
                             <option value="2">Restar</option>
                             <option value="3">Multiplicar</option>
                             <option value="4">Dividir</option>
-                            <option value="logout" onclick="cerrarSesion()" href="#" role="button">Salir</option>
+                            <option value="logout">Salir</option>
                         </select>
                     </form>
                     <!-- perfil administrador -->
@@ -236,8 +236,6 @@
 
 <!-- ============================================================================================================================================== -->
 
-    <!-- <script src="JS/notificaciones.js"></script> -->
-     <script src="JS/logout.js"></script>
     <script src="JS/logout.js"></script>
     <script src="JS/slide.js"></script>
     <script src="JS/activo_inactivo.js"></script>

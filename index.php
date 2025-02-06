@@ -125,7 +125,7 @@
                 $repres=$clubControl->buscarRepresentantes();
                 }else{
                    $repreData=$clubControl->buscarRepresentantes();
-                   include_once 'view-profile/update_repre.php';
+                   include_once 'view-profile/update_repres.php';
                 }break;
             case 'delete_repre':
                 $clubControl->deleteRepre();

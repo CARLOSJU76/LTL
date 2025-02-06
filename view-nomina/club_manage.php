@@ -31,7 +31,7 @@
             <!-- Primera fila: Encabezado -->
                 <thead >
                     <tr >
-                        <th colspan="2" class="text-center" id="head-manage-club">Gestión de Clubes</th>
+                        <th colspan="2" class="text-center" id="head-manage-club">Deportistas y Entrenadores</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +39,7 @@
                         <td>
                             <div class="form-group">
                                 <select name="action" id="repesentante" class="form-select form-select-lg" onchange="this.form.submit()">
-                                    <option value="" disabled selected>Gestión de Clubes</option> <!-- Opción predeterminada -->
+                                    <option value="" disabled selected>Deportistas y Entrenadores</option> <!-- Opción predeterminada -->
                                     <option value="insert_Club">Incluir Club</option>
                                     <option value="insert_representante">Incluir representante</option>
                                     <option value="list_club">Consultar Clubes</option>                    
