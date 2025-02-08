@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualizar Representante legal de Club</title>
     <!-- Incluir Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="CSS/bootstrap.min.css"> -->
     <link rel="stylesheet" href="./css/club_manage.css">
     <link rel="stylesheet" href="css/insert_represent.css">
 </head>

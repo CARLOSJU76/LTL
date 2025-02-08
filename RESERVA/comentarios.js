@@ -60,11 +60,11 @@ window.onload = cargarComentarios;
 //función para incrementar el númeo de likes:
 function incrementarLike(comentarioId,liker) {
     sesionInciada= localStorage.getItem('sesionIniciada');
+  
 
     if(sesionInciada==='true'){
         
         const currentDate = new Date().toLocaleDateString('en-CA'); // Formato: YYYY-MM-DD
-        console.log(currentDate);
         
         return fetch('funciones/like.php', {
             method: 'POST',

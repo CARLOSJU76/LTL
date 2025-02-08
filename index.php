@@ -5,6 +5,8 @@
     require_once 'controller/loginController.php';
     require_once 'controller/insertCommentsController.php';
     require_once 'controller/ClubController.php';
+    require_once 'controller/DeportistaController.php';
+    require_once 'controller/GetCommentsController.php';
    
 
     
@@ -13,6 +15,12 @@
     $loginController= new LoginController();   
     $insertCommentsController= new InsertCommentsController();
     $clubControl= new ClubController();
+    $depoControl= new DeportistaController();
+
+    $fechaHora = new DateTime();
+    $fechaHora->setTimezone(new DateTimeZone('America/Bogota'));
+    $fechaA = $fechaHora->format('Y-m-d');
+    $horaA = $fechaHora->format('H:i:s');
  
     
     $action= $_GET['action'] ?? 'principal';
@@ -39,15 +47,28 @@
             }else{
                 include './views/principal.php';
             }break;
+//====================================================================================
             case 'insert_comment':
             if($_SERVER['REQUEST_METHOD']=="POST"){
                 $insertCommentsController->insertCommment();
             }else{
                 include './views/principal.php';
             }break;
-            default:
-            include './views/principal.php';
-            break;
+//=====================================================================================
+            // En tu archivo index.php
+            case 'get_comments':
+                $getCommentsController = new GetCommentsController();
+                $getCommentsController->getComments();
+                break;
+//=====================================================================================DANDO LIKE::::
+            case 'dando_like': 
+                if($_SERVER["REQUEST_METHOD"]=="POST"){
+                    $insertCommentsController->darLike($fechaA, $horaA);    
+                }else{
+                    include './views/principal.php';
+                }break;
+              
+//==========================================================================================
             case 'verify_email':
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     $signupController->verificarCuenta();      
@@ -74,6 +95,11 @@
             case 'club_manage':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                     include 'view-profile/club_manage.php';
+                }
+                break;
+            case 'sport_manage':
+                if($_SERVER['REQUEST_METHOD']=='GET'){
+                include 'view-nomina/sport_manage.php';
                 }
                 break;
             case 'insert_Club':
@@ -131,5 +157,14 @@
                 $clubControl->deleteRepre();
                 include 'view-profile/list_repres.php'; 
                 break;
+//=============================================================================================================================
+            case 'insert_sport':
+                if($_SERVER["REQUEST_METHOD"]== "POST"){
+                    $depoControl->insertDeport();
+                    include 'view-nomina/insert_deportista.php';
+                    }else {
+                    include_once 'view-nomina/insert_deportista.php';;
+                    }
+                    break;
     }
 ?>

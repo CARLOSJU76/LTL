@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="CSS/registro.css">
     <link rel="stylesheet" href="CSS/login.css">
     <link rel="stylesheet" href="CSS/comentarios.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous"> -->
 
     <title> TOLIMA'S WRESTLING LEAGUE  </title>
 </head>
@@ -115,7 +115,8 @@
                         <select name="action" id="select-admin" class="opciones_activas">
                             <option value="" disabled selected>Opciones de Administrador</option>
                             <option value="club_manage">Gestión de clubes</option>
-                            <option value="dep_entr">Deportistas y Entrenadores</option>
+                            <option value="sport_manage">Deportistas</option>
+                            <option value="trainer_manage">Entrenadores</option>
                             <option value="event_manage">Eventos</option>
                             <option value="my_performance">My performances</option>
                             <option value="elements_manage">Gestor de elementos</option>
@@ -235,14 +236,15 @@
   <button class= "opciones_inactivas"  id="disable-comments" onclick="disable_comments()"><div id="resaltado">Ocultar</div></button>
 
 <!-- ============================================================================================================================================== -->
-
+    <script src="JS/darlike.js"></script>
     <script src="JS/logout.js"></script>
     <script src="JS/slide.js"></script>
     <script src="JS/activo_inactivo.js"></script>
     <script src="JS/registro.js"></script>
     <script src="JS/inicio.js"></script>
     <script src="JS/bootstrap.bundle.js"></script>
-    <script src="JS/comentarios.js"></script>
+    <script src="JS/cargarComentarios.js"></script>
+    <!-- <script src="JS/comentarios.js"></script> -->
     <script src="JS/insertComment.js"></script>
 </body>
 </html>

@@ -39,11 +39,10 @@
                         <td>
                             <div class="form-group">
                                 <select name="action" id="repesentante" class="form-select form-select-lg" onchange="this.form.submit()">
-                                    <option value="" disabled selected>Deportistas y Entrenadores</option> <!-- Opción predeterminada -->
-                                    <option value="insert_Club">Incluir Club</option>
-                                    <option value="insert_representante">Incluir representante</option>
-                                    <option value="list_club">Consultar Clubes</option>                    
-                                    <option value="list_repres">Consultar Representantes</option>
+                                    <option value="" disabled selected>Gestión de Deportistas</option> <!-- Opción predeterminada -->
+                                    <option value="list_sport">Consultar Deportistas</option>
+                                    <option value="insert_sport">Incluir Deportista</option>
+                                    <option value="rankings">Consultar Rankings</option>                                                       
                                 </select>
                             </div>
                         </td>

@@ -3,30 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inserción de Representantes de Club</title>
+    <title>Inscripción de Deportistas</title>
 
     <!-- Incluir Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/club_manage.css">
     <link rel="stylesheet" href="./css/insert_represent.css">
     <style>
+        #id-fecha{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #label-fecha{
+          
+            width:80%;
+            font-family:'Courier New', Courier, monospace;
+            font-size: 1vw;
+            text-align: start;
+        }
+        #cont-ubicacion{
+            display: flex;
+            width: 100%;
+            
+            justify-content: center;
+           
+        }
+        #div-ubicacion{
+            width: 80%;
+            display:flex;
+            flex-direction:row;
+            justify-content: space-between;
+            align-items: center;
+           
+        }
+        #td-ubicacion{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            background-color: aqua;
+           
+        }
+        #uno, #dos, #tres{
+            background-color: aqua;
+           
+            width: 33%;
+        }
        
     </style>
     
     
 </head>
 <body>
+    <!-- =============================================================================================================================== -->
     <div class="container mt-4">
     <div id="div-h2"><h3>LTL Website</h3></div>
        
         <!-- Formulario dentro de una tabla centrada -->
-        <form action="index.php?action=insert_representante" method="post" id="formulario_inserclubes">
+        <form action="index.php?action=insert_deportista" method="post" id="formulario_inserclubes">
         
     <table class="table" id="tabla_inser_clubes">
         <!-- Primera fila: Encabezado -->
         <thead>
             <tr>
-                <th colspan="2" class="text-center" id="head-inser_club">Formulario inserción Dirigentes</th>
+                <th colspan="2" class="text-center" id="head-inser_club">Formulario Inscripción de  Deportistas</th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +74,7 @@
             <tr>
                 <td>
                     <div class="form-group">
-                        <input type="text" name="nombre" id="nombre" placeholder="Nombre del dirigente" class="form-control" required>
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre del Deportista" class="form-control" required>
                     </div>
                 </td>
             </tr>
@@ -84,6 +124,73 @@
                                 }
                             ?>
                         </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group" id="id-fecha">
+                        <input type="date" id="fecha" name="fecha" placeholder="fecha de nacimiento" class="form-control" required>
+                        <label for="fecha" id="label-fecha">Seleccione la fecha de nacimiento</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="td-ubicacion">
+                    <div class="form-group" id="cont-ubicacion">
+                        <div id="div-ubicacion">
+                            <div id="uno">
+<!--======================================================================================================================================  -->
+                            <!-- Select para el país -->
+                                <label for="pais">Seleccionar País</label>
+                                <select id="pais" name="pais">
+                                <option value="">Seleccione un país</option>
+                                <?php
+                                include_once 'controller/ElementosController.php'; 
+                                $elemento= new ElementosController();
+                                $paises= $elemento->getPaises();
+    
+                                foreach ($paises as $pais) {
+                                    echo "<option value='{$pais['id']}'>{$pais['pais']}</option>";
+                                }
+                                ?>
+                            </div>
+    <!-- ============================================================================================================================= -->             
+                            
+                            <div id="dos">
+                            </select>
+                                <!-- Select para el departamento -->
+                                <label for="departamento">Seleccionar Departamento</label>
+                                <select id="departamento" name="departamento">
+                                <option value="">Seleccione un departamento</option>
+                            </select>
+                                        
+                            </div>
+                            <div id="tres">
+                                <!-- Select para la ciudad -->
+                                <label for="ciudad">Seleccionar Ciudad</label>
+                                <select id="ciudad" name="ciudad">
+                                    <option value="">Seleccione una ciudad</option>
+                                </select>
+                                        
+                            </div>
+                   
+                        </div>
+                    </div>
+                   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="direccion" id="direccion" placeholder="Dirección de Residencia" class="form-control" required>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="telefono" id="telefono" placeholder="Digite el teléfono" class="form-control" required>
                     </div>
                 </td>
             </tr>
