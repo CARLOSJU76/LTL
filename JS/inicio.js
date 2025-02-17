@@ -7,8 +7,20 @@ var for_LOG= document.getElementById('formulario_LOGIN');
 let mensajeLog=document.getElementById('mensaje_LOGIN');
 let nombreUsuario="";
 let perfil_input= document.getElementById('perfil_de_usuario');
-let id_perfil= localStorage.getItem('id_perfil');
+let perfil1 =JSON.parse(localStorage.getItem('perfil'));
 
+
+let opciones = [
+    {id_perfil: 4, valor: '', texto: 'Opciones de Usuario' },
+    {id_perfil: 3, valor: 'my_performance', texto: 'My performances' },
+    {id_perfil: 2, valor: 'trainer_manage', texto: 'Sesiones de Entrenamiento' },
+    {id_perfil: 1, valor: 'sport_manage', texto: 'Deportistas y Entrenadores' },
+    {id_perfil: 0, valor: 'club_manage', texto: 'Gestion de Clubes' },
+    {id_perfil: 0, valor: 'elements_manage', texto: 'Gestor de Elementos' },
+    {id_perfil: 0, valor: 'event_manage', texto: 'Competencias y Calendario' },
+    {id_perfil: 4, valor: 'logout', texto: 'Salir' }
+  ];
+ 
 
 for_LOG.addEventListener('submit', function(event){
     event.preventDefault();
@@ -24,13 +36,15 @@ for_LOG.addEventListener('submit', function(event){
     .then(datos => {
         mensajeLog.textContent= decodeURIComponent(datos.message);
         nombreUsuario=datos.nombre; 
-        id_perfil= datos.perfil;
+        perfil= datos.perfil;
             
         
         if(datos.status=="success"){
             localStorage.setItem('sesionIniciada','true'); //metodo para establecer una matriz asociativa
             localStorage.setItem('ElUsuario', nombreUsuario); 
-            localStorage.setItem('id_perfil', id_perfil);        
+            localStorage.setItem('perfil', JSON.stringify(perfil));
+                
+            alert(perfil);
                
             mensajeLog.className='success'; 
         }else{         
@@ -45,9 +59,10 @@ for_LOG.addEventListener('submit', function(event){
 })
 configInicio();
 
-//FUNCION PARA DETERMINAR LOS PARÁMETROS DE LA FUNCIÓN INICIADA:
-//=================================================================================================================
 
+//==============================ARRAY DE OBJETOS QUE DESCRIBEN EL PERFIL DEL USUARIO============================================
+
+//====FUNCIÓN QUE ESTABLECE LA CONFIGURACIÓN EN EL INICIO DE SESIÓN=======================================================
 function configInicio(){
     let sesionActual= localStorage.getItem('sesionIniciada');
     const ElUsuario= localStorage.getItem('ElUsuario');
@@ -55,36 +70,34 @@ function configInicio(){
     let saludoInicial= document.getElementById('saludoInicial');
         
         let perfil_inicial=document.getElementById('perfil-inicio'); 
-        let perfil_usuario=document.getElementById('perfil-usuario');
-        let perfil_deportista=document.getElementById('perfil-deportista');
-        let perfil_entrenador=document.getElementById('perfil-entrenador');
-        let perfil_dirigente=document.getElementById('perfil-dirigente');
         let perfil_administrador=document.getElementById('perfil-administrador');
     
     if(sesionActual=='true'){
         saludoInicial.innerHTML=  `Hola <span style="color: #4A0D0D; font-weight:bold; ">${ElUsuario}</span>, Estás en LitolWrestling Web!!`;  
         autor.value=ElUsuario;
-   
-    
-    perfil_inicial.className='opciones_inactivas';
-        if(localStorage.getItem('id_perfil')==1){
-        perfil_usuario.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==2){
-        perfil_deportista.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==3){
-        perfil_entrenador.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==4){
-        perfil_dirigente.className='opciones_activas';
-        }else if(localStorage.getItem('id_perfil')==5){
+        perfil_inicial.className='opciones_inactivas';
         perfil_administrador.className='opciones_activas';
-        }  
+        mostrarSelect(perfil1);
     }else{       
         perfil_inicial.className='opciones_activas';
     }        
 }
-
-
-//====================================================================================================
+//======================================================================================================================
+function mostrarSelect(perfil1) {
+    const select = document.getElementById('select-admin'); //  <select> con id="select-admin"
+    select.innerHTML = ''; // Limpiamos el contenido del select
+  
+    // Filtramos las opciones según el perfil del usuario
+    opciones.forEach(opcion => {
+      if (perfil1[opcion.id_perfil] == 1) {
+        const option = document.createElement('option');
+        option.value = opcion.valor;
+        option.textContent = opcion.texto;
+        select.appendChild(option);
+      }
+    });
+  }
+//============FUNCIÓN PARA ACTIVAR Y DESACTIVAR COMENTARIOS============================================================
 //función al obturar botón cerrar o mostrar comentarios
 let e_comments=document.getElementById('enable-comments');
 let d_comments= document.getElementById('disable-comments');
@@ -111,7 +124,7 @@ function comentariosActivos(){
     }
     
 }
-
+//===============FUNCIÓN PARA OLVIDASTE LA CONTRASEÑA====================================================================
 document.addEventListener("DOMContentLoaded", function() {
     let mail = document.getElementById("usuario"); // Obtener el valor del input
     var enlace = document.getElementById("olvidaste"); // Obtener el enlace
@@ -130,6 +143,7 @@ function mostrarMensaje() {
     document.getElementById('btnEnviar').style.display = 'none';  // Ocultar el botón
     document.getElementById('mensajeConfirmacion').style.display = 'block';  // Mostrar el mensaje
 }
+//==============FUNCIÓN PARA CERRAR SESIÓN================================================================================
 function cerrarSesion() {
     let ElUsuario= localStorage.getItem('ElUsuario');
     fetch('funciones/logout.php')
@@ -139,7 +153,7 @@ function cerrarSesion() {
             localStorage.removeItem('sesionIniciada'); // 
             localStorage.removeItem('ElUsuario');
             localStorage.removeItem('Cont_comentarios');
-            localStorage.removeItem('id_perfil');
+            localStorage.removeItem('perfil');
            
             configInicio();            
         }

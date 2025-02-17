@@ -8,7 +8,16 @@
     <link rel="stylesheet" href="./css/club_manage.css">
     <link rel="stylesheet" href="./css/listar_clubes.css">
     <style>
-         
+        
+        body{
+            background-image: url('./IMG/LTL/renteria.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+
+        }
+
     </style>
     
 </head>

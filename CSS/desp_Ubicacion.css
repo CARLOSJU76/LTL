@@ -1,0 +1,45 @@
+/* Estilos básicos */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    position: relative;
+}
+
+a {
+    display: block;
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+}
+
+/* Submenú oculto por defecto */
+ul.departamentos, ul.ciudades {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    min-width: 200px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    z-index: 10;
+}
+
+/* Mostrar submenú al pasar el cursor */
+li:hover > ul {
+    display: block;
+}
+
+/* Estilo de cada opción del submenú */
+li > ul > li {
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
+li > ul > li:hover {
+    background-color: #ddd;
+}

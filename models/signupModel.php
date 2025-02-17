@@ -88,5 +88,20 @@ include_once 'funciones/Mailer.php';
     public  function getToken(){
         return $this->token;
     }
+    public function setPerfil($email){
+        $conteo=0;
+        $verificar= $this->conn->prepare("SELECT COUNT(*) FROM perfil WHERE email= ?");
+        $verificar->execute([$email]);
+        $conteo=$verificar->fetchColumn();
+        if($conteo<1){
+            $perfil=1;
+            $setPerfiL= $this->conn->prepare("INSERT INTO perfil (email, perfil) VALUES (?,?)");
+            $setPerfiL->execute([$email, $perfil]);
+        }else{
+            $agregar=$this->conn->prepare("UPDATE perfil SET perfil= perfil + 1 WHERE email = ?");
+            $agregar->execute([$email]);
+        }
+    }
+
 }
 ?>

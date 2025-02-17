@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Clubes</title>
+    <title>Deportistas y Entrenadores</title>
 
     <!-- Incluir Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous">
@@ -14,6 +14,14 @@
             background-color: #7A1F1F;
             font-size: 2vw;
             font-family:'Courier New', Courier, monospace;
+
+        }
+        body{
+            background-image: url('./IMG/LTL/dark-mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
 
         }
     </style>
@@ -40,8 +48,10 @@
                             <div class="form-group">
                                 <select name="action" id="repesentante" class="form-select form-select-lg" onchange="this.form.submit()">
                                     <option value="" disabled selected>Gestión de Deportistas</option> <!-- Opción predeterminada -->
-                                    <option value="list_sport">Consultar Deportistas</option>
-                                    <option value="insert_sport">Incluir Deportista</option>
+                                    <option value="list_deportista">Consultar Deportistas</option>
+                                    <option value="list_entrenador">Consultar Entrenadores</option>
+                                    <option value="insert_deportista">Incluir Deportista</option>
+                                    <option value="insert_entrenador">Incluir Entrenador</option>
                                     <option value="rankings">Consultar Rankings</option>                                                       
                                 </select>
                             </div>

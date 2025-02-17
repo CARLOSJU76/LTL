@@ -10,7 +10,16 @@
     <link rel="stylesheet" href="./css/club_manage.css">
     <link rel="stylesheet" href="./css/insert_represent.css">
     <style>
-       
+    
+        body{
+            background-image: url('./IMG/LTL/dark-mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+
+        }
+
     </style>
     
     
@@ -20,7 +29,7 @@
     <div id="div-h2"><h3>LTL Website</h3></div>
        
         <!-- Formulario dentro de una tabla centrada -->
-        <form action="index.php?action=insert_representante" method="post" id="formulario_inserclubes">
+        <form action="index.php?action=insert_representante" method="post" id="formulario_inserclubes" enctype="multipart/form-data">
         
     <table class="table" id="tabla_inser_clubes">
         <!-- Primera fila: Encabezado -->
@@ -94,6 +103,22 @@
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="telefono" id="telefono" placeholder="Digite el teléfono" class="form-control" required>
+                    </div>
+                </td>
+            </tr>
+<!-- ===========================Esta es la parte de la Foto========================================================================================= -->
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input type="file" name="foto" id="foto" class="form-control" required>
+                    </div>
+                </td>
+            </tr>
+<!-- ================================================================================================================== -->
             <!-- Tercera fila: Botón de submit -->
             <tr>
                 <td colspan="2" class="text-center">

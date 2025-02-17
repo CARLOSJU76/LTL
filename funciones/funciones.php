@@ -28,9 +28,9 @@
 
         function notifilogin($opcion, $user1, $perfil){
             header('Content-Type: application/json'); // Asegurando que la respuesta sea JSON
-        
+            $array=$this->arrayPerfil($perfil);
             if ($opcion === 1) {
-                echo json_encode(array("status" => "success", "message" => "Bienvenido $user1, iniciaste sesión exitosamente.Nueva actualización. Perfil: $perfil", "nombre" => $user1, "perfil" =>$perfil));
+                echo json_encode(array("status" => "success", "message" => "Bienvenido $user1, iniciaste sesión exitosamente.Nueva actualización. Perfil:".json_encode($array), "nombre" => $user1, "perfil" =>$array));
             } else if ($opcion === 0) {
                 echo json_encode(array("status" => "error", "message" => "Credenciales inválidas. Opción: $opcion", "opcion" => 4 + $opcion));
             } else if($opcion === -2) {
@@ -60,6 +60,20 @@
                 echo json_encode(array("estado"=>"no_token", "message"=>"Verificación fallida. El token no ha sido proporcionado."));
             }
         }
+//==FUNCIÓN PARA CONVERTIR NÚMERO DE PERFIL EN MATRIZ DE BINARIOS===============
+        function arrayPerfil($perfil){
+            $i=4;    $array=[0,0,0,0,0];
+        
+            while ($perfil>0){  
+                   $a=$perfil%10;
+                   $array[$i]+=$a;   
+                   $perfil= floor($perfil/10);
+                    $i--;
+        }
+            return $array;
+         }
+//=============================================================================
+        
        
 }
     

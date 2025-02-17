@@ -237,22 +237,6 @@ body{
 
 }
 
-/*@media (max-width: 992px) {
-    #boton-barra {
-        font-size: 1.7vh;
-    }
-    #filas{
-        height: 8vw;
-    }
-    #liga{
-        display: inline-block;        
-        align-items: center;
-        text-align: center;
-        height: auto;
-        font-size: 1.7vh;
-    }
-}
-*/
 
 /*@media (max-width: 768px) {
    
@@ -534,6 +518,7 @@ body{
     color:#660000;
     border-radius: 10px;
     transform: rotate(-45deg); /* Rota el texto a 45 grados */
+    font-size: 0.75rem;
 }
 #enable-comments{
     z-index: 4;

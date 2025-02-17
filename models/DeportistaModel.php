@@ -6,18 +6,196 @@
             $this->conn=$db;
         }
 //================================================================================================================
-         public function insertDeport($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
-                                     $pais, $dep, $ciudad, $direccion, $telefono, $email, $club){
-                $consulta= "INSERT INTO deportista (nombres, apellidos, codigo_tipodoc, id, codigo_genero,
-                            fecha_nacimiento, pais, departamento, ciudad, direccion, telefono, email, 
-                            codigo_club) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                $stmt=$this->conn->prepare($consulta);
+        public function insertDeport($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+                                    $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto) {
+            try {
+                $consulta = "INSERT INTO deportista (nombres, apellidos, codigo_tipodoc, id, codigo_genero,
+                            fecha_nacimiento, id_pais, id_departamento, id_ciudad, direccion, telefono, email, modalidad,
+                            codigo_club, foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                $resultado=$stmt = $this->conn->prepare($consulta);
                 $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
-                                $pais, $dep, $ciudad, $direccion, $telefono, $email, $club]);
-        }
+                $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto]);
+
+// Verificamos si la inserción fue exitosa.
+                 if ($resultado) {
+                         return true;
+                 } else {
+                         return false;
+                 }
+                 } catch (PDOException $e) {
+ // Capturamos cualquier error de base de datos y lo retornamos.
+                 error_log("Error al insertar deportista: " . $e->getMessage());
+                 return false;
+                }
+    }
+//=================================================================================================================
+public function insertEntrenador($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+                                    $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto) {
+            try {
+                $consulta = "INSERT INTO entrenadores (nombres, apellidos, codigo_tipodoc, id, codigo_genero,
+                            fecha_nacimiento, id_pais, id_departamento, id_ciudad, direccion, telefono, email,
+                            codigo_club, foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                $resultado=$stmt = $this->conn->prepare($consulta);
+                $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+                $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto]);
+
+// Verificamos si la inserción fue exitosa.
+                 if ($resultado) {
+                         return true;
+                 } else {
+                         return false;
+                 }
+                 } catch (PDOException $e) {
+ // Capturamos cualquier error de base de datos y lo retornamos.
+                 error_log("Error al insertar deportista: " . $e->getMessage());
+                 return false;
+                }
+    }
+
 //==================================================================================================================
         
-        public function getTd(){
+public function listDeportistasById($id_dep){
+    $consulta= "SELECT deportista.id AS id, deportista.nombres AS nombreD,
+                deportista.apellidos AS apellidoD, tipo_docum.tipo_docum AS tipodoc,
+                deportista.fecha_nacimiento AS fecha, deportista.telefono AS telefono,
+                deportista.direccion as direccion, deportista.email AS email, 
+                genero.genero as genero, modalidad.modalidad AS modalidad,
+                ciudad.ciudad AS ciudad, departamento.departamento AS departamento, 
+                pais.pais AS pais, clubes.nombreClub AS club, deportista.foto AS foto
+                FROM deportista
+                INNER JOIN tipo_docum ON deportista.codigo_tipodoc=tipo_docum.codigo 
+                INNER JOIN genero ON deportista.codigo_genero= genero.codigo
+                INNER JOIN ciudad ON deportista.id_ciudad= ciudad.codigo
+                INNER JOIN departamento ON deportista.id_departamento= departamento.id
+                INNER JOIN pais ON deportista.id_pais= pais.id
+                INNER JOIN clubes ON deportista.codigo_club= clubes.codigo
+                INNER JOIN modalidad ON deportista.modalidad=modalidad.id
+                WHERE deportista.id LIKE ?" ;
+           
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute(['%' . $id_dep . '%']);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+}
+//===========================================================================================================
+public function listEntrenadoresById($id_ent){
+    $consulta= "SELECT entrenadores.id AS id, entrenadores.nombres AS nombreE,
+                entrenadores.apellidos AS apellidoE, tipo_docum.tipo_docum AS tipodoc,
+                entrenadores.fecha_nacimiento AS fecha, entrenadores.telefono AS telefono,
+                entrenadores.direccion as direccion, entrenadores.email AS email, 
+                genero.genero as genero, ciudad.ciudad AS ciudad,
+                departamento.departamento AS departamento, pais.pais AS pais, 
+                clubes.nombreClub AS club, entrenadores.foto AS foto
+                FROM entrenadores
+                INNER JOIN tipo_docum ON entrenadores.codigo_tipodoc=tipo_docum.codigo 
+                INNER JOIN genero ON entrenadores.codigo_genero= genero.codigo
+                INNER JOIN ciudad ON entrenadores.id_ciudad= ciudad.codigo
+                INNER JOIN departamento ON entrenadores.id_departamento= departamento.id
+                INNER JOIN pais ON entrenadores.id_pais= pais.id
+                INNER JOIN clubes ON entrenadores.codigo_club= clubes.codigo
+                WHERE entrenadores.id LIKE ?" ;
+
+           
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute(['%' . $id_ent . '%']);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+}
+//=================================================================================================================
+
+public function buscarDeportista($id_dep){
+                $consulta= "SELECT deportista.id AS id, deportista.nombres AS nombreD,
+                deportista.apellidos AS apellidoD, tipo_docum.tipo_docum AS tipodoc,
+                deportista.fecha_nacimiento AS fecha, deportista.telefono AS telefono,
+                deportista.direccion as direccion, deportista.email AS email, 
+                genero.genero as genero, modalidad.modalidad AS modalidad,
+                ciudad.ciudad AS ciudad, departamento.departamento AS departamento, 
+                pais.pais AS pais, clubes.nombreClub AS club, deportista.foto AS foto
+                FROM deportista
+                INNER JOIN tipo_docum ON deportista.codigo_tipodoc=tipo_docum.codigo 
+                INNER JOIN genero ON deportista.codigo_genero= genero.codigo
+                INNER JOIN ciudad ON deportista.id_ciudad= ciudad.codigo
+                INNER JOIN departamento ON deportista.id_departamento= departamento.id
+                INNER JOIN pais ON deportista.id_pais= pais.id
+                INNER JOIN clubes ON deportista.codigo_club= clubes.codigo
+                INNER JOIN modalidad ON deportista.modalidad=modalidad.id
+                WHERE deportista.id = ?" ;
+
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute([$id_dep]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);  
+}
+
+//==================================================================================================================
+public function buscarEntrenador($id_ent){
+    $consulta= "SELECT entrenadores.id AS id, entrenadores.nombres AS nombreE,
+                entrenadores.apellidos AS apellidoE, tipo_docum.tipo_docum AS tipodoc,
+                entrenadores.fecha_nacimiento AS fecha, entrenadores.telefono AS telefono,
+                entrenadores.direccion as direccion, entrenadores.email AS email, 
+                genero.genero as genero, ciudad.ciudad AS ciudad,
+                departamento.departamento AS departamento, pais.pais AS pais, clubes.nombreClub AS club,
+                entrenadores.foto AS foto FROM entrenadores
+                INNER JOIN tipo_docum ON entrenadores.codigo_tipodoc=tipo_docum.codigo 
+                INNER JOIN genero ON entrenadores.codigo_genero= genero.codigo
+                INNER JOIN ciudad ON entrenadores.id_ciudad= ciudad.codigo
+                INNER JOIN departamento ON entrenadores.id_departamento= departamento.id
+                INNER JOIN pais ON entrenadores.id_pais= pais.id
+                INNER JOIN clubes ON entrenadores.codigo_club= clubes.codigo
+               
+                WHERE entrenadores.id = ?" ;
+
+
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute([$id_ent]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);  
+}
+//=================================================================================================================
+public function updateDeportista($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+$pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club,$foto, $id){
+    $query= "UPDATE deportista SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
+                            fecha_nacimiento=?, id_pais=?, id_departamento=?, id_ciudad=?, direccion=?, 
+                            telefono=?, email=?, modalidad=?, codigo_club=?, foto=? WHERE id=?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+    $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto,$id ]);
+}
+
+//==================================================================================================================
+public function updateEntrenador($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+$pais, $dep, $ciudad, $direccion, $telefono, $email, $club,$foto, $id){
+    $query= "UPDATE entrenadores SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
+                            fecha_nacimiento=?, id_pais=?, id_departamento=?, id_ciudad=?, direccion=?, 
+                            telefono=?, email=?, codigo_club=?, foto=? WHERE id=?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+    $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto,$id ]);
+}
+//==================================================================================================================
+public function getFotoD($id)  {
+    $consulta=$this->conn->prepare("SELECT foto FROM deportista WHERE id=? ");
+    $consulta->execute([$id]);
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);            
+}
+//==================================================================================================================
+public function getFotoE($id)  {
+    $consulta=$this->conn->prepare("SELECT foto FROM entrenadores WHERE id=? ");
+    $consulta->execute([$id]);
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);            
+}
+
+//===================================================================================================================
+public function deleteDeportista($id_dep){
+    $query= "DELETE FROM deportista WHERE id = ?";
+    $stmt= $this->conn->prepare($query);
+    $stmt->execute([$id_dep]);   
+
+}
+//===================================================================================================================
+public function deleteEntrenador($id_ent){
+    $query= "DELETE FROM entrenadores WHERE id = ?";
+    $stmt= $this->conn->prepare($query);
+    $stmt->execute([$id_ent]);   
+}
+//====================================================================================================================
+public function getTd(){
                     $query="SELECT * FROM tipo_docum";
                     $stmt=$this->conn->query($query);
                      return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,96 +205,69 @@
             $query= "SELECT codigo, genero FROM  genero";
             $stmt= $this->conn->query($query);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }  
+//=========================PERFIL DEPORTISTAS======================================================================
+//=================================================================================================================
+        public function setPerfilD($email){
+            $conteo=0;
+            $perfil=10;
+            $verificar= $this->conn->prepare("SELECT COUNT(*) FROM perfil WHERE email= ?");
+            $verificar->execute([$email]);
+            $conteo=$verificar->fetchColumn();
+            if($conteo<1){
+               
+                $setPerfiL= $this->conn->prepare("INSERT INTO perfil (email, perfil) VALUES (?,?)");
+                $setPerfiL->execute([$email, $perfil]);
+            }else{
+                $agregar=$this->conn->prepare("UPDATE perfil SET perfil= perfil + 10 WHERE email = ?");
+                $agregar->execute([$email]);
+            }
         }
-        public function getRepresentante(){
-            $query = "SELECT id, nombres, apellidos, num_docum FROM  representante_club";
-            $stmt = $this->conn->query($query);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+//===================================================================================================================
+        public function quitarPerfilD($email){
+            $consulta=$this->conn->prepare("UPDATE perfil SET perfil= perfil-10 WHERE email= ?");
+            $consulta->execute([$email]);   
         }
-        public function getClubes(){
-            $consulta= "SELECT clubes.nombreClub AS nombreClub, representante_club.nombres AS nombreR,
-                        representante_club.apellidos AS apellidoR, clubes.fecha_conformacion AS fecha,
-                        representante_club.num_docum AS documento FROM clubes
-                        INNER JOIN representante_club ON clubes.id_representante= representante_club.id" ;
 
-            $stmt= $this->conn->query($consulta);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        public function getClubesbyNombre($codigo){
-            $consulta= "SELECT clubes.nombreClub AS nombreClub,clubes.id_representante AS id, representante_club.nombres AS nombreR,
-                        representante_club.apellidos AS apellidoR, clubes.fecha_conformacion AS fecha,
-                        representante_club.num_docum AS documento FROM clubes
-                        INNER JOIN representante_club ON clubes.id_representante= representante_club.id
-                        WHERE clubes.codigo LIKE ?" ;
+//====================================================================================================================
+        public function getEmailD($id){
+            $consulta= $this->conn->prepare("SELECT email FROM deportista WHERE id = ?");
+            $consulta->execute([$id]);
 
-                $stmt= $this->conn->prepare($consulta);
-                $stmt->execute(['%' . $codigo . '%']);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
         }
-        public function buscarClub($codigo){
-            $consulta= "SELECT clubes.nombreClub AS nombreClub,clubes.id_representante AS id, representante_club.nombres AS nombreR,
-                        representante_club.apellidos AS apellidoR, clubes.fecha_conformacion AS fecha,
-                        representante_club.num_docum AS documento FROM clubes
-                        INNER JOIN representante_club ON clubes.id_representante= representante_club.id
-                        WHERE clubes.codigo = ?" ;
+//=================================PERFIL ENTRENADORES===============================================================
+//===================================================================================================================
+        public function setPerfilE($email){
+            $conteo=0;
+            $perfil=100;
+            $verificar= $this->conn->prepare("SELECT COUNT(*) FROM perfil WHERE email= ?");
+            $verificar->execute([$email]);
+            $conteo=$verificar->fetchColumn();
+            if($conteo<1){
+               
+                $setPerfiL= $this->conn->prepare("INSERT INTO perfil (email, perfil) VALUES (?,?)");
+                $setPerfiL->execute([$email, $perfil]);
+            }else{
+                $agregar=$this->conn->prepare("UPDATE perfil SET perfil= perfil + 100 WHERE email = ?");
+                $agregar->execute([$email]);
+            }
+        }
+//===================================================================================================================
+public function quitarPerfilE($email){
+    $consulta=$this->conn->prepare("UPDATE perfil SET perfil= perfil-100 WHERE email= ?");
+    $consulta->execute([$email]);   
+}
 
-                $stmt= $this->conn->prepare($consulta);
-                $stmt->execute([$codigo]);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        public function listRepresentantesById($id_rep){
-            $consulta= "SELECT representante_club.nombres AS nombreR,
-                        representante_club.apellidos AS apellidoR, representante_club.email AS email,
-                        representante_club.telefono AS telefono, tipo_docum.tipo_docum AS tipodoc,
-                        representante_club.num_docum AS numdoc, genero.genero as genero FROM representante_club
-                        INNER JOIN tipo_docum ON representante_club.codigo_tipodoc=tipo_docum.codigo 
-                        INNER JOIN genero ON representante_club.genero= genero.codigo
-                        WHERE representante_club.id LIKE ?" ;
-                   
-                $stmt= $this->conn->prepare($consulta);
-                $stmt->execute(['%' . $id_rep . '%']);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);            
-        }
-        public function getNombreClubes(){
-            $consulta="SELECT codigo,nombreClub from clubes";
-            $stmt=$this->conn->query($consulta);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        public function updateClub($nombre_club, $representante,$fecha_conformacion, $codigo){
-            $query= "UPDATE clubes SET nombreClub=?, id_representante=?, fecha_conformacion=? WHERE codigo=?";
-            $stmt=$this->conn->prepare($query);
-            $stmt->execute([$nombre_club, $representante, $fecha_conformacion,$codigo]);
-        }
-        public function deleteClub($codigo){
-            $query= "DELETE FROM clubes WHERE codigo LIKE ?";
-            $stmt= $this->conn->prepare($query);
-            $stmt->execute([$codigo]);
-        }
-        public function buscarRepresentantes($id_rep){
-            $consulta= "SELECT representante_club.nombres AS nombreR,
-                        representante_club.apellidos AS apellidoR, representante_club.email AS email,
-                        representante_club.telefono AS telefono, tipo_docum.tipo_docum AS tipodoc,
-                        representante_club.num_docum AS numdoc, genero.genero as genero,
-                        representante_club.genero AS cod_genero, 
-                        representante_club.codigo_tipodoc AS codigo_rep FROM representante_club
-                        INNER JOIN tipo_docum ON representante_club.codigo_tipodoc=tipo_docum.codigo 
-                        INNER JOIN genero ON representante_club.genero= genero.codigo
-                        WHERE representante_club.id = ?" ;
-                   
-                $stmt= $this->conn->prepare($consulta);
-                $stmt->execute([$id_rep]);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);            
-        }        
-        public function updateRepre($nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $id_rep){
-            $query= "UPDATE representante_club SET nombres=?, apellidos=?, codigo_tipodoc=?, num_docum=?, genero=?, email=? WHERE id=?";
-            $stmt=$this->conn->prepare($query);
-            $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $id_rep]);
-        }
-        public function deleteRepre($id_rep){
-            $query= "DELETE FROM representante_club WHERE id LIKE ?";
-            $stmt= $this->conn->prepare($query);
-            $stmt->execute([$id_rep]);
-        }   
+//====================================================================================================================
+public function getEmailE($id){
+    $consulta= $this->conn->prepare("SELECT email FROM entrenadores WHERE id = ?");
+    $consulta->execute([$id]);
 
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+}
+//====================================================================================================================
+
+        
 }
 ?>

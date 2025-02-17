@@ -1,8 +1,6 @@
 
 
-document.querySelectorAll('#select-usuario, #select-deportista, #select-entrenador, #select-dirigente, #select-admin' )
-    .forEach(select => {
-        select.addEventListener('change', function() {
+document.getElementById('select-admin' ).addEventListener('change', function() {
             const selectedValue = this.value;
 
             if (selectedValue === 'logout') {
@@ -12,4 +10,13 @@ document.querySelectorAll('#select-usuario, #select-deportista, #select-entrenad
                 this.form.submit(); // Enviar el formulario
             }
         });
-    });
+
+
+    document.getElementById("select-pais").addEventListener("change", function() {
+   
+        var valorSeleccionado = this.value;
+
+        var url = "index.php?action=get_dpto&id_pais=" + encodeURIComponent(valorSeleccionado);
+
+        window.location.href = url;
+                });

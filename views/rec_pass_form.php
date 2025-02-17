@@ -3,8 +3,8 @@ include_once 'controller/loginController.php';
     $loginController=new LoginController();
     $datos=$loginController->recover_pass_request();
         if($datos!=0){
-            $correo= $datos['email'];
-            $usuario= $datos['usuario'];
+            $correo= $datos[0]['email'];
+            $usuario= $datos[0]['usuario'];
         
             $partes_correo = explode('@', $correo);
             $nombre_usuario = $partes_correo[0]; // Parte antes del "@"

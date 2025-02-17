@@ -13,19 +13,59 @@ body{
     aspect-ratio: 1.5;
     background-color: transparent;
 }
-@media (max-width: 800px){
+@media (max-width: 992px){
     #contenedor_LOGIN{
         width:50%;
     }
+    #div_contenedor_SIGNUP{
+        width:75%;
+        position:fixed;
+        right:null;
+        top:40%;   
+        width:40%;
+        aspect-ratio: 1.5;
+        background-color: transparent;
+    }
+    .elementos_LOGIN{
+        font-size: 1.3vw;
+    }
+    #titulo_LOGIN{
+        font-size: 1.6vw;
+    }
 }
-@media (max-width: 450){
+@media (max-width: 600px){
     #contenedor_LOGIN{
         width:80%;
     }
+    #div_contenedor_SIGNUP{
+        width:80%;
+        position:fixed;
+    right:null;
+    top:40%;   
+    width:40%;
+    aspect-ratio: 1.5;
+    background-color: transparent;
+    }.elementos_LOGIN{
+        font-size: 1.8vw;
+    }
+    #titulo_LOGIN{
+        font-size:2.1vw;
+    }
 }
-@media(max-width:280){
+/* .div_contenedor_SIGNUP{
+    
+    } */
+@media(max-width:280px){
     #contenedor_LOGIN{
         width:100%;
+    }
+    #div_contenedor_SIGNUP{
+        width:120%;
+    }.elementos_LOGIN{
+        font-size: 2vw;
+    }
+    #titutlo_LOGIN{
+        font-size:2.4vw;
     }
 }
 #formulario_LOGIN{    

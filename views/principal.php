@@ -8,9 +8,24 @@
     <link rel="stylesheet" href="CSS/registro.css">
     <link rel="stylesheet" href="CSS/login.css">
     <link rel="stylesheet" href="CSS/comentarios.css">
+    <link rel="stylesheet" href="CSS/mediaQ.css">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous"> -->
 
     <title> TOLIMA'S WRESTLING LEAGUE  </title>
+    <!-- body{
+            background-image: url('./IMG/LTL/mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+
+        } -->
+
+    <!-- <style>
+        html{
+            font-size:2vw;
+        }
+    </style> -->
 </head>
 <body>
 
@@ -66,68 +81,22 @@
                             <option value="2">Inicia Sesión</option>
                         </select>
                     </form>
-                    <!-- perfil usuario -->
-                    <form  id="perfil-usuario" class="opciones_inactivas">
-                        <select name="action"  id="select-usuario" class="opciones_activas" >
-                            <option value="" disabled selected>Opciones de Usuario</option>
-                            <!-- <option value="1">Sumar</option>
-                            <option value="2">Restar</option>
-                            <option value="3">Multiplicar</option>
-                            <option value="4">Dividir</option> -->
-                            <option value="logout" >Salir</option>
-                        </select>
-                    </form>
-                    <!-- perfil deportista -->
-                    <form  id="perfil-deportista" class="opciones_inactivas">
-                        <select name="action" id="select-deportista" class="opciones_activas" >
-                            <option value="" disabled selected>Opciones Deportista</option>
-                            <option value="1">Sumar</option>
-                            <option value="2">Restar</option>
-                            <option value="3">Multiplicar</option>
-                            <option value="4">Dividir</option>
-                            <option value="logout" >Salir</option>
-                        </select>
-                    </form>
-                    <!-- perfil entrenador -->
-                    <form name="sesion_on" id="perfil-entrenador" class="opciones_inactivas">
-                        <select name="action" id="select-entrenador" class="opciones_activas" >
-                            <option value="" disabled selected>Opciones de Entrenador</option>
-                            <option value="1">Sumar</option>
-                            <option value="2">Restar</option>
-                            <option value="3">Multiplicar</option>
-                            <option value="4">Dividir</option> 
-                            <option value="logout" >Salir</option>
-                        </select>
-                    </form>
-                    <!-- perfil dirigente -->
-                    <form  id="perfil-dirigente" class="opciones_inactivas">
-                        <select name="action" id="select-dirigente" class="opciones_activas" >
-                            <option value="" disabled selected>Opciones de Dirigente</option>
-                            <option value="1">Sumar</option>
-                            <option value="2">Restar</option>
-                            <option value="3">Multiplicar</option>
-                            <option value="4">Dividir</option>
-                            <option value="logout">Salir</option>
-                        </select>
-                    </form>
-                    <!-- perfil administrador -->
-                    <form id="perfil-administrador" class="opciones_inactivas">
+                    <form id="perfil-administrador"  class="opciones_inactivas">
                         <select name="action" id="select-admin" class="opciones_activas">
-                            <option value="" disabled selected>Opciones de Administrador</option>
-                            <option value="club_manage">Gestión de clubes</option>
-                            <option value="sport_manage">Deportistas</option>
-                            <option value="trainer_manage">Entrenadores</option>
-                            <option value="event_manage">Eventos</option>
+                            <!-- <option value="" disabled selected>Opciones de Administrador</option>
+                            <option class="option"  value="club_manage">Gestión de clubes</option>
+                            <option value="sport_manage">Deportistas y Entrenadores</option>
+                            <option value="trainer_manage">Sesiones de entrenamiento</option>
+                            <option value="event_manage">Competencias-calendarios</option>
                             <option value="my_performance">My performances</option>
                             <option value="elements_manage">Gestor de elementos</option>
-                            <option value="logout">Salir</option>
+                            <option value="logout">Salir</option> -->
                         </select>
                     </form>
+<!-- ==============================================SELECT DE PERFIL================================================================================== -->
                 </div>
             </div>
         </div>
-
-
     </div>
     <!-- =============================ROTULO DE LA LIGA============================================================= -->
     <div class="dorado"></div>
@@ -140,17 +109,22 @@
      <!-- ========================================================================================= -->
     <div class="slider">
         <div class="slide">
-            <img src="IMG/Imagen1.png" alt="imagen1" id="imagen-img">
+            <img src="./IMG/LTL/mat.jpg" alt="imagen1" id="imagen-img">
             <button class="prev"onclick="prevSlide()">&#10094</button>
             <button class="next"onclick="nextSlide()">&#10095</button>
         </div>
         <div class="slide">
-            <img src="IMG/Imagen2.jpg" alt="imagen2" id="imagen-img">
+            <img src="IMG/LTL/dark-mat.jpg" alt="imagen2" id="imagen-img">
             <button class="prev"onclick="prevSlide()">&#10094</button>
             <button class="next"onclick="nextSlide()">&#10095</button>
         </div>
         <div class="slide">
-            <img src="IMG/Imagen3.jpg" alt="imagen3" id="imagen-img">
+            <img src="IMG//LTL/renteria.jpg" alt="imagen3" id="imagen-img">
+            <button class="prev"onclick="prevSlide()">&#10094</button>
+            <button class="next"onclick="nextSlide()">&#10095</button>
+        </div>
+        <div class="slide">
+            <img src="IMG//LTL/luchafemenil.jpg" alt="imagen3" id="imagen-img">
             <button class="prev"onclick="prevSlide()">&#10094</button>
             <button class="next"onclick="nextSlide()">&#10095</button>
         </div>
@@ -163,9 +137,9 @@
 
     <form id="formulario_LOGIN" action="index.php?action=loguear" method="post">
 
-            <div id="div_cerrar_LOGIN"><div  id="cerrar_LOGIN">X</div></div>
+            <div id="div_cerrar_LOGIN" class="elementos_LOGIN"><div  id="cerrar_LOGIN">X</div></div>
 
-            <h2 id="titulo_LOGIN">Inicio de Sesión</h2>
+            <h2 id="titulo_LOGIN" >Inicio de Sesión</h2>
 
             <input type="text" id="usuario"class="elementos_LOGIN"  name= "usuario" required placeholder="Nombre de usuario">
             <label for="usuario" id="label_usuario" class="elementos_LOGIN">Digita tu usuario o  Email</label>
@@ -173,7 +147,7 @@
             <input type="password" class="elementos_LOGIN" id="passw" name="passw"required placeholder="Digita tu contraseña">
             <label for="passw"class="elementos_LOGIN" id="label_passw" >Ingresa tu contraseña!!</label>
 
-            <input type="submit" id="boton_LOGIN" value="Iniciar Sesión">
+            <input type="submit" id="boton_LOGIN" class="elementos_LOGIN" value="Iniciar Sesión">
             <!-- Para seguir mejorando: "olvidaste tu contraseña??" -->
             
             <a href="#" class="elementos_LOGIN"id="olvidaste" style="text-align: center; ">Olvidaste tu contraseña?</a>

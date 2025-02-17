@@ -43,7 +43,7 @@ class LoginController{
         }
     }
     
-
+//=================================================RECUPERACIÓN DE CONTRASEÑA============================
     public function recover_pass_request(){
         $error=0;
         
@@ -59,7 +59,7 @@ class LoginController{
         }
 
     }
-
+//==================================================ESTABLECER NUEVA CONTRASEÑA==========================
     public function establecer_newpass(){
         if($_SERVER["REQUEST_METHOD"]=="POST"){
             $usuario=$_POST["usuario"];
@@ -77,9 +77,14 @@ class LoginController{
             }else{
                 echo "Los campos de las contraseñas deben coincidir";
             }
-           
-            
         }
+    }
+    public function getUserEmail($usuario){
+        return $this->loginModel->get_user_email($usuario);
+
+    }
+    public function getPerfil($email){
+        return $this->loginModel->getPerfil($email);
     }
 }
 ?>           

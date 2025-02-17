@@ -20,14 +20,15 @@
                 $opcion = 5; // Usuario no encontrado
             } else {
                 // Obtener la información del usuario
-                $consulta = $this->conn->prepare("SELECT passw, usuario, id_perfil FROM usuarios WHERE usuario = ? OR email = ?");
+                $consulta = $this->conn->prepare("SELECT passw, usuario, email FROM usuarios WHERE usuario = ? OR email = ?");
                 $consulta->execute([$usuario, $usuario]);
                 $row = $consulta->fetch(PDO::FETCH_ASSOC);
         
                 if ($row) { // Solo accede a los datos si $row tiene información
                     $clave = $row['passw'];
                     $user1 = $row['usuario'];
-                    $perfil = $row['id_perfil'];
+                    $email = $row['email'];
+                    $perfil=$this->getPerfil($email);
         
                     if (password_verify($passw, $clave)) {
                         $opcion = 1; // Contraseña correcta
@@ -53,7 +54,7 @@
         public function get_user_email($usuario){
             $stmt= $this->conn->prepare("SELECT email, usuario FROM usuarios WHERE email= ? OR usuario= ?");
             $stmt->execute([$usuario, $usuario]);
-            $datos= $stmt->fetch(PDO::FETCH_ASSOC);
+            $datos= $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $datos;
         }
         public function setPass($email, $clave){
@@ -65,6 +66,23 @@
            }else{
             return false;
            }
+        }
+        public function getPerfil($email){
+
+            $verificar = $this->conn->prepare("SELECT COUNT(*) FROM perfil WHERE  email = ?");
+            $verificar->execute([$email]);
+            $conteo = (int)$verificar->fetchColumn();
+
+            if($conteo<1 or $conteo== null){
+                return 1;
+            }else{
+                $consulta=$this->conn->prepare("SELECT perfil FROM perfil WHERE email= ?");
+            $consulta->execute([$email]);
+            $perfil= $consulta->fetch(PDO::FETCH_ASSOC);
+            return (int) $perfil['perfil'];
+            }
+
+            
         }
     }
         

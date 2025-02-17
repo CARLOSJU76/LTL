@@ -4,10 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualización de Vehículos</title>
-    <!-- <link rel="stylesheet" href="CSS/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
     <link rel="stylesheet" href="./css/club_manage.css">
     <link rel="stylesheet" href="./css/listar_repre.css">
     <style>
+
+<?php 
+    $mensaje=0;
+    if($mensaje==1){?>
+        .errors{
+        display:block;}
+        <?php } else {?>
+        .errors{
+            display:none;
+        }   
+         
+       <?php }?>
+
+    
+        body{
+            background-image: url('./IMG/LTL/mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+
+        }
          
 .container, .form-select{
     border: 3px solid white ;
@@ -86,23 +108,27 @@ label{
     font-family:'Courier New', Courier, monospace;
     font-size: 1vw;
 }
+#head-inser1, #head-inser2, #head-inser3, #head-inser4, #head-inser5, #head-inser6{
+    background-color: #7A1F1F;
+}
     </style>
 </head>
 <body>
 
-<div class="container mt-4" >
+<div class="container mt-4" id="container" >
 
 <?php if(isset($listaRep) && count($listaRep)>0):?>
         <h2>Representante</h2>
         <table class="table table-bordered">
-            <thead>
+            <thead class="th">
                 <tr>
-                    <th>Dirigente</th>                    
-                    <th>Tipo Doc.</th>
-                    <th>Documento</th>
-                    <th>Genero</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
+                    <th id="head-inser1">Dirigente</th>                    
+                    <th id="head-inser2">Tipo Doc.</th>
+                    <th id="head-inser3">Documento</th>
+                    <th id="head-inser4">Genero</th>
+                    <th id="head-inser5">Email</th>
+                    <th id="head-inser6">Telefono</th>
+                    <th id="head-inser6">Fotografía</th>
                     
                     
                 </tr>
@@ -116,6 +142,7 @@ label{
                     <td><?=$rep['genero']?></td>
                     <td><?=$rep['email']?></td>
                     <td><?=$rep['telefono']?></td>
+                    <td><img src="fotos/<?= $rep['foto']; ?>" width="100" alt="Foto"></td>
                     
                 </tr>
                 <?php endforeach; ?>
@@ -170,6 +197,11 @@ label{
         
     </div>
 
+    <?php  echo "<p style='color:white'> $mensaje </p>" ?>
+    
+    <span class="errors text-center" style="background-color: blue; color:white; " >
+        <p>Para actualizar representante debe elegirlo y pulsar  el botón buscar</p>
+    </span>
 
 </div>
     

@@ -12,13 +12,11 @@
 <body>
 <!-- ================================================================================================================================= -->
 
-
-
 <div class="container mt-4">
     <div id="div-h2"><h3>LTL Website</h3></div>
        
         <!-- Formulario dentro de una tabla centrada -->
-        <form action="index.php?action=update_repre" method="post" id="formulario_inserclubes">
+        <form action="index.php?action=update_repre" method="post" id="formulario_inserclubes" enctype="multipart/form-data">
             <input type="hidden" name="id_rep" value="<?= $_GET['id_rep'] ?? '' ?>">
         
     <table class="table" id="tabla_inser_clubes">
@@ -95,6 +93,21 @@
                     <div class="form-group">
                         <input type="email" name="email" id="email" placeholder="Correo Electrónico" class="form-control" value="<?= $repreData[0]['email'] ?? '' ?>"required>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <input type="text" name="telefono" id="telefono" placeholder="Número telefónico" class="form-control" value="<?= $repreData[0]['telefono'] ?? '' ?>"required>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                    <img src="fotos/<?= $repreData[0]['foto'] ?? '' ?>" width="100px" alt="Foto actual"><br>
+                    <input type="file" name="foto" placeholder="Elija una imagen"><br>
+                </div>
                 </td>
             </tr>
             <!-- Tercera fila: Botón de submit -->

@@ -32,6 +32,7 @@
                 if($registrando= $this->signUpModel->registrando($conteo,$user, $email, $clave)){
                     $token=$this->signUpModel->getToken();
                     $envio_mail=new Mailer();
+                    // $this->signUpModel->setPerfil($email);
                     $envio_mail->sendVerificationMail($email,  $token,$user);            
                     $this->objeto->notificacion($registrando, $user);
                 }   
@@ -50,6 +51,7 @@
         
                     if ($datos) {
                         $email = $datos['email'];
+                        // $this->signUpModel->setPerfil($email);
         
                         // Si existe un email asociado al token, verificar el correo
                         if ($email) {
@@ -68,6 +70,10 @@
                     $datos['estado']=-3;// Si la solicitud no es GET   
             }
             return $datos;
+
+        }
+        public function setPerfil($email){
+            $this->signUpModel->setPerfil($email);
         }
     }  
 ?>
