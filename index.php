@@ -1,6 +1,6 @@
 <?php
 
-    require_once('controller/controlVistas.php');
+    
     require_once 'controller/signupController.php';
     require_once 'controller/loginController.php';
     require_once 'controller/insertCommentsController.php';
@@ -11,7 +11,6 @@
     require_once 'controller/EventController.php';
 
     
-    $controlVistas= new controlVistas();
     $signupController= new SignupController(); 
     $loginController= new LoginController();   
     $insertCommentsController= new InsertCommentsController();
@@ -40,10 +39,7 @@
                 include './views/principal.php';
             }         
             break;
-        case 'sidebar':
-            $controlVistas->sidebar();
-            echo"Y ahora con el sidebar";
-            break;
+      
         case 'loguear':
             if($_SERVER["REQUEST_METHOD"]=="POST"){
                 $loginController->login(); 

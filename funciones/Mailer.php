@@ -50,7 +50,7 @@ class Mailer extends PHPMailer
                         confirmar tu dirección de correo en el link inferior.
                     </p>
                         <p>
-                        <a id='vinculo_ver_em' href='http://localhost/LTL-editor/index.php?action=verify_email&user1=".$usuario."&token=".$token."'>
+                        <a id='vinculo_ver_em' href='http://localhost/LTL/index.php?action=verify_email&user1=".$usuario."&token=".$token."'>
                         Verificar Cuenta</a>
 
                     </p>
@@ -94,7 +94,7 @@ class Mailer extends PHPMailer
                         siguiente vínculo para que  establezcas una nueva contraseña:
                     </p>
                      <p>
-                        <a href='http://localhost/ltl-editor/index.php?action=set_pass&email=" . $to. "&user=" .$usuario. "'>Recupera tu contraseña</a>
+                        <a href='http://localhost/LTL/index.php?action=set_pass&email=" . $to. "&user=" .$usuario. "'>Recupera tu contraseña</a>
                     </p>
                     
                 </body>

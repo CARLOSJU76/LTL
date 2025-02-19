@@ -66,7 +66,7 @@
         
             while ($perfil>0){  
                    $a=$perfil%10;
-                   $array[$i]+=$a;   
+                   $array[$i]=$a;   
                    $perfil= floor($perfil/10);
                     $i--;
         }

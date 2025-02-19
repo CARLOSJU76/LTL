@@ -4,6 +4,7 @@
         public function __construct($db){
             $this->conn= $db;
         }
+//===========================================================================================
         //FUNCIONES EMPLEADAS EN EL LOGIN:
         function verificar($usuario, $passw) {
             $datos = [];
@@ -12,7 +13,7 @@
             $perfil = null;
         
             // Verificar si el usuario existe
-            $verificar = $this->conn->prepare("SELECT COUNT(*) FROM usuarios WHERE usuario = ? OR email = ?");
+            $verificar = $this->conn->prepare("SELECT COUNT(*) FROM usuarios WHERE usuario = ? OR email = ? LIMIT 1");
             $verificar->execute([$usuario, $usuario]);
             $conteo = (int)$verificar->fetchColumn();
         
@@ -36,15 +37,15 @@
                         $opcion = 0; // Contraseña incorrecta
                     }
                 } else {
-                    $opcion = 5; // En caso de que la consulta no devuelva datos (precaución extra)
+                    $opcion = 5; // El usuario no se encuentra registrado...
                 }
             }
-        
+
             // Retornar los datos
             array_push($datos, $opcion, $user1, $perfil);
             return $datos;
         }
-        
+//=============================================================================================     
         public function get_mail_verified($usuario){
             $stmt=$this->conn->prepare("SELECT mail_verified FROM usuarios WHERE email= ? OR usuario= ?");
             $stmt->execute([$usuario, $usuario]);
@@ -52,9 +53,9 @@
             return isset($estado['mail_verified']) ? (int)$estado['mail_verified'] : 0; 
         }
         public function get_user_email($usuario){
-            $stmt= $this->conn->prepare("SELECT email, usuario FROM usuarios WHERE email= ? OR usuario= ?");
+            $stmt= $this->conn->prepare("SELECT email, usuario FROM usuarios WHERE email= ? OR usuario= ? LIMIT 1");
             $stmt->execute([$usuario, $usuario]);
-            $datos= $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $datos= $stmt->fetch(PDO::FETCH_ASSOC);
             return $datos;
         }
         public function setPass($email, $clave){
@@ -85,5 +86,9 @@
             
         }
     }
-        
+
+
+
+
+    
 ?>
