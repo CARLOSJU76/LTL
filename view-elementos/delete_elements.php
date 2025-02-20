@@ -33,7 +33,7 @@
     <div class="container" id="container_general">
         <div id="div-h2"><h3>LTL Website</h3></div>
 <!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
-        <form action="index.php?action=insert_categoriaxEdad" method="post" id="formulario_inserclubes">
+        <form action="index.php?action=delete_categoriaxEdad" method="post" id="formulario_inserclubes">
 
             <table class="table" id="tabla_inser_clubes">
         <!-- Primera fila: Encabezado -->
@@ -63,7 +63,7 @@
 
 <!-- ======================================================================================================================================== -->
 <!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
-        <form action="index.php?action=insert_modalidad" method="post" id="formulario_inserclubes">
+        <form action="index.php?action=delete_modalidad" method="post" id="formulario_inserclubes">
 
             <table class="table" id="tabla_inser_clubes">
                 <thead>
@@ -89,7 +89,7 @@
         </form>
         <!-- ======================================================================================================================================== -->
 <!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
-        <form action="index.php?action=insert_divisionxPeso" method="post" id="formulario_inserclubes">
+        <form action="index.php?action=delete_divisionxPeso" method="post" id="formulario_inserclubes">
             <table class="table" id="tabla_inser_clubes">
                 <thead>
                     <tr>
@@ -100,7 +100,7 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <select name="id_ce" id="select_categoriaxEdad" class="form-select" required>
+                                <select name="id_ce" id="categoriaxEdad" class="form-select" required>
                                     <option value="">Elija la categoría por Edad</option>
                                         <?php 
                                           include_once 'controller/ElementosController.php';
@@ -118,7 +118,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select name="id_mod" id="select_modalidad" class="form-select" required>
+                            <select name="id_mod" id="modalidad" class="form-select" required>
                                 <option value="">Elija Modalidad</option>
                                 <?php 
                                 include_once 'controller/ElementosController.php';
@@ -137,7 +137,7 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <input type="text" name="select_divisionxPeso" id="nombreEv" placeholder="Límite de la División de Peso en Kilogramos." class="form-control" required>
+                                <input type="text" name="divisionxPeso" id="nombreEv" placeholder="Límite de la División de Peso en Kilogramos." class="form-control" required>
                             </div>
                         </td>
                     </tr>
@@ -169,6 +169,34 @@
 </div>
 
 
+    <script>
+    let select_modalidad=document.getElementById('select_modalidad');
+    let select_categoriaxEdad=document.getElementById('select_categoriaxEdad');
+    select_categoriaxEdad.addEventListener('change', function{
+        let id_ce= this.value;
+        localStorage.setItem('categoriaE', id_ce);
+    });
+    select_modalidad.addEventListener('change', function{
+        let id_mod= this.value;
+        localStorage.setItem('modalidadP', id_mod);
+        enviarDatosA_php(id_mod);
+    });
+
+    function enviarDatosA_php(id_mod) {
+            let id_ce = localStorage.getItem('categoriaE');  // Obtener valor de la categoría desde localStorage
+         // Usamos el valor de modalidadP que fue seleccionado
+
+            // Crear un objeto FormData para enviar los datos mediante POST
+            let datos = new FormData();
+            datos.append('id_ce', id_ce);
+            datos.append('id_mod', id_mod);
+
+            // Usar AJAX para enviar los datos al servidor
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', 'index.php?action=send_ce_mod', true);
+            xhr.send(datos);
+        }
+</script>
 
 </body>
 </html>
