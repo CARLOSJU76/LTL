@@ -60,45 +60,49 @@
             }        
        }
 //================================================================================================================
-public function insertEntrenador(){
-    if($_SERVER['REQUEST_METHOD']=='POST'){
+public function insertEntrenador() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Obtener los datos del formulario
+        $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
+        $codigo_td = $_POST['codigo_td'];
+        $num_docum = $_POST['num_docum'];
+        $genero = $_POST['genero'];
+        $fecha = $_POST['fecha'];
+        $pais = $_POST['pais'];
+        $dep = $_POST['departamento'];
+        $ciudad = $_POST['ciudad'];
+        $telefono = $_POST['telefono'];
+        $direccion = $_POST['direccion'];
+        $email = $_POST['email'];
+        $club = $_POST['club'];
+        $foto = $_FILES['foto']['name'];
 
-    $nombre=$_POST['nombre'];
-    $apellido=$_POST['apellido'];
-    $codigo_td=$_POST['codigo_td'];
-    $num_docum=$_POST['num_docum'];
-    $genero=$_POST['genero'];
-    $fecha=$_POST['fecha'];
-    $pais=$_POST['pais'];
-    $dep=$_POST['departamento'];
-    $ciudad=$_POST['ciudad'];
-    $telefono=$_POST['telefono'];
-    $direccion=$_POST['direccion'];
-    $email=$_POST['email'];
-    $club=$_POST['club'];
-    $foto= $_FILES['foto']['name'];
-    $target_dir="fotos/";
-    $target_file= $target_dir .basename($foto);
-    move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
-    
+        // Subir la foto
+        $target_dir = "fotos/";
+        $target_file = $target_dir . basename($foto);
+        move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
 
-    if($this->depoModel->insertEntrenador($nombre,$apellido, $codigo_td,$num_docum, $genero,
-                                    $fecha, $pais, $dep, $ciudad, $direccion, $telefono,
-                                     $email, $club, $foto)){
-            $this->depoModel->setPerfilE($email);
-            echo"<p style='color:yellow;'>El Deportista ha sido registrado en la base de datos</p>";
-            echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='principal'>Página de inicio</button>
-                </form>";
-        }else{
-            echo"<br>Se presentó un error en la inserción de los datos. Intenta nuevamente.";
-            echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='principal'>Página de inicio</button>
-                </form>";
+        // Llamar al modelo para insertar el entrenador
+        $resultado = $this->depoModel->insertEntrenador($nombre, $apellido, $codigo_td, $num_docum, $genero, 
+                                                       $fecha, $pais, $dep, $ciudad, $direccion, $telefono, 
+                                                       $email, $club, $foto);
+
+        // Verificar el resultado
+        if ($resultado) {
+            $this->depoModel->setPerfilE($email); // Si la inserción fue exitosa, establecer perfil
+            // Aquí podrías redirigir a otra página o mostrar un mensaje de éxito
+            echo"<p style='color:yellow;'>El Entrenador ha sido registrado en la base de datos</p>";
+        } else {
+            // Si hubo un error, mostrar un mensaje de error
+            echo "<p style='color:yellow;'>Hubo un error al insertar el entrenador. Por favor, intenta nuevamente.</p>";
         }
-        
-    }        
+        echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='principal'>Página de inicio</button>
+                </form>";
+    }
 }
+
 //=================================================================================================================
     public function listDeportistas(){
         $id_dep=$_GET['id_dep'] ?? '';

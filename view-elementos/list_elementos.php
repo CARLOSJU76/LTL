@@ -48,10 +48,19 @@ foreach ($edades as $edad) {
         echo "<tr  style='background-color:#FFFFC5;'>"
             ."<td>".htmlspecialchars($mod['modalidad'])."</td>"."</tr><tr><td class='nuevo-div'>";
 
-        foreach ($divisiones as $i=> $divi) {
-            $color = ($i % 2 == 0 || $i== 9) ? 'red': 'blue' ; 
+
+        $array=[];
+        foreach($divisiones as $elemento3){
+            if($elemento3['id_ce']==$edad['codigo']){
+                array_push($array, $elemento3);
+            }
+        }
+
+
+        foreach ($array as $i=> $divi) {
+            $color = (($i % 2 == 0 || $i== 9) && ($edad['codigo']==1)) ? 'red': 'blue' ; 
             // Compara las condiciones para imprimir los datos correspondientes
-            if ($edad['codigo'] == $divi['id_ce'] && $mod['id'] == $divi['id_mod']) {
+            if ($mod['id'] == $divi['id_mod']) {
                 if($divi['categoriaxPeso']<100){
                     echo 
                      "<div style='color: $color;'>".htmlspecialchars($divi['categoriaxPeso'])." Kgs.</div>";
