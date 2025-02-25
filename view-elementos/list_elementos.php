@@ -39,7 +39,7 @@ foreach ($edades as $edad) {
     echo "<table class='table table-bordered'>"
         ."<thead>"
             ."<tr>"
-                ."<th>".htmlspecialchars($edad['nombre_Categoria'])."</th>"
+                ."<th>".htmlspecialchars($edad['categoria'])."</th>"
             ."</tr>"
         ."</thead>"
         ."<tbody>";
@@ -51,14 +51,14 @@ foreach ($edades as $edad) {
 
         $array=[];
         foreach($divisiones as $elemento3){
-            if($elemento3['id_mod']==$mod['id'] && $edad['codigo']==$elemento3['id_ce']){
+            if($elemento3['id_mod']==$mod['id'] && $edad['id']==$elemento3['id_ce']){
                 array_push($array, $elemento3);
             }
         }
 
 
         foreach ($array as $i=> $divi) {
-            $color = (($i % 2 == 0 || $i== 9) && ($edad['codigo']==1)) ? 'red': 'blue' ; 
+            $color = (($i % 2 == 0 || $i== 9) && ($edad['id']==8)) ? 'red': 'blue' ; 
             // Compara las condiciones para imprimir los datos correspondientes
             if ($mod['id'] == $divi['id_mod']) {
                 if($divi['categoriaxPeso']<100){

@@ -165,7 +165,7 @@
             dataType: 'json', // Especificamos que la respuesta será en formato JSON
             success: function (categorias) {
                 categorias.forEach(function (categoria) {
-                    $('#select_categoria1').append('<option value="' + categoria.codigo + '">' + categoria.nombre_Categoria + '</option>');
+                    $('#select_categoria1').append('<option value="' + categoria.id + '">' + categoria.categoria + '</option>');
                 });
             }
         });
@@ -198,7 +198,7 @@
             dataType: 'json', // Especificamos que la respuesta será en formato JSON
             success: function (categorias) {
                 categorias.forEach(function (categoria) {
-                    $('#select_categoria').append('<option value="' + categoria.codigo + '">' + categoria.nombre_Categoria + '</option>');
+                    $('#select_categoria').append('<option value="' + categoria.id + '">' + categoria.categoria + '</option>');
                 });
             }
         });

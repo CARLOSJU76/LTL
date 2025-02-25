@@ -21,7 +21,7 @@
                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
          }
          public function insertDpto($id_pais, $dep){
-                $query="INSERT INTO departamento (id-_pais, departamento) VALUES (?, ?)";
+                $query="INSERT INTO departamento (id_pais, departamento) VALUES (?, ?)";
                 $stmt=$this->conn->qurey($query);
                 $stmt->execute([$id_pais, $dep]);
          }
@@ -32,7 +32,7 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
          }
          public function insertCiudad($id_dep,$ciudad){
-            $query="INSERT INTO departamento (id-_departamento, ciudad) VALUES (?, ?)";
+            $query="INSERT INTO departamento (id_departamento, ciudad) VALUES (?, ?)";
             $stmt=$this->conn->query($query);
             $stmt->execute([$id_dep, $ciudad]);
         }
@@ -53,12 +53,12 @@
         }
 //====================================================================================================
         public function getCategoriasXEdad(){
-            $consulta="SELECT * FROM categoria_Edad  ORDER BY codigo ASC";
+            $consulta="SELECT * FROM categoriaxedad  ORDER BY id ASC";
             $stmt= $this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         public function insertCategoriaxEdad($categoriaxEdad){
-            $consulta = $this->conn->prepare("INSERT INTO categoria_edad (nombre_Categoria) VALUES (?)");
+            $consulta = $this->conn->prepare("INSERT INTO categoriaxedad (categoria) VALUES (?)");
             $consulta->execute([$categoriaxEdad]);
         }
 //=====================================================================================================
@@ -88,7 +88,7 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         public function deleteCategoria($codigo){
-            $consulta="DELETE FROM categoria_edad WHERE codigo = ?";
+            $consulta="DELETE FROM categoriaxedad WHERE id = ?";
             $stmt=$this->conn->prepare($consulta);
             $stmt->execute([$codigo]);
         }
