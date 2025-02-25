@@ -7,6 +7,13 @@
         //private $puerto= "3307";
         public $conn;
 
+        /*private $host = "localhost";
+        private $baseDatos="asjmvfmy_sistema_rank" ;
+        private $usuario= "asjmvfmy_carlosju76" ;
+        private $clave= "Sistema_rank*2025";
+        //private $puerto= "3307";
+        public $conn;*/
+
         public function getConnection(){
             $this->conn= null;
             try{
