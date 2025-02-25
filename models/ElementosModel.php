@@ -33,7 +33,7 @@
          }
          public function insertCiudad($id_dep,$ciudad){
             $query="INSERT INTO departamento (id-_departamento, ciudad) VALUES (?, ?)";
-            $stmt=$this->conn->qurey($query);
+            $stmt=$this->conn->query($query);
             $stmt->execute([$id_dep, $ciudad]);
         }
         public function getCiudad($id_dpto){
@@ -81,6 +81,26 @@
             $stmt= $this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
-
+        public function getDivisionesById($id_ce, $id_mod){
+            $consulta="SELECT * FROM categoriaxpeso  where id_ce = ? AND id_mod= ? ORDER BY categoriaxPeso ASC";
+            $stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$id_ce, $id_mod]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public function deleteCategoria($codigo){
+            $consulta="DELETE FROM categoria_edad WHERE codigo = ?";
+            $stmt=$this->conn->prepare($consulta);
+            $stmt->execute([$codigo]);
+        }
+        public function deleteModalidad($id_modalidad){
+            $consulta="DELETE FROM modalidad WHERE id = ? ";
+            $stmt=$this->conn->prepare($consulta);
+            $stmt->execute([$id_modalidad]);
+        }
+        public function deleteDivision($codigo_division){
+            $consulta="DELETE FROM categoriaxpeso WHERE codigo = ? ";
+            $stmt=$this->conn->prepare($consulta);
+            $stmt->execute([$codigo_division]);
+        }
 }
 ?>

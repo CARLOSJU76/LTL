@@ -33,28 +33,29 @@
     <div class="container" id="container_general">
         <div id="div-h2"><h3>LTL Website</h3></div>
 <!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
-        <form action="index.php?action=delete_categoriaxEdad" method="post" id="formulario_inserclubes">
+        <form action="index.php?action=delete_categoria" method="post" id="formulario_inserclubes">
 
             <table class="table" id="tabla_inser_clubes">
         <!-- Primera fila: Encabezado -->
                 <thead>
                     <tr>
-                        <th colspan="2" class="text-center" id="head-inser_club">Incluya Categoría de Edad</th>
+                        <th colspan="2" class="text-center" id="head-inser_club">Eliminar Categoría de Edad</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
-                            <div class="form-group">
-                                <input type="text" name="categoriaxEdad" id="nombreEv" placeholder="Límite de Categoría de Edad" class="form-control" required>
-                            </div>
+                            <select id="select_categoria1" class="form-select" name="id_categoria" required>
+                                <option value="">Elige la Categoria</option>
+                                <!-- Aquí se llenarán los departamentos según el país -->
+                            </select>
                         </td>
                     </tr>
 
 
                     <tr>
                         <td colspan="2" class="text-center">
-                            <button type="submit" class="btn btn-custom" id="boton_submit">Incluir Categoría de Edad</button>
+                            <button type="submit" class="btn btn-custom" id="boton_submit">Eliminar Categoría de Edad</button>
                         </td>
                     </tr>
                 </tbody>
@@ -62,88 +63,75 @@
         </form>
 
 <!-- ======================================================================================================================================== -->
-<!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
+<!-- ===================================FORMULARIO DE ELIMINACIÓN DE MODALIDAD============================================================================================= -->
         <form action="index.php?action=delete_modalidad" method="post" id="formulario_inserclubes">
 
             <table class="table" id="tabla_inser_clubes">
                 <thead>
                     <tr>
-                        <th colspan="2" class="text-center" id="head-inser_club">Incluya Modalidad</th>
+                        <th colspan="2" class="text-center" id="head-inser_club">Eliminar Modalidad</th>
                     </tr>
                 </thead>
                     <tbody>
                     <tr>
                         <td>
-                            <div class="form-group">
-                                <input type="text" name="modalidad" id="odalidad" placeholder="Nombre de la Modalidad" class="form-control" required>
-                            </div>
+                            <select id="select_modalidad1" class="form-select" name="id_modalidad" required>
+                                <option value="">Elige la Modalidad</option>
+                                    <!-- Aquí se llenarán los países desde la base de datos -->
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-center">
-                            <button type="submit" class="btn btn-custom" id="boton_submit">Incluir Modalidad</button>
+                            <button type="submit" class="btn btn-custom" id="boton_submit">Eliminar Modalidad</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </form>
         <!-- ======================================================================================================================================== -->
-<!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
-        <form action="index.php?action=delete_divisionxPeso" method="post" id="formulario_inserclubes">
+<!-- ===================================FORMULARIO DE ELIMINACIÓN DE DIVISIÓN DE PESO============================================================================================= -->
+        <form action="index.php?action=delete_division" method="post" id="formulario_inserclubes">
             <table class="table" id="tabla_inser_clubes">
                 <thead>
                     <tr>
-                        <th colspan="2" class="text-center" id="head-inser_club">Incluya División de Peso</th>
+                        <th colspan="2" class="text-center" id="head-inser_club">Eliminar División de Peso</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
-                            <div class="form-group">
-                                <select name="id_ce" id="categoriaxEdad" class="form-select" required>
-                                    <option value="">Elija la categoría por Edad</option>
-                                        <?php 
-                                          include_once 'controller/ElementosController.php';
-                                          $elemento1 = new ElementosController();
-                                        $categorias1 = $elemento1->getCategoriaXEdad();
-                                        foreach($categorias1 as $cat){
-                                          
-                                            echo "<option value='".htmlspecialchars($cat['codigo'])."' >"
-                                            .htmlspecialchars($cat['nombre_Categoria'])."</option>";
-                                        }
-                                        ?>
-                                </select>
+<!-- ========================================================================================================================================== -->
+                        <td id="td-ubicacion">
+                            <div class="menu">
+<!-- ========================================================================================================================================== -->
+                                <div id="uno">
+                                    <select id="select_modalidad" class="form-select"  required>
+                                        <option value="">Elige la Modalidad</option>
+                                        <!-- Aquí se llenarán los países desde la base de datos -->
+                                    </select>
+                                </div>
+<!-- ========================================================================================================================================== -->
+                                <div id="dos">
+                                    <select id="select_categoria" class="form-select"  required>
+                                        <option value="">Elige la Categoria</option>
+                                        <!-- Aquí se llenarán los departamentos según el país -->
+                                    </select>
+                                </div>
+<!-- ========================================================================================================================================== -->
+                                <div id="tres">
+                                    <select id="select_division" name="id_division"  class="form-select" style="display:none;" required>
+                                        <option value="">División de Peso</option>
+                                        <!-- Aquí se llenarán las ciudades según el departamento -->
+                                    </select>
+                                </div>
+<!-- ========================================================================================================================================== -->
                             </div>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select name="id_mod" id="modalidad" class="form-select" required>
-                                <option value="">Elija Modalidad</option>
-                                <?php 
-                                include_once 'controller/ElementosController.php';
-                                $elemento1= new ElementosController();
-                                $modalidades= $elemento1->getModalidades();
-                                foreach($modalidades as $mod){
-                               
-                                echo "<option value='".htmlspecialchars($mod['id'])."'>"
-                                .htmlspecialchars($mod['modalidad'])."</option>";
-                                }
-                                ?>
-                            </select>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <input type="text" name="divisionxPeso" id="nombreEv" placeholder="Límite de la División de Peso en Kilogramos." class="form-control" required>
-                            </div>
-                        </td>
+<!-- ========================================================================================================================================== -->
                     </tr>
                     <tr>
                         <td colspan="2" class="text-center">
-                            <button type="submit" class="btn btn-custom" id="boton_submit">Incluir División de Peso </button>
+                            <button type="submit" class="btn btn-custom" id="boton_submit">Eliminar División de Peso </button>
                         </td>
                     </tr>
                 </tbody>
@@ -169,33 +157,81 @@
 </div>
 
 
-    <script>
-    let select_modalidad=document.getElementById('select_modalidad');
-    let select_categoriaxEdad=document.getElementById('select_categoriaxEdad');
-    select_categoriaxEdad.addEventListener('change', function{
-        let id_ce= this.value;
-        localStorage.setItem('categoriaE', id_ce);
-    });
-    select_modalidad.addEventListener('change', function{
-        let id_mod= this.value;
-        localStorage.setItem('modalidadP', id_mod);
-        enviarDatosA_php(id_mod);
-    });
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "index.php?action=get_categorias", // El archivo PHP que devuelve los países
+            method: 'GET',
+            dataType: 'json', // Especificamos que la respuesta será en formato JSON
+            success: function (categorias) {
+                categorias.forEach(function (categoria) {
+                    $('#select_categoria1').append('<option value="' + categoria.codigo + '">' + categoria.nombre_Categoria + '</option>');
+                });
+            }
+        });
+  
+        $.ajax({
+            url: "index.php?action=get_modalidades", // El archivo PHP que devuelve los países
+            method: 'GET',
+            dataType: 'json', // Especificamos que la respuesta será en formato JSON
+            success: function (modalidades) {
+                modalidades.forEach(function (modalidad) {
+                    $('#select_modalidad1').append('<option value="' + modalidad.id + '">' + modalidad.modalidad + '</option>');
+                });
+            }
+        });
 
-    function enviarDatosA_php(id_mod) {
-            let id_ce = localStorage.getItem('categoriaE');  // Obtener valor de la categoría desde localStorage
-         // Usamos el valor de modalidadP que fue seleccionado
+        $.ajax({
+            url: "index.php?action=get_modalidades", // El archivo PHP que devuelve los países
+            method: 'GET',
+            dataType: 'json', // Especificamos que la respuesta será en formato JSON
+            success: function (modalidades) {
+                modalidades.forEach(function (modalidad) {
+                    $('#select_modalidad').append('<option value="' + modalidad.id + '">' + modalidad.modalidad + '</option>');
+                });
+            }
+        });
 
-            // Crear un objeto FormData para enviar los datos mediante POST
-            let datos = new FormData();
-            datos.append('id_ce', id_ce);
-            datos.append('id_mod', id_mod);
+        $.ajax({
+            url: "index.php?action=get_categorias", // El archivo PHP que devuelve los países
+            method: 'GET',
+            dataType: 'json', // Especificamos que la respuesta será en formato JSON
+            success: function (categorias) {
+                categorias.forEach(function (categoria) {
+                    $('#select_categoria').append('<option value="' + categoria.codigo + '">' + categoria.nombre_Categoria + '</option>');
+                });
+            }
+        });
 
-            // Usar AJAX para enviar los datos al servidor
-            let xhr = new XMLHttpRequest();
-            xhr.open('POST', 'index.php?action=send_ce_mod', true);
-            xhr.send(datos);
+        $('#select_categoria').on('change', function () {
+        var idCategoria = $(this).val();  // Obtener el ID del departamento seleccionado
+        var idModalidad = $('#select_modalidad').val(); 
+        // Limpiar ciudades
+        $('#select_division').empty().append('<option value="">División de Peso</option>').hide();
+
+        if (idCategoria) {
+            // Hacer la petición AJAX para obtener ciudades del departamento
+            $.ajax({
+                url: 'index.php?action=get_divisiones',
+                method: 'GET',
+                dataType: 'json',
+                data:{  id_categoria: idCategoria,
+                        id_modalidad: idModalidad   },
+                success: function (divisiones) {
+                    divisiones.forEach(function (division) {
+                        $('#select_division').append('<option value="' + division.codigo + '">' + division.categoriaxPeso + '</option>');
+                    });
+
+                    // Mostrar el select de ciudades
+                    $('#select_division').show();
+                }
+            });
         }
+    });
+
+    });
+
+   
 </script>
 
 </body>

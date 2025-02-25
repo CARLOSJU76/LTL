@@ -62,7 +62,7 @@
         </form>
 
 <!-- ======================================================================================================================================== -->
-<!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
+<!-- ===================================FORMULARIO DE INSERCIÓN MODALIDAD============================================================================================= -->
         <form action="index.php?action=insert_modalidad" method="post" id="formulario_inserclubes">
 
             <table class="table" id="tabla_inser_clubes">
@@ -88,7 +88,7 @@
             </table>
         </form>
         <!-- ======================================================================================================================================== -->
-<!-- ===================================FORMULARIO DE INSERCIÓN DE CATEGORÍA POR EDAD============================================================================================= -->
+<!-- ===================================FORMULARIO DE INSERCIÓN DIVISIÓN DE PESO============================================================================================= -->
         <form action="index.php?action=insert_divisionxPeso" method="post" id="formulario_inserclubes">
             <table class="table" id="tabla_inser_clubes">
                 <thead>
@@ -137,7 +137,7 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <input type="text" name="select_divisionxPeso" id="nombreEv" placeholder="Límite de la División de Peso en Kilogramos." class="form-control" required>
+                                <input type="num" name="divisionxPeso" id="nombreEv" placeholder="Límite de la División de Peso en Kilogramos." class="form-control" required>
                             </div>
                         </td>
                     </tr>

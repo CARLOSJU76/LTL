@@ -108,7 +108,48 @@
         public function getDivisiones(){
             return $this->eleModel->getDivisionPeso();
         }
+        public function getModalidadesG(){
+            header('Content-Type: application/json');          
+            $modalidades= $this->eleModel->getModalidades();         
+            echo json_encode($modalidades);
+        }
+        public function getCategoriasG(){
+            header('Content-Type: application/json');          
+            $categorias= $this->eleModel->getCategoriasXEdad();         
+            echo json_encode($categorias);
+        }
+        
+        public function getDivisionesG(){
+            header('Content-Type: application/json');    
+            if (isset($_GET['id_categoria'])) {
+                $id_categoria = $_GET['id_categoria'];
+                $id_modalidad=  $_GET['id_modalidad'];
+                $divisiones=$this->eleModel->getDivisionesById($id_categoria, $id_modalidad);
+                echo json_encode($divisiones);    
+            }else {
+                // Si no se recibe el parámetro id_pais, devolver un error
+                echo json_encode(['error' => 'ID de departamento no proporcionado']);
+            }     
+        } 
+        public function deleteCategoria(){
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $codigo= $_POST['id_categoria'];
+                $this->eleModel->deleteCategoria($codigo);
+        }
 
-    }  
+    }
+        public function deleteModalidad(){
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $id_modalidad= $_POST['id_modalidad'];
+                $this->eleModel->deleteModalidad($id_modalidad);
+            }
+        } 
+        public function deleteDivision(){
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $codigo_division= $_POST['id_division'];
+                $this->eleModel->deleteDivision($codigo_division);
+        } 
+    }
 
+    }
 ?>

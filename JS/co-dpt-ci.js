@@ -9,7 +9,7 @@ $(document).ready(function () {
                 $('#pais').append('<option value="' + pais.id + '">' + pais.pais + '</option>');
             });
         }
-    });
+    });//-------->Ya está------------------
 
     // Cuando el usuario pasa el cursor sobre un país
     $('#pais').on('change', function () {

@@ -51,7 +51,7 @@ foreach ($edades as $edad) {
 
         $array=[];
         foreach($divisiones as $elemento3){
-            if($elemento3['id_ce']==$edad['codigo']){
+            if($elemento3['id_mod']==$mod['id'] && $edad['codigo']==$elemento3['id_ce']){
                 array_push($array, $elemento3);
             }
         }
