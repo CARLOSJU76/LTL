@@ -114,10 +114,10 @@
                                     <option value="">Elija la categoría por Edad</option>
                                         <?php 
                                        
-                                        $categorias1 = $elemento1->getCategoriaXEdad();
+                                        $categorias1 = $elemento1->getCategoria();
                                         foreach($categorias1 as $cat){
-                                            echo "<option value='".htmlspecialchars($cat['codigo'])."'>"
-                                            .htmlspecialchars($cat['nombre_Categoria'])."</option>";
+                                            echo "<option value='".htmlspecialchars($cat['id'])."'>"
+                                            .htmlspecialchars($cat['categoria'])."</option>";
                                         }
                                         ?>
                                 </select>

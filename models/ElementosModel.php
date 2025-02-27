@@ -21,7 +21,7 @@
                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
          }
          public function insertDpto($id_pais, $dep){
-                $query="INSERT INTO departamento (id_pais, departamento) VALUES (?, ?)";
+                $query="INSERT INTO departamento (id-_pais, departamento) VALUES (?, ?)";
                 $stmt=$this->conn->qurey($query);
                 $stmt->execute([$id_pais, $dep]);
          }
@@ -32,8 +32,8 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
          }
          public function insertCiudad($id_dep,$ciudad){
-            $query="INSERT INTO departamento (id_departamento, ciudad) VALUES (?, ?)";
-            $stmt=$this->conn->query($query);
+            $query="INSERT INTO departamento (id-_departamento, ciudad) VALUES (?, ?)";
+            $stmt=$this->conn->qurey($query);
             $stmt->execute([$id_dep, $ciudad]);
         }
         public function getCiudad($id_dpto){
@@ -50,14 +50,30 @@
             $consulta="SELECT * FROM tipo_evento";
             $stmt= $this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+        }                                                                      
 //====================================================================================================
-        public function getCategoriasXEdad(){
-            $consulta="SELECT * FROM categoriaxedad  ORDER BY id ASC";
-            $stmt= $this->conn->query($consulta);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        public function insertCategoriaxEdad($categoriaxEdad){
+        /*public function getAgeCat(){
+            try{ $consulta="SELECT * FROM categoriaxedad ORDER BY id ASC";
+                $resultado= $stmt= $this->conn->prepare($consulta);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                if($resultado){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch(PDOException){
+                error_log("Error al recolectar los datos: ".  $e->getMessage());
+            }
+        }*/
+//==================================================================================================
+public function getAgeCat(){//categoriaxEdad
+    $consulta="SELECT * FROM categoriaxedad ORDER BY id ASC";
+    $stmt= $this->conn->query($consulta);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+//===================================================================================================
+        public function insertAgeCat($categoriaxEdad){
             $consulta = $this->conn->prepare("INSERT INTO categoriaxedad (categoria) VALUES (?)");
             $consulta->execute([$categoriaxEdad]);
         }
@@ -66,7 +82,7 @@
             $consulta = $this->conn->prepare("INSERT INTO modalidad (modalidad) VALUES (?)");
             $consulta->execute([$modalidad]);
         }
-        public function getModalidad(){
+        public function getModalidad(){//Get Modalidad
             $consulta="SELECT * FROM modalidad";
             $stmt= $this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -81,7 +97,7 @@
             $stmt= $this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
-        public function getDivisionesById($id_ce, $id_mod){
+         public function getDivisionesById($id_ce, $id_mod){
             $consulta="SELECT * FROM categoriaxpeso  where id_ce = ? AND id_mod= ? ORDER BY categoriaxPeso ASC";
             $stmt= $this->conn->prepare($consulta);
             $stmt->execute([$id_ce, $id_mod]);
@@ -102,5 +118,6 @@
             $stmt=$this->conn->prepare($consulta);
             $stmt->execute([$codigo_division]);
         }
+
 }
 ?>

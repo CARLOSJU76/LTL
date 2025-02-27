@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deportistas LTL</title>
-        <link rel="stylesheet" href="./css/club_manage.css">
-    <link rel="stylesheet" href="./css/listar_repre.css">
+        <link rel="stylesheet" href="./CSS/club_manage.css">
+    <link rel="stylesheet" href="./CSS/listar_repre.css">
     <style>
         body{
             background-image: url('./IMG/LTL/mat.jpg');

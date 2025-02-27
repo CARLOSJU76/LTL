@@ -6,8 +6,8 @@
     <title>Eventos y Calendarios</title>
 
     <!-- Incluir Bootstrap CSS -->
-        <link rel="stylesheet" href="css/club_manage.css">
-    <link rel="stylesheet" href="css/insert_club.css">
+        <link rel="stylesheet" href="CSS/club_manage.css">
+    <link rel="stylesheet" href="CSS/insert_club.css">
     <style>
         #head-manage-club{
             background-color: #7A1F1F;

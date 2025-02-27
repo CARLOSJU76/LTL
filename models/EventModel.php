@@ -32,13 +32,13 @@
             $consulta= "SELECT eventos.codigo AS id_ev, tipo_evento.tipo_evento AS tipoEv,
                 eventos.nombre_Evento AS nombreEv, eventos.fecha_Evento AS fechaEv,
                 ciudad.ciudad AS ciudadEv, departamento.departamento AS dptoEv,
-                pais.pais AS paisEv, categoria_edad.nombre_Categoria AS cateEv FROM eventos
+                pais.pais AS paisEv, categoriaxedad.categoria AS cateEv FROM eventos
 
                 INNER JOIN tipo_evento ON eventos.codigo_tipoE= tipo_evento.codigo
                 INNER JOIN ciudad ON eventos.codigo_ciudad= ciudad.codigo
                 INNER JOIN departamento ON eventos.id_departamento = departamento.id
                 INNER JOIN pais ON eventos.id_pais = pais.id
-                INNER JOIN categoria_edad ON eventos.codigo_categoriaxEdad= categoria_edad.codigo
+                INNER JOIN categoriaxedad ON eventos.codigo_categoriaxEdad= categoriaxedad.id
                 WHERE eventos.codigo LIKE ?" ;
            
             $stmt= $this->conn->prepare($consulta);

@@ -1,6 +1,6 @@
 <?php
 
-    
+   
     require_once 'controller/signupController.php';
     require_once 'controller/loginController.php';
     require_once 'controller/insertCommentsController.php';
@@ -10,7 +10,7 @@
     require_once 'controller/ElementosController.php';
     require_once 'controller/EventController.php';
 
-    
+   
     $signupController= new SignupController(); 
     $loginController= new LoginController();   
     $insertCommentsController= new InsertCommentsController();
@@ -39,7 +39,10 @@
                 include './views/principal.php';
             }         
             break;
-      
+        case 'sidebar':
+            $controlVistas->sidebar();
+            echo"Y ahora con el sidebar";
+            break;
         case 'loguear':
             if($_SERVER["REQUEST_METHOD"]=="POST"){
                 $loginController->login(); 
@@ -212,7 +215,7 @@
                 include_once 'view-events/insert_programados.php';
                 }
                 break;                  
-//===================================GET PAISES DPTOS Y CIUDADES===========================================================================================
+//==============================================================================================================================
             case 'get_paises':
                 if($_SERVER['REQUEST_METHOD']=='GET'){ 
                     $eleControl->getPaises();                            
@@ -230,25 +233,6 @@
                     $eleControl->getCiudad();
                     exit();
                     }break;
-
-//=====================================================================================
-            case 'get_modalidades':
-                if($_SERVER['REQUEST_METHOD']=='GET'){
-                    $eleControl->getModalidadesG();
-                    exit();
-                }break;
-//=====================================================================================
-            case 'get_categorias':
-                if($_SERVER['REQUEST_METHOD']=='GET'){
-                    $eleControl->getCategoriasG();
-                    exit();
-                }break;
-//=====================================================================================
-            case 'get_divisiones':
-                if($_SERVER['REQUEST_METHOD']=='GET'){
-                    $eleControl->getDivisionesG();
-                    exit();
-                }break;
 //================================================================================================================
             case 'list_deportista':
                 $deportistas= $depoControl->listDeportistas();
@@ -362,24 +346,42 @@
                 break;
 //========================================================================================================                
             case 'insert_elements':
+               
                 include 'view-elementos/insert_elements.php';
                 break;
 //========================================================================================================                
             case 'list_elements':
-                
-                $edades=$eleControl->getCategoriaXEdad();
+                $edades=$eleControl->getCategoria();
                 $modalidades=$eleControl->getModalidades();
                 $divisiones=$eleControl->getDivisiones();
                 include_once 'view-elementos/list_elementos.php';
                 break;
 //========================================================================================================                
-            case 'send_ce_mod':
-               
-                include_once 'view_elementos/delete_elements.php';
+            case 'view_auxiliar':
+                include 'view_auxiliar.php';
+                break;
 //========================================================================================================
             case 'delete_elements':
               
                 include_once 'view-elementos/delete_elements.php';
+//=====================================================================================
+            case 'get_modalidades':
+                if($_SERVER['REQUEST_METHOD']=='GET'){
+                    $eleControl->getModalidadesG();
+                    exit();
+                }break;
+//=====================================================================================
+            case 'get_categorias':
+                if($_SERVER['REQUEST_METHOD']=='GET'){
+                    $eleControl->getCategoriasG();
+                    exit();
+                }break;
+//=====================================================================================
+            case 'get_divisiones':
+                if($_SERVER['REQUEST_METHOD']=='GET'){
+                    $eleControl->getDivisionesG();
+                    exit();
+                }break;
 
 //========================================================================================================
             case 'delete_categoria':
@@ -397,7 +399,6 @@ case 'delete_division':
     include_once 'view-elementos/delete_elements.php';
     break;
 //========================================================================================================
-
 
 
 }

@@ -113,11 +113,13 @@
                                 <select name="categoriaxEdad" id="categoriaxEdad" class="form-select" required>
                                     <option value="">Elija la categoría por Edad</option>
                                         <?php 
-                                       
-                                        $categorias1 = $elemento1->getCategoriaXEdad();
+                                        
+                                         include_once('./controller/ElementosController.php');
+                                        $elemento1 = new ElementosController();
+                                        $categorias1 = $elemento1->getCategoria();
                                         foreach($categorias1 as $cat){
-                                            echo "<option value='".htmlspecialchars($cat['codigo'])."'>"
-                                            .htmlspecialchars($cat['nombre_Categoria'])."</option>";
+                                            echo "<option value='".htmlspecialchars($cat['id'])."'>"
+                                            .htmlspecialchars($cat['categoria'])."</option>";
                                         }
                                         ?>
                                 </select>

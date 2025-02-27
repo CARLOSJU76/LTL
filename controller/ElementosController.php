@@ -74,15 +74,16 @@
         }
         public function getTipoEvento(){
             return $this->eleModel->getTipoEvento();
-        }
+        }                                                                           // insertAgeCat-getAgeCat
 //==================CATEGORÍA POR EDAD===================================================================
-        public function getCategoriaXEdad(){
-            return $this->eleModel->getCategoriasXEdad();
+        public function getCategoria(){
+            return $this->eleModel->getAgeCat();
+            
         }
         public function insertCategoriaxEdad(){
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $categoriaxEdad=$_POST['categoriaxEdad'];
-                $this->eleModel->insertCategoriaxEdad($categoriaxEdad);
+                $this->eleModel->insertAgeCat($categoriaxEdad);
             }
 //========================================================================================================
         }
@@ -109,13 +110,13 @@
             return $this->eleModel->getDivisionPeso();
         }
         public function getModalidadesG(){
-            header('Content-Type: application/json');          
+            //header('Content-Type: application/json');          
             $modalidades= $this->eleModel->getModalidades();         
             echo json_encode($modalidades);
         }
         public function getCategoriasG(){
-            header('Content-Type: application/json');          
-            $categorias= $this->eleModel->getCategoriasXEdad();         
+            //header('Content-Type: application/json');          
+            $categorias= $this->eleModel->getAgeCat();         
             echo json_encode($categorias);
         }
         
@@ -151,5 +152,6 @@
         } 
     }
 
-    }
+    }  
+
 ?>

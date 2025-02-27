@@ -6,8 +6,8 @@
     <title>Editar Eventos</title>
     
     
-    <link rel="stylesheet" href="./css/club_manage.css">
-    <link rel="stylesheet" href="css/insert_represent.css">
+    <link rel="stylesheet" href="./CSS/club_manage.css">
+    <link rel="stylesheet" href="CSS/insert_represent.css">
     <script src="JS/jquery-3.7.1.min.js"></script>
     <style>
         body{
