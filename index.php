@@ -399,7 +399,15 @@ case 'delete_division':
     include_once 'view-elementos/delete_elements.php';
     break;
 //========================================================================================================
-
+case 'platform_manage':
+    include_once 'view_plataforma/platform_manage.php';
+    break;
+case 'cargar_estados':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $eleControl->cargarEstados();
+    }else{
+        include_once 'view_plataforma/insert_estados.php';
+    }break;
 
 }
 ?>

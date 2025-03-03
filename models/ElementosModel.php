@@ -118,6 +118,32 @@ public function getAgeCat(){//categoriaxEdad
             $stmt=$this->conn->prepare($consulta);
             $stmt->execute([$codigo_division]);
         }
+        public function cargarEstados($nualidad, $pdf){
+            try{$consulta =("INSERT INTO estadosf (nualidad, pdf) VALUES (?, ?)");
+            $resultado=$stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$nualidad, $pdf]);
+            if ($resultado) {
+                return true;
+        } else {
+                return false;
+        }
+            }catch (PDOException $e) {
+                // Capturamos cualquier error de base de datos y lo retornamos.
+                            error_log("Error al insertar deportista: " . $e->getMessage());
+                            return false;
+            }
 
-}
+        }
+        public function listarEstadosF(){
+            $consulta= "SELECT * FROM estadosf";
+            $stmt= $this->conn->query($consulta);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public function getEstadosById($id){
+            $consulta="SELECT nualidad, pdf FROM estadosf WHERE id= ?";
+            $stmt= $this->conn->prepare($consulta);
+            $stmt->execute[($id)];
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
 ?>

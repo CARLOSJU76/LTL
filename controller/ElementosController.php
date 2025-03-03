@@ -151,7 +151,36 @@
                 $this->eleModel->deleteDivision($codigo_division);
         } 
     }
+    public function cargarEstados(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $nualidad=$_POST['nualidad'];
+            $pdf= $_FILES['estados_pdf']['name'];
+            $target_dir="pdfs/";
+            $target_file= $target_dir .basename($pdf);
+            move_uploaded_file($_FILES["estados_pdf"]["tmp_name"], $target_file);
+            
 
+            if($this->eleModel->cargarEstados($nualidad, $pdf) ){
+                echo"<br><p style='color:orange;'>El documento fue cargado correctamente</p>";
+                echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                                <button type='submit' name='action' value='principal'>Página de inicio</button>
+                        </form>";
+                }else{
+                    echo"<p style='color:orange;'>Se presentó un error al cargar el documento. Intenta nuevamente.</p>";
+                    echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                                 <button type='submit' name='action' value='principal'>Página de inicio</button>
+                        </form>";
+                }
+
+        }
+    }
+    public function listarEstadosF(){
+        return $this->eleModel->listarEstadosF();
+    }
+    public function getEstadosById(){
+        $id=$_GET['id']?? '';
+        return $this->eleModel->getEstadosById($id);
+    }
     }  
 
 ?>

@@ -18,6 +18,7 @@ let opciones = [
     {id_perfil: 0, valor: 'club_manage', texto: 'Gestion de Clubes' },
     {id_perfil: 0, valor: 'elements_manage', texto: 'Gestor de Elementos' },
     {id_perfil: 0, valor: 'event_manage', texto: 'Competencias y Calendario' },
+    {id_perfil: 0, valor: 'platform_manage', texto: 'Administrar Plataforma'},
     {id_perfil: 4, valor: 'logout', texto: 'Salir' }
   ];
  
