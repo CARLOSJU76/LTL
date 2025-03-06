@@ -180,7 +180,7 @@
     public function getEstadosById(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $id=$_POST['id'];
-            $this->eleModel->getEstadosById($id);
+            return $this->eleModel->getEstadosById($id);
         }
     }
     }  
