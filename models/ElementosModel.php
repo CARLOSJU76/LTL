@@ -142,7 +142,7 @@ public function getAgeCat(){//categoriaxEdad
         public function getEstadosById($id){
             $consulta="SELECT nualidad, pdf FROM estadosf WHERE id= ?";
             $stmt= $this->conn->prepare($consulta);
-            $stmt->execute[($id)];
+            $stmt->execute([$id]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }

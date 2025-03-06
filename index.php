@@ -408,6 +408,17 @@ case 'cargar_estados':
     }else{
         include_once 'view_plataforma/insert_estados.php';
     }break;
+case 'ver_estados':
+    if($_SERVER['REQUEST_METHOD']=='GET'){
+        $estadosf= $eleControl->listarEstadosF();
+        include_once 'view_plataforma/ver_estados.php';
+    }break;
+case 'ver_estadosf':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $estates= $eleControl->getEstadosById();
+        include_once 'view_plataforma/ver_anio.php';
+    }break;
+
 
 }
 ?>

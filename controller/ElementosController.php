@@ -178,8 +178,10 @@
         return $this->eleModel->listarEstadosF();
     }
     public function getEstadosById(){
-        $id=$_GET['id']?? '';
-        return $this->eleModel->getEstadosById($id);
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $id=$_POST['id'];
+            $this->eleModel->getEstadosById($id);
+        }
     }
     }  
 

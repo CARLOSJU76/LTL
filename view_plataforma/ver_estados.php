@@ -18,6 +18,7 @@
          
 .container, .form-select{
     border: 3px solid white ;
+    font-family:'Courier New', Courier, monospace;
     padding-top:0;
     width: 95%;
 }
@@ -102,11 +103,11 @@ label{
 </head>
 <body>
 
-<div class="container" id="container_general" >
+<div class="container" style="width:45%;" id="container_general" >
 
-        <h2>CONSULTA DE ESTADOS FINANCIEROS</h2>
-        <form action="index.php?action=ver_estadosf" method="post">
-            <select>
+        <h2>Consulta de Estados Financieros</h2>
+        <form action="index.php?action=ver_estadosf" method="post" >
+            <select onchange="this.form.submit()" name='id'>
                 <option value="">Elija un año</option>
                 <?php 
                     foreach ($estadosf as $esta){
@@ -146,9 +147,7 @@ label{
    
 <!-- ==== RESULTADOS DE LA CONSULTA==================================================================================================== -->
     <div id="div-botones">
-        <form action="index.php?action=sport_manage" method='get' enctype="multipart/form-data" class="form-botones">
-            <button type="submit" name="action" value="sport_manage" class="botones">Gestión de Deportistas</button>
-        </form>
+       
         <form action="index.php?action=club_principal" method="get" class="form-botones">
                     <button type="submit" name="action" value="principal" class="botones">Vista Principal</button>
         </form>

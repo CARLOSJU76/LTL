@@ -28,11 +28,7 @@ class InsertCommentsController {
         }
     }
 //==================================================================================================================================
-    public function darLike($fechaA, $horaA) {
-       
-
-       
-        
+    public function darLike($fechaA, $horaA) {  
         header('Content-Type: application/json'); 
         $data = json_decode(file_get_contents('php://input'), true);
        
@@ -47,10 +43,8 @@ class InsertCommentsController {
             echo json_encode(array('status' => 'success', 'message' => 'Acabas de dar like !! '.$likeCount));
             
         }else{
-            echo json_encode(array('status' => 'error', 'message' => "Ya has dado like a este comentario hoy. $likeCount"));
-           
+            echo json_encode(array('status' => 'error', 'message' => "Ya has dado like a este comentario hoy. $likeCount"));  
         } 
-
     }
 //===================================================================================================================================
 }

@@ -64,7 +64,7 @@
             </div>
             <div class="col-sm-6 col-md-4 col-lg-2" id="filas">
             <form action="index.php" method="GET" id="Plataforma">
-                        <select name="action" id="select-plataforma" class="opciones_activas">
+                        <select name="action" id="select-plataforma" class="opciones_activas" onchange="this.form.submit()">
                         <option   value="ver_mision">Nuestra Misión</option>
                             <option value="ver_vision">Visión </option>
                             <option value="ver_estados">Estados financieros</option>
