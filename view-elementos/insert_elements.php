@@ -105,7 +105,7 @@
                                         <?php 
                                           include_once 'controller/ElementosController.php';
                                           $elemento1 = new ElementosController();
-                                        $categorias1 = $elemento1->getCategoriaXEdad();
+                                        $categorias1 = $elemento1->getCategoria();
                                         foreach($categorias1 as $cat){
                                           
                                             echo "<option value='".htmlspecialchars($cat['id'])."' >"
