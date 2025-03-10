@@ -145,5 +145,47 @@ public function getAgeCat(){//categoriaxEdad
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
+        public function getMision(){
+            $consulta="SELECT mision FROM mision";
+            $stmt= $this->conn->query($consulta);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        public function getVision(){
+            $consulta="SELECT vision FROM mision";
+            $stmt= $this->conn->query($consulta);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        public function updateMision($nueva_mision){
+            try{ $consulta = "UPDATE mision SET mision = ? WHERE id=1";
+            $resultado=$stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$nueva_mision]);
+            if ($resultado) {
+                return true;
+        } else {
+                return false;
+        }
+            }catch (PDOException $e) {
+                // Capturamos cualquier error de base de datos y lo retornamos.
+                            error_log("Error al insertar deportista: " . $e->getMessage());
+                            return false;
+            }
+
+        }
+        public function updateVision($nueva_vision){
+            try{ $consulta = "UPDATE mision SET vision = ? WHERE id=1";
+            $resultado=$stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$nueva_vision]);
+            if ($resultado) {
+                return true;
+        } else {
+                return false;
+        }
+            }catch (PDOException $e) {
+                // Capturamos cualquier error de base de datos y lo retornamos.
+                            error_log("Error al actualizar la visión: " . $e->getMessage());
+                            return false;
+            }
+
+        }
     }
 ?>

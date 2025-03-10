@@ -182,7 +182,41 @@
             $id=$_POST['id'];
             return $this->eleModel->getEstadosById($id);
         }
+    
     }
-    }  
+    public function getMision(){
+        return $this->eleModel->getMision();
+    }
+    public function getVision(){
+        return $this->eleModel->getVision();
+    }
+    public function updateMision(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $nueva_mision=$_POST['nueva_mision'];
+            if($this->eleModel->updateMision($nueva_mision) ){
+                echo"<br><p style='color:orange;'>La misión fue actualizada exitosamente</p>";
+            }else{
+                echo"<p style='color:orange;'>Se presentó un error al tratar de actualizar el documento. Intenta nuevamente.</p>";
+            }
+            echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                             <button type='submit' name='action' value='principal'>Ir al inicio</button>
+                    </form>";
+        }
+    }
+    public function updateVision(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $nueva_vision=$_POST['nueva_vision'];
+            if($this->eleModel->updateVision($nueva_vision) ){
+                echo"<br><p style='color:orange;'>La Visión fue actualizada exitosamente</p>";
+            }else{
+                echo"<p style='color:orange;'>Se presentó un error al tratar de actualizar el documento. Intenta nuevamente.</p>";
+            }
+            echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                             <button type='submit' name='action' value='principal'>Ir al inicio</button>
+                    </form>";
+        }
+    }
+}
+    
 
 ?>

@@ -48,8 +48,8 @@
                                 <select name="action" id="repesentante" class="form-select form-select-lg" onchange="this.form.submit()">
                                     <option value="" disabled selected>Administrar Plataforma</option> <!-- Opción predeterminada -->
                                     <option value="cargar_estados">Cargar Estados Financieros</option>
-                                    <option value="insert_vision">Actualizar Visión</option>
-                                    <option value="inset_mision">Actualizar Misión</option>
+                                    <option value="update_vision">Actualizar Visión</option>
+                                    <option value="update_mision">Actualizar Misión</option>
 
                                 </select>
                             </div>

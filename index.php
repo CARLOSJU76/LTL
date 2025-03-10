@@ -419,6 +419,25 @@ case 'ver_estadosf':
         include_once 'view_plataforma/ver_anio.php';
     }break;
 
-
+case 'ver_mision':
+    $mision= $eleControl->getMision();
+    include_once 'view_plataforma/ver_mision.php';
+    break;
+case 'ver_vision':
+    $vision= $eleControl->getVision();
+    include_once 'view_plataforma/ver_vision.php';
+    break;
+case 'update_mision':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $eleControl->updateMision();
+    }else{
+        include_once 'view_plataforma/update_mision.php';
+    }break;
+case 'update_vision':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+            $eleControl->updateVision();
+    }else{
+        include_once 'view_plataforma/update_vision.php';
+    }break;
 }
 ?>
