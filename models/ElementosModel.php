@@ -201,6 +201,28 @@ public function getAgeCat(){//categoriaxEdad
                 return false;
             }
         }
+        public function getLugares($id){
+            $consulta = "SELECT lugar_entrenamiento.id AS id, lugar_entrenamiento. lugar AS lugar, pais.pais AS pais, 
+            departamento.departamento AS dpto, ciudad.ciudad AS ciudad from lugar_entrenamiento 
+            INNER JOIN pais ON lugar_entrenamiento.id_pais= pais.id 
+            INNER JOIN departamento ON lugar_entrenamiento.id_dpto= departamento.id
+            INNER JOIN ciudad ON lugar_entrenamiento.id_ciudad= ciudad.codigo
+            WHERE lugar_entrenamiento.id LIKE ? ";
+            $stmt= $this->conn->prepare($consulta);
+            $stmt->execute(['%' . $id . '%']);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public function buscarLugar($id){
+            $consulta = "SELECT lugar_entrenamiento. lugar AS lugar, pais.pais AS pais, 
+            departamento.departamento AS dpto, ciudad.ciudad AS ciudad from lugar_entrenamiento 
+            INNER JOIN pais ON lugar_entrenamiento.id_pais= pais.id 
+            INNER JOIN departamento ON lugar_entrenamiento.id_dpto= departamento.id
+            INNER JOIN ciudad ON lugar_entrenamiento.id_ciudad= ciudad.codigo
+            WHERE lugar_entrenamiento.id = ? ";
+            $stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
        
         
 }

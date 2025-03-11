@@ -221,15 +221,27 @@
             $lugar=$_POST['lugar'];
             $id_pais= $_POST['pais'];
             $id_dpto=$_POST['dpto'];
-            $id_pais=$_POST['pais'];
+            $id_ciudad=$_POST['ciudad'];
 
-            if($this->eleModel->insertLugar($lugar, $id_pais, $id_dpto, $id_pais)){
+            if($this->eleModel->insertLugar($lugar, $id_pais, $id_dpto, $id_ciudad)){
                 echo"<br><p style='color:orange;'>El Sitio de entrenamiento fué incluido exitosamente</p>";
             }else{
                 echo"<p style='color:orange;'>Se presentó un error al tratar de incluir el lugar de entrenamiento. Intenta nuevamente.</p>";
             }
+            echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                             <button type='submit' name='action' value='principal'>Ir al inicio</button>
+                    </form>";
         }
     }
+    public function listLugares(){
+        $id=$_GET['id_lugar'] ?? '';
+        return $this->eleModel->getLugares($id);
+    }
+    public function buscarLugar(){
+        $id=$_GET['id_lugar']?? '';
+    return $this->eleModel->buscarLugar($id);
+    }
+    
 }
     
 

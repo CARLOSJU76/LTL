@@ -185,7 +185,7 @@
                     $depoControl->insertDeport();
                     include 'view-nomina/insert_deportista.php';
                     }else {
-                    include_once 'view-nomina/insert_deportista.php';;
+                    include_once 'view-nomina/insert_deportista.php';
                     }
                     break;
 //=============================================================================================================================
@@ -194,7 +194,7 @@
                 $depoControl->insertEntrenador();
                 include 'view-nomina/insert_entrenador.php';
                 }else {
-                include_once 'view-nomina/insert_entrenador.php';;
+                include_once 'view-nomina/insert_entrenador.php';
                 }
                 break;
 //=============================================================================================================================
@@ -440,10 +440,20 @@ case 'update_vision':
         include_once 'view_plataforma/update_vision.php';
     }break;
 case 'lugar_entrenamiento':
+    $lugares= $eleControl->listLugares();
     include_once 'view-elementos/lugar_entrenamiento.php';
     break;
 
-
-    
+case 'insert_lugar':
+        $eleControl->insertLugar();
+        break;
+case 'search_lugar':
+    if(isset($_GET['id_lugar']) && !empty ($_GET['id_lugar'])){
+        $lugares=$eleControl->buscarLugar();
+        include_once 'view-elementos/lugar_entrenamiento.php';
+        }else if(isset($_GET['id_lugar']) && empty ($_GET['id_lugar'])){
+        $lugares=$eleControl->listLugares();
+        include_once 'view-elementos/lugar_entrenamiento.php';
+        }break;
 }
 ?>
