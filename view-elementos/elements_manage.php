@@ -50,6 +50,7 @@
                                     <option value="insert_elements">Incluir Modalidades-Divisiones-Categorías</option>
                                     <option value="list_elements">Consultar Categorías</option>
                                     <option value="delete_elements">Eliminar Elementos</option>
+                                    <option value="lugar_entrenamiento">Lugares de Entrenamiento</option>
 
                                 </select>
                             </div>

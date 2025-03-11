@@ -187,5 +187,21 @@ public function getAgeCat(){//categoriaxEdad
             }
 
         }
-    }
+        public function insertLugar($lugar, $id_pais, $id_dpto, $id_ciudad){
+            try{$consulta= "INSERT INTO lugar_entrenamiento (lugar, id_pais, id_dpto, id_ciudad) VALUES (?,?,?,?)";
+                $resultado= $stmt= $this->conn->prepare($consulta);
+                $stmt->execute([$lugar, $id_pais, $id_dpto, $id_ciudad]);
+                if($resultado){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch(PDOException $e){
+                error_log("Error al actualizar la visión: " . $e->getMessage());
+                return false;
+            }
+        }
+       
+        
+}
 ?>

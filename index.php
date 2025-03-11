@@ -439,5 +439,11 @@ case 'update_vision':
     }else{
         include_once 'view_plataforma/update_vision.php';
     }break;
+case 'lugar_entrenamiento':
+    include_once 'view-elementos/lugar_entrenamiento.php';
+    break;
+
+
+    
 }
 ?>

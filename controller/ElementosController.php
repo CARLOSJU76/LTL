@@ -216,6 +216,20 @@
                     </form>";
         }
     }
+    public function insertLugar(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $lugar=$_POST['lugar'];
+            $id_pais= $_POST['pais'];
+            $id_dpto=$_POST['dpto'];
+            $id_pais=$_POST['pais'];
+
+            if($this->eleModel->insertLugar($lugar, $id_pais, $id_dpto, $id_pais)){
+                echo"<br><p style='color:orange;'>El Sitio de entrenamiento fué incluido exitosamente</p>";
+            }else{
+                echo"<p style='color:orange;'>Se presentó un error al tratar de incluir el lugar de entrenamiento. Intenta nuevamente.</p>";
+            }
+        }
+    }
 }
     
 
