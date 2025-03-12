@@ -251,6 +251,27 @@ public function getAgeCat(){//categoriaxEdad
                 return false;
             }
         }
+        public function listSessionbyTrainer($id_entrenador){
+            try{
+                $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
+                            entrenadores.apellidos AS apellidoE, lugar_entrenamiento.lugar AS sitio,
+                            sesiones.fecha AS fecha, sesiones.hora AS hora 
+                            FROM sesiones INNER JOIN entrenadores
+                            ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
+                            ON sesiones.id_lugar= lugar_entrenamiento.id
+                            WHERE entrenadores.id= ?";
+                    $resultado= $stmt= $this->conn->prepare($consulta);
+                        $stmt->execute([$id_entrenador]);
+                    if($resultado){
+                        return true;
+                    }else{
+                        return false;
+                    }
+            }catch(PDOException $e) {
+                error_log("Error al actualizar la visión: " . $e->getMessage());
+                return false;
+            }
+        }
         
        
         

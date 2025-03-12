@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventos y Calendarios</title>
+    <title>Sesiones de Entrenamiento</title>
 
     <!-- Incluir Bootstrap CSS -->
         <link rel="stylesheet" href="CSS/club_manage.css">
@@ -38,7 +38,7 @@
             <!-- Primera fila: Encabezado -->
                 <thead >
                     <tr >
-                        <th colspan="2" class="text-center" id="head-manage-club">Gestión de Eventos</th>
+                        <th colspan="2" class="text-center" id="head-manage-club">Sesiones de Entrenamiento</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +47,7 @@
                             <div class="form-group">
                                 <select name="action" id="repesentante" class="form-select form-select-lg" onchange="this.form.submit()">
                                     <option value="" disabled selected>Sesiones de Entrenamiento</option> <!-- Opción predeterminada -->
-                                    <option value="shedule_session">Programar Sesiones</option>
+                                    <option value="schedule_session">Programar Sesiones</option>
                                     <option value="list_sessions">Ver Sesiones programadas</option>
                                     <option value="historic_sessions">Histórico de sesiones</option>
                                     <option value="asistencias">Asistencias</option>                                                     

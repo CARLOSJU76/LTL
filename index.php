@@ -462,14 +462,21 @@ case 'delete_lugar':
 
 case 'trainer_manage':
             if($_SERVER['REQUEST_METHOD']=='GET'){
-                include 'view_sesiones/trainer_manage.php';
+                //include 'view_sesiones/trainer_manage.php';
+                include 'view_sesiones/trainer_m_opcional.php';
             }break;
-case 'shedule_session':
+case 'schedule_session':
             if($_SERVER['REQUEST_METHOD']=='POST'){
-               
+               $eleControl->insertSession();
             }else{
                 include_once 'view_sesiones/sesion_program.php';
-            }
-            break;
+            }break;
+case 'list_sessions':
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+            $eleControl->listSessionbyTrainer();
+        }else{
+            include_once 'view_sesiones/sesion_program.php';
+        }break;
+      
 }
 ?>

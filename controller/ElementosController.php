@@ -273,12 +273,20 @@
                     <form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
                         <button type='submit' name='action' value='principal'>Ir al inicio</button>
                     </form> 
-                    <form action='index.php?action=trainer_manage' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='pri'>Sitios de Entrenamiento</button>
+                    <form action='index.php?action=trainer_manage' method='get' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='trainer_manage'>Sitios de Entrenamiento</button>
                     </form>
                 </div>";
         }
+        
     }
+    public function listSessionbyTrainer(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $id_entrenador= $_POST['id_entrenador'];
+            $this->eleModel->listSessionbyTrainer($id_entrenador);
+        }
+    }
+    
 }
     
 
