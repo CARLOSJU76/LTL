@@ -223,6 +223,35 @@ public function getAgeCat(){//categoriaxEdad
             $stmt->execute([$id]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+        public function delete_lugar($id_lugar){
+           try{$consulta = "DELETE FROM lugar_entrenamiento where id = ?";
+            $resultado= $stmt=$this->conn->prepare($consulta);
+            $stmt->execute([$id_lugar]);
+            if($resultado){
+                return true;
+            }else{
+                return false;
+            }
+           }catch(PDOException $e) {
+                            error_log("Error al actualizar la visión: " . $e->getMessage());
+                            return false;
+           }
+        }public function insertSession($id_entrenador, $id_lugar, $fecha, $hora){
+            try{
+                $consulta="INSERT INTO sesiones (id_entrenador, id_lugar, fecha, hora) VALUES (?,?,?,?)";
+                $resultado= $stmt=$this->conn->prepare($consulta);
+                $stmt->execute([$id_entrenador, $id_lugar, $fecha, $hora]);
+                if($resultado){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch(PDOException $e) {
+                error_log("Error al actualizar la visión: " . $e->getMessage());
+                return false;
+            }
+        }
+        
        
         
 }

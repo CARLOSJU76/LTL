@@ -115,31 +115,10 @@
             <p style="color: yellow; font-style: italic;">No se encontraron lugares con ese nombre</p>
 
         <?php endif;?>
+</div> 
 
-            
-</div>
-<!-- ======================================================================================== -->
+<!-- ================================================================================================================================= -->
 
-<form action="index.php?action=search_lugar" method="get" class="form-insert">
-    <input type="hidden" name="action" value="search_lugar">
-    
-        
-        <select name="id_lugar" id="id_lugar" class="form-select" required>
-            <option value="">Elija un Sitio</option>
-            <?php
-                  
-                foreach($lugares as $lugar){
-                    echo"<option value='".htmlspecialchars($lugar['id'])."'>".
-                    htmlspecialchars($lugar['lugar']) .
-                    
-                    "</option>";
-                }
-            ?>
-        </select><br>
-        <input type="submit" value="Buscar Sitio de Entrenamiento" id="buscar_club">        
-    </form>
-    <label for="id_lugar">Seleccione el Deportista que desea revisar.</label>
-<!-- ======================================================================================== -->
 
 
     <form action="index.php?action=insert_lugar" method="post" class="form-insert">
@@ -167,9 +146,33 @@
                 </div>
 <!-- =============================================================================================================================== -->
             </div>
-            <button type="submit" class="form-botones" id="boton_submit">Guardar Datos</button>
+            <button type="submit" class="form-botones">Guardar Datos</button>
 
     </form>
+<!-- ================================================================================================================================ -->
+
+<form action="index.php?action=delete_lugar" method="post" class="form-insert">
+    <input type="hidden" name="action" value="delete_lugar">
+
+            <h2>Borrar lugar de Entrenamiento</h2>
+        
+        <select name="id_lugar" id="id_lugar" class="form-select" required>
+            <option value="">Elija el Sitio que desea excluir de la base de datos</option>
+            <?php
+                  
+                foreach($lugares as $lugar){
+                    echo"<option value='".htmlspecialchars($lugar['id'])."'>".
+                    htmlspecialchars($lugar['lugar']) .
+                    
+                    "</option>";
+                }
+            ?>
+        </select>
+        <input type="submit" value="Borrar" class="form-botones">        
+    </form>
+    <label for="id_lugar">Seleccione el Deportista que desea revisar.</label>
+<!-- ======================================================================================== -->
+
 
     <script src="JS/co-dpt-ci.js"></script>
 </body>

@@ -262,5 +262,7 @@ public function deleteEntrenador(){
         public function listE($id){
             return $this->depoModel->listEntrenadoresById($id);
         }
+      
+
 }
 ?>

@@ -241,7 +241,44 @@
         $id=$_GET['id_lugar']?? '';
     return $this->eleModel->buscarLugar($id);
     }
-    
+    public function deleteLugar(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $id_lugar= $_POST['id_lugar'];
+          if($this->eleModel->delete_lugar($id_lugar)){
+            echo"<br><p style='color:orange;'>El Sitio de entrenamiento excluido de la base de datos exitosamente</p>";
+          }else{
+            echo"<p style='color:orange;'>Se presentó un error al tratar de excluir el lugar de entrenamiento. Intenta nuevamente.</p>";
+          }
+            echo "<div style='display:flex; flex-direction: row;'><form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                    <button type='submit' name='action' value='principal'>Ir al inicio</button>
+                </form> 
+                <form action='index.php?action=lugar_entrenamiento' method='post' enctype='multipart/form-data'>
+                    <button type='submit' name='action' value='principal'>Sitios de Entrenamiento</button>
+                </form>
+                </div>";
+        }
+    }
+    public function insertSession(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $id_entrenador=$_POST['id_entrenador'];
+            $id_lugar=$_POST['id_lugar'];
+            $fecha=$_POST['fecha'];
+            $hora=$_POST['hora'];
+            if($this->eleModel->insertSession($id_entrenador, $id_lugar,$fecha, $hora)){
+                echo"<br><p style='color:orange;'>Se ha agregado la sesión exitosamente</p>";
+            }else{
+                echo"<p style='color:orange;'>Se presentó un error al tratar de excluir el lugar de entrenamiento. Intenta nuevamente.</p>";
+            }
+            echo "<div style='display:flex; flex-direction: row;'>
+                    <form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='principal'>Ir al inicio</button>
+                    </form> 
+                    <form action='index.php?action=trainer_manage' method='post' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='pri'>Sitios de Entrenamiento</button>
+                    </form>
+                </div>";
+        }
+    }
 }
     
 

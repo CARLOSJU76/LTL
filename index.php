@@ -455,5 +455,21 @@ case 'search_lugar':
         $lugares=$eleControl->listLugares();
         include_once 'view-elementos/lugar_entrenamiento.php';
         }break;
+case 'delete_lugar':
+        $eleControl->deleteLugar();
+        break;
+
+
+case 'trainer_manage':
+            if($_SERVER['REQUEST_METHOD']=='GET'){
+                include 'view_sesiones/trainer_manage.php';
+            }break;
+case 'shedule_session':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+               
+            }else{
+                include_once 'view_sesiones/sesion_program.php';
+            }
+            break;
 }
 ?>
