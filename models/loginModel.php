@@ -42,7 +42,7 @@
             }
 
             // Retornar los datos
-            array_push($datos, $opcion, $user1, $perfil);
+            array_push($datos, $opcion, $user1, $perfil, $email);
             return $datos;
         }
 //=============================================================================================     

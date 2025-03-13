@@ -25,6 +25,7 @@ class LoginController{
             $opcion = $array[0];
             $user1 = $array[1];
             $perfil = $array[2];
+            $email= $array[3];
 
             if($opcion=== 5){
                 $opcion=5;
@@ -32,6 +33,7 @@ class LoginController{
                 $estado = $this->loginModel->get_mail_verified($usuario);
                 if($estado === 1){
                     $opcion = 1;
+                    
                                  }else {
                     $opcion = -2;
                 }
@@ -39,10 +41,14 @@ class LoginController{
                 $opcion=0;
             }
 
-            $this->objeto->notifilogin($opcion, $user1, $perfil);
+            $this->objeto->notifilogin($opcion, $user1, $perfil, $email);
+            if($opcion===1){
+                session_start(); $_SESSION['email']=$email;
+                header('Location: ./index.php');
+            }
         }
     }
-    
+   
 //=================================================RECUPERACIÓN DE CONTRASEÑA============================
     public function recover_pass_request(){
         $error=0;
@@ -86,5 +92,14 @@ class LoginController{
     public function getPerfil($email){
         return $this->loginModel->getPerfil($email);
     }
+    public function get_email_user(){
+    // Verificar si se ha enviado el valor
+        if (isset($_POST['valor'])) {
+        $email_user = $_POST['valor'];
+
+        return $email_user;
+        
+        }
+    }  
 }
-?>           
+    ?>           

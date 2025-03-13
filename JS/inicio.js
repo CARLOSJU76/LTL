@@ -38,11 +38,13 @@ for_LOG.addEventListener('submit', function(event){
         mensajeLog.textContent= decodeURIComponent(datos.message);
         nombreUsuario=datos.nombre; 
         perfil= datos.perfil;
+        email_user= datos.email;
             
         
         if(datos.status=="success"){
             localStorage.setItem('sesionIniciada','true'); //metodo para establecer una matriz asociativa
             localStorage.setItem('ElUsuario', nombreUsuario); 
+            localStorage.setItem('email_user', email_user )
             localStorage.setItem('perfil', JSON.stringify(perfil));
                 
             alert(perfil);
@@ -57,6 +59,7 @@ for_LOG.addEventListener('submit', function(event){
         }, 3000);  
     })
     .catch(error => console.error('Error:', error));
+    getUser_email();
 })
 configInicio();
 
@@ -164,4 +167,30 @@ function cerrarSesion() {
             location.reload();
         }, 3000); 
     });
+}
+function getUser_email() {
+    // Obtener el valor almacenado en localStorage
+    let email_user = localStorage.getItem('email_user');
+
+    if (email_user) {
+        // Enviar el valor al servidor utilizando fetch
+        fetch('index.php?action=get_user_email', {
+            method: 'POST',  // Tipo de solicitud (POST)
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'  // Tipo de contenido
+            },
+            body: new URLSearchParams({
+                valor: email_user  // Enviar el valor como parámetro
+            })
+        })
+        .then(response => response.text())  // Convertir la respuesta a texto
+        .then(data => {
+            console.log('Respuesta del servidor:', data);
+        })
+        .catch(error => {
+            console.error('Error en la solicitud:', error);
+        });
+    } else {
+        console.log('No hay valor en localStorage');
+    }
 }

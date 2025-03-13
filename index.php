@@ -1,6 +1,6 @@
 <?php
+    
 
-   
     require_once 'controller/signupController.php';
     require_once 'controller/loginController.php';
     require_once 'controller/insertCommentsController.php';
@@ -49,6 +49,10 @@
             }else{
                 include './views/principal.php';
             }break;
+//===================================================================================
+        case 'get_user_email':            
+                $email_user=$loginController->get_email_user();
+                break;
 //====================================================================================
             case 'insert_comment':
             if($_SERVER['REQUEST_METHOD']=="POST"){

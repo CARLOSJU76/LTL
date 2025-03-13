@@ -30,6 +30,10 @@
 <body>
 
 <div id="contenedor-general">
+    <!-- <?php session_start();
+            $_SESSION['email_user']=$email_user;
+            echo $_SESSION['email_user'];
+    ?> -->
     <!-- En este punto comienza la barra creada con bootstrap -->
     <!-- ======================================================================================= -->
 
