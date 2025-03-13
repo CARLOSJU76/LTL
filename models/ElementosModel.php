@@ -236,7 +236,8 @@ public function getAgeCat(){//categoriaxEdad
                             error_log("Error al actualizar la visión: " . $e->getMessage());
                             return false;
            }
-        }public function insertSession($id_entrenador, $id_lugar, $fecha, $hora){
+        }
+        public function insertSession($id_entrenador, $id_lugar, $fecha, $hora){
             try{
                 $consulta="INSERT INTO sesiones (id_entrenador, id_lugar, fecha, hora) VALUES (?,?,?,?)";
                 $resultado= $stmt=$this->conn->prepare($consulta);
@@ -246,6 +247,29 @@ public function getAgeCat(){//categoriaxEdad
                 }else{
                     return false;
                 }
+            }catch(PDOException $e) {
+                error_log("Error al actualizar la visión: " . $e->getMessage());
+                return false;
+            }
+        }
+        public function listSessionByDate($fechaA, $fechaB){
+            try{
+                $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
+                            entrenadores.apellidos AS apellidoE, lugar_entrenamiento.lugar AS sitio,
+                            sesiones.fecha AS fecha, sesiones.hora AS hora 
+                            FROM sesiones INNER JOIN entrenadores
+                            ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
+                            ON sesiones.id_lugar= lugar_entrenamiento.id
+                            WHERE sesiones.fecha > ? AND 
+                            sesiones.fecha < ? ";
+                    $resultado= $stmt= $this->conn->prepare($consulta);
+                        $stmt->execute([$fechaA, $fechaB]);
+                        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+                    if($resultado){
+                        return true;
+                    }else{
+                        return false;
+                    }
             }catch(PDOException $e) {
                 error_log("Error al actualizar la visión: " . $e->getMessage());
                 return false;
@@ -262,6 +286,7 @@ public function getAgeCat(){//categoriaxEdad
                             WHERE entrenadores.id= ?";
                     $resultado= $stmt= $this->conn->prepare($consulta);
                         $stmt->execute([$id_entrenador]);
+                        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
                     if($resultado){
                         return true;
                     }else{
@@ -271,9 +296,8 @@ public function getAgeCat(){//categoriaxEdad
                 error_log("Error al actualizar la visión: " . $e->getMessage());
                 return false;
             }
-        }
         
        
-        
+    } 
 }
 ?>

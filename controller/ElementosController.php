@@ -283,7 +283,14 @@
     public function listSessionbyTrainer(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $id_entrenador= $_POST['id_entrenador'];
-            $this->eleModel->listSessionbyTrainer($id_entrenador);
+            return $this->eleModel->listSessionbyTrainer($id_entrenador);
+        }
+    }
+    public function listSessionByDate(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $fecha1= $_POST['fecha1'];
+            $fecha2= $_POST['fecha2'];
+            return $this->eleModel->listSessionByDate($fecha1,$fecha2);
         }
     }
     

@@ -471,12 +471,20 @@ case 'schedule_session':
             }else{
                 include_once 'view_sesiones/sesion_program.php';
             }break;
-case 'list_sessions':
+case 'list_sessionById':
       if($_SERVER['REQUEST_METHOD']=='POST'){
-            $eleControl->listSessionbyTrainer();
+            $sesiones=$eleControl->listSessionbyTrainer();
+            include_once 'view_sesiones/list_sesiones.php';
         }else{
-            include_once 'view_sesiones/sesion_program.php';
+            include_once 'view_sesiones/list_sesiones.php';
         }break;
+case 'list_sessionByFecha':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $sesiones=$eleControl->listSessionByDate();
+        include_once 'view_sesiones/list_sesionByFecha.php';
+    }else{
+        include_once 'view_sesiones/list_sesionByFecha.php';
+    }break;
       
 }
 ?>

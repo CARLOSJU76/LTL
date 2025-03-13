@@ -131,22 +131,9 @@
         <?php endif;?>     
                                                                                                                                                                                                                                                                                                         
                 
-        <form action="index.php? action=list_sessionById" method="post" style="width: 96%;" class="form-insert" id="formulario">
-            <select name="id_entrenador">
-            
-                    <option value="">Elija una Opción</option>
-                    <?php
-                        include_once 'controller/ElementosController.php';
-                        $objeto=new DeportistaController();
-                        $entrenadores=$objeto->listEntrenadores();
-                        foreach($entrenadores as $coach){
-                            echo"<option value='".htmlspecialchars($coach['id'])."'>".
-                            htmlspecialchars($coach['nombreE']).
-                            htmlspecialchars($coach['apellidoE']).
-                            ">";
-                        }
-                    ?>
-            </select>
+        <form action="index.php? action=list_sessionByFecha" method="post" style="width: 96%;" class="form-insert" id="formulario">
+        <input type="date" id="fecha1" name="fecha1" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" placeholder="fecha del evento" class="form-control" required>
+        <input type="date" id="fecha2" name="fecha2" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" placeholder="fecha del evento" class="form-control" required>
             <input type="submit" value="Buscar Sesiones" class="form-botones">
         </form>
 </div>  

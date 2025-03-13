@@ -77,8 +77,8 @@
             <li>
                 <a href="#">Ver Sesiones programadas</a>
                 <ul class="submenu1">
-                    <li><a href="#">Buscar sesión por entrenador</a></li>
-                    <li><a href="#">Buscar sesión por fecha</a></li>
+                    <li><a href="#" data-value="list_sessionById">Buscar sesión por entrenador</a></li>
+                    <li><a href="#" data-value="list_sessionByFecha">Buscar sesión por fecha</a></li>
                     <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li>
                 </ul>
             </li>
@@ -108,17 +108,30 @@
         });
     });
 //=================================================================================================
-document.querySelectorAll('.menu a').forEach(item => {
-        item.addEventListener('click', function(event) {
-            event.preventDefault(); // Evitar que el enlace navegue por defecto
+// document.querySelectorAll('.menu a').forEach(item => {
+//         item.addEventListener('click', function(event) {
+//             event.preventDefault(); // Evitar que el enlace navegue por defecto
             
-            const selectedValue = this.getAttribute('data-value'); // Capturar el valor seleccionado
-            if (selectedValue) {
-                document.getElementById('actionInput').value = selectedValue; // Asignar el valor al campo oculto
-                document.getElementById('menuForm').submit(); // Enviar el formulario
-            }
-        });
+//             const selectedValue = this.getAttribute('data-value'); // Capturar el valor seleccionado
+//             if (selectedValue) {
+//                 document.getElementById('actionInput').value = selectedValue; // Asignar el valor al campo oculto
+//                 document.getElementById('menuForm').submit(); // Enviar el formulario
+//             }
+//         });
+//     });
+
+document.querySelectorAll('.menu a, .submenu a, .submenu1 a').forEach(item => {
+    item.addEventListener('click', function(event) {
+        event.preventDefault(); // Evitar que el enlace navegue por defecto
+        
+        const selectedValue = this.getAttribute('data-value'); // Capturar el valor seleccionado
+        if (selectedValue) {
+            document.getElementById('actionInput').value = selectedValue; // Asignar el valor al campo oculto
+            document.getElementById('menuForm').submit(); // Enviar el formulario
+        }
     });
+});
+
 </script>
 
 </body>
