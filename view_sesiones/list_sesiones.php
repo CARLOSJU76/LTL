@@ -100,6 +100,9 @@
 
 <body>
 <div class="form-insert">
+<!-- <?php 
+            echo "<p style='background-color: withe; color: red; width: 10%;'>". $_SESSION['email']."</p>";
+    ?> -->
     <?php if(isset($sesiones) && count($sesiones)>0):?>
         <h2>Sesiones encontradas:</h2>
         <table>
@@ -143,7 +146,7 @@
                             echo"<option value='".htmlspecialchars($coach['id'])."'>".
                             htmlspecialchars($coach['nombreE']).
                             htmlspecialchars($coach['apellidoE']).
-                            ">";
+                            "</option>";
                         }
                     ?>
             </select>

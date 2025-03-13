@@ -18,6 +18,7 @@
     $depoControl= new DeportistaController();
     $eleControl= new ElementosController();
     $eventControl= new EventController();
+    $email_user= $loginController->get_email_user();
 
     $fechaHora = new DateTime();
     $fechaHora->setTimezone(new DateTimeZone('America/Bogota'));

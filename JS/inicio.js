@@ -47,7 +47,7 @@ for_LOG.addEventListener('submit', function(event){
             localStorage.setItem('email_user', email_user )
             localStorage.setItem('perfil', JSON.stringify(perfil));
                 
-            alert(perfil);
+            alert("email_user="+localStorage.getItem('email_user'));
                
             mensajeLog.className='success'; 
         }else{         
@@ -174,7 +174,7 @@ function getUser_email() {
 
     if (email_user) {
         // Enviar el valor al servidor utilizando fetch
-        fetch('index.php?action=get_user_email', {
+        fetch('index2.php', {
             method: 'POST',  // Tipo de solicitud (POST)
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'  // Tipo de contenido
