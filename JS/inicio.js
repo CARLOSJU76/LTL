@@ -6,6 +6,7 @@ let con_comentarios= document.getElementById('contenedor_comentarios');
 var for_LOG= document.getElementById('formulario_LOGIN');
 let mensajeLog=document.getElementById('mensaje_LOGIN');
 let nombreUsuario="";
+let emailUser="";
 let perfil_input= document.getElementById('perfil_de_usuario');
 let perfil1 =JSON.parse(localStorage.getItem('perfil'));
 
@@ -38,17 +39,16 @@ for_LOG.addEventListener('submit', function(event){
         mensajeLog.textContent= decodeURIComponent(datos.message);
         nombreUsuario=datos.nombre; 
         perfil= datos.perfil;
-        email_user= datos.email;
+        emailUser= datos.email;
             
         
         if(datos.status=="success"){
             localStorage.setItem('sesionIniciada','true'); //metodo para establecer una matriz asociativa
             localStorage.setItem('ElUsuario', nombreUsuario); 
-            localStorage.setItem('email_user', email_user )
+            localStorage.setItem('UserEmail',emailUser);
             localStorage.setItem('perfil', JSON.stringify(perfil));
                 
-            alert("email_user="+localStorage.getItem('email_user'));
-               
+          alert(localStorage.getItem('UserEmail'));
             mensajeLog.className='success'; 
         }else{         
             mensajeLog.className='error';
@@ -59,7 +59,7 @@ for_LOG.addEventListener('submit', function(event){
         }, 3000);  
     })
     .catch(error => console.error('Error:', error));
-    getUser_email();
+    
 })
 configInicio();
 
@@ -168,29 +168,4 @@ function cerrarSesion() {
         }, 3000); 
     });
 }
-function getUser_email() {
-    // Obtener el valor almacenado en localStorage
-    let email_user = localStorage.getItem('email_user');
 
-    if (email_user) {
-        // Enviar el valor al servidor utilizando fetch
-        fetch('index2.php', {
-            method: 'POST',  // Tipo de solicitud (POST)
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'  // Tipo de contenido
-            },
-            body: new URLSearchParams({
-                valor: email_user  // Enviar el valor como parámetro
-            })
-        })
-        .then(response => response.text())  // Convertir la respuesta a texto
-        .then(data => {
-            console.log('Respuesta del servidor:', data);
-        })
-        .catch(error => {
-            console.error('Error en la solicitud:', error);
-        });
-    } else {
-        console.log('No hay valor en localStorage');
-    }
-}

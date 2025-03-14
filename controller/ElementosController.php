@@ -293,7 +293,10 @@
             return $this->eleModel->listSessionByDate($fecha1,$fecha2);
         }
     }
-    
+    public function listYourSessions(){
+        $email=$_GET['user_email'] ?? '';
+        return $this->eleModel->listYourSessions($email);
+    }
 }
     
 

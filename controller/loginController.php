@@ -42,10 +42,7 @@ class LoginController{
             }
 
             $this->objeto->notifilogin($opcion, $user1, $perfil, $email);
-            if($opcion===1){
-                session_start(); $_SESSION['email']=$email;
-                header('Location: ./index.php');
-            }
+          
         }
     }
    

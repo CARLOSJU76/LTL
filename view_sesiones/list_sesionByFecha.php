@@ -126,7 +126,7 @@
             </tbody>
         </table>
         <?php elseif(isset($sesiones)):?>
-            <p style="color: yellow; font-style: italic;">No se encontraron sesiones dirigidas por el entrenador</p>
+            <p style="color: yellow; font-style: italic;">No se encontraron sesiones programnadas en ese rango de tiempo</p>
 
         <?php endif;?>     
                                                                                                                                                                                                                                                                                                         

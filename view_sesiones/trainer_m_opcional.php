@@ -69,6 +69,7 @@
 <!-- Menú con submenú -->
 <form action="index.php?" method="get" id="menuForm">
 <input type="hidden" name="action" id="actionInput">
+<input type="hidden" name="user_email" id="user_email">
 <ul class="menu">
     <li>
         <a href="#">Sesiones de Entrenamiento</a>
@@ -77,7 +78,7 @@
             <li>
                 <a href="#">Ver Sesiones programadas</a>
                 <ul class="submenu1">
-                    <li><a href="#" data-value="list_sessionById">Buscar sesión por entrenador</a></li>
+                    <li><a href="#" data-value="list_your_sessions">Buscar sesión por entrenador</a></li>
                     <li><a href="#" data-value="list_sessionByFecha">Buscar sesión por fecha</a></li>
                     <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li>
                 </ul>
@@ -92,41 +93,18 @@
 
 
 <script>
-    // Manejo de eventos para capturar el valor 'data-value'
-    document.querySelectorAll('.menu a').forEach(item => {
-        item.addEventListener('click', function(event) {
-            event.preventDefault(); // Evitar que el enlace navegue por defecto
-            const selectedValue = this.getAttribute('data-value');
-            console.log('Opción seleccionada:', selectedValue);
-
-            // Aquí puedes hacer lo que necesites con el valor seleccionado
-            // Por ejemplo, podrías enviar el valor con un formulario, cambiar el contenido de la página, etc.
-
-            // Si estás usando un formulario, podrías hacer algo como:
-            // document.getElementById('inputHidden').value = selectedValue;
-            // document.getElementById('myForm').submit();
-        });
-    });
 //=================================================================================================
-// document.querySelectorAll('.menu a').forEach(item => {
-//         item.addEventListener('click', function(event) {
-//             event.preventDefault(); // Evitar que el enlace navegue por defecto
-            
-//             const selectedValue = this.getAttribute('data-value'); // Capturar el valor seleccionado
-//             if (selectedValue) {
-//                 document.getElementById('actionInput').value = selectedValue; // Asignar el valor al campo oculto
-//                 document.getElementById('menuForm').submit(); // Enviar el formulario
-//             }
-//         });
-//     });
+
 
 document.querySelectorAll('.menu a, .submenu a, .submenu1 a').forEach(item => {
     item.addEventListener('click', function(event) {
         event.preventDefault(); // Evitar que el enlace navegue por defecto
-        
+        alert(localStorage.getItem('user_email'));
         const selectedValue = this.getAttribute('data-value'); // Capturar el valor seleccionado
         if (selectedValue) {
-            document.getElementById('actionInput').value = selectedValue; // Asignar el valor al campo oculto
+            email_usuario=localStorage.getItem('user_email');
+            document.getElementById('actionInput').value = selectedValue;
+            document.getElementById('user_email').value= email_usuario;
             document.getElementById('menuForm').submit(); // Enviar el formulario
         }
     });
