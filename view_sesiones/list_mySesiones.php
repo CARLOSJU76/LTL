@@ -32,6 +32,7 @@
     }
     .form-insert{
         width: 90%;
+       
         display:flex;
         flex-direction: column;
         align-items: center;
@@ -111,6 +112,7 @@
                     <th>Entrenador</th>
                     <th>Fecha</th>
                     <th>Hora</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -119,7 +121,7 @@
                    
                     <td> <?=$sesion['id']?></td>
                     <td class="lugar"> <?=$sesion['sitio']?></td>
-                    <td> <?=$sesion['nombreE']?></td>
+                    <td> <?=$sesion['nombreE']?> <?= $sesion['apellidoE']?></td>
                     <td> <?=$sesion['fecha']?></td>
                     <td> <?=$sesion['hora']?></td>
                     <td>
@@ -133,30 +135,19 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+       
         <?php elseif(isset($sesiones)):?>
-            <p style="color: yellow; font-style: italic;">No se encontraron sesiones dirigidas por el entrenador</p>
+            <p style="color: yellow; font-style: italic;">No tienes sesiones programadas</p>
 
-        <?php endif;?>     
-                                                                                                                                                                                                                                                                                                        
-                
-        <form action="index.php? action=list_sessionById" method="post" style="width: 96%;" class="form-insert" id="formulario">
-            <select name="id_entrenador">
-            
-                    <option value="">Elija una Opción</option>
-                    <?php
-                        include_once 'controller/ElementosController.php';
-                        $objeto=new DeportistaController();
-                        $entrenadores=$objeto->listEntrenadores();
-                        foreach($entrenadores as $coach){
-                            echo"<option value='".htmlspecialchars($coach['id'])."'>".
-                            htmlspecialchars($coach['nombreE']).
-                            htmlspecialchars($coach['apellidoE']).
-                            "</option>";
-                        }
-                    ?>
-            </select>
-            <input type="submit" value="Buscar Sesiones" class="form-botones">
-        </form>
+        <?php endif;?> 
+        <div style='display:flex; flex-direction: row;'>
+            <form action='index.php?action=principal' method='post'>
+                <button type='submit' name='action' value='principal'>Ir al inicio</button>
+            </form> 
+            <form action='index.php?action=trainer_manage' method='get'>
+                <button type='submit' name='action' value='trainer_manage'>Sesiones de Entrenamiento</button>
+            </form>
+        </div>    
 </div>  
 </body>
 </html>

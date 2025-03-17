@@ -260,11 +260,11 @@
     }
     public function insertSession(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            $id_entrenador=$_POST['id_entrenador'];
+            $email_entrenador=$_POST['user_email'];
             $id_lugar=$_POST['id_lugar'];
             $fecha=$_POST['fecha'];
             $hora=$_POST['hora'];
-            if($this->eleModel->insertSession($id_entrenador, $id_lugar,$fecha, $hora)){
+            if($this->eleModel->insertSession($email_entrenador, $id_lugar,$fecha, $hora)){
                 echo"<br><p style='color:orange;'>Se ha agregado la sesión exitosamente</p>";
             }else{
                 echo"<p style='color:orange;'>Se presentó un error al tratar de excluir el lugar de entrenamiento. Intenta nuevamente.</p>";
@@ -274,7 +274,7 @@
                         <button type='submit' name='action' value='principal'>Ir al inicio</button>
                     </form> 
                     <form action='index.php?action=trainer_manage' method='get' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='trainer_manage'>Sitios de Entrenamiento</button>
+                        <button type='submit' name='action' value='trainer_manage'>Administrados de Sesiones</button>
                     </form>
                 </div>";
         }
@@ -288,6 +288,7 @@
     }
     public function listSessionByDate(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
+          
             $fecha1= $_POST['fecha1'];
             $fecha2= $_POST['fecha2'];
             return $this->eleModel->listSessionByDate($fecha1,$fecha2);
@@ -297,6 +298,61 @@
         $email=$_GET['user_email'] ?? '';
         return $this->eleModel->listYourSessions($email);
     }
+    public function listSessionsForAttendance($hoy){
+        $email=$_GET['user_email']??'';
+        return $this->eleModel->listYourSession_for_Attendance($hoy, $email);
+    }
+    public function deleteSession(){
+        if($_SERVER['REQUEST_METHOD']='POST'){
+            $id=$_POST['id'];
+            if($this->eleModel->deleteSession($id)){
+                echo "<br><p style='color:orange;'>Se ha eliminado la sesión de entrenamiento.</p>";
+            }else{
+                echo"<br><p style='color:orange;'>Hubo un error al tratar de elminar la sesión de entrenamiento.</p>";
+            }
+            echo "<div style='display:flex; flex-direction: row;'>
+                    <form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='principal'>Ir al inicio</button>
+                    </form> 
+                    <form action='index.php?action=list_your_sessions' method='get' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='list_your_sessions'>Sesiones de Entrenamiento</button>
+                    </form>
+                </div>";
+        }
+    }
+    public function registrarAsistencia() {
+        // Verificamos si el método de la solicitud es POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+            // Obtenemos los datos del formulario
+            $id_sesion = $_POST['id_sesion'];
+            $id_deportistas = isset($_POST['id_deportista']) ? $_POST['id_deportista'] : []; // Obtenemos el array de deportistas (si existe)
+    
+            // Verificamos si se ha seleccionado algún deportista
+            if (empty($id_deportistas)) {
+                echo "<br><p style='color:red;'>Debe seleccionar al menos un deportista.</p>";
+                return;
+            }
+    
+            // Llamamos al método del modelo para registrar la asistencia
+            if ($this->eleModel->registrarAsistencia($id_sesion, $id_deportistas)) {
+                echo "<br><p style='color:green;'>Se ha registrado la asistencia para los deportistas seleccionados en la sesión de entrenamiento.</p>";
+            } else {
+                echo "<br><p style='color:red;'>Hubo un error al tratar de registrar la asistencia.</p>";
+            }
+    
+            // Mostrar botones de navegación
+            echo "<div style='display:flex; flex-direction: row;'>
+                    <form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='principal'>Ir al inicio</button>
+                    </form>
+                    <form action='index.php?action=list_your_sessions' method='get' enctype='multipart/form-data'>
+                        <button type='submit' name='action' value='list_your_sessions'>Sesiones de Entrenamiento</button>
+                    </form>
+                </div>";
+        }
+    }
+    
 }
     
 

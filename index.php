@@ -500,7 +500,18 @@ case 'list_sessionByFecha':
     }break;
 case 'list_your_sessions':
     $sesiones=$eleControl->listYourSessions();
-    include_once 'view_sesiones/list_sesiones.php';
+    include_once 'view_sesiones/list_mySesiones.php';
     break;
+case 'delete_session':
+    $eleControl->deleteSession();
+    break;
+case 'attendance_register':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $eleControl->registrarAsistencia();
+    }else{
+        $sesiones= $eleControl->listSessionsForAttendance($fechaA);
+    $deports= $depoControl->listDeportistas();
+    include_once 'view_sesiones/registro_asistencias.php';
+    }break;
 }
 ?>

@@ -12,14 +12,23 @@
             width: 100%;height: 100%;
             margin:0;padding:0;
         }
-        form{
-            margin-top: 10%;
-            width: 60%;
+        #contenedor-general{
+            margin-top: 5%;
+            width: 50%;
             display: flex; flex-direction: column;
             align-items: center;
             justify-content:space-around; background-color: #4A0D0D;
-            aspect-ratio: 2/1;
             border: solid gold 1px;
+            border-radius: 3px;
+        }
+        form{
+            margin-top: 2%;
+            width: 80%;
+            display: flex; flex-direction: column;
+            align-items: center;
+            justify-content:space-around; background-color: transparent;
+            aspect-ratio: 2/1;
+            
         }
         h2{
             color: white; font-family: Arial, Helvetica, sans-serif; font-style: italic;
@@ -44,16 +53,39 @@
         }
         #submit{
             width: 60%;
-            background-color: transparent; border: solid gold 2px; border-radius: 3px;
+            background-color: transparent; border: solid gold 0.1rem; border-radius: 3px;
             color: gold;
             font-family: Arial, Helvetica, sans-serif; font-style: italic; font-size:1vw;
+            letter-spacing: 0.3rem;
         }
+        .boton-sub{
+        width: 98%;
+        background-color: transparent;
+        border: solid gold 0.1rem;
+        font-size:0.8rem;
+        border-radius: 3px;
+        margin:1rem;
+      
+        padding:0.3rem;
+        color:gold;
+        font-family: 'Courier New', Courier, monospace;
+        font-style: italic;
+        margin:3px;
+    }
+    #boton1{
+        width: 35%;
+    }
+    #boton2{
+        width: 65%;
+    }
 
     </style>
 <body>
+<div id="contenedor-general">
     <form action="index.php?action=schedule_session" method="post">
-        <h2>Programación de Entrenamiento</h2>
-        <select name="id_entrenador">
+        <h2 style="letter-spacing:0.3rem; font-weight:100;">Programación de Entrenamiento</h2>
+        <input type="hidden" name="user_email" value="<?= $_GET['user_email'] ?? '' ?>">
+        <!-- <select name="id_entrenador">
             <option value="">Elija un entrenador de la lista</option>
             <?php
                 include_once 'controller/ClubController.php';
@@ -67,7 +99,7 @@
                     "</option>";
                 }
             ?>
-        </select>
+        </select> -->
 <!--===================================================================================-->
         <select name="id_lugar">
             <option value="">Elija un Sitio de Entrenamiento</option>
@@ -99,5 +131,13 @@
 <!--===================================================================================-->
         <input type="submit" value="Programar Entrenamiento" id="submit">
     </form>
+    <div style='display:flex; flex-direction: row; width:50%;' >
+            <form action='index.php?action=principal' method='post' id="boton1">
+                <button type='submit' name='action' value='principal'  class="boton-sub">Ir al inicio</button>
+            </form> 
+            <form action='index.php?action=trainer_manage' method='get' id="boton2">
+                <button type='submit' name='action' value='trainer_manage' class="boton-sub">Sesiones de Entrenamiento</button>
+            </form>
+    </div>
 </body>
 </html>

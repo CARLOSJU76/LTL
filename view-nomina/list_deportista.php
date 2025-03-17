@@ -177,7 +177,7 @@ label{
     <!-- BOTON PARA ELIMINAR=========================================================================================================== -->
     <form action="index.php?action=delete_deportista" method="get" class="form-botones">
         <input type="hidden" name="id_dep" value="<?= $_GET['id_dep'] ?? '' ?>">
-        <button type="submit" name="action" value="delete_deportista" class="botones">Desvincular Deportista</button>
+        <button type="submit" name="action" value="delete_deportista" class="botones" onclick="return confirm('¿Estás seguro de que deseas excluir este deportista del sistema')">Desvincular Deportista</button>
     </form>
 <!-- ==== RESULTADOS DE LA CONSULTA==================================================================================================== -->
     <form action="index.php?action=sport_manage" method='get' enctype="multipart/form-data" class="form-botones">

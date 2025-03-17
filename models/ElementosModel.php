@@ -237,11 +237,11 @@ public function getAgeCat(){//categoriaxEdad
                             return false;
            }
         }
-        public function insertSession($id_entrenador, $id_lugar, $fecha, $hora){
+        public function insertSession($email_entrenador, $id_lugar, $fecha, $hora){
             try{
-                $consulta="INSERT INTO sesiones (id_entrenador, id_lugar, fecha, hora) VALUES (?,?,?,?)";
+                $consulta="INSERT INTO sesiones (email_entrenador, id_lugar, fecha, hora) VALUES (?,?,?,?)";
                 $resultado= $stmt=$this->conn->prepare($consulta);
-                $stmt->execute([$id_entrenador, $id_lugar, $fecha, $hora]);
+                $stmt->execute([$email_entrenador, $id_lugar, $fecha, $hora]);
                 if($resultado){
                     return true;
                 }else{
@@ -255,13 +255,14 @@ public function getAgeCat(){//categoriaxEdad
         public function listSessionByDate($fechaA, $fechaB){
             try{
                 $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
-                            entrenadores.apellidos AS apellidoE, lugar_entrenamiento.lugar AS sitio,
+                            entrenadores.apellidos AS apellidoE, sesiones.email_entrenador AS email, 
+                            lugar_entrenamiento.lugar AS sitio,
                             sesiones.fecha AS fecha, sesiones.hora AS hora 
                             FROM sesiones INNER JOIN entrenadores
                             ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
                             ON sesiones.id_lugar= lugar_entrenamiento.id
-                            WHERE sesiones.fecha > ? AND 
-                            sesiones.fecha < ? ";
+                            WHERE sesiones.fecha >= ? AND 
+                            sesiones.fecha <= ?  ORDER BY fecha ASC";
                     $resultado= $stmt= $this->conn->prepare($consulta);
                         $stmt->execute([$fechaA, $fechaB]);
                         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
@@ -283,7 +284,7 @@ public function getAgeCat(){//categoriaxEdad
                             FROM sesiones INNER JOIN entrenadores
                             ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
                             ON sesiones.id_lugar= lugar_entrenamiento.id
-                            WHERE entrenadores.id= ?";
+                            WHERE sesiones.id_entrenador= ?";
                     $resultado= $stmt= $this->conn->prepare($consulta);
                         $stmt->execute([$id_entrenador]);
                         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
@@ -303,9 +304,9 @@ public function getAgeCat(){//categoriaxEdad
                         entrenadores.apellidos AS apellidoE, lugar_entrenamiento.lugar AS sitio,
                         sesiones.fecha AS fecha, sesiones.hora AS hora 
                         FROM sesiones INNER JOIN entrenadores
-                        ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
+                        ON entrenadores.email= sesiones.email_entrenador INNER JOIN lugar_entrenamiento
                         ON sesiones.id_lugar= lugar_entrenamiento.id
-                        WHERE entrenadores.email= ?";
+                        WHERE sesiones.email_entrenador= ?";
                 $resultado= $stmt= $this->conn->prepare($consulta);
                     $stmt->execute([$email]);
                     return $stmt->fetchAll(PDO::FETCH_ASSOC); 
@@ -318,9 +319,87 @@ public function getAgeCat(){//categoriaxEdad
             error_log("Error al actualizar la visión: " . $e->getMessage());
             return false;
         }
+    }
+    public function listYourSession_for_Attendance($hoy,$email) {
+        try{$consulta="SELECT codigo, fecha, hora FROM sesiones WHERE fecha= ? AND email_entrenador=?";
+            $resultado= $stmt=$this->conn->prepare($consulta);
+            $stmt->execute([$hoy, $email]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if($resultado){
+                    return true;
+                }else{
+                    return false;
+                }
+        }catch(PDOException $e) {
+            error_log("Error al actualizar la visión: " . $e->getMessage());
+            return false;
+        }
+    }
+    public function deleteSession($id){
+        try{$consulta="DELETE FROM sesiones WHERE codigo= ?";
+            $resultado= $stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$id]);
+            if($resultado){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(PDOException $e) {
+            error_log("Error al tratar de borrar la sesión programada: " . $e->getMessage());
+            return false;
+        }
+    }
+    public function registrarAsistencia($id_sesion, $id_deportistas) {
+        try {
+            // Iniciar la transacción
+            $this->conn->beginTransaction();
     
-   
-} 
+            // Preparar la consulta para verificar si ya existe una entrada en la base de datos
+            $consultaVerificacion = "SELECT COUNT(*) FROM asistencia WHERE codigo_sesion = ? AND id_deportista = ?";
+            $stmtVerificacion = $this->conn->prepare($consultaVerificacion);
+    
+            // Preparar la consulta de inserción
+            $consultaInsercion = "INSERT INTO asistencia (codigo_sesion, id_deportista) VALUES (?, ?)";
+            $stmtInsercion = $this->conn->prepare($consultaInsercion);
+    
+            // Variable para contar cuántos registros fueron insertados
+            $registrosInsertados = 0;
+    
+            // Recorrer los deportistas seleccionados
+            foreach ($id_deportistas as $id_deportista) {
+                // Verificar si el deportista ya está registrado en la sesión
+                $stmtVerificacion->execute([$id_sesion, $id_deportista]);
+                $existe = $stmtVerificacion->fetchColumn();
+    
+                if ($existe == 0) {  // Si no existe el registro
+                    // Ejecutar la inserción
+                    $resultado = $stmtInsercion->execute([$id_sesion, $id_deportista]);
+                    if ($resultado) {
+                        $registrosInsertados++;
+                    }
+                }
+            }
+    
+            // Si se insertaron registros, confirmar la transacción
+            if ($registrosInsertados > 0) {
+                $this->conn->commit();
+                return true;
+            } else {
+                // Si no se insertaron registros (todos estaban duplicados), revertir la transacción
+                $this->conn->rollBack();
+                return false;
+            }
+    
+        } catch (PDOException $e) {
+            // Si ocurre un error, revertir la transacción
+            $this->conn->rollBack();
+            error_log("Error al tratar de registrar la asistencia: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    
+    
 
 }
 ?>
