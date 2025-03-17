@@ -86,12 +86,14 @@
             min-width: 200px; /* Asegura que el submenú tenga un ancho mínimo */
             z-index: 1; /* Hace que el submenú esté por encima de otros elementos */
             border: solid gold 1px;
+          
         }
 
         .submenu li a {
             padding: 10px;
             background-color: #f9f9f9;
             width: 20rem;
+            font-size: 0.6rem;
         }
 
         .submenu li a:hover {
@@ -160,10 +162,11 @@
             <li>
                 <a href="#">Asistencias</a>
                 <ul class="submenu1">
+                   
                     <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value=""> </a></li>
-                    <li><a href="#" data-value=""> </a></li>
+                    <li><a href="#" data-value="list_workout_byFecha">Listar Entrenamientos por fecha</a></li>
                     <li><a href="#" data-value="attendance_register">Tomar Asistencia</a></li>
                     <!-- <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li> -->
                     <!-- <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li> -->

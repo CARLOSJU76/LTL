@@ -513,5 +513,12 @@ case 'attendance_register':
     $deports= $depoControl->listDeportistas();
     include_once 'view_sesiones/registro_asistencias.php';
     }break;
+case 'list_workout_byFecha':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $workouts= $eleControl->listWorkOutsByFecha();
+        include_once 'view_sesiones/list_workOuts_by_fecha.php';
+    }else{ 
+        include_once 'view_sesiones/list_workOuts_by_fecha.php';
+    }break;
 }
 ?>

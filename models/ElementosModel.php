@@ -276,6 +276,7 @@ public function getAgeCat(){//categoriaxEdad
                 return false;
             }
         }
+//===================================Esta función para perfil Deportista:===============
         public function listSessionbyTrainer($id_entrenador){
             try{
                 $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
@@ -298,6 +299,7 @@ public function getAgeCat(){//categoriaxEdad
                 return false;
             }
     } 
+//=====================================================================================
     public function listYourSessions($email){
         try{
             $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
@@ -397,9 +399,34 @@ public function getAgeCat(){//categoriaxEdad
             return false;
         }
     }
-    
-    
+    public function listWorkOuts($fecha1, $fecha2){
+        try{
+        $consulta= "SELECT asistencia.codigo AS id, sesiones.fecha AS fecha, 
+                    sesiones.hora AS hora, lugar_entrenamiento.lugar AS lugar,
+                    entrenadores.nombres AS nombreE, entrenadores.apellidos AS apellidoE,
+                    COUNT(asistencia.codigo) AS total_asistentes
+                    FROM asistencia INNER JOIN sesiones 
+                    ON asistencia.codigo_sesion=sesiones.codigo 
+                    INNER JOIN lugar_entrenamiento ON sesiones.id_lugar= lugar_entrenamiento.id
+                    INNER JOIN entrenadores ON sesiones.id_entrenador= entrenadores.id 
+                    WHERE fecha >= ? AND fecha<=? GROUP BY sesiones.codigo";
+        
+            $resultado= $stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$fecha1, $fecha2]);
+                    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    if($resultado){
+                        return true;
+                    }else{
+                        return false;
+                    }
+
+            }catch (PDOException $e) {
+           
+                error_log("Error al tratar de obtener los registros." . $e->getMessage());
+                return false;
+            }
+    }
+    }
     
 
-}
 ?>

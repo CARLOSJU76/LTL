@@ -338,7 +338,7 @@
             if ($this->eleModel->registrarAsistencia($id_sesion, $id_deportistas)) {
                 echo "<br><p style='color:green;'>Se ha registrado la asistencia para los deportistas seleccionados en la sesión de entrenamiento.</p>";
             } else {
-                echo "<br><p style='color:red;'>Hubo un error al tratar de registrar la asistencia.</p>";
+                echo "<br><p style='color:red;'>Hubo un error: Deportistas ya se encuentran registrados en esta sesión de entrenamieno.</p>";
             }
     
             // Mostrar botones de navegación
@@ -347,9 +347,16 @@
                         <button type='submit' name='action' value='principal'>Ir al inicio</button>
                     </form>
                     <form action='index.php?action=list_your_sessions' method='get' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='list_your_sessions'>Sesiones de Entrenamiento</button>
+                        <button type='submit' name='action' value='trainer_manage'>Administrador de Sesiones</button>
                     </form>
                 </div>";
+        }
+    }
+    public function listWorkOutsByFecha(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $fecha1= $_POST['fecha1'];
+            $fecha2= $_POST['fecha2'];
+            return $this->eleModel->listWorkOuts($fecha1, $fecha2);
         }
     }
     
