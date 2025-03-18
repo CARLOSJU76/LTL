@@ -294,9 +294,9 @@
             return $this->eleModel->listSessionByDate($fecha1,$fecha2);
         }
     }
-    public function listYourSessions(){
+    public function listYourSessions($fechaA,$horaA){
         $email=$_GET['user_email'] ?? '';
-        return $this->eleModel->listYourSessions($email);
+        return $this->eleModel->listYourSessions($email,$fechaA,$fechaA,$horaA);
     }
     public function listSessionsForAttendance($hoy){
         $email=$_GET['user_email']??'';

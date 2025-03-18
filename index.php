@@ -499,7 +499,7 @@ case 'list_sessionByFecha':
         include_once 'view_sesiones/list_sesionByFecha.php';
     }break;
 case 'list_your_sessions':
-    $sesiones=$eleControl->listYourSessions();
+    $sesiones=$eleControl->listYourSessions($fechaA, $horaA);
     include_once 'view_sesiones/list_mySesiones.php';
     break;
 case 'delete_session':

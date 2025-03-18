@@ -285,7 +285,7 @@ public function getAgeCat(){//categoriaxEdad
                             FROM sesiones INNER JOIN entrenadores
                             ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
                             ON sesiones.id_lugar= lugar_entrenamiento.id
-                            WHERE sesiones.id_entrenador= ?";
+                            WHERE sesiones.id_entrenador= ? ORDER BY sesiones. ASC, sesiones.hora ASC";
                     $resultado= $stmt= $this->conn->prepare($consulta);
                         $stmt->execute([$id_entrenador]);
                         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
@@ -300,7 +300,7 @@ public function getAgeCat(){//categoriaxEdad
             }
     } 
 //=====================================================================================
-    public function listYourSessions($email){
+    public function listYourSessions($email,$fechaA,$horaA){
         try{
             $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
                         entrenadores.apellidos AS apellidoE, lugar_entrenamiento.lugar AS sitio,
@@ -308,9 +308,11 @@ public function getAgeCat(){//categoriaxEdad
                         FROM sesiones INNER JOIN entrenadores
                         ON entrenadores.email= sesiones.email_entrenador INNER JOIN lugar_entrenamiento
                         ON sesiones.id_lugar= lugar_entrenamiento.id
-                        WHERE sesiones.email_entrenador= ?";
+                        WHERE sesiones.email_entrenador= ?  AND (sesiones.fecha > ?
+                        OR (sesiones.fecha = ? AND sesiones.hora >= ?))
+                        ORDER BY sesiones.fecha ASC, sesiones.hora ASC";
                 $resultado= $stmt= $this->conn->prepare($consulta);
-                    $stmt->execute([$email]);
+                    $stmt->execute([$email, $fechaA, $fechaA,$horaA]);
                     return $stmt->fetchAll(PDO::FETCH_ASSOC); 
                 if($resultado){
                     return true;
