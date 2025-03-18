@@ -298,6 +298,12 @@
         $email=$_GET['user_email'] ?? '';
         return $this->eleModel->listYourSessions($email,$fechaA,$fechaA,$horaA);
     }
+    public function listSessionsBySite($fechaA, $horaA){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $id_lugar=$_POST['id_lugar'];
+            return $this->eleModel->listSessionsBySite($id_lugar,$fechaA,$fechaA);
+        }
+    }
     public function listSessionsForAttendance($hoy){
         $email=$_GET['user_email']??'';
         return $this->eleModel->listYourSession_for_Attendance($hoy, $email);
