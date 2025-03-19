@@ -365,6 +365,17 @@
             return $this->eleModel->listWorkOuts($fecha1, $fecha2);
         }
     }
+    public function asistenciaxSesion(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $id_sesion=$_POST['id_sesion'];
+            return $this->eleModel->asistenciaxSesion( $id_sesion);
+        }
+
+    }
+    public function listMyAttendants(){
+        $email=$_GET['user_email'] ?? '';
+        return $this->eleModel->listMyAttendans($email);
+    }
     
 }
     

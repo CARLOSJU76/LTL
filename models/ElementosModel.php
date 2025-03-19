@@ -455,7 +455,43 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
                 return false;
             }
     }
+    public function listMyAttendans($email_entrenador){
+        $consulta= "SELECT sesiones.codigo AS codigo,
+                    entrenadores.email AS email, sesiones.fecha AS fecha,
+                    sesiones.hora as hora FROM  sesiones                    
+                    INNER JOIN entrenadores ON entrenadores.email= sesiones.email_entrenador
+                    INNER JOIN asistencia ON asistencia.codigo_sesion = sesiones.codigo
+                    WHERE entrenadores.email= ?
+                    GROUP BY sesiones.codigo, entrenadores.email, sesiones.fecha, sesiones.hora";
+            $resultado= $stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$email_entrenador]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     }
+    public function asistenciaxSesion($id_sesion){
+        try {
+            $consulta = "SELECT asistencia.codigo AS id, 
+                                deportista.nombres AS nombreD,
+                                deportista.apellidos AS apellidoD
+                         FROM asistencia 
+                         INNER JOIN deportista
+                         ON asistencia.id_deportista = deportista.id
+                         WHERE asistencia.codigo_sesion = ? ";
+    
+            $stmt = $this->conn->prepare($consulta);
+            $stmt->execute([$id_sesion]);
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Verifica si se obtuvieron resultados antes de retornarlos
+            return $resultado !== false ? $resultado : [];
+    
+        } catch (PDOException $e) {
+            error_log("Error al tratar de obtener los registros: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+}
     
 
 ?>

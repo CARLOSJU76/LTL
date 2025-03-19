@@ -176,7 +176,7 @@
                     <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value=""> </a></li>
-                    <li><a href="#" data-value=""> </a></li>
+                    <li><a href="#" data-value="asistenciax_sesion">Listar Asistencias por Sesion </a></li>
                     <li><a href="#" data-value="attendance_register">Tomar Asistencia</a></li>
                     <!-- <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li> -->
                     <!-- <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li> -->

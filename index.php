@@ -529,5 +529,13 @@ case 'list_workout_byFecha':
     }else{ 
         include_once 'view_sesiones/list_workOuts_by_fecha.php';
     }break;
+case 'asistenciax_sesion':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $asistencias=$eleControl->asistenciaxSesion();
+        include_once 'view_sesiones/asistenciax_sesion.php';
+    }else{
+        $myAttendats= $eleControl->listMyAttendants();
+        include_once 'view_sesiones/asistenciax_sesion.php';
+    }break;
 }
 ?>
