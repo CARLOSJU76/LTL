@@ -300,13 +300,15 @@ public function getAgeCat(){//categoriaxEdad
             }
     } 
 //====================================================================================
-public function listSessionsBySite($id_lugar){
+public function listSessionsBySite($id_lugar, $fechaA, $horaA){
     try{
         $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
                     entrenadores.apellidos AS apellidoE, lugar_entrenamiento.lugar AS sitio,
-                    sesiones.fecha AS fecha, sesiones.hora AS hora 
-                    FROM sesiones INNER JOIN entrenadores
-                    ON entrenadores.email= sesiones.email_entrenador INNER JOIN lugar_entrenamiento
+                    sesiones.fecha AS fecha, sesiones.hora AS hora,
+                    sesiones.email_entrenador AS email FROM sesiones 
+                    INNER JOIN entrenadores
+                    ON entrenadores.email= sesiones.email_entrenador 
+                    INNER JOIN lugar_entrenamiento
                     ON sesiones.id_lugar= lugar_entrenamiento.id
                     WHERE sesiones.id_lugar= ? AND (sesiones.fecha > ?
                     OR (sesiones.fecha = ? AND sesiones.hora >= ?))

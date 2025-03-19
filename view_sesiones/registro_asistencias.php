@@ -6,7 +6,7 @@
     <title>Registrar Asistencia</title>
     <style>
         html{
-            font-size:14px;
+            font-size:16px;
             font-family:Arial;
             font-style: italic;
             color: white;
@@ -19,6 +19,7 @@
             justify-content: center;
         }
         #contenedor-general{
+            width: 60%;
             background-color:  #4A0D0D ;
             display: flex;
             flex-direction: column;
@@ -42,6 +43,7 @@
         #formulario{
             display: flex;
             flex-direction: column;
+            width: 80%;
         }
         select{
             font-size: 0.8rem;
@@ -124,7 +126,7 @@
             <input type="submit" value="Registrar Asistencia" id="submit">
         </form>
         
-        <div style='display:flex; flex-direction: row; width:80%;margin:3%;' >
+        <div style='display:flex; flex-direction: row; width:65%;margin:3%;' >
             <form action='index.php?action=principal' method='post' id="boton1">
                 <button type='submit' name='action' value='principal'  class="boton-sub">Ir al inicio</button>
             </form> 

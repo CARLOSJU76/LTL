@@ -498,6 +498,15 @@ case 'list_sessionByFecha':
     }else{
         include_once 'view_sesiones/list_sesionByFecha.php';
     }break;
+case 'list_sessionBySite':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $sesiones=$eleControl->listSessionsBySite($fechaA,$horaA);
+        include_once 'view_sesiones/list_sesionBySite.php';
+    }else{
+        include_once 'view_sesiones/list_sesionBySite.php';
+    }break;
+        
+
 case 'list_your_sessions':
     $sesiones=$eleControl->listYourSessions($fechaA, $horaA);
     include_once 'view_sesiones/list_mySesiones.php';
@@ -510,7 +519,7 @@ case 'attendance_register':
         $eleControl->registrarAsistencia();
     }else{
         $sesiones= $eleControl->listSessionsForAttendance($fechaA);
-    $deports= $depoControl->listDeportistas();
+        $deports= $depoControl->listDeportistas();
     include_once 'view_sesiones/registro_asistencias.php';
     }break;
 case 'list_workout_byFecha':

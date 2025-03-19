@@ -301,7 +301,7 @@
     public function listSessionsBySite($fechaA, $horaA){
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $id_lugar=$_POST['id_lugar'];
-            return $this->eleModel->listSessionsBySite($id_lugar,$fechaA,$fechaA);
+            return $this->eleModel->listSessionsBySite($id_lugar,$fechaA,$horaA);
         }
     }
     public function listSessionsForAttendance($hoy){

@@ -7,9 +7,6 @@
     <title>Centros de Entrenamiento</title>
 </head>
 <style>
-    html{
-        font-size: 20px;
-    }
     @font-face {
   font-family: 'fuente3';
   src: url('fonts/fuente3.ttf') format('truetype');/*Nombre real : struck */
@@ -35,7 +32,6 @@
     }
     .form-insert{
         width: 90%;
-       
         display:flex;
         flex-direction: column;
         align-items: center;
@@ -112,7 +108,7 @@
         color:gold;
         font-family: 'Courier New', Courier, monospace;
         font-style: italic;
-        margin:;
+        margin:3px;
     }
     #boton1{
         width: 35%;
@@ -127,7 +123,7 @@
 <div class="form-insert">
 
     <?php if(isset($sesiones) && count($sesiones)>0):?>
-        <h2 style="font-size: 1.2rem; font-weight: 100;">Sesiones encontradas:</h2>
+        <h2>Sesiones encontradas:</h2>
         <table>
             <thead>
                 <tr>
@@ -136,34 +132,58 @@
                     <th>Entrenador</th>
                     <th>Fecha</th>
                     <th>Hora</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($sesiones as $sesion): ?>
+                
+                <?php
+                    $user_email = $_POST['user_email'] ?? '';
+                    foreach ($sesiones as $sesion): ?>
                 <tr>
                    
                     <td> <?=$sesion['id']?></td>
                     <td class="lugar"> <?=$sesion['sitio']?></td>
-                    <td> <?=$sesion['nombreE']?> <?= $sesion['apellidoE']?></td>
+                    <td> <?=$sesion['nombreE']?></td>
                     <td> <?=$sesion['fecha']?></td>
                     <td> <?=$sesion['hora']?></td>
                     <td>
-                    <form action="index.php?action=delete_session" method="POST" style="display:inline;">
-                    <input type="hidden" name="id" value="<?=$sesion['id']?>">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?')">Eliminar</button>
-                </form>
+                        <?php if ($sesion['email'] == $user_email): ?>
+                        <form action="index.php?action=delete_session" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="<?=$sesion['id']?>"> 
+                            <button class="delete-boton" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?')">Eliminar</button>
+                        </form>
+                        <?php endif; ?>
 
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-       
         <?php elseif(isset($sesiones)):?>
-            <p style="color: yellow; font-style: italic;">No tienes sesiones programadas</p>
+            <p style="color: yellow; font-style: italic;">No se encontraron sesiones programadas en este lugar de entrenamiento</p>
 
-        <?php endif;?> 
+        <?php endif;?>  
+   <!-- Formulario para buscar sesiones programadas por lugar de entrenamiento -->
+   <?php $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null; ?>
+                
+        <form action="index.php? action=list_sessionBySite" method="post" style="width: 96%;" class="form-insert" id="formulario">
+            <input type="hidden" name="user_email" id="user_email_input"> 
+            <select name="id_lugar">
+            
+                    <option value="">Elija una Opción</option>
+                    <?php
+                        include_once 'controller/ElementosController.php';
+                        $objeto=new ElementosController();
+                        $sitios=$objeto->listLugares();
+                        foreach($sitios as $sitio){
+                            echo"<option value='".htmlspecialchars($sitio['id'])."'>".
+                            htmlspecialchars($sitio['lugar']).
+                            "</option>";
+                        }
+                    ?>
+                </select>
+                <input type="submit" value="Buscar Sesiones" class="form-botones">
+        </form>
         <div style='display:flex; flex-direction: row; width:50%;' >
             <form action='index.php?action=principal' method='post' id="boton1">
                 <button type='submit' name='action' value='principal'  class="boton-sub">Ir al inicio</button>
@@ -171,7 +191,17 @@
             <form action='index.php?action=trainer_manage' method='get' id="boton2">
                 <button type='submit' name='action' value='trainer_manage' class="boton-sub">Sesiones de Entrenamiento</button>
             </form>
-        </div>  
-</div>  
+        </div>
+</div> 
+
+<script>
+    let userEmail = localStorage.getItem('UserEmail');
+
+// Si existe 'user_email' en localStorage, asignarlo al input oculto
+if (userEmail) {
+    document.getElementById('user_email_input').value = userEmail;
+}
+
+</script>
 </body>
 </html>

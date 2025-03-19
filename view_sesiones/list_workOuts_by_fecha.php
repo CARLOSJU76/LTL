@@ -128,6 +128,27 @@
       
         width:40%;
     }
+    .boton-sub{
+        width: 98%;
+        background-color: transparent;
+        border: solid gold 0.05rem;
+        font-size:0.5rem;
+        border-radius: 3px;
+        margin:1rem;
+      
+        padding:0.3rem;
+        color:gold;
+        font-family: 'Courier New', Courier, monospace;
+        font-style: italic;
+        margin:3px;
+    }
+    #boton1{
+        width: 35%;
+    }
+    #boton2{
+        width: 65%;
+    }
+
 </style>
 
 <body>
@@ -195,6 +216,14 @@ $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
         <!-- Botón para enviar el formulario -->
         <input type="submit" value="Buscar Sesiones" class="form-botones" id="buscar">
     </form>
+    <div style='display:flex; flex-direction: row; width:50%;' >
+            <form action='index.php?action=principal' method='post' id="boton1">
+                <button type='submit' name='action' value='principal'  class="boton-sub">Ir al inicio</button>
+            </form> 
+            <form action='index.php?action=trainer_manage' method='get' id="boton2">
+                <button type='submit' name='action' value='trainer_manage' class="boton-sub">Sesiones de Entrenamiento</button>
+            </form>
+    </div>
 <?php else: ?>
     <!-- Opcional: Puedes mostrar un mensaje si no se encuentra el 'user_email' en la URL -->
     <form action="index.php?" method="get" id="formulario">
