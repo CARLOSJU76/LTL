@@ -291,6 +291,7 @@
           
             $fecha1= $_POST['fecha1'];
             $fecha2= $_POST['fecha2'];
+
             return $this->eleModel->listSessionByDate($fecha1,$fecha2);
         }
     }

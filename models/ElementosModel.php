@@ -253,16 +253,18 @@ public function getAgeCat(){//categoriaxEdad
             }
         }
         public function listSessionByDate($fechaA, $fechaB){
+
+           
             try{
                 $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
                             entrenadores.apellidos AS apellidoE, sesiones.email_entrenador AS email, 
                             lugar_entrenamiento.lugar AS sitio,
                             sesiones.fecha AS fecha, sesiones.hora AS hora 
-                            FROM sesiones INNER JOIN entrenadores
-                            ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
-                            ON sesiones.id_lugar= lugar_entrenamiento.id
-                            WHERE sesiones.fecha >= ? AND 
-                            sesiones.fecha <= ?  ORDER BY fecha ASC";
+                            FROM sesiones 
+                            INNER JOIN entrenadores ON entrenadores.email= sesiones.email_entrenador 
+                            INNER JOIN lugar_entrenamiento ON sesiones.id_lugar= lugar_entrenamiento.id
+                            WHERE sesiones.fecha >= ? AND sesiones.fecha <= ?  
+                            ORDER BY sesiones.fecha ASC";
                     $resultado= $stmt= $this->conn->prepare($consulta);
                         $stmt->execute([$fechaA, $fechaB]);
                         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
@@ -285,7 +287,7 @@ public function getAgeCat(){//categoriaxEdad
                             FROM sesiones INNER JOIN entrenadores
                             ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
                             ON sesiones.id_lugar= lugar_entrenamiento.id
-                            WHERE sesiones.email_entrenador= ? ORDER BY sesiones. ASC, sesiones.hora ASC";
+                            WHERE sesiones.email_entrenador= ? ORDER BY sesiones.fecha ASC, sesiones.hora ASC";
                     $resultado= $stmt= $this->conn->prepare($consulta);
                         $stmt->execute([$id_entrenador]);
                         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
