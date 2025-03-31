@@ -101,7 +101,7 @@
             ?>
         </select> -->
 <!--===================================================================================-->
-        <select name="id_lugar">
+        <select name="id_lugar" requiered>
             <option value="">Elija un Sitio de Entrenamiento</option>
             <?php
                 include_once 'controller/ElementosController.php';

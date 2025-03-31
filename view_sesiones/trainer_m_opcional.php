@@ -155,7 +155,7 @@
                 <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value="list_your_sessions">Mis Sesiones programadas</a></li>
                     <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li>
-                    <li><a href="#" data-value="list_sessionBySite">Buscar sesión por lugar de entrenamiento</a></li>
+                    <li><a href="#" data-value="list_sessionBySite">Programadas x lugar de entrenamiento</a></li>                    
                 </ul>
             </li>
             <li><a href="#">Histórico de entrenamientos</a>
@@ -163,8 +163,8 @@
                    
                    <li><a href="#" data-value=""> </a></li>
                    <li><a href="#" data-value=""> </a></li>
-                   <li><a href="#" data-value=""> </a></li>
-                   <li><a href="#" data-value="list_workout_byFecha">Listar Entrenamientos por fecha</a></li>
+                  
+                   <li><a href="#" data-value="list_workout_byFecha">Mis Sesiones Dirigidas x Fecha</a></li>
                   
                    <!-- <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li> -->
                    <!-- <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li> -->
@@ -176,7 +176,7 @@
                     <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value=""> </a></li>
-                    <li><a href="#" data-value="asistenciax_sesion">Listar Asistencias por Sesion </a></li>
+                    <li><a href="#" data-value="asistenciax_sesion">Listar Asistencias por Sesion</a></li>
                     <li><a href="#" data-value="attendance_register">Tomar Asistencia</a></li>
                     <!-- <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li> -->
                     <!-- <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li> -->

@@ -285,7 +285,7 @@ public function getAgeCat(){//categoriaxEdad
                             FROM sesiones INNER JOIN entrenadores
                             ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
                             ON sesiones.id_lugar= lugar_entrenamiento.id
-                            WHERE sesiones.id_entrenador= ? ORDER BY sesiones. ASC, sesiones.hora ASC";
+                            WHERE sesiones.email_entrenador= ? ORDER BY sesiones. ASC, sesiones.hora ASC";
                     $resultado= $stmt= $this->conn->prepare($consulta);
                         $stmt->execute([$id_entrenador]);
                         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
@@ -471,11 +471,17 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
     public function asistenciaxSesion($id_sesion){
         try {
             $consulta = "SELECT asistencia.codigo AS id, 
-                                deportista.nombres AS nombreD,
-                                deportista.apellidos AS apellidoD
+                                deportista.nombres AS nombreD, deportista.apellidos AS apellidoD, 
+                                estimulos.tipo_estimulo AS estimulo,
+                                sesiones.fecha AS fecha, sesiones.hora AS hora, 
+                                lugar_entrenamiento.lugar AS lugar,
+                                entrenadores.nombres AS nombreE, entrenadores.apellidos AS apellidoE
                          FROM asistencia 
-                         INNER JOIN deportista
-                         ON asistencia.id_deportista = deportista.id
+                         INNER JOIN deportista ON asistencia.id_deportista = deportista.id
+                         INNER JOIN estimulos ON asistencia.codigo_estimulo= estimulos.codigo
+                         INNER JOIN sesiones ON asistencia.codigo_sesion= sesiones.codigo
+                         INNER JOIN lugar_entrenamiento ON sesiones.id_lugar= lugar_entrenamiento.id
+                         INNER JOIN entrenadores ON sesiones.id_entrenador=entrenadores.id
                          WHERE asistencia.codigo_sesion = ? ";
     
             $stmt = $this->conn->prepare($consulta);

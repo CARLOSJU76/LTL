@@ -31,7 +31,7 @@
         margin-top: 3%;
     }
     .form-insert{
-        width: 90%;
+        width: 50%;
         display:flex;
         flex-direction: column;
         align-items: center;
@@ -96,7 +96,12 @@
     .lugar{
         width: 40%;
     }
-    .boton-sub{
+    #div-botones{
+        display:flex; flex-direction: row; width:80%;
+        align-items: center;
+        justify-content: center;
+    }
+    .boton-sub, p{
         width: 98%;
         background-color: transparent;
         border: solid gold 0.1rem;
@@ -108,7 +113,7 @@
         color:gold;
         font-family: 'Courier New', Courier, monospace;
         font-style: italic;
-        margin:3px;
+        margin: 1rem;
     }
     #boton1{
         width: 35%;
@@ -123,12 +128,13 @@
 <div class="form-insert">
 
     <?php if(isset($asistencias) && count($asistencias)>0):?>
-        <h2>Sesiones encontradas:</h2>
+        <h2>Datos de asistencia:</h2>
+        <p><?= " | Lugar : ".$asistencias[0]['lugar']."<br> | Fecha: ".$asistencias[0]['fecha']." | Hora: ".$asistencias[0]['hora']."<br> | Dirigió: ".$asistencias[0]['nombreE']."  ".$asistencias[0]['apellidoE']." |   Asistentes:" ?></p>
         <table>
             <thead>
                 <tr>
                     <th>Deportista</th>
-                    <th>Estimulo</th>
+                    <th>Observaciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -140,7 +146,7 @@
                    
                     <td> <?=$asist['nombreD']. " " . $asist['apellidoD']?> </td>
 
-                    </td>
+                    <td><?=$asist['estimulo']?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -174,21 +180,22 @@
                 <input type="submit" value="Ver Asistencia" class="form-botones">
         </form>
         <?php else: ?>
+        <div id="div-botones"style='display:flex; flex-direction: row; width:100%;'>
     <!-- Opcional: Puedes mostrar un mensaje si no se encuentra el 'user_email' en la URL -->
-    <form action="index.php?" method="get" id="formulario">
-        <input type="hidden" name="user_email" id="user_email_input"> <!-- Input oculto para el email -->
-        <button id="boton_volver" type="submit" name="action" value="asistenciax_sesion">Hacer otra consulta</button>
-    </form>
-<?php endif; ?>
-        <div style='display:flex; flex-direction: row; width:50%;' >
-            <form action='index.php?action=principal' method='post' id="boton1">
-                <button type='submit' name='action' value='principal'  class="boton-sub">Ir al inicio</button>
-            </form> 
-            <form action='index.php?action=trainer_manage' method='get' id="boton2">
-                <button type='submit' name='action' value='trainer_manage' class="boton-sub">Sesiones de Entrenamiento</button>
+            <form action="index.php?" method="get" id="boton3">
+                <input type="hidden" name="user_email" id="user_email_input"> <!-- Input oculto para el email -->
+                <button id="boton_volver" type="submit" name="action" value="asistenciax_sesion" class="boton-sub">Hacer otra consulta</button>
             </form>
-        </div>
-</div> 
+        <?php endif; ?>
+            <div style='display:flex; flex-direction: row; width:50%;' >
+                <form action='index.php?action=trainer_manage' method='get' id="boton2">
+                    <button type='submit' name='action' value='trainer_manage' class="boton-sub">Sesiones de Entrenamiento</button>
+                </form>
+                <form action='index.php?action=principal' method='post' id="boton1">
+                    <button type='submit' name='action' value='principal'  class="boton-sub">Ir al inicio</button>
+                </form> 
+            </div>
+        </div> 
 
 <script>
     let userEmail = localStorage.getItem('UserEmail');
