@@ -439,7 +439,7 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
                     FROM asistencia INNER JOIN sesiones 
                     ON asistencia.codigo_sesion=sesiones.codigo 
                     INNER JOIN lugar_entrenamiento ON sesiones.id_lugar= lugar_entrenamiento.id
-                    INNER JOIN entrenadores ON sesiones.id_entrenador= entrenadores.id 
+                    INNER JOIN entrenadores ON sesiones.email_entrenador= entrenadores.email 
                     WHERE fecha >= ? AND fecha<=? GROUP BY sesiones.codigo";
         
             $resultado= $stmt= $this->conn->prepare($consulta);
@@ -483,7 +483,7 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
                          INNER JOIN estimulos ON asistencia.codigo_estimulo= estimulos.codigo
                          INNER JOIN sesiones ON asistencia.codigo_sesion= sesiones.codigo
                          INNER JOIN lugar_entrenamiento ON sesiones.id_lugar= lugar_entrenamiento.id
-                         INNER JOIN entrenadores ON sesiones.id_entrenador=entrenadores.id
+                         INNER JOIN entrenadores ON sesiones.email_entrenador=entrenadores.email
                          WHERE asistencia.codigo_sesion = ? ";
     
             $stmt = $this->conn->prepare($consulta);
