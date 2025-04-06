@@ -28,9 +28,7 @@
         if ($datos['estado'] === 1) {
             echo "Hola $user1, la cuenta $email ha sido verificada exitosamente.<br> Ahora puedes iniciar sesión.";
             $valor1 = "Ir a la página de inicio";
-            session_start();
-            $_SESSION['user']=$user1;
-            $verify_c->setPerfil($email);
+          
             
         } else if ($datos['estado'] === 0) {
             echo "Verificación fallida. Cuenta no registrada.";

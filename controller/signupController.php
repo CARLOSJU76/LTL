@@ -39,39 +39,39 @@
             }   
         }
         public function verificarCuenta() {
-            // Verificar que la solicitud sea POST
+            $datos = []; // Inicializar como array vacío
+        
+            // Verificar que la solicitud sea GET
             if ($_SERVER["REQUEST_METHOD"] == "GET")  {
-                // Obtener el cuerpo JSON de la solicitud
-                
                 $token = isset($_GET['token']) ? $_GET['token'] : null;
-                
+        
                 if ($token) {
                     // Buscar datos relacionados con el token
                     $datos = $this->signUpModel->findByToken($token);
         
                     if ($datos) {
                         $email = $datos['email'];
-                        // $this->signUpModel->setPerfil($email);
         
-                        // Si existe un email asociado al token, verificar el correo
                         if ($email) {
                             $this->signUpModel->verifyEmail($token);
-                            $datos['estado']=1;  
+                            $datos['estado'] = 1;
                         } else {
-                            $datos['estado']=0;// Si el email no está registrado
+                            $datos['estado'] = 0;
                         }
                     } else {
-                        $datos['estado']=-1;// Si el token no está registrado 
+                        $datos = []; // Reasignar como array si findByToken devolvió false
+                        $datos['estado'] = -1;
                     }
                 } else {
-                    $datos['estado']=-2;  // Si no se proporciona el token en la URL                    
+                    $datos['estado'] = -2;
                 }
             } else {
-                    $datos['estado']=-3;// Si la solicitud no es GET   
+                $datos['estado'] = -3;
             }
+        
             return $datos;
-
         }
+        
         public function setPerfil($email){
             $this->signUpModel->setPerfil($email);
         }
