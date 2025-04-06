@@ -19,6 +19,9 @@
         
             if ($conteo < 1) {
                 $opcion = 5; // Usuario no encontrado
+                $perfil= 00000;
+                $user1 = "desconocido";
+                $email = "desconocido";
             } else {
                 // Obtener la información del usuario
                 $consulta = $this->conn->prepare("SELECT passw, usuario, email FROM usuarios WHERE usuario = ? OR email = ?");
@@ -36,15 +39,25 @@
                     } else {
                         $opcion = 0; // Contraseña incorrecta
                     }
-                } else {
-                    $opcion = 5; // El usuario no se encuentra registrado...
-                }
+                } 
             }
 
             // Retornar los datos
             array_push($datos, $opcion, $user1, $perfil, $email);
             return $datos;
         }
+//=============================================================================================
+public function verificarUser($usuario){
+    $stmt= $this->conn->prepare("SELECT COUNT(*) FROM usuarios WHERE email= ? OR usuario= ? LIMIT 1");
+    $stmt->execute([$usuario, $usuario]);
+    $conteo = (int)$stmt->fetchColumn();
+    if($conteo<1){
+        $conteo=5;
+    }else{
+        $conteo=1;
+    }
+    return $conteo;
+}
 //=============================================================================================     
         public function get_mail_verified($usuario){
             $stmt=$this->conn->prepare("SELECT mail_verified FROM usuarios WHERE email= ? OR usuario= ?");

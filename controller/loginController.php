@@ -33,8 +33,7 @@ class LoginController{
                 $estado = $this->loginModel->get_mail_verified($usuario);
                 if($estado === 1){
                     $opcion = 1;
-                    
-                                 }else {
+                }else {
                     $opcion = -2;
                 }
             }else{
