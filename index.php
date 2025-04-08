@@ -517,9 +517,11 @@ case 'delete_session':
 case 'attendance_register':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $eleControl->registrarAsistencia();
+        $estimulos=$eleControl->getEstimulos();
     }else{
         $sesiones= $eleControl->listSessionsForAttendance($fechaA);
         $deports= $depoControl->listDeportistas();
+        $estimulos=$eleControl->getEstimulos();
     include_once 'view_sesiones/registro_asistencias.php';
     }break;
 case 'list_workout_byFecha':
@@ -532,9 +534,11 @@ case 'list_workout_byFecha':
 case 'asistenciax_sesion':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $asistencias=$eleControl->asistenciaxSesion();
+      
         include_once 'view_sesiones/asistenciax_sesion.php';
     }else{
         $myAttendats= $eleControl->listMyAttendants();
+       
         include_once 'view_sesiones/asistenciax_sesion.php';
     }break;
 }

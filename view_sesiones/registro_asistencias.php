@@ -97,9 +97,10 @@
 </head>
 
 <body>
-    <d id="contenedor-general">
+    <div id="contenedor-general">
         <h3 id="sitio">LTL WebSite</h3>
         <h3>Registrar Asistencia a Sesión de Entrenamiento</h3>
+<!-- =================================================================================================== -->
     
         <form action="index.php?action=attendance_register" method="POST" id="formulario">
             <label for="sesion">Seleccionar sesión de entrenamiento:</label><br>
@@ -117,15 +118,17 @@
             <p>Seleccionar deportistas que asistieron a la sesión:</p>
             <input type="checkbox" id="select_all" /> Seleccionar todos<br><br>
                 <?php 
-                    foreach($deports as $depor){
-                        echo "<input class='deportista' type='checkbox' name='id_deportista[]' value='" . $depor['id'] . "'> "  . $depor['nombreD']." ". $depor['apellidoD'] ."<br>";
-                    }
-                ?>
+                     foreach($deports as $depor): ?>
+                        <label>
+                            <input class="deportista" type="checkbox" name="id_deportista[]" value="<?= $depor['id'] ?>"> <?= $depor['nombreD'] . ' ' . $depor['apellidoD'] ?>
+                        </label><br>
+                    <?php endforeach; ?>
+            
         </div>
             <br>
             <input type="submit" value="Registrar Asistencia" id="submit">
         </form>
-        
+<!-- =================================================================================================== -->
         <div style='display:flex; flex-direction: row; width:65%;margin:3%;' >
             <form action='index.php?action=principal' method='post' id="boton1">
                 <button type='submit' name='action' value='principal'  class="boton-sub">Ir al inicio</button>
@@ -134,6 +137,8 @@
                 <button type='submit' name='action' value='trainer_manage' class="boton-sub">Sesiones de Entrenamiento</button>
             </form>
     </div>
+    
+
 
     </div>
     <script>

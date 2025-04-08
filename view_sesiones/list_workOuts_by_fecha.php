@@ -200,7 +200,7 @@ $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
 
 <?php if ($user_email): ?>
     <form action="index.php?action=list_workout_byFecha" method="post" style="width: 96%;" class="form-insert" id="formulario">
-        <p class="rango" style="width:60%;">Para ver todas las sesiones programadas en un rango de tiempo, elige dos fechas:</p>
+        <p class="rango" style="width:60%;">Para ver todos los entrenamientos finalizados en un rango de tiempo, elige dos fechas:</p>
         
         <!-- Primer input para la fecha -->
         <input type="date" id="fecha1" class="fechaInput" name="fecha1" max="<?php echo date('Y-m-d'); ?>" placeholder="fecha del evento" class="form-control" required>

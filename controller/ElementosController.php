@@ -377,8 +377,22 @@
         $email=$_GET['user_email'] ?? '';
         return $this->eleModel->listMyAttendans($email);
     }
-    
+    public function otorgarEstimulo(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $codigo= $_POST['codigo_asistencia'];
+            $estimulo= $_POST['estimulo'];
+            
+            if($this->eleModel->otorgarEstimulo($codigo, $estimulo)){
+                echo "<br><p style='color:orange;'>Se ha registrado el estimulo exitosamente. </p>";
+            }
+            else{
+                echo "<br><p style='color:orange;'>Hubo un error al tratar de registrar el estimulo. </p>";
+            }
+        }
+    }
+    public function getEstimulos(){
+        return $this->eleModel->getEstimulos();
+    }
 }
-    
 
 ?>

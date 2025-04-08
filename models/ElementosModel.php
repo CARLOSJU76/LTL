@@ -498,8 +498,29 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
             return [];
         }
     }
+    public function otorgarEstimulo($codigo, $codigo_estimulo){
+        $consulta= "UPDATE asistencia SET codigo_estimulo= ? WHERE codigo= ?";
+        try{
+            $resultado= $stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$codigo_estimulo, $codigo]);
+            if($resultado){
+                return true;
+            }else{
+                return false;
+            
+            }
+        } catch (PDOException $e) {
+            error_log("Error al tratar de otorgar el estimulo: " . $e->getMessage());
+            return false;
+        }
+    
+    }
+    public function getEstimulos(){
+        $consulta="SELECT codigo, tipo_estimulo, descripcion FROM estimulos";
+        $stmt=$this->conn->query($consulta);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     
 }
-    
-
 ?>
