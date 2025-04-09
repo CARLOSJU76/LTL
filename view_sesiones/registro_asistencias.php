@@ -128,6 +128,12 @@
             <br>
             <input type="submit" value="Registrar Asistencia" id="submit">
         </form>
+<!-- =====================BOTÓN OTORGAR ESTÍMULO============================================================================= -->
+        <form action="index.php?action=verOtorgarEstimulo" method="get" id="form_otorgar_estimulo">
+        <input type="hidden" name="id_sesion" value="<?= htmlspecialchars($sesion['codigo'])?>">
+            <button type="submit" class="boton-sub" style="margin-top: 1rem;" name="action" value="verOtorgarEstimulo">Otorgar Estímulo a Deportistas Asistentes</button>
+        </form>
+                        
 <!-- =================================================================================================== -->
         <div style='display:flex; flex-direction: row; width:65%;margin:3%;' >
             <form action='index.php?action=principal' method='post' id="boton1">

@@ -371,8 +371,12 @@
             $id_sesion=$_POST['id_sesion'];
             return $this->eleModel->asistenciaxSesion( $id_sesion);
         }
-
     }
+    public function asistenciaxSesionGet(){
+       
+            $id_sesion=$_GET['id_sesion'] ?? '';
+            return $this->eleModel->asistenciaxSesion( $id_sesion);
+        }
     public function listMyAttendants(){
         $email=$_GET['user_email'] ?? '';
         return $this->eleModel->listMyAttendans($email);

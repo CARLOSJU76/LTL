@@ -541,5 +541,13 @@ case 'asistenciax_sesion':
        
         include_once 'view_sesiones/asistenciax_sesion.php';
     }break;
+
+    case 'verOtorgarEstimulo':
+            if($_SERVER['REQUEST_METHOD']=='GET'){
+                
+            $asistencias=$eleControl->asistenciaxSesionGet();
+            $estimulos=$eleControl->getEstimulos();
+           include_once 'view_sesiones/otorgarEstimulo.php';
+            }break;
 }
 ?>
