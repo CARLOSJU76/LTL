@@ -381,17 +381,34 @@
         $email=$_GET['user_email'] ?? '';
         return $this->eleModel->listMyAttendans($email);
     }
-    public function otorgarEstimulo(){
-        if($_SERVER['REQUEST_METHOD']=='POST'){
-            $codigo= $_POST['codigo_asistencia'];
-            $estimulo= $_POST['estimulo'];
-            
-            if($this->eleModel->otorgarEstimulo($codigo, $estimulo)){
-                echo "<br><p style='color:orange;'>Se ha registrado el estimulo exitosamente. </p>";
+    public function otorgarEstimulo() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $codigos = $_POST['codigo_asistencia'];
+            $estimulos = $_POST['estimulo'];
+            $errores = 0;
+    
+            for ($i = 0; $i < count($codigos); $i++) {
+                $codigo = $codigos[$i];
+                $estimulo = $estimulos[$i];
+    
+                if (!empty($estimulo)) {
+                    $resultado = $this->eleModel->otorgarEstimulo($codigo, $estimulo);
+                    if (!$resultado) {
+                        $errores++;
+                    }
+                }
             }
-            else{
-                echo "<br><p style='color:orange;'>Hubo un error al tratar de registrar el estimulo. </p>";
+    
+            // Redirige con mensaje
+            $idSesion = $_POST['id_sesion'];
+            if ($errores == 0) {
+                $msg = urlencode("Todos los estímulos fueron registrados exitosamente.");
+                header("Location: index.php?action=otorgarEstimulo&id_sesion=$idSesion&msg=$msg&tipo=success");
+            } else {
+                $msg = urlencode("Se registraron algunos errores al otorgar los estímulos.");
+                header("Location: index.php?action=otorgarEstimulo&id_sesion=$idSesion&msg=$msg&tipo=error");
             }
+            exit;
         }
     }
     public function getEstimulos(){
