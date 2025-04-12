@@ -1,9 +1,10 @@
 
     <div id="contenedor-general">
+    <?php if (!empty($sesiones) && !empty($deports)): ?>
         <h3 id="sitio">LTL WebSite</h3>
         <h3>Registrar Asistencia a Sesión de Entrenamiento</h3>
 <!-- =================================================================================================== -->
-<?php if (!empty($sesiones) && !empty($deports)): ?>
+
         <form action="index.php?action=attendance_register" method="POST" id="formulario">
             <label for="sesion">Seleccionar sesión de entrenamiento:</label><br>
             <select name="id_sesion" id="id_sesion">
@@ -36,11 +37,12 @@
             <button type="submit" class="boton-sub" style="margin-top: 1rem;" name="action" value="verOtorgarEstimulo">Otorgar Estímulo a Deportistas Asistentes</button>
         </form>
         <?php else: ?>
-        <!-- MENSAJE SI NO HAY DATOS SUFICIENTES -->
-        <div class="alert-warning" style="margin-top: 1rem;">
-            <p>No se encontraron sesiones disponibles o no hay deportistas registrados.</p>
-            <p>Por favor, asegúrate de tener sesiones creadas y deportistas asignados a tu cuenta.</p>
-        </div>
+            <form id="attendanceForm" action="index.php" method="get">
+                <input type="hidden" name="action" value="attendance_register">
+                <input type="hidden" name="user_email" id="user_email">
+                <button type="submit">Registrar asistencia</button>
+            </form>
+
     <?php endif; ?>
                         
 <!-- =================================================================================================== -->
@@ -53,9 +55,8 @@
             </form>
     </div>
     
-
-
     </div>
+
     <script>
     // Script para seleccionar/deseleccionar todos los checkboxes
     document.getElementById('select_all').addEventListener('change', function() {
@@ -71,6 +72,17 @@
     document.getElementById('id_sesion').addEventListener('change', function() {
     document.getElementById('id_sesion_hidden').value = this.value;
 });
+  
+  const email = localStorage.getItem('UserEmail');
+
+  document.getElementById('user_email').value = email;
+
+  document.getElementById('attendanceForm').addEventListener('submit', function (e) {
+    if (!email) {
+      e.preventDefault();
+      alert("No se encontró el correo en localStorage.");
+    }
+  });
 
 </script>
 
