@@ -514,16 +514,34 @@ case 'list_your_sessions':
 case 'delete_session':
     $eleControl->deleteSession();
     break;
-case 'attendance_register':
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $eleControl->registrarAsistencia();
-        $estimulos=$eleControl->getEstimulos();
-    }else{
-        $sesiones= $eleControl->listSessionsForAttendance($fechaA);
-        $deports= $depoControl->listDeportistas();
-        $estimulos=$eleControl->getEstimulos();
-    include_once 'view_sesiones/registro_asistencias.php';
-    }break;
+    case 'attendance_register':
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $eleControl->registrarAsistencia();
+            $estimulos = $eleControl->getEstimulos();
+        }else if ($_SERVER['REQUEST_METHOD']=='GET') {
+            $sesiones = $eleControl->listSessionsForAttendance($fechaA);
+            $deports = $depoControl->listDeportistas();
+            $estimulos = $eleControl->getEstimulos();
+               // Define título y contenido para el layout
+               $title = "Registrar Asistencia";
+               $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
+       
+               // Incluye la plantilla base que carga el header, contenido y footer
+               include __DIR__ . '/layouts/main.php';
+        } else {
+            $sesiones = $eleControl->listSessionsForAttendance($fechaA);
+            $deports = $depoControl->listDeportistas();
+            $estimulos = $eleControl->getEstimulos();
+            
+            // Define título y contenido para el layout
+            $title = "Registrar Asistencia";
+            $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
+    
+            // Incluye la plantilla base que carga el header, contenido y footer
+            include __DIR__ . '/layouts/main.php';
+        }
+        break;
+    
 case 'list_workout_byFecha':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $workouts= $eleControl->listWorkOutsByFecha();

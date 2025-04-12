@@ -333,32 +333,27 @@
     
             // Obtenemos los datos del formulario
             $id_sesion = $_POST['id_sesion'];
-            $id_deportistas = isset($_POST['id_deportista']) ? $_POST['id_deportista'] : []; // Obtenemos el array de deportistas (si existe)
+            $id_deportistas = isset($_POST['id_deportista']) ? $_POST['id_deportista'] : [];
     
             // Verificamos si se ha seleccionado algún deportista
             if (empty($id_deportistas)) {
-                echo "<br><p style='color:red;'>Debe seleccionar al menos un deportista.</p>";
-                return;
+                $msg = urlencode("Debe seleccionar al menos un deportista.");
+                header("Location: index.php?action=attendance_register&id_sesion=$id_sesion&msg=$msg&tipo=error");
+                exit;
             }
     
-            // Llamamos al método del modelo para registrar la asistencia
+            // Intentamos registrar la asistencia
             if ($this->eleModel->registrarAsistencia($id_sesion, $id_deportistas)) {
-                echo "<br><p style='color:green;'>Se ha registrado la asistencia para los deportistas seleccionados en la sesión de entrenamiento.</p>";
+                $msg = urlencode("Se ha registrado la asistencia para los deportistas seleccionados.");
+                header("Location: index.php?action=attendance_register&id_sesion=$id_sesion&msg=$msg&tipo=success");
             } else {
-                echo "<br><p style='color:red;'>Hubo un error: Deportistas ya se encuentran registrados en esta sesión de entrenamieno.</p>";
+                $msg = urlencode("Hubo un error: Deportistas ya se encuentran registrados en esta sesión.");
+                header("Location: index.php?action=attendance_register&id_sesion=$id_sesion&msg=$msg&tipo=error");
             }
-    
-            // Mostrar botones de navegación
-            echo "<div style='display:flex; flex-direction: row;'>
-                    <form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='principal'>Ir al inicio</button>
-                    </form>
-                    <form action='index.php?action=list_your_sessions' method='get' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='trainer_manage'>Administrador de Sesiones</button>
-                    </form>
-                </div>";
+            exit;
         }
     }
+    
     public function listWorkOutsByFecha(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $fecha1= $_POST['fecha1'];
