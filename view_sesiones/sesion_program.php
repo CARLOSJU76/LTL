@@ -117,6 +117,7 @@
         </select>
 <!--===================================================================================-->
         <div>
+        <?php date_default_timezone_set('America/Bogota'); ?>
             <input type="date" id="fecha" name="fecha" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" placeholder="fecha del evento" class="form-control" required>
             <label for="fecha" id="label-fecha">Fije fecha de la Sesión</label>
         </div>

@@ -203,6 +203,8 @@ $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
         <p class="rango" style="width:60%;">Para ver todos los entrenamientos finalizados en un rango de tiempo, elige dos fechas:</p>
         
         <!-- Primer input para la fecha -->
+        <?php date_default_timezone_set('America/Bogota'); ?>
+
         <input type="date" id="fecha1" class="fechaInput" name="fecha1" max="<?php echo date('Y-m-d'); ?>" placeholder="fecha del evento" class="form-control" required>
         <label for="fecha1">Selecciona la primera fecha</label>
         
