@@ -66,21 +66,19 @@ foreach ($edades as $edad) {
                      "<div style='color: $color;'>".htmlspecialchars($divi['categoriaxPeso'])." Kgs.</div>";
                 }else{
                     echo 
-                     "<div style='color:$color;'> + de ".htmlspecialchars($divi['categoriaxPeso'])." Kgs.</div>";
+                     "<div style='color:$color;'>".htmlspecialchars($divi['categoriaxPeso'])." Kgs.</div>";
                 }
-                 // Asumiendo que "nombre" es el campo que deseas mostrar de las divisiones
+                 
                     
             }
         }
 
-   echo"</tr></td>"; // Cierra la fila de modalidad
+   echo"</tr></td>"; 
     }
 
     echo "</tbody>"
         ."</table>";
 }
-?>
-
 ?>
 
     <!-- ================================================================================================================ -->

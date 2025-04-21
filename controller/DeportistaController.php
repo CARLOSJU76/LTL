@@ -108,6 +108,9 @@ public function insertEntrenador() {
         $id_dep=$_GET['id_dep'] ?? '';
         return $this->depoModel->listDeportistasById($id_dep);
     }
+    public function listSportman(){
+        return $this->depoModel->listSportman();
+    }
     //=================================================================================================================
     public function listEntrenadores(){
         $id_ent=$_GET['id_ent'] ?? '';

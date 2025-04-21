@@ -384,53 +384,48 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
     }
     public function registrarAsistencia($id_sesion, $id_deportistas) {
         try {
-            // Iniciar la transacción
             $this->conn->beginTransaction();
     
-            // Preparar la consulta para verificar si ya existe una entrada en la base de datos
             $consultaVerificacion = "SELECT COUNT(*) FROM asistencia WHERE codigo_sesion = ? AND id_deportista = ?";
             $stmtVerificacion = $this->conn->prepare($consultaVerificacion);
     
-            // Preparar la consulta de inserción
             $consultaInsercion = "INSERT INTO asistencia (codigo_sesion, id_deportista) VALUES (?, ?)";
             $stmtInsercion = $this->conn->prepare($consultaInsercion);
     
-            // Variable para contar cuántos registros fueron insertados
             $registrosInsertados = 0;
+            $registrosDuplicados = 0;
     
-            // Recorrer los deportistas seleccionados
             foreach ($id_deportistas as $id_deportista) {
-                // Verificar si el deportista ya está registrado en la sesión
                 $stmtVerificacion->execute([$id_sesion, $id_deportista]);
                 $existe = $stmtVerificacion->fetchColumn();
     
-                if ($existe == 0) {  // Si no existe el registro
-                    // Ejecutar la inserción
+                if ($existe == 0) {
                     $resultado = $stmtInsercion->execute([$id_sesion, $id_deportista]);
                     if ($resultado) {
                         $registrosInsertados++;
                     }
+                } else {
+                    $registrosDuplicados++;
                 }
             }
     
-            // Si se insertaron registros, confirmar la transacción
             if ($registrosInsertados > 0) {
                 $this->conn->commit();
-                return true;
             } else {
-                // Si no se insertaron registros (todos estaban duplicados), revertir la transacción
                 $this->conn->rollBack();
-                return false;
             }
     
+            return [
+                'insertados' => $registrosInsertados,
+                'duplicados' => $registrosDuplicados
+            ];
         } catch (PDOException $e) {
-            // Si ocurre un error, revertir la transacción
             $this->conn->rollBack();
-            error_log("Error al tratar de registrar la asistencia: " . $e->getMessage());
+            error_log("Error al registrar asistencia: " . $e->getMessage());
             return false;
         }
     }
-    public function listWorkOuts($fecha1, $fecha2){
+        public function listWorkOuts($fecha1, $fecha2){
         try{
         $consulta= "SELECT asistencia.codigo AS id, sesiones.fecha AS fecha, 
                     sesiones.hora AS hora, lugar_entrenamiento.lugar AS lugar,
@@ -521,6 +516,29 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getSessionsBySport($id){
+            $consulta="SELECT sesiones.fecha as fecha, sesiones.hora as hora,
+            lugar_entrenamiento.lugar as lugar, entrenadores.nombres as nombreE,
+            entrenadores.apellidos as apellidoE, deportista.nombres as nombreD,
+            deportista.apellidos as apellidoD, estimulos.tipo_estimulo as estimulo
+            FROM asistencia INNER JOIN sesiones ON asistencia.codigo_sesion= sesiones.codigo
+            INNER JOIN lugar_entrenamiento ON sesiones.id_lugar= lugar_entrenamiento.id
+            INNER JOIN entrenadores ON sesiones.email_entrenador= entrenadores.email
+            INNER JOIN deportista ON asistencia.id_deportista= deportista.id
+            INNER JOIN estimulos ON asistencia.codigo_estimulo= estimulos.codigo
+            WHERE deportista.id= ? ORDER BY sesiones.fecha ASC, sesiones.hora ASC";
+            $stmt= $this->conn->prepare($consulta);
+            $stmt->execute([$id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getCategoriaxPesoPorEdadYModalidad($id_ce, $id_mod) {
+        $sql = "SELECT codigo, categoriaxPeso FROM categoriaxpeso 
+                WHERE id_ce = ? AND id_mod = ? ORDER BY categoriaxPeso ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id_ce, $id_mod]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     
 }
 ?>

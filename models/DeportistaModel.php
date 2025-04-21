@@ -76,6 +76,13 @@ public function listDeportistasById($id_dep){
     $stmt->execute(['%' . $id_dep . '%']);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);            
 }
+public function listSportman(){
+    $consulta="SELECT * FROM deportista";
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+}
 //===========================================================================================================
 public function listEntrenadoresById($id_ent){
     $consulta= "SELECT entrenadores.id AS id, entrenadores.nombres AS nombreE,

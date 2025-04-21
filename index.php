@@ -5,9 +5,9 @@ if(isset($_SESSION['user_email'])){
     // El usuario está logueado
     // Puedes acceder a la página
     echo "Bienvenido, " . $_SESSION['user_email'];
-} 
+}
 
-    
+
 
     require_once 'controller/signupController.php';
     require_once 'controller/loginController.php';
@@ -18,9 +18,9 @@ if(isset($_SESSION['user_email'])){
     require_once 'controller/ElementosController.php';
     require_once 'controller/EventController.php';
 
-   
-    $signupController= new SignupController(); 
-    $loginController= new LoginController();   
+
+    $signupController= new SignupController();
+    $loginController= new LoginController();
     $insertCommentsController= new InsertCommentsController();
     $clubControl= new ClubController();
     $depoControl= new DeportistaController();
@@ -32,21 +32,21 @@ if(isset($_SESSION['user_email'])){
     $fechaHora->setTimezone(new DateTimeZone('America/Bogota'));
     $fechaA = $fechaHora->format('Y-m-d');
     $horaA = $fechaHora->format('H:i:s');
- 
-    
+
+
     $action= $_GET['action'] ?? 'principal';
 
     switch ($action){
 
-        case 'principal':            
+        case 'principal':
             include './views/principal.php';
             break;
         case 'registro':
-            if($_SERVER["REQUEST_METHOD"]=="POST"){               
-                $signupController->registrar();               
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+                $signupController->registrar();
             }else{
                 include './views/principal.php';
-            }         
+            }
             break;
         case 'sidebar':
             $controlVistas->sidebar();
@@ -54,12 +54,12 @@ if(isset($_SESSION['user_email'])){
             break;
         case 'loguear':
             if($_SERVER["REQUEST_METHOD"]=="POST"){
-                $loginController->login(); 
+                $loginController->login();
             }else{
                 include './views/principal.php';
             }break;
 //===================================================================================
-        case 'get_user_email':            
+        case 'get_user_email':
                 $email_user=$loginController->get_email_user();
                 break;
 //====================================================================================
@@ -76,31 +76,31 @@ if(isset($_SESSION['user_email'])){
                 $getCommentsController->getComments();
                 break;
 //=====================================================================================DANDO LIKE::::
-            case 'dando_like': 
+            case 'dando_like':
                 if($_SERVER["REQUEST_METHOD"]=="POST"){
-                    $insertCommentsController->darLike($fechaA, $horaA);    
+                    $insertCommentsController->darLike($fechaA, $horaA);
                 }else{
                     include './views/principal.php';
                 }break;
-              
+
 //==========================================================================================
             case 'verify_email':
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     $signupController->verificarCuenta();
-                    
+
                 }
                 include 'views/verify_email_confirm.php';  // Esto se ejecuta después de la verificación
                 break;
             case'recover_pass':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                     $datos=$loginController->recover_pass_request();
-                    
+
                 }include 'views/rec_pass_form.php';
                 break;
             case 'set_pass':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
-                   
-                   
+
+
                 }include 'views/set_new_password.php';
                 break;
             case 'set_new_pass':
@@ -117,7 +117,7 @@ if(isset($_SESSION['user_email'])){
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                 include 'view-nomina/sport_manage.php';
                 }break;
-                
+
             case 'event_manage':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                 include 'view-events/event-manage.php';
@@ -125,15 +125,15 @@ if(isset($_SESSION['user_email'])){
                 break;
             case 'insert_Club':
                 if($_SERVER["REQUEST_METHOD"]== "POST"){
-                $clubControl->insertClub();   
-                include 'view-profile/insert_Club.php';                     
+                $clubControl->insertClub();
+                include 'view-profile/insert_Club.php';
                 }else {
                 include 'view-profile/insert_Club.php';
                 }
                 break;
             case 'insert_representante':
                 if($_SERVER["REQUEST_METHOD"]== "POST"){
-                $clubControl->insertRepresentante(); 
+                $clubControl->insertRepresentante();
                 include 'view-profile/insert_representante.php';
                 }else {
                 include 'view-profile/insert_representante.php';
@@ -145,7 +145,7 @@ if(isset($_SESSION['user_email'])){
                 break;
             case 'list_repres':
                      $listaRep= $clubControl->listarRepresentantes();
-                    include 'view-profile/list_repres.php';            
+                    include 'view-profile/list_repres.php';
                     break;
             case 'search_club':
                 $arrayC=$clubControl->buscarClub();
@@ -164,33 +164,33 @@ if(isset($_SESSION['user_email'])){
                 break;
             case 'search_repres':
                 $listaRep= $clubControl->buscarRepresentantes();
-                include 'view-profile/list_repres.php';            
+                include 'view-profile/list_repres.php';
                 break;
             case 'update_repre':
                 if($_SERVER['REQUEST_METHOD']=='POST'){
                 $clubControl->updateRepre();
                 $repres=$clubControl->buscarRepresentantes();
-              
-            
+
+
                 }else {
                     $mensaje=0;
                     // Verificar si 'id_rep' está presente y no está vacío en la URL
                     if (isset($_GET['id_rep']) && !empty($_GET['id_rep'])) {
-                        $repreData = $clubControl->buscarRepresentantes();                    
+                        $repreData = $clubControl->buscarRepresentantes();
                         include_once 'view-profile/update_repres.php';
                     } else if((isset($_GET['id_rep']) && empty($_GET['id_rep']))) {
                         $mensaje=1;
                         // Si 'id_rep' no está presente o está vacío, incluir 'list_repres.php' y mostrar mensaje
                         include_once 'view-profile/list_repres.php';  // Incluye la vista de los representantes
                         // Añadir el contenedor con el mensaje después de incluir la vista
-                       
+
                     }
                 }
                 break;
 //=============================================================================================================================
             case 'delete_repre':
                 $clubControl->deleteRepre();
-                include 'view-profile/list_repres.php'; 
+                include 'view-profile/list_repres.php';
                 break;
 //=============================================================================================================================
             case 'insert_deportista':
@@ -227,17 +227,17 @@ if(isset($_SESSION['user_email'])){
                 }else {
                 include_once 'view-events/insert_programados.php';
                 }
-                break;                  
+                break;
 //==============================================================================================================================
             case 'get_paises':
-                if($_SERVER['REQUEST_METHOD']=='GET'){ 
-                    $eleControl->getPaises();                            
-                    exit();                    
+                if($_SERVER['REQUEST_METHOD']=='GET'){
+                    $eleControl->getPaises();
+                    exit();
                 }break;
 
             case 'get_dptos':
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-                    $eleControl->getDepartamento(); 
+                    $eleControl->getDepartamento();
                     exit();
                 }break;
 
@@ -255,7 +255,7 @@ if(isset($_SESSION['user_email'])){
             case 'list_entrenador':
                 $entrenadores= $depoControl->listEntrenadores();
                 include_once 'view-nomina/list_entrenador.php';
-                break; 
+                break;
 //================================================================================================================
             case 'list_events':
                 $eventos= $eventControl->listEventos();
@@ -265,7 +265,7 @@ if(isset($_SESSION['user_email'])){
             case 'list_programados':
                 $eventos= $eventControl->listEventos();
                 include_once 'view-events/list_programados.php';
-                break;                        
+                break;
 //================================================================================================================
             case 'search_deportista':
                 $deportistas= $depoControl->buscarDeportista();
@@ -280,7 +280,7 @@ if(isset($_SESSION['user_email'])){
             case 'search_event':
                 $eventos= $eventControl->buscarEvento();
                 include_once 'view-events/list_events.php';
-                break;                  
+                break;
 //================================================================================================================
             case 'update_deportista':
                 if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -326,24 +326,24 @@ if(isset($_SESSION['user_email'])){
 //================================================================================================================
             case 'delete_event':
                 $eventControl->deleteEvento();
-                include_once 'view-events/list_events.php'; 
+                include_once 'view-events/list_events.php';
                 break;
 //=============================================================================================================================
             case 'delete_deportista':
                 $depoControl->deleteDeportista();
-                include 'view-nomina/list_deportista.php'; 
+                include 'view-nomina/list_deportista.php';
                 break;
 //=============================================================================================================================
             case 'delete_entrenador':
                 $depoControl->deleteEntrenador();
-                include 'view-nomina/list_entrenador.php'; 
+                include 'view-nomina/list_entrenador.php';
                 break;
 //==========================================================================================================
             case 'insert_categoriaxEdad':
                 $eleControl->insertCategoriaxEdad();
                 include 'view-elementos/insert_elements.php';
                 break;
-//=======================================================================================================            
+//=======================================================================================================
             case 'insert_divisionxPeso':
                 $eleControl->insertDivisionPeso();
                 include 'view-elementos/insert_elements.php';
@@ -352,30 +352,30 @@ if(isset($_SESSION['user_email'])){
             case 'insert_modalidad':
                 $eleControl->insertModalidad();
                 include 'view-elementos/insert_elements.php';
-                break; 
-//========================================================================================================                               
+                break;
+//========================================================================================================
             case 'elements_manage':
                 include 'view-elementos/elements_manage.php';
                 break;
-//========================================================================================================                
+//========================================================================================================
             case 'insert_elements':
-               
+
                 include 'view-elementos/insert_elements.php';
                 break;
-//========================================================================================================                
+//========================================================================================================
             case 'list_elements':
                 $edades=$eleControl->getCategoria();
                 $modalidades=$eleControl->getModalidades();
                 $divisiones=$eleControl->getDivisiones();
                 include_once 'view-elementos/list_elementos.php';
                 break;
-//========================================================================================================                
+//========================================================================================================
             case 'view_auxiliar':
                 include 'view_auxiliar.php';
                 break;
 //========================================================================================================
             case 'delete_elements':
-              
+
                 include_once 'view-elementos/delete_elements.php';
 //=====================================================================================
             case 'get_modalidades':
@@ -505,7 +505,7 @@ case 'list_sessionBySite':
     }else{
         include_once 'view_sesiones/list_sesionBySite.php';
     }break;
-        
+
 
 case 'list_your_sessions':
     $sesiones=$eleControl->listYourSessions($fechaA, $horaA);
@@ -516,8 +516,15 @@ case 'delete_session':
     break;
     case 'attendance_register':
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $eleControl->registrarAsistencia();
+            $resultado = $eleControl->registrarAsistencia();
+
+            $msg = $resultado['msg'];
+            $tipo = $resultado['tipo'];
+            $id_sesion = $resultado['id_sesion'] ?? null;
             $estimulos = $eleControl->getEstimulos();
+            $title = "Registrar Asistencia";
+            $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
+            include __DIR__ . '/layouts/main.php';
         }else if ($_SERVER['REQUEST_METHOD']=='GET') {
             $sesiones = $eleControl->listSessionsForAttendance($fechaA);
             $deports = $depoControl->listDeportistas();
@@ -525,59 +532,135 @@ case 'delete_session':
                // Define título y contenido para el layout
                $title = "Registrar Asistencia";
                $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
-       
+
                // Incluye la plantilla base que carga el header, contenido y footer
                include __DIR__ . '/layouts/main.php';
         } else {
             $sesiones = $eleControl->listSessionsForAttendance($fechaA);
             $deports = $depoControl->listDeportistas();
             $estimulos = $eleControl->getEstimulos();
-            
+
             // Define título y contenido para el layout
             $title = "Registrar Asistencia";
             $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
-    
+
             // Incluye la plantilla base que carga el header, contenido y footer
             include __DIR__ . '/layouts/main.php';
         }
         break;
-    
+
 case 'list_workout_byFecha':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $workouts= $eleControl->listWorkOutsByFecha();
         include_once 'view_sesiones/list_workOuts_by_fecha.php';
-    }else{ 
+    }else{
         include_once 'view_sesiones/list_workOuts_by_fecha.php';
     }break;
 case 'asistenciax_sesion':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $asistencias=$eleControl->asistenciaxSesion();
-      
+
         include_once 'view_sesiones/asistenciax_sesion.php';
     }else{
         $myAttendats= $eleControl->listMyAttendants();
-       
+
         include_once 'view_sesiones/asistenciax_sesion.php';
     }break;
 
     case 'verOtorgarEstimulo':
             if($_SERVER['REQUEST_METHOD']=='GET'){
-                
+
             $asistencias=$eleControl->asistenciaxSesionGet();
             $estimulos=$eleControl->getEstimulos();
            include_once 'view_sesiones/otorgarEstimulo.php';
             }break;
     case 'otorgarEstimulo':
             if($_SERVER['REQUEST_METHOD']=='POST'){
-                $eleControl->otorgarEstimulo();
+                $resultado = $eleControl->otorgarEstimulo();
+
+                $msg = $resultado['msg'];
+                $tipo = $resultado['tipo'];
                 $asistencias=$eleControl->asistenciaxSesionGet();
                 $estimulos=$eleControl->getEstimulos();
-                include_once 'view_sesiones/otorgarEstimulo.php';
+                $title = "Registrar Asistencia";
+                $content = __DIR__ . '/view_sesiones/otorgarEstimulo.php';
+                include __DIR__ . '/layouts/main.php';
             }else{
                 $asistencias=$eleControl->asistenciaxSesionGet();
                 $estimulos=$eleControl->getEstimulos();
-                include_once 'view_sesiones/otorgarEstimulo.php';
+                $title = "Registrar Asistencia";
+                $content = __DIR__ . '/view_sesiones/otorgarEstimulo.php';
+                include __DIR__ . '/layouts/main.php';
             }break;
+    case 'list_sesion_by_sport':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $resultado=$eleControl->getSessionsBySport();
+                $sesiones= $resultado['data'];
+                $msg = $resultado['msg'];
+                $tipo = $resultado['tipo'];
+                $title = "Registrar Asistencia";
+                $content = __DIR__ . '/view_sesiones/list_sesiones_by_sportman.php';
+                include __DIR__ . '/layouts/main.php';
+            }else{
+                $deportistas= $depoControl->listSportman();
+                $title = "Registrar Asistencia";
+                $content = __DIR__ . '/view_sesiones/list_sesiones_by_sportman.php';
+                include __DIR__ . '/layouts/main.php';
+            }break;
+    case 'registrar_actuacion':
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+
+            $resultado=$eventControl->registrarActuacion();
+            $msg = $resultado['msg'];
+            $tipo = $resultado['tipo'];
+            $title = "Registrar Actuación";
+            $content = __DIR__ . '/view-events/registro_actuaciones.php';
+            include __DIR__ . '/layouts/main.php';
+        }else{
+
+            $eventos= $eventControl->getEventos();// -> función para listar eventos
+            $deportistas= $depoControl->listSportman();
+            $modalidades= $eleControl->getModalidades(); //-> función para listar modalidades
+            //$divisiones= $eleControl->getDivisiones(); //-> función para listar categorías
+            $title = "Registrar Actuación";
+            $content = __DIR__ . '/view-events/registro_actuaciones.php';
+            include __DIR__ . '/layouts/main.php';
+        }break;
+        case 'obtener_categoriasxpeso':
+            if($_SERVER['REQUEST_METHOD']=='GET'){
+                $eleControl->obtenerCategoriasxPeso();
+                exit();
+            }break;
+        case 'show_performanceByEvent':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $resultado=$eventControl->showPerformanceByEvent();
+                $performances= $resultado['data'];
+                $msg = $resultado['msg'];
+                $tipo = $resultado['tipo'];
+                $title = "Consultar Actuaciones por Evento";
+                $content = __DIR__ . '/view-events/performances_by_event.php';
+                include __DIR__ . '/layouts/main.php';
+            }else{
+                $eventos= $eventControl->getEventos();// -> función para listar eventos
+                $title = "Consultar Actuaciones por Evento";
+                $content = __DIR__ . '/view-events/performances_by_event.php';
+                include __DIR__ . '/layouts/main.php';
+            }break;
+            case 'show_performanceByAthlete':
+                if($_SERVER['REQUEST_METHOD']=='POST'){
+                    $resultado=$eventControl->showPerformanceByAthlete();
+                    $performances= $resultado['data'];
+                    $msg = $resultado['msg'];
+                    $tipo = $resultado['tipo'];
+                    $title = "Consultar Actuaciones por Evento";
+                    $content = __DIR__ . '/view-events/performances_by_athlete.php';
+                    include __DIR__ . '/layouts/main.php';
+                }else{
+                    $deportistas= $depoControl->listSportman();// -> función para listar eventos
+                    $title = "Consultar Actuaciones por Evento";
+                    $content = __DIR__ . '/view-events/performances_by_athlete.php';
+                    include __DIR__ . '/layouts/main.php';
+                }break;
     }
 
 ?>

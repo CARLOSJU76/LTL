@@ -60,6 +60,9 @@
         $id_evento=$_GET['id_evento']?? '';
         return $this->eventModel->buscarEvento($id_evento);
     }
+    public function getEventos(){
+        return $this->eventModel->getEventos();
+    }       
 //==================================================================================================================
 public function updateEvento(){
     if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -165,6 +168,133 @@ public function deleteEvento(){
                     </form>";
                 }
             }
-           
+            public function registrarActuacion() {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $codigo_Evento = $_POST['codigo_evento'] ?? null;
+                    $id_deportistas = $_POST['id_deportistas'] ?? [];
+                    $modalidades = $_POST['modalidades'] ?? [];
+                    $categoriasxPeso = $_POST['categoriasxPeso'] ?? [];
+                    $posiciones = $_POST['posiciones'] ?? [];
+            
+                    if (empty($codigo_Evento)) {
+                        return [
+                            'success' => false,
+                            'msg' => "Debe seleccionar un evento.",
+                            'tipo' => 'error',
+                            'codigo_evento' => null
+                        ];
+                    }
+            
+                    if (empty($id_deportistas)) {
+                        return [
+                            'success' => false,
+                            'msg' => "Debe seleccionar al menos un deportista.",
+                            'tipo' => 'error',
+                            'codigo_evento' => $codigo_Evento
+                        ];
+                    }
+            
+                    // Llamar al modelo
+                    $resultado = $this->eventModel->registrarActuacion(
+                        $codigo_Evento,
+                        $id_deportistas,
+                        $modalidades,
+                        $categoriasxPeso,
+                        $posiciones
+                    );
+            
+                    if ($resultado === false) {
+                        return [
+                            'success' => false,
+                            'msg' => "Ocurrió un error al registrar/actualizar las actuaciones.",
+                            'tipo' => 'error',
+                            'codigo_evento' => $codigo_Evento
+                        ];
+                    }
+            
+                    $insertados = $resultado['insertados'] ?? 0;
+                    $actualizados = $resultado['actualizados'] ?? 0;
+            
+                    if ($insertados > 0 && $actualizados === 0) {
+                        return [
+                            'success' => true,
+                            'msg' => "Se registraron correctamente {$insertados} actuaciones.",
+                            'tipo' => 'success',
+                            'codigo_evento' => $codigo_Evento
+                        ];
+                    } elseif ($insertados === 0 && $actualizados > 0) {
+                        return [
+                            'success' => true,
+                            'msg' => "Se actualizaron correctamente {$actualizados} actuaciones existentes.",
+                            'tipo' => 'info',
+                            'codigo_evento' => $codigo_Evento
+                        ];
+                    } elseif ($insertados > 0 && $actualizados > 0) {
+                        return [
+                            'success' => true,
+                            'msg' => "Se registraron {$insertados} nuevas actuaciones y se actualizaron {$actualizados} ya existentes.",
+                            'tipo' => 'success',
+                            'codigo_evento' => $codigo_Evento
+                        ];
+                    } else {
+                        return [
+                            'success' => false,
+                            'msg' => "No se realizaron cambios. Todos los registros están ya actualizados.",
+                            'tipo' => 'warning',
+                            'codigo_evento' => $codigo_Evento
+                        ];
+                    }
+                }
+            
+                // Si no es POST
+                return [
+                    'success' => false,
+                    'msg' => null,
+                    'tipo' => null
+                ];
+            }
+            public function showPerformanceByEvent(){
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $codigo = $_POST['codigo_evento'] ?? null;
+                $performances= $this->eventModel->showPerformanceByEvent($codigo);
+                if (!empty($performances)) {
+                    return [
+                        'success' => true,
+                        'msg' => "Las actuacionces en este evento fueron obtenidas exitosamente.",
+                        'tipo' => 'success',
+                        'data' => $performances
+                    ];
+                   
+                }
+                } else {
+                    return [
+                        'success' => false,
+                        'msg' => "No se encontraron actuaciones de la Liga en este evento.",
+                        'tipo' => 'error',
+                        'data' => []
+                    ];
+                }
+            }
+            public function showPerformanceByAthlete(){
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $email = $_POST['email'] ?? null;
+                    $performances= $this->eventModel->showPerformanceByAthlete($email);
+                    if (!empty($performances)) {
+                        return [
+                            'success' => true,
+                            'msg' => "Las actuaciones de este deportista fueron obtenidas exitosamente.",
+                            'tipo' => 'success',
+                            'data' => $performances
+                        ];
+                    }
+                } else {
+                    return [
+                        'success' => false,
+                        'msg' => "No se encontraron actuaciones del Deportista.",
+                        'tipo' => 'error',
+                        'data' => []
+                    ];
+                }
+            }
 }
 ?>

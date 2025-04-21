@@ -63,6 +63,12 @@
         $stmt->execute([$id_event]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);            
     }
+    public function getEventos(){
+        $consulta= "SELECT codigo, nombre_Evento, codigo_categoriaxEdad FROM eventos";
+        $stmt= $this->conn->prepare($consulta);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 //=================================================================================================================
         public function updateEvento($tipoE, $nombreEvento, $pais, $departamento, $ciudad, $fecha,
                                      $categoria_Edad, $id_evento) {
@@ -92,5 +98,104 @@
             $stmt->execute([$id_evento]);   
         }
 //===================================================================================================================
+public function registrarActuacion($codigo_Evento, $id_deportistas, $modalidades, $categoriasxPeso, $posiciones) {
+    try {
+        $this->conn->beginTransaction();
+
+        $verifi_act = "SELECT COUNT(*) FROM actuaciones WHERE codigo_evento = ? AND id_deportista = ?";
+        $stmtVerifi = $this->conn->prepare($verifi_act);
+
+        $insert_act = "INSERT INTO actuaciones (codigo_evento, id_deportista, codigo_Modalidad, codigo_categoriaxPeso, posicion) 
+                       VALUES (?, ?, ?, ?, ?)";
+        $stmtInsercion = $this->conn->prepare($insert_act);
+
+        // 🔁 Nuevo statement para actualizar
+        $update_act = "UPDATE actuaciones 
+                       SET codigo_Modalidad = ?, codigo_categoriaxPeso = ?, posicion = ? 
+                       WHERE codigo_evento = ? AND id_deportista = ?";
+        $stmtActualizacion = $this->conn->prepare($update_act);
+
+        $registrosInsertados = 0;
+        $registrosActualizados = 0;
+
+        foreach ($id_deportistas as $index => $id_deportista) {
+            $stmtVerifi->execute([$codigo_Evento, $id_deportista]);
+            $existe = $stmtVerifi->fetchColumn();
+
+            $codigoModalidad = is_array($modalidades) ? $modalidades[$index] : $modalidades;
+            $codigoCategoria = is_array($categoriasxPeso) ? $categoriasxPeso[$index] : $categoriasxPeso;
+            $posicion = is_array($posiciones) ? $posiciones[$index] : $posiciones;
+
+            if ($existe == 0) {
+                $resultado = $stmtInsercion->execute([
+                    $codigo_Evento,
+                    $id_deportista,
+                    $codigoModalidad,
+                    $codigoCategoria,
+                    $posicion
+                ]);
+                if ($resultado) {
+                    $registrosInsertados++;
+                }
+            } else {
+                // 🔁 Actualizar los datos si ya existe
+                $resultado = $stmtActualizacion->execute([
+                    $codigoModalidad,
+                    $codigoCategoria,
+                    $posicion,
+                    $codigo_Evento,
+                    $id_deportista
+                ]);
+                if ($resultado) {
+                    $registrosActualizados++;
+                }
+            }
+        }
+
+        if ($registrosInsertados > 0 || $registrosActualizados > 0) {
+            $this->conn->commit();
+        } else {
+            $this->conn->rollBack();
+        }
+
+        return [
+            'insertados' => $registrosInsertados,
+            'actualizados' => $registrosActualizados
+        ];
+    } catch (PDOException $e) {
+        $this->conn->rollBack();
+        error_log("Error al registrar actuación: " . $e->getMessage());
+        return false;
+    }
+}
+public function showPerformanceByEvent($codigo){
+    $consulta= "SELECT actuaciones.codigo AS id_actuacion, eventos.nombre_Evento AS nombre_Evento, 
+                deportista.nombres AS nombreD, deportista.apellidos AS apellidoD,
+                modalidad.modalidad AS modalidad, categoriaxpeso.categoriaxPeso AS division,
+                actuaciones.posicion AS posicion FROM actuaciones
+                INNER JOIN eventos ON actuaciones.codigo_evento = eventos.codigo
+                INNER JOIN deportista ON actuaciones.id_deportista = deportista.id
+                INNER JOIN modalidad ON actuaciones.codigo_Modalidad = modalidad.id
+                INNER JOIN categoriaxpeso ON actuaciones.codigo_categoriaxPeso = categoriaxPeso.codigo
+                WHERE eventos.codigo = ?";
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute([$codigo]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+}
+public function showPerformanceByAthlete($email){
+    $consulta= "SELECT actuaciones.codigo AS id_actuacion, eventos.nombre_Evento AS nombre_Evento, 
+                deportista.nombres AS nombreD, deportista.apellidos AS apellidoD,
+                deportista.email AS emailD, modalidad.modalidad AS modalidad, 
+                categoriaxpeso.categoriaxPeso AS division,
+                actuaciones.posicion AS posicion FROM actuaciones
+                INNER JOIN eventos ON actuaciones.codigo_evento = eventos.codigo
+                INNER JOIN deportista ON actuaciones.id_deportista = deportista.id
+                INNER JOIN modalidad ON actuaciones.codigo_Modalidad = modalidad.id
+                INNER JOIN categoriaxpeso ON actuaciones.codigo_categoriaxPeso = categoriaxPeso.codigo
+                WHERE deportista.email= ?";
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute([$email]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
     }
 ?>

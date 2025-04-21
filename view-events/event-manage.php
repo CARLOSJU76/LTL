@@ -50,6 +50,9 @@
                                     <option value="list_events">Consultar Eventos Finalizados</option>
                                     <option value="list_programados">Consultar Eventos Programados</option>
                                     <option value="insert_events">Incluir Eventos Finalizados</option>
+                                    <option value="registrar_actuacion">Registro actuaciones</option>
+                                    <option value="show_performanceByEvent">Consultar Actuaciones por Evento</option>
+                                    <option value="show_performanceByAthlete">Consultar Actuaciones por Deportista</option>
                                     <option value="insert_programados">Incluir Eventos Programados</option>                                                     
                                 </select>
                             </div>

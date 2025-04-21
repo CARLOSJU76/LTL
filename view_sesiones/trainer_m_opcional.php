@@ -175,7 +175,7 @@
                 <ul class="submenu1">
                     <li><a href="#" data-value=""> </a></li>
                     <li><a href="#" data-value=""> </a></li>
-                    <li><a href="#" data-value=""> </a></li>
+                    <li><a href="#" data-value="list_sesion_by_sport">Ver Asistencias por Deportista</a></li>
                     <li><a href="#" data-value="asistenciax_sesion">Listar Asistencias por Sesion</a></li>
                     <li><a href="#" data-value="attendance_register">Tomar Asistencia</a></li>
                     <!-- <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li> -->

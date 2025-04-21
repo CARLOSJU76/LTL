@@ -328,31 +328,61 @@
         }
     }
     public function registrarAsistencia() {
-        // Verificamos si el método de la solicitud es POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
-            // Obtenemos los datos del formulario
             $id_sesion = $_POST['id_sesion'];
-            $id_deportistas = isset($_POST['id_deportista']) ? $_POST['id_deportista'] : [];
+            $id_deportistas = $_POST['id_deportista'] ?? [];
     
-            // Verificamos si se ha seleccionado algún deportista
             if (empty($id_deportistas)) {
-                $msg = urlencode("Debe seleccionar al menos un deportista.");
-                header("Location: index.php?action=attendance_register&id_sesion=$id_sesion&msg=$msg&tipo=error");
-                exit;
+                return [
+                    'success' => false,
+                    'msg' => "Debe seleccionar al menos un deportista.",
+                    'tipo' => 'error',
+                    'id_sesion' => $id_sesion
+                ];
             }
     
-            // Intentamos registrar la asistencia
-            if ($this->eleModel->registrarAsistencia($id_sesion, $id_deportistas)) {
-                $msg = urlencode("Se ha registrado la asistencia para los deportistas seleccionados.");
-                header("Location: index.php?action=attendance_register&id_sesion=$id_sesion&msg=$msg&tipo=success");
-            } else {
-                $msg = urlencode("Hubo un error: Deportistas ya se encuentran registrados en esta sesión.");
-                header("Location: index.php?action=attendance_register&id_sesion=$id_sesion&msg=$msg&tipo=error");
+            $resultado = $this->eleModel->registrarAsistencia($id_sesion, $id_deportistas);
+    
+            if ($resultado === false) {
+                return [
+                    'success' => false,
+                    'msg' => "Ocurrió un error al registrar la asistencia.",
+                    'tipo' => 'error',
+                    'id_sesion' => $id_sesion
+                ];
             }
-            exit;
+    
+            if ($resultado['insertados'] > 0 && $resultado['duplicados'] === 0) {
+                return [
+                    'success' => true,
+                    'msg' => "Se registraron correctamente {$resultado['insertados']} asistencias.",
+                    'tipo' => 'success',
+                    'id_sesion' => $id_sesion
+                ];
+            } elseif ($resultado['insertados'] > 0 && $resultado['duplicados'] > 0) {
+                return [
+                    'success' => true,
+                    'msg' => "Se registraron {$resultado['insertados']} asistencias. {$resultado['duplicados']} ya estaban registradas.",
+                    'tipo' => 'warning',
+                    'id_sesion' => $id_sesion
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'msg' => "Todos los deportistas ya estaban registrados. No se insertó nada.",
+                    'tipo' => 'error',
+                    'id_sesion' => $id_sesion
+                ];
+            }
         }
+    
+        return [
+            'success' => false,
+            'msg' => null,
+            'tipo' => null
+        ];
     }
+    
     
     public function listWorkOutsByFecha(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -377,38 +407,91 @@
         return $this->eleModel->listMyAttendans($email);
     }
     public function otorgarEstimulo() {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $codigos = $_POST['codigo_asistencia'];
-            $estimulos = $_POST['estimulo'];
-            $errores = 0;
-    
-            for ($i = 0; $i < count($codigos); $i++) {
-                $codigo = $codigos[$i];
-                $estimulo = $estimulos[$i];
-    
-                if (!empty($estimulo)) {
-                    $resultado = $this->eleModel->otorgarEstimulo($codigo, $estimulo);
-                    if (!$resultado) {
-                        $errores++;
-                    }
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $codigos = $_POST['codigo_asistencia'];
+        $estimulos = $_POST['estimulo'];
+        $errores = 0;
+
+        for ($i = 0; $i < count($codigos); $i++) {
+            $codigo = $codigos[$i];
+            $estimulo = $estimulos[$i];
+
+            if (!empty($estimulo)) {
+                $resultado = $this->eleModel->otorgarEstimulo($codigo, $estimulo);
+                if (!$resultado) {
+                    $errores++;
                 }
             }
-    
-            // Redirige con mensaje
-            $idSesion = $_POST['id_sesion'];
-            if ($errores == 0) {
-                $msg = urlencode("Todos los estímulos fueron registrados exitosamente.");
-                header("Location: index.php?action=otorgarEstimulo&id_sesion=$idSesion&msg=$msg&tipo=success");
-            } else {
-                $msg = urlencode("Se registraron algunos errores al otorgar los estímulos.");
-                header("Location: index.php?action=otorgarEstimulo&id_sesion=$idSesion&msg=$msg&tipo=error");
-            }
-            exit;
+        }
+
+        if ($errores === 0) {
+            return [
+                'success' => true,
+                'msg' => "Los estímulos fueron otorgados exitosamente.",
+                'tipo' => 'success'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'msg' => "Hubo un error. No fue posible otorgar todos los estímulos.",
+                'tipo' => 'error'
+            ];
         }
     }
+
+    // Si no es POST, no hace nada
+    return [
+        'success' => false,
+        'msg' => null,
+        'tipo' => null
+    ];
+}
+
     public function getEstimulos(){
         return $this->eleModel->getEstimulos();
     }
-}
+    public function getSessionsBySport() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id_deportista = $_POST['id_deportista'];
+    
+            // Obtener sesiones desde el modelo
+            $sesiones = $this->eleModel->getSessionsBySport($id_deportista);
+    
+            if (!empty($sesiones)) {
+                return [
+                    'success' => true,
+                    'msg' => "Las asistencias del deportista fueron obtenidas exitosamente.",
+                    'tipo' => 'success',
+                    'data' => $sesiones
+                ];
+               
+            }
+            } else {
+                return [
+                    'success' => false,
+                    'msg' => "No se encontraron asistencias para el deportista.",
+                    'tipo' => 'error',
+                    'data' => []
+                ];
+            }
+        }
+        public function obtenerCategoriasxPeso() {
+            $id_ce = $_GET['id_ce'] ?? null;
+            $id_mod = $_GET['id_mod'] ?? null;
+        
+            if (!$id_ce || !$id_mod) {
+                echo json_encode([]);
+                return;
+            }
+        
+            // Suponiendo que tienes un modelo que hace esto:
+            $categorias = $this->eleModel->getCategoriaxPesoPorEdadYModalidad($id_ce, $id_mod);
+        
+            header('Content-Type: application/json');
+            echo json_encode($categorias);
+        }
+        
+    }
+
 
 ?>

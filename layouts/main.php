@@ -4,37 +4,12 @@ $title = $title ?? 'Mi sitio';
 include __DIR__ . '/header.php';
 ?>
 
-<!-- Div para los mensajes -->
-<div id="mensaje" style="display:none; padding:1rem; margin-bottom:1rem; border-radius:5px;"></div>
-
-<script>
-    // Espera a que cargue el DOM
-    document.addEventListener("DOMContentLoaded", function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const mensaje = urlParams.get('msg'); // Obtiene el mensaje de la URL
-
-        if (mensaje) {
-            const contenedor = document.getElementById("mensaje");
-
-            // Detecta el tipo de mensaje (éxito o error), por defecto es 'info'
-            const tipo = urlParams.get('tipo') || 'info';
-            let color = '#ccc'; // Color predeterminado
-
-            // Cambia el color según el tipo de mensaje
-            if (tipo === 'success') color = '#d4edda'; // verde para éxito
-            if (tipo === 'error') color = '#f8d7da'; // rojo para error
-
-            contenedor.style.backgroundColor = color;
-            contenedor.style.display = 'block'; // Muestra el contenedor
-            contenedor.textContent = decodeURIComponent(mensaje); // Muestra el mensaje decodificado
-
-            // Oculta el contenedor después de unos segundos
-            setTimeout(() => {
-                contenedor.style.display = 'none';
-            }, 5000);
-        }
-    });
-</script>
+<?php if (isset($msg) && isset($tipo)): ?>
+    <div style="padding:1rem; margin-bottom:1rem; border-radius:5px; background-color:
+        <?= $tipo === 'success' ? '#d4edda' : ($tipo === 'error' ? '#f8d7da' : ($tipo === 'warning' ? '#fff3cd' : '#ccc')) ?>;">
+        <?= htmlspecialchars($msg) ?>
+    </div>
+<?php endif; ?>
 
 <?php
 // Verifica si hay contenido para incluir la vista específica
