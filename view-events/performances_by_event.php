@@ -9,7 +9,7 @@
         </select>
         <input type="submit" value="Ver Resultados del Evento" id="submit">
     </form>
-<?php elseif (!empty($performances)): ?>
+    <?php elseif (isset($performances) && !empty($performances)): ?>
     <div id="contenedor_table"> 
         <h2>Resultados del evento:</h2>
         <table>
@@ -35,8 +35,10 @@
             </tbody>
         </table>
     </div>
-        <?php else: ?>
-            <p style="color: orange; font-style: italic;">No se encontraron eventos</p>
+    <?php elseif (isset($performances['success']) && !$performances['success']): ?>
+        <p style="color: orange; font-style: italic;"><?= htmlspecialchars($performances['msg']) ?></p>
+    <?php else: ?>
+            <p style="color: orange; font-style: italic;">No se encontraron registros para este evento</p>
 <?php endif; ?>
 </div>
 

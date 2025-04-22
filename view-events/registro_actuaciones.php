@@ -5,13 +5,13 @@
         <!-- Selección de evento -->
         <label for="codigo_evento">Evento:</label>
         <select name="codigo_evento" id="codigo_evento" required>
-    <option value="">Selecciona un evento</option>
-    <?php foreach ($eventos as $evento): ?>
-        <option value="<?= $evento['codigo'] ?>" data-id_ce="<?= $evento['codigo_categoriaxEdad'] ?>">
-            <?= htmlspecialchars($evento['nombre_Evento']) ?>
-        </option>
-    <?php endforeach; ?>
-</select>
+            <option value="">Selecciona un evento</option>
+            <?php foreach ($eventos as $evento): ?>
+                <option value="<?= $evento['codigo'] ?>" data-id_ce="<?= $evento['codigo_categoriaxEdad'] ?>">
+                    <?= htmlspecialchars($evento['nombre_Evento']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
         <input type="hidden" id="id_ce_evento_seleccionado" value="">
 
@@ -29,7 +29,7 @@
 
                     <div class="datos-extra" style="display: none;">
                         <label>Modalidad:
-                            <select name="modalidades[]" class="select-modalidad">
+                            <select name="modalidades[]" class="select-modalidad" disabled>
                                 <option value="">Selecciona una modalidad</option>
                                 <?php foreach ($modalidades as $mod): ?>
                                     <option value="<?= $mod['id'] ?>"><?= htmlspecialchars($mod['modalidad']) ?></option>
@@ -38,14 +38,13 @@
                         </label>
 
                         <label>Categoría x Peso:
-                            <select name="categoriasxPeso[]" class="select-categoriaxpeso">
+                            <select name="categoriasxPeso[]" class="select-categoriaxpeso" disabled>
                                <option value="">Primero seleccione una Modalidad</option>
-                               
                             </select>
                         </label>
 
                         <label>Posición:
-                            <input type="number" name="posiciones[]" min="1" max="20">
+                            <input type="number" name="posiciones[]" min="1" max="20" disabled>
                         </label>
                     </div>
                 </div>
@@ -92,15 +91,30 @@ document.addEventListener('DOMContentLoaded', function () {
         idCeInput.value = id_ce;
     });
 
-    // Mostrar u ocultar datos extra al seleccionar un deportista
+    // Función para habilitar o deshabilitar campos según el checkbox
+    function toggleFields(checkbox) {
+        const extra = checkbox.closest('.bloque-deportista').querySelector('.datos-extra');
+        const inputs = extra.querySelectorAll('select, input');
+        
+        if (checkbox.checked) {
+            extra.style.display = 'block';
+            inputs.forEach(el => el.disabled = false);
+        } else {
+            extra.style.display = 'none';
+            inputs.forEach(el => el.disabled = true);
+        }
+    }
+
+    // Inicializar eventos en todos los checkboxes
     document.querySelectorAll('.check-deportista').forEach((checkbox) => {
+        // Inicializar con campos deshabilitados si no está marcado
+        toggleFields(checkbox);
         checkbox.addEventListener('change', function () {
-            const extra = this.closest('.bloque-deportista').querySelector('.datos-extra');
-            extra.style.display = this.checked ? 'block' : 'none';
+            toggleFields(this);
         });
     });
 
-    // Cargar dinámicamente las categorías x peso al seleccionar una modalidad
+    // Cargar categorías dinámicamente al seleccionar una modalidad
     document.querySelectorAll('.select-modalidad').forEach((modalidadSelect) => {
         modalidadSelect.addEventListener('change', function () {
             const bloque = this.closest('.datos-extra');

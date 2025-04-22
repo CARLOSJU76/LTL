@@ -631,21 +631,32 @@ case 'asistenciax_sesion':
                 $eleControl->obtenerCategoriasxPeso();
                 exit();
             }break;
-        case 'show_performanceByEvent':
-            if($_SERVER['REQUEST_METHOD']=='POST'){
-                $resultado=$eventControl->showPerformanceByEvent();
-                $performances= $resultado['data'];
-                $msg = $resultado['msg'];
-                $tipo = $resultado['tipo'];
-                $title = "Consultar Actuaciones por Evento";
-                $content = __DIR__ . '/view-events/performances_by_event.php';
-                include __DIR__ . '/layouts/main.php';
-            }else{
-                $eventos= $eventControl->getEventos();// -> función para listar eventos
-                $title = "Consultar Actuaciones por Evento";
-                $content = __DIR__ . '/view-events/performances_by_event.php';
-                include __DIR__ . '/layouts/main.php';
-            }break;
+            case 'show_performanceByEvent':
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $resultado = $eventControl->showPerformanceByEvent();
+                    
+                    // Verifica si el resultado es un array y contiene las claves esperadas
+                    if (is_array($resultado) && isset($resultado['data'])) {
+                        $performances = $resultado['data'];
+                        $msg = $resultado['msg'];
+                        $tipo = $resultado['tipo'];
+                    } else {
+                        // Si no hay datos o hay un problema, asignamos valores predeterminados
+                        $performances = [];
+                        $msg = "Hubo un problema al obtener los resultados.";
+                        $tipo = "error";
+                    }
+                    
+                    $title = "Consultar Actuaciones por Evento";
+                    $content = __DIR__ . '/view-events/performances_by_event.php';
+                    include __DIR__ . '/layouts/main.php';
+                } else {
+                    $eventos = $eventControl->getEventos(); // Función para listar eventos
+                    $title = "Consultar Actuaciones por Evento";
+                    $content = __DIR__ . '/view-events/performances_by_event.php';
+                    include __DIR__ . '/layouts/main.php';
+                }
+                break;
             case 'show_performanceByAthlete':
                 if($_SERVER['REQUEST_METHOD']=='POST'){
                     $resultado=$eventControl->showPerformanceByAthlete();
