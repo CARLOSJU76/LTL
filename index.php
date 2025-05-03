@@ -1,14 +1,4 @@
 <?php
-
-session_start();  // Siempre se debe iniciar la sesión
-if(isset($_SESSION['user_email'])){
-    // El usuario está logueado
-    // Puedes acceder a la página
-    echo "Bienvenido, " . $_SESSION['user_email'];
-}
-
-
-
     require_once 'controller/signupController.php';
     require_once 'controller/loginController.php';
     require_once 'controller/insertCommentsController.php';
@@ -47,10 +37,6 @@ if(isset($_SESSION['user_email'])){
             }else{
                 include './views/principal.php';
             }
-            break;
-        case 'sidebar':
-            $controlVistas->sidebar();
-            echo"Y ahora con el sidebar";
             break;
         case 'loguear':
             if($_SERVER["REQUEST_METHOD"]=="POST"){

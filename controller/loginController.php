@@ -16,7 +16,6 @@ class LoginController{
         $this->objeto= new objeto();
     }
     public function login(){     
-    
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $usuario = $_POST["usuario"];
             $passw = $_POST["passw"];
@@ -26,24 +25,33 @@ class LoginController{
             $user1 = $array[1];
             $perfil = $array[2];
             $email= $array[3];
-
-            if($opcion=== 5){
-                $opcion=5;
-            }else if($opcion=== 1){
+    
+            if($opcion === 5){
+                $opcion = 5;
+            } else if($opcion === 1){
                 $estado = $this->loginModel->get_mail_verified($usuario);
                 if($estado === 1){
                     $opcion = 1;
-                }else {
+    
+                    // ✅ INICIAR SESIÓN AQUÍ si login exitoso y correo verificado
+                    session_start();
+                    $_SESSION['user_id'] = $usuario;
+                    $_SESSION['username'] = $user1;
+                    $_SESSION['email'] = $email;
+                    $_SESSION['perfil'] = $perfil;
+    
+                } else {
                     $opcion = -2;
                 }
-            }else{
-                $opcion=0;
+            } else {
+                $opcion = 0;
             }
-
+    
+            // ✅ Llama a notifilogin normalmente, ya se guardó la sesión si es éxito
             $this->objeto->notifilogin($opcion, $user1, $perfil, $email);
-          
         }
     }
+    
    
 //=================================================RECUPERACIÓN DE CONTRASEÑA============================
     public function recover_pass_request(){

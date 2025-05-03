@@ -1,3 +1,17 @@
+
+<?php
+session_start();
+
+// convertir a array si es string
+
+    $perfilArray = str_split($_SESSION['perfil']);
+
+// verificar si el perfil (posición 2) es permitido
+if (!isset($perfilArray[4]) || $perfilArray[4] != 1) {
+    header('Location: views/no_autorizado.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
