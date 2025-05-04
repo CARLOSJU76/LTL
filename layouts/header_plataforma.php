@@ -59,7 +59,8 @@
             background-color: transparent;
             position:absolute;
             right: 45%;
-            margin-top:0.3rem;
+         top:1rem;
+            
             width: 10%;
 
         }
@@ -70,7 +71,7 @@
             font-family: 'Courier New', Courier, monospace;
             border-radius: 5px;
             font-size:0.8rem;
-    
+            margin-right:0.5rem;
             width: 15rem;
             justify-content: center;
             padding: 0.4rem;
@@ -90,9 +91,9 @@
         <h2 style=" font-size: 1.5rem;">LTL WebSite</h2> 
 
         <div id="div-botones_header">
-                <!-- <form action="index.php?action=club_manage" method="get" class="form-botones">
-                    <button type="submit" name="action" value="club_manage" class="botones">Gestión de Clubes</button>
-                </form> -->
+                <form action="index.php?action=platform_manage" method="get" class="form-botones">
+                    <button type="submit" name="action" value="platform_manage" class="botones_header">Administrar Plataforma</button>
+                </form>
                 <form action="index.php?action=club_principal" method="get" class="form-botones">
                     <button type="submit" name="action" value="principal" class="botones_header">Vista Principal</button>
                 </form>

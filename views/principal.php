@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +15,7 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous"> -->
 
     <title> TOLIMA'S WRESTLING LEAGUE  </title>
-    <?php session_start();?>
+  
     <!-- body{
             background-image: url('./IMG/LTL/mat.jpg');
             background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
@@ -111,7 +114,27 @@
     <!-- =============================ROTULO DE LA LIGA============================================================= -->
     <div class="dorado"></div>
 
-    <label id="liga">LIGA TOLIMENSE DE LUCHA OLIMPICA <div ><?php if (isset($perfilArray[2])){$perfilArray = str_split($_SESSION['perfil']); echo $perfilArray[2];}?></div></label>
+
+    <label id="liga">LIGA TOLIMENSE DE LUCHA OLIMPICA 
+    <span>
+        <?php  
+        if (isset($_SESSION['username'])) {
+            echo htmlspecialchars($_SESSION['username']);
+        }
+        ?>
+    </span>
+    <span>
+        <?php 
+        if (isset($_SESSION['perfil'])) {
+          $array= str_split($_SESSION['perfil']);
+          if(isset($array[2])){
+            echo ($array[2]);
+          }
+        }
+        ?>
+    </span>
+</label>
+
     
     <div class="dorado"></div>
 

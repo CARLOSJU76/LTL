@@ -1,40 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventos y Calendarios</title>
+<?php 
 
-    <!-- Incluir Bootstrap CSS -->
-        <link rel="stylesheet" href="css/club_manage.css">
-    <link rel="stylesheet" href="css/insert_club.css">
-    <style>
-        #head-manage-club{
-            background-color: #7A1F1F;
-            font-size: 2vw;
-            font-family:'Courier New', Courier, monospace;
-
-        }
-        body{
-            background-image: url('./IMG/LTL/dark-mat.jpg');
-            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
-            background-position: center center; /* Centra la imagen */
-            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
-            background-repeat: no-repeat;
-
-        }
-    </style>
-    
-</head>
-<body>
+?>
 <!-- =========================================================================================================================== -->
-<div class="container mt-4" >
-        <div id="div-h2"><h3>LTL Website</h3></div>
-        <!-- Formulario dentro de una tabla centrada -->
+<div class="container mt-4" id="container" >
        
-        <form action="index.php" method="GET" id="formulario_inserclubes">
+       
+        <form action="index.php" method="GET" id="formulario_manage">
         
-            <table class="table" id="tabla_inser_clubes">
+            <table class="table" id="tabla_manage">
             <!-- Primera fila: Encabezado -->
                 <thead >
                     <tr >
@@ -59,21 +32,45 @@
             </table>
         </form>
 <!-- ============================================================================================================================ -->
-        <div id="div-botones">
-                <!-- <form action="index.php?action=club_manage" method="get" class="form-botones">
-                    <button type="submit" name="action" value="club_manage" class="botones">Gestión de Clubes</button>
-                </form> -->
-                <form action="index.php?action=club_principal" method="get" class="form-botones">
-                    <button type="submit" name="action" value="principal" class="botones">Vista Principal</button>
-                </form>
-        </div>
+       
 
 <!-- ============================================================================================================================= -->
 
+<style>
+        #head-manage-club{
+            background-color: #7A1F1F;
+            font-size: 2vw;
+            font-family:'Courier New', Courier, monospace;
 
-    <!-- Incluir Bootstrap JS y Popper (para componentes interactivos) -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb1gU5CHyXc7D6T2t5fSfaFz0GvL" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0Yz0u0g3P69VJ3xJkpQig2hFfoIF61h1iRIyR38uL9a5NwGo" crossorigin="anonymous"></script> -->
-
-</body>
-</html>
+        }
+        #container{
+            width: 95%;
+            height: 30rem;
+            background-image: url('./IMG/LTL/dark-mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+        }
+        #formulario_manage{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            background-color: transparent;
+            width: 50%;
+        }
+        #tabla_manage{
+            background-color: #4A0D0D;
+            color: gold;
+            font-family:'Courier New', Courier, monospace;
+            width: 80%;
+        }
+        #representante{
+            font-size: 1.2rem;
+        }
+    </style>
+    <link rel="stylesheet" href="CSS/club_manage.css">
+  
+    

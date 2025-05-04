@@ -18,7 +18,7 @@ AccesoDenegado($permitido);
 
 // Establece el título de la página, si no se define desde la vista, se usa 'Mi sitio'
 $title = $title ?? 'Mi sitio'; 
-include __DIR__ . '/header.php';
+include __DIR__ . '/header_plataforma.php';
 ?>
 
 

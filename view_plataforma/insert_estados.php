@@ -1,36 +1,43 @@
 
-<?php
-session_start();
 
-// convertir a array si es string
 
-    $perfilArray = str_split($_SESSION['perfil']);
+    <div id="contenedor_estados">
+  
+    <form action="index.php?action=cargar_estados" method="post" enctype="multipart/form-data" id="formulario">
+        <h3 style="font-family:'Courier New', Courier, monospace;">Cargar Estados Financieros</h3>   
+        <input type="number" name="nualidad" min="2024" placeholder="AÑO">
+        <label for="boton-pdf" id="label-input" class="botones">Elige el archivo</label>
+        <input type="file" name="estados_pdf" accept=".pdf" id="boton-pdf">
+        <input type="submit" name="submit" value="Subir PDF" class="botones">
+    </form>
 
-// verificar si el perfil (posición 2) es permitido
-if (!isset($perfilArray[4]) || $perfilArray[4] != 1) {
-    header('Location: views/no_autorizado.php');
-    exit;
-}
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Cargar Estados Financieros</title>
-</head>
+    </div>
     <style>
-        body{
-            display:flex;
-            justify-content:center;
-           
-        }
-        #contenedor_estados, #formulario {
+        
+        #formulario {
             display:flex;
             flex-direction: column;
             align-items:center;
+            justify-content:center;
             background-color: #4A0D0D;
             color:gold;            
             width: 40%;
+            height: 12rem;
+            border-radius: 5px;
+            margin:3rem;
+            border: gold solid 1px;
+        }
+        #contenedor_estados{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 30rem;
+            background-image: url('./IMG/LTL/dark-mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
         }
         .botones{
             display:flex;
@@ -40,30 +47,18 @@ if (!isset($perfilArray[4]) || $perfilArray[4] != 1) {
             color:gold;
             font-family: 'Courier New', Courier, monospace;
             border-radius:5px;
-            margin:4%;
-            width: 80%;
-            aspect-ratio:5/1;
+            margin:0.5rem;
+            width: 30%;
+            aspect-ratio:6/1;
             justify-content:center;
             padding:1%;
             
-      cursor: pointer;
+    cursor: pointer;
         }
         input[type="file"] {
-      display: none;
+    display: none;
     }
     </style>
-<body>
-
-    <div id="contenedor_estados">
-    <h3 style="font-family:'Courier New', Courier, monospace;">Cargar Estados Financieros</h3>
-    <form action="index.php?action=cargar_estados" method="post" enctype="multipart/form-data" id="formulario">
-        <input type="number" name="nualidad" min="2024" placeholder="AÑO">
-        <label for="boton-pdf" id="label-input" class="botones">Elige el archivo</label>
-        <input type="file" name="estados_pdf" accept=".pdf" id="boton-pdf">
-        <input type="submit" name="submit" value="Subir PDF" class="botones">
-    </form>
-
-    </div>
 
     <script>
     // Seleccionar los elementos
@@ -77,5 +72,3 @@ if (!isset($perfilArray[4]) || $perfilArray[4] != 1) {
     });
 </script>
     
-</body>
-</html>

@@ -152,28 +152,28 @@
         } 
     }
     public function cargarEstados(){
-        if($_SERVER['REQUEST_METHOD']=='POST'){
-            $nualidad=$_POST['nualidad'];
-            $pdf= $_FILES['estados_pdf']['name'];
-            $target_dir="pdfs/";
-            $target_file= $target_dir .basename($pdf);
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $nualidad = $_POST['nualidad'];
+            $pdf = $_FILES['estados_pdf']['name'];
+            $target_dir = "pdfs/";
+            $target_file = $target_dir . basename($pdf);
             move_uploaded_file($_FILES["estados_pdf"]["tmp_name"], $target_file);
-            
-
-            if($this->eleModel->cargarEstados($nualidad, $pdf) ){
-                echo"<br><p style='color:orange;'>El documento fue cargado correctamente</p>";
-                echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                                <button type='submit' name='action' value='principal'>Página de inicio</button>
-                        </form>";
-                }else{
-                    echo"<p style='color:orange;'>Se presentó un error al cargar el documento. Intenta nuevamente.</p>";
-                    echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                                 <button type='submit' name='action' value='principal'>Página de inicio</button>
-                        </form>";
-                }
-
+    
+            if($this->eleModel->cargarEstados($nualidad, $pdf)) {
+                return[
+                    'msg' => "El documento fue cargado exitosamente. =)",
+                    'tipo' => 'success'
+                ];
+            } else {
+               return [
+                    'msg' => "Hubo un error al cargar el documento. =(",
+                    'tipo' => 'error'
+                ];
+            }
         }
+        
     }
+    
     public function listarEstadosF(){
         return $this->eleModel->listarEstadosF();
     }

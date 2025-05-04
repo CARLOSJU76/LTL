@@ -1,4 +1,7 @@
 <?php
+
+
+
     require_once 'controller/signupController.php';
     require_once 'controller/loginController.php';
     require_once 'controller/insertCommentsController.php';
@@ -38,12 +41,16 @@
                 include './views/principal.php';
             }
             break;
-        case 'loguear':
-            if($_SERVER["REQUEST_METHOD"]=="POST"){
-                $loginController->login();
-            }else{
-                include './views/principal.php';
-            }break;
+            case 'loguear':
+                if($_SERVER["REQUEST_METHOD"]=="POST"){
+                    $loginController->login();
+                    // Redireccionar si el login fue exitoso
+                    header("Location: index.php?action=principal");
+                    exit;
+                } else {
+                    include './views/principal.php';
+                }
+                break;
 //===================================================================================
         case 'get_user_email':
                 $email_user=$loginController->get_email_user();
@@ -398,15 +405,34 @@ case 'delete_division':
     include_once 'view-elementos/delete_elements.php';
     break;
 //========================================================================================================
-case 'platform_manage':
-    include_once 'view_plataforma/platform_manage.php';
+case 'platform_manage':    
+    $title = "Administrar Plataforma";
+    $permitido=4;
+    $content = __DIR__ . '/view_plataforma/platform_manage.php';
+    include __DIR__ . '/layouts/main.php';
     break;
+//========================================================================================================
 case 'cargar_estados':
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $eleControl->cargarEstados();
-    }else{
-        include_once 'view_plataforma/insert_estados.php';
-    }break;
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 4;
+        $resultado = $eleControl->cargarEstados();
+
+        $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';
+        $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
+        header("Location: index.php?action=cargar_estados");
+        exit();
+    } else {
+        $permitido = 4;
+        $title = "Consultar Actuaciones por Evento";
+        $content = __DIR__ . '/view_plataforma/insert_estados.php';
+        include __DIR__ . '/layouts/main_plataforma.php';
+    }
+    break;
+
+
 case 'ver_estados':
     if($_SERVER['REQUEST_METHOD']=='GET'){
         $estadosf= $eleControl->listarEstadosF();

@@ -1,9 +1,3 @@
-body {
-    width: 100%;
-    height: 100%;
-    background-color: #f7ff88;
-    font-family: 'calibri', sans-serif;
-}
 
 .container {
     display:flex;
@@ -104,13 +98,7 @@ input, select {
     padding:0;
 }
 
-.form-botones{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;    
-    width: 40%;
-    margin: 0;
-}
+
 .botones{  
         
             background: linear-gradient(to bottom, #ffd700, white);
