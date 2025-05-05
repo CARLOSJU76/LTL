@@ -1,36 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizar Misión</title>
+
+    <div id="contenedor">
+       
+        <form action="index.php?action=update_vision" method="post" class="formulario" id="formulario" onsubmit="validarFormulario(event)">
+            <h2>Actualizace la Visión:</h2>    
+             <textarea name="nueva_vision" placeholder="Actualice aquí la Visión" id="text_vision">
+            </textarea>
+            <input type="submit" value="Actualizar Visión" id="boton_update_vision">
+
+        </form>
+       
+    </div>
     <style>
-        body{
+        #contenedor{
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-image: url('./IMG/LTL/dark-mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+           
         }
-        #contenedor, .formulario{
+        #formulario{
+            width: 60%;
             display:flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 40%;
-            aspect-ratio: 1/1;
+            height: 20rem;
             background-color:#7A1F1F;
-        }
-        #formulario, #formulario1{
-            width: 80%;
-            aspect-ratio: 4/1;
+            border-radius: 4px;
+            border:solid 1px #4A0D0D ;
         }
         textarea{
             width: 90%;
-            aspect-ratio: 1/1;
+            height:100%;
+            margin: 0.5em;
             font-size: italic;
         }
-        .form-botones{
+        #boton_update_vision{
             background: linear-gradient(to bottom, #ffd700, white);
             box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 120, 215, 0.5); 
             border-radius: 5px;
@@ -48,21 +59,6 @@
         }
 
     </style>
-</head>
-<body>
-    <div id="contenedor">
-        <h2>Actualizace la Visión:</h2>
-        <form action="index.php?action=update_vision" method="post" class="formulario" id="formulario" onsubmit="validarFormulario(event)">
-            <textarea name="nueva_vision" placeholder="Actualice aquí la misión" id="text_vision">
-            </textarea>
-            <input type="submit" value="Actualizar Visión" class="form-botones">
-
-        </form>
-        <form action="index.php?action=club_principal" method="get" class="formulario" id="formulario1" >
-                    <button type="submit" name="action" value="principal" class="form-botones">Vista Principal</button>
-        </form>
-    </div>
-   
 
     <script>
     function validarFormulario(event) {
@@ -79,5 +75,3 @@
       }
     }
   </script>
-</body>
-</html>

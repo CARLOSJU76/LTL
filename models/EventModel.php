@@ -46,23 +46,49 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);            
         }
 //=================================================================================================================
-        public function buscarEvento($id_event){
-            $consulta= "SELECT eventos.codigo AS id_ev, tipo_evento.tipo_evento AS tipoEv,
+public function buscarEvento($id_event) {
+    $consulta = "SELECT eventos.codigo AS id_ev, tipo_evento.tipo_evento AS tipoEv,
                 eventos.nombre_Evento AS nombreEv, eventos.fecha_Evento AS fechaEv,
                 ciudad.ciudad AS ciudadEv, departamento.departamento AS dptoEv,
-                pais.pais AS paisEv, categoria_edad.nombre_Categoria AS cateEv FROM eventos
-
+                pais.pais AS paisEv, categoriaxedad.categoria AS cateEv 
+                FROM eventos
                 INNER JOIN tipo_evento ON eventos.codigo_tipoE= tipo_evento.codigo
                 INNER JOIN ciudad ON eventos.codigo_ciudad= ciudad.codigo
                 INNER JOIN departamento ON eventos.id_departamento = departamento.id
                 INNER JOIN pais ON eventos.id_pais = pais.id
-                INNER JOIN categoria_edad ON eventos.codigo_categoriaxEdad= categoria_edad.codigo
+                INNER JOIN categoriaxedad ON eventos.codigo_categoriaxEdad= categoriaxedad.id
                 WHERE eventos.codigo = ?" ;
-           
-        $stmt= $this->conn->prepare($consulta);
-        $stmt->execute([$id_event]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+    
+    $stmt = $this->conn->prepare($consulta);
+    $stmt->execute([$id_event]);
+    
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Verificar si se obtuvieron resultados
+    if (count($result) > 0) {
+        return ['tipo' => "success", 'msg'=>"La operación ha dado resultados.", 'data' => $result];
+    } else {
+        return ['tipo' => "error", 'msg' => 'No se encontraron se encontraro eventos.'];
     }
+}
+//=============================================================================================================    
+public function deleteEvento($id_evento) {
+    try {
+        $query = "DELETE FROM eventos WHERE codigo = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id_evento]);
+
+        // Verificar si se eliminó al menos un registro
+        return $stmt->rowCount() > 0;
+    } catch (Exception $e) {
+        // Puedes registrar el error si lo deseas, por ejemplo: error_log($e->getMessage());
+        return false;
+    }
+}
+
+//===================================================================================================================
+
+
     public function getEventos(){
         $consulta= "SELECT codigo, nombre_Evento, codigo_categoriaxEdad FROM eventos";
         $stmt= $this->conn->prepare($consulta);
@@ -91,12 +117,6 @@
         }
 //==================================================================================================================
 
-//===================================================================================================================
-        public function deleteEvento($id_evento){
-            $query= "DELETE FROM eventos WHERE codigo = ?";
-            $stmt= $this->conn->prepare($query);
-            $stmt->execute([$id_evento]);   
-        }
 //===================================================================================================================
 public function registrarActuacion($codigo_Evento, $id_deportistas, $modalidades, $categoriasxPeso, $posiciones) {
     try {

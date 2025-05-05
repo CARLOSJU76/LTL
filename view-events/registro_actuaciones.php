@@ -1,19 +1,21 @@
-<h2>Registro de Actuaciones</h2>
+<div id="fondo">
+    <div id="contenedor-general">
 
-<?php if (!empty($eventos) && !empty($deportistas)): ?>
-    <form action="index.php?action=registrar_actuacion" method="post" id="form-actuacion">
-        <!-- Selección de evento -->
-        <label for="codigo_evento">Evento:</label>
-        <select name="codigo_evento" id="codigo_evento" required>
-            <option value="">Selecciona un evento</option>
-            <?php foreach ($eventos as $evento): ?>
+
+    <?php if (!empty($eventos) && !empty($deportistas)): ?>
+        <form action="index.php?action=registrar_actuacion" method="post" id="form-actuacion">
+            <h2>Registro de Actuaciones</h2>
+                <!-- Selección de evento -->
+            <label for="codigo_evento">Evento:</label>
+            <select name="codigo_evento" id="codigo_evento" required>
+                <option value="">Selecciona un evento</option>
+                <?php foreach ($eventos as $evento): ?>
                 <option value="<?= $evento['codigo'] ?>" data-id_ce="<?= $evento['codigo_categoriaxEdad'] ?>">
                     <?= htmlspecialchars($evento['nombre_Evento']) ?>
                 </option>
-            <?php endforeach; ?>
-        </select>
-
-        <input type="hidden" id="id_ce_evento_seleccionado" value="">
+                <?php endforeach; ?>
+            </select>
+            <input type="hidden" id="id_ce_evento_seleccionado" value="">
 
         <hr>
 
@@ -58,9 +60,34 @@
 <?php else: ?>
     <p style="color: red;">No hay eventos o deportistas disponibles para registrar actuaciones.</p>
 <?php endif; ?>
+    </div>
+</div>
 
 <!-- Estilos -->
 <style>
+    #fondo{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        background-image: url('./IMG/LTL/dark-mat.jpg');
+            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+    }
+    #contenedor-general{
+        width: 70%;
+        display:flex;
+        flex-direction: column;
+        background-color: #4A0D0D;
+        padding:2rem;
+        border: gold 1px solid;
+        border-radius: 2px;
+        margin:1rem;
+    }
     .bloque-deportista {
         margin-bottom: 15px;
         padding: 10px;
@@ -76,6 +103,12 @@
     form input[type="submit"] {
         margin-top: 20px;
         padding: 10px 15px;
+    }
+    #form-actuacion{
+        background-color: white;
+        border: gold 1px solid;
+        border-radius: 2px;
+        padding: 0.4rem;
     }
 </style>
 

@@ -37,17 +37,16 @@
 
             if($this->eventModel->insertEvento($tipoEv,$nombreEv, $pais,
              $departamento,$ciudad,  $fechaEv, $categoriaxEdad)){
-                    echo"<p style='color:yellow;'>El Evento ha sido registrado en la base de datos </p>";
-                    echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                                <button type='submit' name='action' value='principal'>Página de inicio</button>
-                        </form>";
+                return[
+                    'msg'=>"El Evento ha sido registrado exitosamente.",
+                    'tipo'=>"success"
+                ];
                 }else{
-                    echo"<p style='color:yellow;'>Se presentó un error en la inserción de los datos. Intenta nuevamente.</p>";
-                    echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                                <button type='submit' name='action' value='principal'>Página de inicio</button>
-                        </form>";
+                    return[
+                        'msg'=>"Hubo un error. No fue posible registrar el evento",
+                        'tipo'=>"error"
+                    ];
                 }
-                
             }        
        }
 //=================================================================================================================
@@ -88,15 +87,20 @@ public function updateEvento(){
 }
 //===================================================================================================================
 public function deleteEvento(){
-    if($_SERVER['REQUEST_METHOD']=='GET'){
-        $id_evento=$_GET['id_evento'];
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $id_evento=$_POST['id_evento'];
        
-        $this->eventModel->deleteEvento($id_evento);
-
-        echo"<br>Los datos del Evento han sido eliminados de la base de datos<br>";
-        echo "<form action='index.php?action=club_manage' method='get' enctype='multipart/form-data'>
-        <button type='submit' name='action' value='event_manage'>Gestión de Eventos</button>
-        </form>";
+        if($this->eventModel->deleteEvento($id_evento)){
+            return [
+                'msg'=>"El registro ha sido eliminado exitosamente.",
+                'tipo'=>'success'
+            ];
+        }else{
+            return[
+                'msg'=>"Hubo un error. No fue posible borrar el registro.",
+                'tipo'=>'error'
+            ];
+        }
     }
 }
 //===================================================================================================================
@@ -226,7 +230,7 @@ public function deleteEvento(){
                         return [
                             'success' => true,
                             'msg' => "Se actualizaron correctamente {$actualizados} actuaciones existentes.",
-                            'tipo' => 'info',
+                            'tipo' => 'success',
                             'codigo_evento' => $codigo_Evento
                         ];
                     } elseif ($insertados > 0 && $actualizados > 0) {
@@ -240,7 +244,7 @@ public function deleteEvento(){
                         return [
                             'success' => false,
                             'msg' => "No se realizaron cambios. Todos los registros están ya actualizados.",
-                            'tipo' => 'warning',
+                            'tipo' => 'error',
                             'codigo_evento' => $codigo_Evento
                         ];
                     }

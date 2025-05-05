@@ -1,12 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deportistas LTL</title>
-        <link rel="stylesheet" href="./css/club_manage.css">
-    <link rel="stylesheet" href="./css/listar_repre.css">
-    <style>
+
+
+<div class="container" style="width:45%;" id="container_general" >
+
+        <h2>Consulta de Estados Financieros</h2>
+        <form action="index.php?action=ver_estadosf" method="post" >
+            <select onchange="this.form.submit()" name='id'>
+                <option value="">Elija un año</option>
+                <?php 
+                    foreach ($estadosf as $esta){
+                        echo    "<option value= '" . htmlspecialchars ($esta['id']) . "'>".
+                                htmlspecialchars($esta['nualidad'])."</option>";
+                    }
+                ?>
+            </select>
+        </form>
+        <?php if(isset($estadobyId) && count($estBy)>0):?>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>AÑO</th>                    
+                </tr>
+            </thead>
+            <tbody>
+               
+                <tr>
+                   
+                    <td>
+                        IMAGEN
+                        <!-- <img src="fotos/<?= $depor['foto']; ?>" width="100" alt="Foto"> -->
+                    </td>
+                    
+                </tr>
+        
+            </tbody>
+        </table>
+        <?php elseif(isset($estadobyId)):?>
+            <p style="color: yellow; font-style: italic;">No se encontraron documentos la nualidad elegida</p>
+
+            <?php endif;?>
+       
+
+        <!-- ====BOTON PARA ACTUALIZAR===================================================================================== -->
+   
+<!-- ==== RESULTADOS DE LA CONSULTA==================================================================================================== -->
+    
+
+
+</div>
+<style>
         body{
             background-image: url('./IMG/LTL/mat.jpg');
             background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
@@ -100,62 +141,6 @@ label{
     width: 95%;
 }
     </style>
-</head>
-<body>
-
-<div class="container" style="width:45%;" id="container_general" >
-
-        <h2>Consulta de Estados Financieros</h2>
-        <form action="index.php?action=ver_estadosf" method="post" >
-            <select onchange="this.form.submit()" name='id'>
-                <option value="">Elija un año</option>
-                <?php 
-                    foreach ($estadosf as $esta){
-                        echo    "<option value= '" . htmlspecialchars ($esta['id']) . "'>".
-                                htmlspecialchars($esta['nualidad'])."</option>";
-                    }
-                ?>
-            </select>
-        </form>
-        <?php if(isset($estadobyId) && count($estBy)>0):?>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>AÑO</th>                    
-                </tr>
-            </thead>
-            <tbody>
-               
-                <tr>
-                   
-                    <td>
-                        IMAGEN
-                        <!-- <img src="fotos/<?= $depor['foto']; ?>" width="100" alt="Foto"> -->
-                    </td>
-                    
-                </tr>
-        
-            </tbody>
-        </table>
-        <?php elseif(isset($estadobyId)):?>
-            <p style="color: yellow; font-style: italic;">No se encontraron documentos la nualidad elegida</p>
-
-            <?php endif;?>
-       
-
-        <!-- ====BOTON PARA ACTUALIZAR===================================================================================== -->
-   
-<!-- ==== RESULTADOS DE LA CONSULTA==================================================================================================== -->
-    <div id="div-botones">
-       
-        <form action="index.php?action=club_principal" method="get" class="form-botones">
-                    <button type="submit" name="action" value="principal" class="botones">Vista Principal</button>
-        </form>
-        
-    </div>
-
-
-</div>
+<link rel="stylesheet" href="./css/club_manage.css">
+<link rel="stylesheet" href="./css/listar_repre.css">
     
-</body>
-</html>

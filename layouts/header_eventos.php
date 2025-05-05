@@ -7,14 +7,17 @@
     <style>
         html {
             font-size: 16px;
+            width: 100%;
         }
         body {
+            width: 100%;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
         }
 
         header {
+            width: 100%;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -61,7 +64,7 @@
             justify-content: flex-start;
             padding: 0.4rem;
             cursor: pointer;
-            text-align: left;
+            text-align: center;
         }
 
         .botones_header:hover {
@@ -176,8 +179,8 @@
 
         <!-- Menú de navegación con botones y hora -->
         <nav id="menu" class="menu-nav">
-            <form action="index.php?action=platform_manage" method="get" class="form-botones">
-                <button type="submit" name="action" value="platform_manage" class="botones_header">Administrar Plataforma</button>
+            <form action="index.php?action=event_manage" method="get" class="form-botones">
+                <button type="submit" name="action" value="event_manage" class="botones_header">Gestión de Eventos</button>
             </form>
             <form action="index.php?action=club_principal" method="get" class="form-botones">
                 <button type="submit" name="action" value="principal" class="botones_header">Vista Principal</button>

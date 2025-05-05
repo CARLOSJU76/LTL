@@ -71,7 +71,7 @@
             <tr>
                 <td>
                     <div class="form-group" id="id-fecha">
-                        <input type="date" id="fechaEv" name="fechaEv" placeholder="fecha del evento" class="form-control" value="<?= $data[0]['fechaEv'] ?? '' ?>"  required>
+                        <input type="date" id="fechaEv" name="fechaEv" placeholder="fecha del evento" class="form-control" value="<?= $data[0]['fechaEv'] ?? '' ?>"  required><br>
                             <label for="fechaEv" id="label-fecha">Fije fecha del Evento</label>
                     </div>
                 </td>
@@ -109,15 +109,16 @@
             <tr>
                         <td>
                             <div class="form-group">
-                                <select name="categoriaxEdad" id="categoriaxEdad" class="form-select" required>
+                            <select name="categoriaxEdad" id="categoriaxEdad" class="form-select" required>
                                     <option value="">Elija la categoría por Edad</option>
                                         <?php 
-                                       
-                                        $categorias1 = $elemento1->getCategoriaXEdad();
+                                        
+                                         include_once('./controller/ElementosController.php');
+                                        $elemento1 = new ElementosController();
+                                        $categorias1 = $elemento1->getCategoria();
                                         foreach($categorias1 as $cat){
-                                            $selected = ($cat['nombre_Categoria'] == $data[0]['cateEv']) ? 'selected' : '';
-                                            echo "<option value='".htmlspecialchars($cat['codigo'])."' $selected >"
-                                            .htmlspecialchars($cat['nombre_Categoria'])."</option>";
+                                            echo "<option value='".htmlspecialchars($cat['id'])."'>"
+                                            .htmlspecialchars($cat['categoria'])."</option>";
                                         }
                                         ?>
                                 </select>

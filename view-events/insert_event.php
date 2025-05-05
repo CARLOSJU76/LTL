@@ -1,68 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inserción de Eventos</title>
 
-    <!-- Incluir Bootstrap CSS -->
-    <link rel="stylesheet" href="./CSS/club_manage.css">
-    <link rel="stylesheet" href="./CSS/insert_represent.css">
-    <link rel="stylesheet" href="./CSS/desp_Ubicacion.css">
-    <link rel="stylesheet" href="./CSS/inscrip_depor.css">
-    <script src="JS/jquery-3.7.1.min.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-     <style>
-        #container_general{
-            overflow: auto;
-        }
-    
-        body{
-            background-image: url('./IMG/LTL/luchafemenil.jpg');
-            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
-            background-position: center center; /* Centra la imagen */
-            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
-            background-repeat: no-repeat;
-
-        }
-     </style>
-    
-</head>
-<body>
     <!-- =============================================================================================================================== -->
     <div class="container" id="container_general">
         <div id="div-h2"><h3>LTL Website</h3></div>
        
         <!-- Formulario dentro de una tabla centrada -->
-        <form action="index.php?action=insert_events" method="post" id="formulario_inserclubes">
-        
-            <table class="table" id="tabla_inser_clubes">
-        <!-- Primera fila: Encabezado -->
-                <thead>
-                    <tr>
-                        <th colspan="2" class="text-center" id="head-inser_club">Formulario Inserción de Eventos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <select name="tipoEv" id="tipoEv" class="form-select" required>
-                                    <option value="">Elija el Tipo de Competición</option>
+        <form action="index.php?action=insert_events" method="post" id="formulario_insereventos">
+            <h4 colspan="2" class="text-center" id="titulo_insereventos">Formulario Inserción de Eventos</h4>
+                <table class="table" id="tabla_inser_eventos">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <select name="tipoEv" id="tipoEv" class="form-select" required>
+                                        <option value="">Elija el Tipo de Competición</option>
                                         <?php 
-                                        include_once('./controller/ElementosController.php');
-                                        $elemento1 = new ElementosController();
-                                        $eventos1 = $elemento1->getTipoEvento();
-                                        foreach($eventos1 as  $evento){
-                                            echo "<option value='".htmlspecialchars($evento['codigo'])."'>"
-                                            .htmlspecialchars($evento['tipo_evento'])."</option>";
-                                        }
+                                            include_once('./controller/ElementosController.php');
+                                            $elemento1 = new ElementosController();
+                                            $eventos1 = $elemento1->getTipoEvento();
+                                            foreach($eventos1 as  $evento){
+                                                echo "<option value='".htmlspecialchars($evento['codigo'])."'>"
+                                                .htmlspecialchars($evento['tipo_evento'])."</option>";
+                                            }
                                         ?>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
                         <td>
                             <div class="form-group">
                                 <input type="text" name="nombreEv" id="nombreEv" placeholder="Nombre del evento" class="form-control" required>
@@ -134,18 +98,41 @@
                 </tbody>
             </table>
         </form>
-        <div id="div-botones">
-            <form action="index.php?action=event_manage" method="get" class="form-botones">
-                <button type="submit" name="action" value="event_manage" class="botones">Gestión de Eventos</button>
-            </form>
-            <form action="index.php?action=principal" method="get" class="form-botones">
-                <button type="submit" name="action" value="principal" class="botones">Vista Principal</button>
-            </form>
-        </div>
         
    </div>
 
-<script src="JS/co-dpt-ci.js"></script>
+<style>
+    #container_general{
+        overflow: auto;
+        width: 100%;
 
-</body>
-</html>
+        background-image: url('./IMG/LTL/luchafemenil.jpg');
+        background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+        background-position: center center; /* Centra la imagen */
+        background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+        background-repeat: no-repeat;
+    }
+    #formulario_insereventos{
+        background-color: #4A0D0D;
+        width: 60%;
+        padding:1rem;
+        border: gold 1px solid;
+        border-radius: 4px;
+    }
+    #titulo_insereventos{
+        background-color: transparent;
+        color:gold;
+    }
+    #tabla_inser_eventos{
+        background-color: transparent;
+        padding:0;
+    }
+    
+</style>
+<link rel="stylesheet" href="./CSS/club_manage.css">
+<link rel="stylesheet" href="./CSS/insert_represent.css">
+<link rel="stylesheet" href="./CSS/desp_Ubicacion.css">
+<link rel="stylesheet" href="./CSS/inscrip_depor.css">
+    <script src="JS/jquery-3.7.1.min.js"></script>
+    <script src="JS/co-dpt-ci.js"></script>
+

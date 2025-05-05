@@ -5,14 +5,18 @@
   
     <form action="index.php?action=cargar_estados" method="post" enctype="multipart/form-data" id="formulario">
         <h3 style="font-family:'Courier New', Courier, monospace;">Cargar Estados Financieros</h3>   
-        <input type="number" name="nualidad" min="2024" placeholder="AÑO">
+        <input type="number" style="width:30%; padding: 0.3rem;" id="anio-input" name="nualidad" min="2024" placeholder="AÑO">
         <label for="boton-pdf" id="label-input" class="botones">Elige el archivo</label>
-        <input type="file" name="estados_pdf" accept=".pdf" id="boton-pdf">
-        <input type="submit" name="submit" value="Subir PDF" class="botones">
+        <input type="file" name="estados_pdf" accept=".pdf" id="boton-pdf"> <!-- No visible-->
+        <input type="submit" id="submit-input" name="submit" value="Subir PDF" class="botones">
     </form>
 
     </div>
     <style>
+        #label-input,#anio-input,#submit-input{
+            font-size: 0.6rem;
+            text-align: center;
+        }
         
         #formulario {
             display:flex;
@@ -24,7 +28,7 @@
             width: 40%;
             height: 12rem;
             border-radius: 5px;
-            margin:3rem;
+            margin-bottom: 5rem;
             border: gold solid 1px;
         }
         #contenedor_estados{
@@ -46,10 +50,10 @@
             border: gold solid 1px;
             color:gold;
             font-family: 'Courier New', Courier, monospace;
-            border-radius:5px;
-            margin:0.5rem;
-            width: 30%;
-            aspect-ratio:6/1;
+            border-radius:3px;
+            margin:0.2rem;
+            width: 8rem;
+        
             justify-content:center;
             padding:1%;
             
