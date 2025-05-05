@@ -4,7 +4,7 @@
         <form action="index.php" method="GET" id="formulario_manage">
             <h3 colspan="2" class="text-center" id="head-manage-club">Gestión de Eventos</h3>
         
-            <div class="form-group">
+           
                     <select name="action" id="select-elementos" class="form-select form-select-lg" onchange="this.form.submit()">
                     <option value="" disabled selected>Eventos y Calendarios</option> <!-- Opción predeterminada -->
                         <option value="list_events">Consultar Eventos Finalizados</option>
@@ -16,7 +16,7 @@
                         <option value="show_performanceByAthlete">Consultar Actuaciones por Deportista</option>
                          
                     </select>
-            </div>   
+             
         </form>
 </div>
 <!-- =========================================================================================================================== -->
@@ -67,10 +67,11 @@
         background-color: #DCDCDC;
             font-size: 1.2rem;
             padding: 1rem;
-            width: 20rem;
+            width: 60%;
             font-style: italic;
             border: 1px solid gold;
             border-radius: 3px;
+            text-align: center;
         }
     </style>
 <!-- ============================================================================================================================= -->

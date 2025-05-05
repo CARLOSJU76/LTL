@@ -76,13 +76,17 @@ public function updateEvento(){
 
         if($this->eventModel->updateEvento($tipoEv,$nombreEv, $pais,
         $departamento,$ciudad,  $fechaEv, $categoriaxEdad, $id_evento)){
-            echo"<p style='color:blue;'>Los datos del evento han sido actualizados exitosamente</pr>";
+            return[
+                'msg'=>"El evento ha sido actualizado exitosamente.",
+                'tipo'=>"success"
+            ];
         }else{
-            echo"<p style='color:red;'>Se presentó un error en la inserción de los datos. Intenta nuevamente.</p>";
+            return[
+                'msg'=>"No fue posible actualizar el evento",
+                'tipo'=>"error"
+            ];
         }
-        echo "<form action='index.php?action=event_manage' method='get' enctype='multipart/form-data'>
-        <button type='submit' name='action' value='event_manage'>Gestión de Eventos</button>
-        </form>";
+        
     }
 }
 //===================================================================================================================

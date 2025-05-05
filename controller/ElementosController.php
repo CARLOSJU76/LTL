@@ -74,7 +74,7 @@
         }
         public function getTipoEvento(){
             return $this->eleModel->getTipoEvento();
-        }                                                                           // insertAgeCat-getAgeCat
+        }                
 //==================CATEGORÍA POR EDAD===================================================================
         public function getCategoria(){
             return $this->eleModel->getAgeCat();

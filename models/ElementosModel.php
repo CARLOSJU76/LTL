@@ -52,21 +52,6 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }                                                                      
 //====================================================================================================
-        /*public function getAgeCat(){
-            try{ $consulta="SELECT * FROM categoriaxedad ORDER BY id ASC";
-                $resultado= $stmt= $this->conn->prepare($consulta);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-                
-                if($resultado){
-                    return true;
-                }else{
-                    return false;
-                }
-            }catch(PDOException){
-                error_log("Error al recolectar los datos: ".  $e->getMessage());
-            }
-        }*/
-//==================================================================================================
 public function getAgeCat(){//categoriaxEdad
     $consulta="SELECT * FROM categoriaxedad ORDER BY id ASC";
     $stmt= $this->conn->query($consulta);

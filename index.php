@@ -278,21 +278,6 @@
                         include_once 'view-nomina/list_entrenador.php';
                     }
                 }break;
-//================================================================================================================
-            case 'update_event':
-                if($_SERVER['REQUEST_METHOD']=='POST'){
-                $eventControl->updateEvento();
-                $data=$eventControl->buscarEvento();
-                }else{
-                    if(isset($_GET['id_evento']) && !empty ($_GET['id_evento'])){
-                    $data=$eventControl->buscarEvento();
-                    include_once 'view-events/update_events.php';
-                    }else if(isset($_GET['id_evento']) && empty ($_GET['id_evento'])){
-                    $eventos=$eventControl->listEventos();
-                    include_once 'view-events/list_events.php.php';
-                    }
-                }break;
-
 //=============================================================================================================================
             case 'delete_deportista':
                 $depoControl->deleteDeportista();
@@ -376,6 +361,7 @@ case 'delete_division':
     $eleControl->deleteDivision();
     include_once 'view-elementos/delete_elements.php';
     break;
+//===================GESTIÓN DE EVENTOS==========================================================
 //===============================================================================================
         case 'event_manage':
             if($_SERVER['REQUEST_METHOD']=='GET'){
@@ -392,7 +378,7 @@ case 'delete_division':
                 }
                 $permitido = 4;          
                 $resultado=$eventControl->insertEvento();
-                $title = "Cargar Estados Financieros";
+                $title = "Cargar Eventos";
                 $_SESSION['msg'] = $resultado['msg'];
                 $_SESSION['tipo'] = $resultado['tipo'];
                 header("Location: index.php?action=insert_events");
@@ -410,7 +396,7 @@ case 'delete_division':
             }
             $permitido = 4;   
             $eventos= $eventControl->listEventos();
-            $title = "Consultar Actuaciones por Evento";
+            $title = "Consultar Eventos Finalizados";
             $content = __DIR__ . '/view-events/list_events.php';
             include __DIR__ . '/layouts/main_eventos.php';
             break;
@@ -421,7 +407,7 @@ case 'delete_division':
             }
             $permitido = 4;   
             $eventos= $eventControl->listEventos();
-            $title = "Consultar Actuaciones por Evento";
+            $title = "Consultar Eventos Programados";
             $content = __DIR__ . '/view-events/list_programados.php';
             include __DIR__ . '/layouts/main_eventos.php';
                 break;
@@ -435,10 +421,47 @@ case 'delete_division':
             $eventos=$resultado['data'];
             $_SESSION['msg'] = $resultado['msg'];
             $_SESSION['tipo'] = $resultado['tipo'];  
-            $title = "Consultar Actuaciones por Evento";
+            $title = "Consultar Eventos";
             $content = __DIR__ . '/view-events/list_events.php';
             include __DIR__ . '/layouts/main_eventos.php';
             break;
+//================================================================================================================
+        case 'update_event':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $permitido = 4;   
+                $eventControl->updateEvento();
+                $_SESSION['msg']=$resultado['msg'];
+                $_SESSION['tipo']=$resultado['tipo'];
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                exit();
+            }else{
+            if(isset($_GET['id_evento']) && !empty ($_GET['id_evento'])){
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $permitido = 4;   
+                $resultado=$eventControl->buscarEvento();
+                $data=$resultado['data'];
+                $_SESSION['msg']=$resultado['msg'];
+                $_SESSION['tipo']=$resultado['tipo'];
+                $title = "Actualizar Eventos";
+                $content = __DIR__ . '/view-events/update_events.php';
+                include __DIR__ . '/layouts/main_eventos.php';
+                exit;
+            }else {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $permitido = 4;   
+                $_SESSION['msg']="No es posible acceder a este recurso.";
+                $_SESSION['tipo']="error";
+                header("Location: index.php?action=list_events");
+                exit();
+            }
+        }break;
 //================================================================================================================
         case 'delete_event':
             if (session_status() === PHP_SESSION_NONE) {
@@ -478,44 +501,67 @@ case 'delete_division':
                 include __DIR__ . '/layouts/main_eventos.php';
             }break;
 //=======================================================================================================
-case 'show_performanceByEvent':
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        $permitido = 4;   
-        $resultado = $eventControl->showPerformanceByEvent();
+        case 'show_performanceByEvent':
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+            $permitido = 4;   
+            $resultado = $eventControl->showPerformanceByEvent();
         
-        // Verifica si el resultado es un array y contiene las claves esperadas
-        if (is_array($resultado) && isset($resultado['data'])) {
-            $performances = $resultado['data'];
-            $_SESSION['msg'] = $resultado['msg'];
-            $_SESSION['tipo'] = $resultado['tipo'];
-        } else {
+            // Verifica si el resultado es un array y contiene las claves esperadas
+            if (is_array($resultado) && isset($resultado['data'])) {
+                $performances = $resultado['data'];
+                $_SESSION['msg'] = $resultado['msg'];
+                $_SESSION['tipo'] = $resultado['tipo'];
+            } else {
+                if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+                }
+                $permitido = 4;   
+                // Si no hay datos o hay un problema, asignamos valores predeterminados
+                $performances = [];
+                $_SESSION['msg']= "No hay registros incluidos en este evento.";
+                $_SESSION['tipo'] = "error";
+            }
+        
+            $title = "Consultar Actuaciones por Evento";
+            $content = __DIR__ . '/view-events/performances_by_event.php';
+            include __DIR__ . '/layouts/main_eventos.php';
+            } else {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
             $permitido = 4;   
-            // Si no hay datos o hay un problema, asignamos valores predeterminados
-            $performances = [];
-            $_SESSION['msg']= "Hubo un problema al obtener los resultados.";
-            $_SESSION['tipo'] = "error";
-        }
-        
-        $title = "Consultar Actuaciones por Evento";
-        $content = __DIR__ . '/view-events/performances_by_event.php';
-        include __DIR__ . '/layouts/main_eventos.php';
-    } else {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        $permitido = 4;   
-        $eventos = $eventControl->getEventos(); // Función para listar eventos
-        $title = "Consultar Actuaciones por Evento";
-        $content = __DIR__ . '/view-events/performances_by_event.php';
-        include __DIR__ . '/layouts/main_eventos.php';
-    }
-    break;
+            $eventos = $eventControl->getEventos(); // Función para listar eventos
+            $title = "Consultar Actuaciones por Evento";
+            $content = __DIR__ . '/view-events/performances_by_event.php';
+            include __DIR__ . '/layouts/main_eventos.php';
+            }break;
+//=======================================================================================================
+    case 'show_performanceByAthlete':
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+            $permitido = 4;   
+            $resultado=$eventControl->showPerformanceByAthlete();
+            $performances= $resultado['data'];
+            $_SESSION['msg']  = $resultado['msg'];
+            $_SESSION['tipo']  = $resultado['tipo'];
+            $title = "Consultar Actuaciones por Deportista";
+            $content = __DIR__ . '/view-events/performances_by_athlete.php';
+            include __DIR__ . '/layouts/main_eventos.php';
+        }else{
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $permitido = 4;   
+            $deportistas= $depoControl->listSportman();// -> función para listar eventos
+            $title = "Consultar Actuaciones por Deportista";
+            $content = __DIR__ . '/view-events/performances_by_athlete.php';
+            include __DIR__ . '/layouts/main_eventos.php';
+        }break;
 //===============================SECCIÓN PLATAFORMA======================================================
 //========================================================================================================
 case 'platform_manage':    
@@ -784,22 +830,7 @@ case 'asistenciax_sesion':
                 $eleControl->obtenerCategoriasxPeso();
                 exit();
             }break;
-            
-            case 'show_performanceByAthlete':
-                if($_SERVER['REQUEST_METHOD']=='POST'){
-                    $resultado=$eventControl->showPerformanceByAthlete();
-                    $performances= $resultado['data'];
-                    $msg = $resultado['msg'];
-                    $tipo = $resultado['tipo'];
-                    $title = "Consultar Actuaciones por Evento";
-                    $content = __DIR__ . '/view-events/performances_by_athlete.php';
-                    include __DIR__ . '/layouts/main.php';
-                }else{
-                    $deportistas= $depoControl->listSportman();// -> función para listar eventos
-                    $title = "Consultar Actuaciones por Evento";
-                    $content = __DIR__ . '/view-events/performances_by_athlete.php';
-                    include __DIR__ . '/layouts/main.php';
-                }break;
+           
     }
 
 ?>

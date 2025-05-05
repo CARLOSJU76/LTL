@@ -85,12 +85,12 @@
 
         .hora {
             font-weight: bold;
-            font-size: 0.6rem;
+            font-size: 0.8rem;
             font-style: italic;
         }
 
         .fecha {
-            font-size: 0.7rem;
+            font-size: 1rem;
             font-weight: lighter;
             font-style: italic;
         }
