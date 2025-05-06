@@ -20,7 +20,7 @@
             justify-content: space-between;
             align-items: start;
             background-color: #4A0D0D;
-            color: gold;
+            color: #D4AF37;
             position: relative;
             padding: 1rem;
         }
@@ -31,7 +31,7 @@
             font-size: 1.8rem;
             background-color: transparent;
             border: none;
-            color: gold;
+            color: #D4AF37;
             cursor: pointer;
             position: absolute;
             top: 1rem;
@@ -51,8 +51,8 @@
 
         .botones_header {
             background-color: transparent;
-            border: gold solid 1px;
-            color: gold;
+            border: #D4AF37 solid 1px;
+            color: #D4AF37;
             font-family: 'Courier New', Courier, monospace;
             border-radius: 5px;
             font-size: 0.8rem;
@@ -65,7 +65,7 @@
         }
 
         .botones_header:hover {
-            background-color: gold;
+            background-color: #D4AF37;
             color: #4A0D0D;
         }
 
@@ -131,7 +131,7 @@
                 flex-direction: column;
                 background-color: #4A0D0D;
                 padding: 1rem;
-                border: 1px solid gold;
+                border: 1px solid #D4AF37;
                 border-radius: 8px;
                 top: 4rem;
                 right: 1rem;

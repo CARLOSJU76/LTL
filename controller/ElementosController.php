@@ -112,9 +112,26 @@ public function insertCategoriaxEdad() {
         public function insertModalidad(){
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $modalidad=$_POST['modalidad'];
-                $this->eleModel->insertModalidad($modalidad);
+               $resultado= $this->eleModel->insertModalidad($modalidad);
+                if($resultado){
+                    return[
+                        'msg'=>"La modalidad ha sido registrada exitosamente",
+                        'tipo'=>"success"
+                    ];
+               }else{
+                    return[
+                        'msg'=>"Hubo un error, registro fallido.",
+                        'tipo'=>"error"
+                    ];
+               }
+            }else{
+                return[
+                    'msg'=> "Debes incluir una modalidad válida.",
+                    'tipo'=> "error"
+                ];
             }
         }
+//=======================================================================================================
         public function getModalidad(){
             return $this->eleModel->getModalidad();
         }
@@ -125,9 +142,26 @@ public function insertCategoriaxEdad() {
                 $id_ce=$_POST['id_ce'];
                 $id_mod=$_POST['id_mod'];
                 
-                $this->eleModel->insertDivisionPeso($divisioxPeso, $id_ce, $id_mod);
-            }
+               $resultado= $this->eleModel->insertDivisionPeso($divisioxPeso, $id_ce, $id_mod);
+               if($resultado){
+                    return [
+                        'msg'=> "La Diviisión de Peso ha sido registrada exitosamente.",
+                        'tipo'=> "success"
+                    ];
+               }else{
+                return [
+                    'msg'=> "Hubo un error. No fue posible hacer el registro",
+                    'tipo'=> "error"
+                ];
+               }
+            }else{
+                return [
+                    'msg'=> "Incluye datos válidos para la consulta",
+                    'tipo'=> "error"
+                ];
+               }
         }
+//==================================================================================================
         public function getDivisiones(){
             return $this->eleModel->getDivisionPeso();
         }
@@ -157,22 +191,70 @@ public function insertCategoriaxEdad() {
         public function deleteCategoria(){
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $codigo= $_POST['id_categoria'];
-                $this->eleModel->deleteCategoria($codigo);
+                $resultado=$this->eleModel->deleteCategoria($codigo);
+                if($resultado){
+                    return[
+                        'msg'=>"La Categoría ha sido eliminada con éxito",
+                        'tipo'=>"success"
+                    ];
+                }else{
+                    return ['msg'=>"Hubo un error. No fue posible eliminar el elemento.",
+                        'tipo'=>"error"
+                    ];
+                }
+        }else{
+            return ['msg'=>"Prodedimiento errado. No fue posible eliminar el elemento.",
+                'tipo'=>"error"
+            ];
         }
 
     }
         public function deleteModalidad(){
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $id_modalidad= $_POST['id_modalidad'];
-                $this->eleModel->deleteModalidad($id_modalidad);
+                $resultado=$this->eleModel->deleteModalidad($id_modalidad);
+
+                if($resultado){
+                    return[
+                        'msg'=> "La Modalidad ha sido eliminada con éxito.",
+                        'tipo'=>"success"
+                    ];
+                }else{
+                    return[
+                        'msg'=> "Hubo un error. No fue posible eliminar el elemento.",
+                        'tipo'=>"error"
+                    ];
+                }
+            }else{
+                return[
+                    'msg'=> "Procedimiento incorrecto. Vuelve a intentarlo.",
+                    'tipo'=>"error"
+                ];
             }
         } 
         public function deleteDivision(){
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $codigo_division= $_POST['id_division'];
-                $this->eleModel->deleteDivision($codigo_division);
+                $resultado=$this->eleModel->deleteDivision($codigo_division);
+                if($resultado){
+                    return[
+                        'msg'=>"La División por Peso ha sido eliminada con éxito.",
+                        'tipo'=>"success"
+                    ];
+                }else{
+                    return[
+                        'msg'=>"Hubo un error. No fue posible eliminar el elemento",
+                        'tipo'=>"error"
+                    ];
+                }
+            }else{
+                return[
+                    'msg'=>"Hubo un error. No fue posible eliminar el elemento",
+                    'tipo'=>"error"
+                ];
+            }
         } 
-    }
+
 //=======================================================================================================
     public function cargarEstados(){
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -257,13 +339,21 @@ public function insertCategoriaxEdad() {
             $id_ciudad=$_POST['ciudad'];
 
             if($this->eleModel->insertLugar($lugar, $id_pais, $id_dpto, $id_ciudad)){
-                echo"<br><p style='color:orange;'>El Sitio de entrenamiento fué incluido exitosamente</p>";
+                return [
+                    'msg'=> "El sitio de entrenamiento fué registrado exitosamente.",
+                    'tipo'=>"success"
+                ];
             }else{
-                echo"<p style='color:orange;'>Se presentó un error al tratar de incluir el lugar de entrenamiento. Intenta nuevamente.</p>";
+                return [
+                    'msg'=> "Hubo un error. No fue registrado el lugar de entrenamiento.",
+                    'tipo'=>"error"
+                ];
             }
-            echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                             <button type='submit' name='action' value='principal'>Ir al inicio</button>
-                    </form>";
+        }else{
+            return [
+                'msg'=> "Hubo un error. No fue registrado el lugar de entrenamiento.",
+                'tipo'=>"error"
+            ];
         }
     }
     public function listLugares(){
@@ -278,17 +368,21 @@ public function insertCategoriaxEdad() {
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $id_lugar= $_POST['id_lugar'];
           if($this->eleModel->delete_lugar($id_lugar)){
-            echo"<br><p style='color:orange;'>El Sitio de entrenamiento excluido de la base de datos exitosamente</p>";
+                return [
+                    'msg'=> "Datos del lugar fueron eliminados con éxito.",
+                    'tipo'=>"success"
+                ];
           }else{
-            echo"<p style='color:orange;'>Se presentó un error al tratar de excluir el lugar de entrenamiento. Intenta nuevamente.</p>";
+                return[
+                    'msg'=> "No fue posible borrar el registro.",
+                    'tipo'=> "error"
+                ];
           }
-            echo "<div style='display:flex; flex-direction: row;'><form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                    <button type='submit' name='action' value='principal'>Ir al inicio</button>
-                </form> 
-                <form action='index.php?action=lugar_entrenamiento' method='post' enctype='multipart/form-data'>
-                    <button type='submit' name='action' value='principal'>Sitios de Entrenamiento</button>
-                </form>
-                </div>";
+        }else{
+            return[
+                'msg'=> "Solicitud denegada. No es POST.",
+                'tipo'=> "error"
+            ];
         }
     }
     public function insertSession(){
@@ -330,7 +424,7 @@ public function insertCategoriaxEdad() {
     }
     public function listYourSessions($fechaA,$horaA){
         $email=$_GET['user_email'] ?? '';
-        return $this->eleModel->listYourSessions($email,$fechaA,$fechaA,$horaA);
+        return $this->eleModel->listYourSessions($email,$fechaA,$horaA);
     }
     public function listSessionsBySite($fechaA, $horaA){
         if($_SERVER['REQUEST_METHOD']=='POST'){

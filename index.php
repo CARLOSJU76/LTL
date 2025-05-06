@@ -286,27 +286,11 @@
                 include 'view-nomina/list_entrenador.php';
                 break;
 
-//=======================================================================================================
-            case 'insert_divisionxPeso':
-                $eleControl->insertDivisionPeso();
-                include 'view-elementos/insert_elements.php';
-                break;
 
-//========================================================================================================
-            case 'list_elements':
-                $edades=$eleControl->getCategoria();
-                $modalidades=$eleControl->getModalidades();
-                $divisiones=$eleControl->getDivisiones();
-                include_once 'view-elementos/list_elementos.php';
-                break;
 //========================================================================================================
             case 'view_auxiliar':
                 include 'view_auxiliar.php';
                 break;
-//========================================================================================================
-            case 'delete_elements':
-
-                include_once 'view-elementos/delete_elements.php';
 //=====================================================================================
             case 'get_modalidades':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
@@ -326,21 +310,6 @@
                     exit();
                 }break;
 
-//========================================================================================================
-            case 'delete_categoria':
-                $eleControl->deleteCategoria();
-                include_once 'view-elementos/delete_elements.php';
-                break;
-//========================================================================================================
-            case 'delete_modalidad':
-                    $eleControl->deleteModalidad();
-                    include_once 'view-elementos/delete_elements.php';
-                break;
-//========================================================================================================
-case 'delete_division':
-    $eleControl->deleteDivision();
-    include_once 'view-elementos/delete_elements.php';
-    break;
 //================SECCIÓN ADMINISTRAR ELEMENTOS===========================================================
 //========================================================================================================
 case 'elements_manage':
@@ -354,7 +323,7 @@ case 'elements_manage':
 case 'insert_elements':
     
     $permitido=4;
-    $title = "Insertar Elementos";
+    $title = "Registrar Elementos";
     $content = __DIR__ . '/view-elementos/insert_elements.php';
     include __DIR__ . '/layouts/main_elementos.php';
     break;
@@ -380,8 +349,122 @@ case 'insert_modalidad':
     $_SESSION['tipo']=$resultado['tipo'];
     header("Location: index.php?action=insert_elements");
     exit();
-//===================GESTIÓN DE EVENTOS==========================================================
+
+//=======================================================================================================
+case 'insert_divisionxPeso':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;   
+    $resultado= $eleControl->insertDivisionPeso();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=insert_elements");
+    exit();
+//========================================================================================================
+case 'list_elements':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;   
+    $edades=$eleControl->getCategoria();
+    $modalidades=$eleControl->getModalidades();
+    $divisiones=$eleControl->getDivisiones();
+    $title = "Relación de Categorías y Modalidades";
+    $content = __DIR__ . '/view-elementos/list_elementos.php';
+    include __DIR__ . '/layouts/main_elementos.php';
+    break;
+
+//========================================================================================================
+case 'delete_elements':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;  
+    $title = "Relación de Categorías y Modalidades";
+    $content = __DIR__ . '/view-elementos/delete_elements.php';
+    include __DIR__ . '/layouts/main_elementos.php';
+    break;
+
+//========================================================================================================
+case 'delete_categoria':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;  
+    $resultado=$eleControl->deleteCategoria();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=list_elements");
+    exit();
+
+//========================================================================================================
+case 'delete_modalidad':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;  
+    $resultado=$eleControl->deleteModalidad();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=list_elements");
+    exit();
+
+//========================================================================================================
+case 'delete_division':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4; 
+    $resultado=$eleControl->deleteDivision();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=list_elements");
+    exit();
+//=============================================================================================================
+case 'lugar_entrenamiento':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;  
+    $lugares= $eleControl->listLugares();
+    $title = "Relación de Categorías y Modalidades";
+    $content = __DIR__ . '/view-elementos/lugar_entrenamiento.php';
+    include __DIR__ . '/layouts/main_elementos.php';
+    break;
 //===============================================================================================
+case 'insert_lugar':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;   
+    $resultado= $eleControl->insertLugar();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=lugar_entrenamiento");
+    exit();
+//=============================================================================================================
+case 'search_lugar':
+    if(isset($_GET['id_lugar']) && !empty ($_GET['id_lugar'])){
+        $lugares=$eleControl->buscarLugar();
+        include_once 'view-elementos/lugar_entrenamiento.php';
+        }else if(isset($_GET['id_lugar']) && empty ($_GET['id_lugar'])){
+        $lugares=$eleControl->listLugares();
+        include_once 'view-elementos/lugar_entrenamiento.php';
+        }break;
+//=============================================================================================================
+case 'delete_lugar':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4; 
+    $resultado=   $eleControl->deleteLugar();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=lugar_entrenamiento");
+    exit();
+//===================GESTIÓN DE EVENTOS========================================================================
+//=============================================================================================================
         case 'event_manage':
             if($_SERVER['REQUEST_METHOD']=='GET'){
                 $title = "Administrar Eventos";
@@ -480,7 +563,7 @@ case 'insert_modalidad':
                 header("Location: index.php?action=list_events");
                 exit();
             }
-        }break;
+        }
 //================================================================================================================
         case 'delete_event':
             if (session_status() === PHP_SESSION_NONE) {
@@ -687,26 +770,7 @@ case 'update_vision':
         $content = __DIR__ . '/view_plataforma/update_vision.php';
         include __DIR__ . '/layouts/main_plataforma.php';
     }break;
-//=============================================================================================================
-case 'lugar_entrenamiento':
-    $lugares= $eleControl->listLugares();
-    include_once 'view-elementos/lugar_entrenamiento.php';
-    break;
 
-case 'insert_lugar':
-        $eleControl->insertLugar();
-        break;
-case 'search_lugar':
-    if(isset($_GET['id_lugar']) && !empty ($_GET['id_lugar'])){
-        $lugares=$eleControl->buscarLugar();
-        include_once 'view-elementos/lugar_entrenamiento.php';
-        }else if(isset($_GET['id_lugar']) && empty ($_GET['id_lugar'])){
-        $lugares=$eleControl->listLugares();
-        include_once 'view-elementos/lugar_entrenamiento.php';
-        }break;
-case 'delete_lugar':
-        $eleControl->deleteLugar();
-        break;
 
 
 case 'trainer_manage':

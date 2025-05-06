@@ -98,8 +98,17 @@ public function insertAgeCat($categoriaxEdad){
         }
 //======================================================================================================
         public function insertDivisionPeso($divisioxPeso, $id_ce, $id_mod){
-            $consulta = $this->conn->prepare("INSERT INTO categoriaxpeso (categoriaxPeso, id_ce, id_mod) VALUES (?,?,?)");
-            $consulta->execute([$divisioxPeso, $id_ce, $id_mod]);
+            try{
+                $consulta = $this->conn->prepare("INSERT INTO categoriaxpeso (categoriaxPeso, id_ce, id_mod) VALUES (?,?,?)");
+                if($consulta->execute([$divisioxPeso, $id_ce, $id_mod])){
+                return true;
+                }else{
+                return false;
+                }
+            }catch (PDOException $e){
+            error_log("Error al insertar la división por peso: " . $e->getMessage());
+            return false;
+            }
         }
         public function getDivisionPeso(){
             $consulta="SELECT * FROM categoriaxpeso ORDER BY categoriaxPeso ASC";
@@ -113,19 +122,46 @@ public function insertAgeCat($categoriaxEdad){
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         public function deleteCategoria($codigo){
-            $consulta="DELETE FROM categoriaxedad WHERE id = ?";
-            $stmt=$this->conn->prepare($consulta);
-            $stmt->execute([$codigo]);
+           try{ $consulta="DELETE FROM categoriaxedad WHERE id = ?";
+                $stmt=$this->conn->prepare($consulta);
+                if($stmt->execute([$codigo])){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch (PDOException $e) {
+                error_log("Error al tratar de eliminar la Categoría: " . $e->getMessage());
+                return false;
+            }
+
         }
         public function deleteModalidad($id_modalidad){
-            $consulta="DELETE FROM modalidad WHERE id = ? ";
-            $stmt=$this->conn->prepare($consulta);
-            $stmt->execute([$id_modalidad]);
+            try{$consulta="DELETE FROM modalidad WHERE id = ? ";
+                $stmt=$this->conn->prepare($consulta);
+                
+                if($stmt->execute([$id_modalidad])){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }catch (PDOException $e) {
+                error_log("Error al tratar de eliminar la Modalidad: " . $e->getMessage());
+                return false;
+            }
         }
         public function deleteDivision($codigo_division){
-            $consulta="DELETE FROM categoriaxpeso WHERE codigo = ? ";
-            $stmt=$this->conn->prepare($consulta);
-            $stmt->execute([$codigo_division]);
+            try{$consulta="DELETE FROM categoriaxpeso WHERE codigo = ? ";
+                $stmt=$this->conn->prepare($consulta);
+                if($stmt->execute([$codigo_division])){
+                    return true;
+                }else{
+                    return false;
+                }
+            }catch (PDOException $e) {
+                error_log("Error al tratar de eliminar el elemento: " . $e->getMessage());
+                return false;
+            }
         }
         public function cargarEstados($nualidad, $pdf){
             try{$consulta =("INSERT INTO estadosf (nualidad, pdf) VALUES (?, ?)");
