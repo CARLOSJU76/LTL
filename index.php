@@ -1,7 +1,5 @@
 <?php
 
-
-
     require_once 'controller/signupController.php';
     require_once 'controller/loginController.php';
     require_once 'controller/insertCommentsController.php';
@@ -38,19 +36,18 @@
             if($_SERVER["REQUEST_METHOD"]=="POST"){
                 $signupController->registrar();
             }else{
-                include './views/principal.php';
-            }
-            break;
-            case 'loguear':
-                if($_SERVER["REQUEST_METHOD"]=="POST"){
-                    $loginController->login();
-                    // Redireccionar si el login fue exitoso
-                    header("Location: index.php?action=principal");
-                    exit;
-                } else {
                     include './views/principal.php';
                 }
                 break;
+        case 'loguear':
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+                $loginController->login();
+                    // Redireccionar si el login fue exitoso
+                header("Location: index.php?action=principal");
+                exit;
+            } else {
+                include './views/principal.php';
+            }break;
 //===================================================================================
         case 'get_user_email':
                 $email_user=$loginController->get_email_user();
@@ -288,30 +285,13 @@
                 $depoControl->deleteEntrenador();
                 include 'view-nomina/list_entrenador.php';
                 break;
-//==========================================================================================================
-            case 'insert_categoriaxEdad':
-                $eleControl->insertCategoriaxEdad();
-                include 'view-elementos/insert_elements.php';
-                break;
+
 //=======================================================================================================
             case 'insert_divisionxPeso':
                 $eleControl->insertDivisionPeso();
                 include 'view-elementos/insert_elements.php';
                 break;
-//==========================================================================================================
-            case 'insert_modalidad':
-                $eleControl->insertModalidad();
-                include 'view-elementos/insert_elements.php';
-                break;
-//========================================================================================================
-            case 'elements_manage':
-                include 'view-elementos/elements_manage.php';
-                break;
-//========================================================================================================
-            case 'insert_elements':
 
-                include 'view-elementos/insert_elements.php';
-                break;
 //========================================================================================================
             case 'list_elements':
                 $edades=$eleControl->getCategoria();
@@ -361,6 +341,45 @@ case 'delete_division':
     $eleControl->deleteDivision();
     include_once 'view-elementos/delete_elements.php';
     break;
+//================SECCIÓN ADMINISTRAR ELEMENTOS===========================================================
+//========================================================================================================
+case 'elements_manage':
+    
+    $permitido=4;
+    $title = "Administrar Elementos";
+    $content = __DIR__ . '/view-elementos/elements_manage.php';
+    include __DIR__ . '/layouts/main.php';
+    break;
+//========================================================================================================
+case 'insert_elements':
+    
+    $permitido=4;
+    $title = "Insertar Elementos";
+    $content = __DIR__ . '/view-elementos/insert_elements.php';
+    include __DIR__ . '/layouts/main_elementos.php';
+    break;
+//==========================================================================================================
+case 'insert_categoriaxEdad':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;
+    $resultado=$eleControl->insertCategoriaxEdad();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=insert_elements");
+    exit();
+//==========================================================================================================
+case 'insert_modalidad':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;    
+    $resultado=$eleControl->insertModalidad();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=insert_elements");
+    exit();
 //===================GESTIÓN DE EVENTOS==========================================================
 //===============================================================================================
         case 'event_manage':

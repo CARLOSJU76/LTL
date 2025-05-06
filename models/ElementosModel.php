@@ -58,15 +58,39 @@ public function getAgeCat(){//categoriaxEdad
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 //===================================================================================================
-        public function insertAgeCat($categoriaxEdad){
-            $consulta = $this->conn->prepare("INSERT INTO categoriaxedad (categoria) VALUES (?)");
-            $consulta->execute([$categoriaxEdad]);
+public function insertAgeCat($categoriaxEdad){
+    try {
+        $consulta = $this->conn->prepare("INSERT INTO categoriaxedad (categoria) VALUES (?)");
+
+        // Ejecutar y comprobar si fue exitoso
+        if ($consulta->execute([$categoriaxEdad])) {
+            return true;
+        } else {
+            return false;
         }
+
+    } catch (PDOException $e) {
+        error_log("Error al insertar categoría por edad: " . $e->getMessage());
+        return false;
+    }
+}
+
 //=====================================================================================================
         public function insertModalidad($modalidad){
-            $consulta = $this->conn->prepare("INSERT INTO modalidad (modalidad) VALUES (?)");
-            $consulta->execute([$modalidad]);
+           try{
+                $consulta = $this->conn->prepare("INSERT INTO modalidad (modalidad) VALUES (?)");
+               if( $consulta->execute([$modalidad])){
+                    return true;
+               }else{
+                return false;
+               }
+           
+         }catch (PDOException $e) {
+            error_log("Error al insertar categoría por edad: " . $e->getMessage());
+            return false;
         }
+    }
+//=======================================================================================================
         public function getModalidad(){//Get Modalidad
             $consulta="SELECT * FROM modalidad";
             $stmt= $this->conn->query($consulta);

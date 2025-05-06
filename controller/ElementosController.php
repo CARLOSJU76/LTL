@@ -80,13 +80,35 @@
             return $this->eleModel->getAgeCat();
             
         }
-        public function insertCategoriaxEdad(){
-            if($_SERVER['REQUEST_METHOD']=='POST'){
-                $categoriaxEdad=$_POST['categoriaxEdad'];
-                $this->eleModel->insertAgeCat($categoriaxEdad);
+//=======================================================================================================
+public function insertCategoriaxEdad() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['categoriaxEdad']) && !empty(trim($_POST['categoriaxEdad']))) {
+            $categoriaxEdad = trim($_POST['categoriaxEdad']);
+            $resultado = $this->eleModel->insertAgeCat($categoriaxEdad);
+
+            if ($resultado) {
+                return [
+                    'msg' => "La Categoría fue registrada exitosamente.",
+                    'tipo' => "success"
+                ];
+            } else {
+                return [
+                    'msg' => "Hubo un error. NO fue posible ejecutar la consulta.",
+                    'tipo' => "error"
+                ];
             }
-//========================================================================================================
+        } else {
+            return [
+                'msg' => "El campo 'Categoría por edad' es obligatorio.",
+                'tipo' => "error"
+            ];
         }
+    }
+}
+
+//========================================================================================================
+
         public function insertModalidad(){
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $modalidad=$_POST['modalidad'];
