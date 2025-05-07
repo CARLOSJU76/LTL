@@ -19,20 +19,37 @@
             }
         }
         public function insertRepresentante($nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $telefono,$foto){
-               try{$consulta= "INSERT INTO representante_club (nombres, apellidos, codigo_tipodoc,
+               try{
+                    $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $consulta= "INSERT INTO representante_club (nombres, apellidos, codigo_tipodoc,
                             num_docum, genero, email, telefono, foto) VALUES (?,?,?,?,?,?,?,?)";
-                $resultado=$stmt=$this->conn->prepare($consulta);
-                $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $telefono, $foto]);
-                if ($resultado) {
-                    return true;
-            } else {
-                    return false;
-            }
-            } catch (PDOException $e) {
-// Capturamos cualquier error de base de datos y lo retornamos.
-            error_log("Error al insertar deportista: " . $e->getMessage());
-            return false;
-           }
+                    $stmt=$this->conn->prepare($consulta);
+
+                    if (!$stmt) {
+                        return [
+                            'msg' => "Error al preparar la consulta.",
+                            'tipo' => "error"
+                        ];
+                    }
+                    if ($stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $email,$telefono, $foto])) {
+                        return [
+                            'msg' => "Los datos del representante fueron registrados exitosamente.",
+                            'tipo' => "success"
+                        ];
+                    } else {
+                        $error = $stmt->errorInfo();
+                        return [
+                            'msg' => "Error al ejecutar la consulta: " . $error[2],
+                            'tipo' => "error"
+                        ];
+                    }
+                } catch (PDOException $e) {
+                    error_log("Error al insertar club: " . $e->getMessage());
+                    return [
+                        'msg' => "Error al insertar club: " . $e->getMessage(),
+                        'tipo' => "error"
+                    ];
+                }
         }
         
         public function getTd(){
@@ -60,8 +77,11 @@
             $stmt= $this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+//=======================================================================================================================
         public function getClubesbyNombre($codigo){
-            $consulta= "SELECT clubes.nombreClub AS nombreClub,clubes.id_representante AS id, representante_club.nombres AS nombreR,
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $consulta= "SELECT clubes.codigo AS club_id,clubes.nombreClub AS nombreClub,clubes.id_representante AS id, representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, clubes.fecha_conformacion AS fecha,
                         representante_club.num_docum AS documento, representante_club.foto AS foto FROM clubes
                         INNER JOIN representante_club ON clubes.id_representante= representante_club.id
@@ -69,10 +89,40 @@
 
                 $stmt= $this->conn->prepare($consulta);
                 $stmt->execute(['%' . $codigo . '%']);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if (  $stmt->execute(['%' . $codigo . '%'])) {
+                    $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    return [
+                        'msg' => "Aqui estan los datos del club.",
+                        'tipo' => "success",
+                        'data'=> $resultado
+                    ];
+                } else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            }catch (PDOException $e) {
+                error_log("Error al insertar club: " . $e->getMessage());
+                return [
+                    'msg' => "Error al insertar club: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
         }
+//========================================================================================================================
+//=========================================================================================================================
         public function buscarClub($codigo){
-            $consulta= "SELECT clubes.nombreClub AS nombreClub,clubes.id_representante AS id, representante_club.nombres AS nombreR,
+            $consulta= "SELECT clubes.codigo AS club_id, clubes.nombreClub AS nombreClub,clubes.id_representante AS id, representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, clubes.fecha_conformacion AS fecha,
                         representante_club.num_docum AS documento, representante_club.foto AS foto FROM clubes
                         INNER JOIN representante_club ON clubes.id_representante= representante_club.id
@@ -101,16 +151,47 @@
             $stmt=$this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+//=====================================================================================================================
         public function updateClub($nombre_club, $representante,$fecha_conformacion, $codigo){
-            $query= "UPDATE clubes SET nombreClub=?, id_representante=?, fecha_conformacion=? WHERE codigo=?";
-            $stmt=$this->conn->prepare($query);
-            $stmt->execute([$nombre_club, $representante, $fecha_conformacion,$codigo]);
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query= "UPDATE clubes SET nombreClub=?, id_representante=?, fecha_conformacion=? WHERE codigo=?";
+                $stmt=$this->conn->prepare($query);
+
+                if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if($stmt->execute([$nombre_club, $representante, $fecha_conformacion,$codigo])){
+                    return [
+                        'msg' => "Los datos del club fueron actualizados exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            }catch (PDOException $e) {
+                error_log("Error al actualizar datos del club: " . $e->getMessage());
+                return [
+                    'msg' => "Error al actualizar datos del club: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
         }
+//====================================================================================================================
         public function deleteClub($codigo){
             $query= "DELETE FROM clubes WHERE codigo LIKE ?";
             $stmt= $this->conn->prepare($query);
             $stmt->execute([$codigo]);
         }
+//======================================================================================================================
+//======================================================================================================================
         public function buscarRepresentantes($id_rep){
             $consulta= "SELECT representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, representante_club.email AS email,

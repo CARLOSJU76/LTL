@@ -56,24 +56,15 @@
                 $target_dir="fotos/";
                 $target_file= $target_dir .basename($photo);
                 move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
-//======================================================================
-$photo= $_FILES['foto']['name'];
-                $target_dir="photo/";
-                $target_file= $target_dir .basename($photo);
-                move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
-//=====================================================================
-                if($this->clubModel->insertRepresentante($nombre,$apellido, $codigo_td,
-                                                $num_docum, $genero, $email, $telefono, $photo)){
-                        $this->clubModel->setPerfilR($email);                                                                                   
-                    echo"<p style='color:yellow';>El Dirigente ha sido registrado en la base de datos</p>";
-                    }else{
-                    echo"<p style='color:yellow;'>Se presentó un error en la inserción de los datos. Intenta nuevamente.</p>";
-                    }
+//============================================================================================================
+              return $this->clubModel->insertRepresentante($nombre,$apellido, $codigo_td,
+                                                $num_docum, $genero, $email, $telefono, $photo);
 
-               
-                echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='principal'>Página de inicio</button>
-                    </form>";
+            }else{
+                return[
+                    'msg'=> "Hubo un error. El solicitud POST no encontrada.",
+                    'tipo'=>"error"
+                ];
             }
        }
         public function getTd(){
@@ -117,16 +108,17 @@ $photo= $_FILES['foto']['name'];
                     $nombre_club= $_POST['nombre_club'];
                     $fecha_conformacion=$_POST['fecha'];
 
-                    $this->clubModel->updateClub($nombre_club, $id_representante,$fecha_conformacion, $codigo);
-                    echo"<p style:'color: yellow;'>Los datos del Club han sido actualizado exitosamente</p>";
-                    echo "<form action='index.php?action=club_manage' method='get' enctype='multipart/form-data'>
-                    <button type='submit' name='action' value='club_manage'>Gestión de Clubes</button>
-                    </form>";
+                    return $this->clubModel->updateClub($nombre_club, $id_representante,$fecha_conformacion, $codigo);
+                }else{
+                    return[
+                        'msg'=> "Hubo un error. El solicitud POST no encontrada.",
+                        'tipo'=>"error"
+                    ];
                 }
             }
             public function deleteClub(){
-                if($_SERVER["REQUEST_METHOD"]=="GET"){
-                    $codigo=$_GET['codigo_club'];
+                if($_SERVER["REQUEST_METHOD"]=="POST"){
+                    $codigo=$_POST['codigo_club'];
 
                     $this->clubModel->deleteClub($codigo);
                     echo"<p style= 'color:yellow;'>Los datos del Club han sido eliminados</p>";

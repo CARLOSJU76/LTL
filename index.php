@@ -105,13 +105,6 @@
                 include 'view-nomina/sport_manage.php';
                 }break;
 
-           
-            
-    
-            case 'list_club':
-                $arrayC= $clubControl->getClubesByNombre();
-                include 'view-profile/list_clubes.php';
-                break;
             case 'list_repres':
                      $listaRep= $clubControl->listarRepresentantes();
                     include 'view-profile/list_repres.php';
@@ -120,14 +113,6 @@
                 $arrayC=$clubControl->buscarClub();
                 include 'view-profile/list_clubes.php';
                 break;
-            case 'update_club':
-                if($_SERVER['REQUEST_METHOD']=='POST'){
-                $clubControl->updateClub();
-                $clubes=$clubControl->getClubesByNombre();
-                }else{
-                  $clubData=$clubControl->getClubesByNombre();
-                  include_once './view-profile/update_club.php';
-                }break;
             case 'delete_club':
                 $clubControl->deleteClub();
                 break;
@@ -296,7 +281,7 @@
             case 'club_manage':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                     $permitido=4;
-                    $title = "Administrar Elementos";
+                    $title = "Gestión de Clubes";
                     $content = __DIR__ . '/view-profile/club_manage.php';
                     include __DIR__ . '/layouts/main.php';
             }break;
@@ -319,6 +304,54 @@
                     $content = __DIR__ . '/view-profile/insert_Club.php';
                     include __DIR__ . '/layouts/main_clubes.php';
                 }break;
+//====================================================================================================
+                case 'list_club':
+                    $permitido=4;
+                    $resultado= $clubControl->getClubesByNombre();
+                    $arrayC=$resultado['data'];
+                    $title = "Relación de Clubes";
+                    $content = __DIR__ . '/view-profile/list_clubes.php';
+                    include __DIR__ . '/layouts/main_clubes.php';
+                    break;
+//=====================================================================================================
+            case 'update_club':
+                if($_SERVER['REQUEST_METHOD']=='POST'){
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                $permitido = 4;   
+                $resultado=$clubControl->updateClub();
+                $clubes=$clubControl->getClubesByNombre();
+                $_SESSION['msg1']=$resultado['msg'];
+                $_SESSION['tipo1']=$resultado['tipo'];
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                exit();
+                }else{
+                    if(isset($_GET['codigo_club']) && !empty ($_GET['codigo_club'])){
+                        if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
+                    $permitido=4;
+                    $resultado=$clubControl->getClubesByNombre();
+                    $clubData=$resultado['data'];
+                    $_SESSION['msg']=$resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
+                    $title = "Actualizar Eventos";
+                    $content = __DIR__ . '/view-profile/update_club.php';
+                    include __DIR__ . '/layouts/main_clubes.php';
+                    exit;
+                    }else {
+                        if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
+                        $permitido = 4;   
+                        $_SESSION['msg']="No es posible acceder a este recurso.";
+                        $_SESSION['tipo']="error";
+                        header("Location: index.php?action=list_club");
+                        exit();
+                    }
+            }
+//=====================================================================================================
 //=====================================================================================================
                 case 'insert_representante':
                     if($_SERVER["REQUEST_METHOD"]== "POST"){

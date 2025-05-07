@@ -21,25 +21,56 @@ $title = $title ?? 'Mi sitio';
 include __DIR__ . '/header_clubes.php';
 ?>
 
+<?php
 
-<?php if (isset($_SESSION['msg']) && isset($_SESSION['tipo'])): ?>
-    <div id="mensajeFlash" style="padding:1rem; margin-bottom:1rem; border-radius:5px; background-color:
-        <?= $_SESSION['tipo'] === 'success' ? '#d4edda' : ($_SESSION['tipo'] === 'error' ? '#f8d7da'  : '#ccc') ?>;">
-        <?= htmlspecialchars($_SESSION['msg']) ?>
+// Captura y limpia el mensaje flash desde la sesión
+$msg = '';
+$tipo = '';
+
+if (isset($_SESSION['msg1'], $_SESSION['tipo1'])) {
+    $msg = $_SESSION['msg1'];
+    $tipo = $_SESSION['tipo1'];
+    unset($_SESSION['msg1'], $_SESSION['tipo1']);
+} elseif (isset($_SESSION['msg'], $_SESSION['tipo'])) {
+    $msg = $_SESSION['msg'];
+    $tipo = $_SESSION['tipo'];
+    unset($_SESSION['msg'], $_SESSION['tipo']);
+}
+?>
+
+<?php if (!empty($msg)): ?>
+    <!-- Estilos opcionales para el efecto de desvanecimiento -->
+    <style>
+        .mensajeFlash {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .mensajeFlash.fade-out {
+            opacity: 0;
+        }
+    </style>
+
+    <!-- Mensaje Flash HTML -->
+    <div id="mensajeFlash" class="mensajeFlash"
+         style="background-color: <?= $tipo === 'success' ? '#d4edda' : ($tipo === 'error' ? '#f8d7da' : '#ccc') ?>;">
+        <?= htmlspecialchars($msg) ?>
     </div>
+
+    <!-- Script para ocultar el mensaje con efecto -->
     <script>
         setTimeout(() => {
-            const div = document.getElementById('mensajeFlash');
-            if (div) {
-                div.style.display = 'none';
+            const mensaje = document.getElementById('mensajeFlash');
+            if (mensaje) {
+                mensaje.classList.add('fade-out');
+                // Elimina del DOM tras la transición
+                setTimeout(() => mensaje.remove(), 500); // 0.5s coincide con la transición CSS
             }
-        }, 5000);
+        }, 5000); // Espera 5 segundos antes de desvanecer
     </script>
-
-    <?php
-    // Limpieza después de mostrar
-    unset($_SESSION['msg'], $_SESSION['tipo']);
-    ?>
 <?php endif; ?>
 
 <?php
