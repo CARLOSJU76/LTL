@@ -22,12 +22,23 @@
                 $representante=$_POST['representante'];
                 $fecha_conformacion= $_POST['fecha_conformacion'];
 
-                $this->clubModel->insertClub($nombre_club, $representante,$fecha_conformacion);
-                //header("Location: index.php?action=dashboard");
-                echo"<br>El Club ha sido registrado en la base de datos";
-                echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                <button type='submit' name='action' value='principal'>Página de inicio</button>
-                </form>";
+                $resultado=$this->clubModel->insertClub($nombre_club, $representante,$fecha_conformacion);
+                if($resultado){
+                    return[
+                        'msg'=> "EL club fue registrado exitosamente.",
+                        "tipo"=>"success"
+                    ];
+                }else{
+                    return[
+                        'msg'=> "No fue posible ejecutar el registro.",
+                        "tipo"=>"error"
+                    ];
+                }
+            }else{
+                return[
+                    'msg'=> "No fue posible ejecutar el registro.",
+                    "tipo"=>"error"
+                ];
             }
         }
 

@@ -6,9 +6,17 @@
             $this->conn=$db;
         }
         public function insertClub($nombre_club, $representante,$fecha_conformacion){
-            $consulta= "INSERT INTO clubes(nombreClub,id_representante, fecha_conformacion) VALUES (?,?,?)";
+            try{$consulta= "INSERT INTO clubes(nombreClub,id_representante, fecha_conformacion) VALUES (?,?,?)";
             $stmt= $this->conn->prepare($consulta);
-            $stmt->execute([$nombre_club, $representante, $fecha_conformacion]);
+            if($stmt->execute([$nombre_club, $representante, $fecha_conformacion])){
+                return true;
+            }else{
+                return false;
+            }
+            }catch (PDOException $e) {
+                error_log("Error al insertar categoría por edad: " . $e->getMessage());
+                return false;
+            }
         }
         public function insertRepresentante($nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $telefono,$foto){
                try{$consulta= "INSERT INTO representante_club (nombres, apellidos, codigo_tipodoc,

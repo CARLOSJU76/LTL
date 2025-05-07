@@ -1,32 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inserción de Clubes</title>
-
-    <!-- Incluir Bootstrap CSS -->
-    <link rel="stylesheet" href="CSS/bootstrap.min.css"  integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/club_manage.css">
-    <link rel="stylesheet" href="./css/insert_club.css">
-    <style>
-    
-        body{
-            background-image: url('./IMG/LTL/mat.jpg');
-            background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
-            background-position: center center; /* Centra la imagen */
-            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
-            background-repeat: no-repeat;
-
-        }
-
-    </style>
-    
-</head>
-<body>
-
+<div id="fondo-inserc">
 <!-- =================================================================================================================================== -->
-    <div class="container mt-4" >
+    <div class="container mt-4" id="contenedor-general">
         <div id="div-h2"><h3>LTL Website</h3></div>
         <!-- Formulario dentro de una tabla centrada -->
         <form action="index.php?action=insert_Club" method="post" id="formulario_inserclubes">
@@ -85,22 +59,203 @@
                 </tbody>
             </table>
         </form>
-        <div id="div-botones">
-                <form action="index.php?action=club_manage" method="get" class="form-botones">
-                    <button type="submit" name="action" value="club_manage" class="botones">Gestión de Clubes</button>
-                </form>
-                <form action="index.php?action=club_principal" method="get" class="form-botones">
-                    <button type="submit" name="action" value="principal" class="botones">Vista Principal</button>
-                </form>
-        </div>
-
-        
     </div>
+</div>
     <!-- ============================================================================================================================== -->
+<link rel="stylesheet" href="CSS/bootstrap.min.css"  integrity="sha384-KyZXEJx3W1m9vW8zLKG5odMpgqj75y5y2auKZG2K5REs5tPujVgR0w9r6fO4k5PQ" crossorigin="anonymous">
+<style>
+    #fondo-inserc{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 30rem;
 
-    <!-- Incluir Bootstrap JS y Popper (para componentes interactivos) -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb1gU5CHyXc7D6T2t5fSfaFz0GvL" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0Yz0u0g3P69VJ3xJkpQig2hFfoIF61h1iRIyR38uL9a5NwGo" crossorigin="anonymous"></script> -->
+        background-image: url('./IMG/LTL/mat.jpg');
+        background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+        background-position: center center; /* Centra la imagen */
+        background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+        background-repeat: no-repeat;
+    }
+</style>
+<!-- =============================================== -->
+ <style>
+    .form-select{
+    border: 3px solid white ;
+    padding-top:0;
+}
+#tabla_inser_clubes{
+    background-color: whitesmoke;
+    width:100%;
+}
+#formulario_inserclubes{
+    margin-top: 3%;
+    width: 90%;
+    height: 90%;
+    background-color: green;
+}
+#boton_submit{
+    grid-row:6/7;
+    grid-column: 3/7;
+    background: linear-gradient(to bottom, #ffd700, white);
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 120, 215, 0.5); 
+    border-radius: 5px;
+    font-family:'Courier New', Courier, monospace;
+    font-size: 1.2vw;
+   font-weight: bold;
+    color:#4A0D0D;
+}
+#head-inser_club{
+    background-color: #4A0D0D;;
+}
+.form-control, .form-select{
+    width: 80%;
+    margin-bottom: 1%;
+    text-justify: center;
+    font-family:'Courier New', Courier, monospace
+}
+h3{
+    margin-bottom: 0;
+    color:gold;
+    font-family:'Courier New', Courier, monospace;
+    font-style: italic;
+    padding:0;
+ }
+ #div-h2{
+    width: 100%;
+    display:flex;
+    justify-content: start;
+    
+ }
+ </style>
+ <!-- ===============================CLUB  -->
+ <style>
+ .container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 60%;
+    background-color: #4A0D0D;
+   border-radius: 4px;
+    padding: 20px;
+    border: 2px solid #D4AF37;
+    padding-top:0;
+}
 
-</body>
-</html>
+h1 {
+    color: #4A0D0D;; /* Verde militar */
+    font-family: 'calibri', sans-serif;
+}
+
+.table {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #4A0D0D;;/* Verde militar */
+    color: white;
+    border-radius: 7px;
+}
+
+.table th, .table td {
+    text-align: center;
+    padding: 15px;
+    font-size: 1rem;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.btn-custom {
+    background-color: #4A0D0D;;;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #3c421c;
+}
+
+form {
+    margin-top: 20px;
+}
+
+button {
+    background-color: #4A0D0D;;;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+}
+
+button:hover {
+    background-color: #3c421c;
+}
+input, select {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 7px;
+}
+.form-control, .form-select{
+    width: 80%;
+    font-size: small;
+    margin:0;
+}
+.btn-custom{
+    width: 70%;
+}
+#div-botones{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+    margin-top:3%;
+    margin-bottom:1%;    
+    width:90%;
+    
+    height: 2.5vw;
+    padding:0;
+}
+
+
+.botones{  
+        
+            background: linear-gradient(to bottom, #ffd700, white);
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 120, 215, 0.5); 
+            border-radius: 5px;
+            font-family:'Courier New', Courier, monospace;
+            font-size: 1vw;
+            color:#4A0D0D;
+           height:100%;
+}
+.for_up_club{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+    width: 90%;
+}
+#div_up_club1, #div_up_club2, #div_up_club3, #div_up_club4{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    width: 90%;
+    height: 30%;
+}
+th{
+    background-color: #4A0D0D;;
+}
+</style>
+

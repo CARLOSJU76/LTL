@@ -99,25 +99,14 @@
                     $loginController->establecer_newpass();
                 }include 'views/set_new_password.php';
                 break;
-            case 'club_manage':
-                if($_SERVER['REQUEST_METHOD']=='GET'){
-                    include 'view-profile/club_manage.php';
-                }
-                break;
+           
             case 'sport_manage':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                 include 'view-nomina/sport_manage.php';
                 }break;
 
            
-            case 'insert_Club':
-                if($_SERVER["REQUEST_METHOD"]== "POST"){
-                $clubControl->insertClub();
-                include 'view-profile/insert_Club.php';
-                }else {
-                include 'view-profile/insert_Club.php';
-                }
-                break;
+            
             case 'insert_representante':
                 if($_SERVER["REQUEST_METHOD"]== "POST"){
                 $clubControl->insertRepresentante();
@@ -297,19 +286,46 @@
                     $eleControl->getModalidadesG();
                     exit();
                 }break;
-//=====================================================================================
+//======================================================================================================
             case 'get_categorias':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                     $eleControl->getCategoriasG();
                     exit();
                 }break;
-//=====================================================================================
+//=======================================================================================================
             case 'get_divisiones':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
                     $eleControl->getDivisionesG();
                     exit();
                 }break;
-
+//====================SECCIÓN CLUB MANAGE=================================================================
+//========================================================================================================
+            case 'club_manage':
+                if($_SERVER['REQUEST_METHOD']=='GET'){
+                    $permitido=4;
+                    $title = "Administrar Elementos";
+                    $content = __DIR__ . '/view-profile/club_manage.php';
+                    include __DIR__ . '/layouts/main.php';
+            }break;
+//========================================================================================================
+            case 'insert_Club':
+                if($_SERVER["REQUEST_METHOD"]== "POST"){
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $permitido=4;
+                    $resultado=$clubControl->insertClub();
+                    $_SESSION['msg']= $resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
+                    $title = "Registro de Clubes";
+                    $content = __DIR__ . '/view-profile/insert_Club.php';
+                    include __DIR__ . '/layouts/main_clubes.php';
+                }else {
+                    $permitido=4;
+                    $title = "Registro de Clubes";
+                    $content = __DIR__ . '/view-profile/insert_Club.php';
+                    include __DIR__ . '/layouts/main_clubes.php';
+                }break;
 //================SECCIÓN ADMINISTRAR ELEMENTOS===========================================================
 //========================================================================================================
 case 'elements_manage':

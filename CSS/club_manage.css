@@ -9,9 +9,9 @@
     height: 50%;
     margin: auto;
     background-color:#7A1F1F;
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 20px;
-    border: 3px solid white ;
+    border: 3px solid  #D4AF37;/*Dorado*/
     padding-top:0;
 }
 
