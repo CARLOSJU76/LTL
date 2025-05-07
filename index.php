@@ -107,14 +107,7 @@
 
            
             
-            case 'insert_representante':
-                if($_SERVER["REQUEST_METHOD"]== "POST"){
-                $clubControl->insertRepresentante();
-                include 'view-profile/insert_representante.php';
-                }else {
-                include 'view-profile/insert_representante.php';
-                }
-                break;
+    
             case 'list_club':
                 $arrayC= $clubControl->getClubesByNombre();
                 include 'view-profile/list_clubes.php';
@@ -326,6 +319,25 @@
                     $content = __DIR__ . '/view-profile/insert_Club.php';
                     include __DIR__ . '/layouts/main_clubes.php';
                 }break;
+//=====================================================================================================
+                case 'insert_representante':
+                    if($_SERVER["REQUEST_METHOD"]== "POST"){
+                        if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
+                        $permitido=4;
+                    $resultado=$clubControl->insertRepresentante();
+                    $_SESSION['msg']= $resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
+                    $title = "Registro de Representantes de Club";
+                    $content = __DIR__ . '/view-profile/insert_representante.php';
+                    include __DIR__ . '/layouts/main_clubes.php';
+                    }else {
+                        $permitido=4;
+                        $title = "Registro de Representantes de Club";
+                        $content = __DIR__ . '/view-profile/insert_representante.php';
+                        include __DIR__ . '/layouts/main_clubes.php';
+                    }break;
 //================SECCIÓN ADMINISTRAR ELEMENTOS===========================================================
 //========================================================================================================
 case 'elements_manage':

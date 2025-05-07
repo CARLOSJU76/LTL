@@ -1,4 +1,4 @@
-
+<div id="fondo-repre">
     <div class="container mt-4">
     <div id="div-h2"><h3 style="color:#D4AF37;">LTL Website</h3></div>
        
@@ -100,10 +100,16 @@
             </table>
         </form>
     </div>
+</div>
 <!-- ================================================================================================================= -->
 <link rel="stylesheet" href="./css/club_manage.css">
 <style>
-    body{
+    #fondo-repre{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         background-image: url('./IMG/LTL/dark-mat.jpg');
         background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
         background-position: center center; /* Centra la imagen */
@@ -122,6 +128,7 @@
     height: 40rem;
     background-color: #4A0D0D;
     border: #D4AF37 solid 1px;
+    margin:2rem;
 }
 #tabla_inser_clubes{
     background-color: whitesmoke;
