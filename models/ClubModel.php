@@ -133,7 +133,9 @@
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         public function listRepresentantesById($id_rep){
-            $consulta= "SELECT representante_club.nombres AS nombreR,
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $consulta= "SELECT representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, representante_club.email AS email,
                         representante_club.telefono AS telefono, tipo_docum.tipo_docum AS tipodoc,
                         representante_club.num_docum AS numdoc, genero.genero AS genero,
@@ -144,7 +146,33 @@
                    
                 $stmt= $this->conn->prepare($consulta);
                 $stmt->execute(['%' . $id_rep . '%']);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+                $resultado=$stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+                if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if ($stmt->execute(['%' . $id_rep . '%'])){
+                    $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    return [
+                        'data'=> $resultado
+                    ];
+                } else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            }catch (PDOException $e) {
+                error_log("Error al tratar de listar los registros:" . $e->getMessage());
+                return [
+                    'msg' => "Error al tratar de listar los registros: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }       
         }
         public function getNombreClubes(){
             $consulta="SELECT codigo,nombreClub from clubes";
@@ -186,9 +214,37 @@
         }
 //====================================================================================================================
         public function deleteClub($codigo){
-            $query= "DELETE FROM clubes WHERE codigo LIKE ?";
-            $stmt= $this->conn->prepare($query);
-            $stmt->execute([$codigo]);
+           try{ 
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query= "DELETE FROM clubes WHERE codigo LIKE ?";
+                $stmt= $this->conn->prepare($query);
+            
+            if (!$stmt) {
+                return [
+                    'msg' => "Error al preparar la consulta.",
+                    'tipo' => "error"
+                ];
+            }
+            if($stmt->execute([$codigo])){
+                return [
+                    'msg' => "Los datos del club fueron eliminados con éxito.",
+                    'tipo' => "success"
+                ];
+            }else {
+                $error = $stmt->errorInfo();
+                return [
+                    'msg' => "Error al ejecutar la consulta: " . $error[2],
+                    'tipo' => "error"
+                ];
+            }
+        }catch (PDOException $e) {
+            error_log("Error al actualizar datos del club: " . $e->getMessage());
+            return [
+                'msg' => "Error al actualizar datos del club: " . $e->getMessage(),
+                'tipo' => "error"
+            ];
+        }
+        
         }
 //======================================================================================================================
 //======================================================================================================================

@@ -105,17 +105,12 @@
                 include 'view-nomina/sport_manage.php';
                 }break;
 
-            case 'list_repres':
-                     $listaRep= $clubControl->listarRepresentantes();
-                    include 'view-profile/list_repres.php';
-                    break;
+            
             case 'search_club':
                 $arrayC=$clubControl->buscarClub();
                 include 'view-profile/list_clubes.php';
                 break;
-            case 'delete_club':
-                $clubControl->deleteClub();
-                break;
+           
             case 'search_repres':
                 $listaRep= $clubControl->buscarRepresentantes();
                 include 'view-profile/list_repres.php';
@@ -305,7 +300,7 @@
                     include __DIR__ . '/layouts/main_clubes.php';
                 }break;
 //====================================================================================================
-                case 'list_club':
+            case 'list_club':
                     $permitido=4;
                     $resultado= $clubControl->getClubesByNombre();
                     $arrayC=$resultado['data'];
@@ -351,9 +346,22 @@
                         exit();
                     }
             }
+            
 //=====================================================================================================
+            case 'delete_club':
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $permitido=4;
+                    $resultado=$clubControl->deleteClub();
+                    $_SESSION['msg']= $resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
+                    header("Location: index.php?action=list_club");
+                    exit();
+                    break;
+
 //=====================================================================================================
-                case 'insert_representante':
+            case 'insert_representante':
                     if($_SERVER["REQUEST_METHOD"]== "POST"){
                         if (session_status() === PHP_SESSION_NONE) {
                             session_start();
@@ -371,6 +379,22 @@
                         $content = __DIR__ . '/view-profile/insert_representante.php';
                         include __DIR__ . '/layouts/main_clubes.php';
                     }break;
+//========================================================================================================
+            case 'list_repres':
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $permitido=4;
+                $resultado= $clubControl->listarRepresentantes();
+                $listaRep=$resultado['data'];
+                if(isset($_SESSION['msg']) && isset($_SESSION['tipo'])){
+                    $_SESSION['msg']= $resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
+                }
+                $title = "Relación de Representantes";
+                $content = __DIR__ . '/view-profile/list_repres.php';
+                include __DIR__ . '/layouts/main_clubes.php';
+                break;
 //================SECCIÓN ADMINISTRAR ELEMENTOS===========================================================
 //========================================================================================================
 case 'elements_manage':

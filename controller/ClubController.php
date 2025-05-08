@@ -120,13 +120,16 @@
                 if($_SERVER["REQUEST_METHOD"]=="POST"){
                     $codigo=$_POST['codigo_club'];
 
-                    $this->clubModel->deleteClub($codigo);
-                    echo"<p style= 'color:yellow;'>Los datos del Club han sido eliminados</p>";
-                    echo "<form action='index.php?action=club_manage' method='get' enctype='multipart/form-data'>
-                    <button type='submit' name='action' value='club_manage'>Gestión de Clubes</button>
-                    </form>";
+                   return $this->clubModel->deleteClub($codigo);
+                  
+                }else{
+                    return[
+                        'msg'=> "Hubo un error. El solicitud POST no encontrada.",
+                        'tipo'=>"error"
+                        ];
                 }
             }
+//===================================================================================================================
             public function updateRepre(){
                 if($_SERVER['REQUEST_METHOD']=='POST'){
                     $id=$_POST['id_rep'];
