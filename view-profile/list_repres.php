@@ -4,16 +4,17 @@
 
 <?php if(isset($listaRep) && count($listaRep)>0):?>
         <h2>Representante</h2>
-        <table class="table table-bordered">
+        <table class="table table-bordered" id:"table-repre">
             <thead class="th">
-                <tr>
-                    <th id="head-inser1">Dirigente</th>                    
-                    <th id="head-inser2">Tipo Doc.</th>
-                    <th id="head-inser3">Documento</th>
-                    <th id="head-inser4">Genero</th>
-                    <th id="head-inser5">Email</th>
-                    <th id="head-inser6">Telefono</th>
-                    <th id="head-inser6">Fotografía</th>
+                <tr id="head-repre">
+                    <th class="head-repre">Dirigente</th>                    
+                    <th class="head-repre">Tipo Doc.</th>
+                    <th class="head-repre">Documento</th>
+                    <th class="head-repre">Genero</th>
+                    <th class="head-repre">Email</th>
+                    <th class="head-repre">Telefono</th>
+                    <th class="head-repre">Fotografía</th>
+                    <th class="head-repre">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,18 @@
                     <td><?=$rep['telefono']?></td>
                     <td><img src="fotos/<?= $rep['foto']; ?>" width="100" alt="Foto"></td>
                 </tr>
+                <td class="td-botones">
+                    <!--  -->
+                    <form action="index.php?action=update_club" method="get" class="form-botones" style="display:inline;">
+                        <input type="hidden" name="codigo_club" value="<?= $rep['id'] ?>">
+                        <button type="submit" id="boton-clubes1" name="action" value="update_club" >Actualizar</button>
+                    </form>
+                    <!-- Formulario para eliminar -->
+                    <form action="index.php?action=delete_club" method="post" class="form-botones" style="display:inline;"  onsubmit="return confirmDelete()">
+                        <input type="hidden" name="codigo_club" value="<?= $rep['id'] ?>">
+                        <button type="submit" id="boton-clubes2" name="action" value="delete_club" >Borrar</button>
+                    </form>
+                </td>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -54,7 +67,7 @@
             </select><br>
             <input type="submit" value="Buscar" id="buscar_club">        
         </form>
-        <label for="id_rep">Seleccione el representante que desea revisar.</label>
+        <label id="label_id_rep" for="id_rep">Seleccione el representante que desea revisar.</label>
 <!-- ====================================================================================================================== -->
         <div id="div-botones">
         <!-- ====BOTON PARA ACTUALIZAR===================================================================================== -->
@@ -132,7 +145,6 @@ h2{
     justify-content: space-around;
     align-items: center;
     width:90%;
-    background-color: green;
     margin-top:2rem;
    }
 label{
@@ -185,12 +197,13 @@ h1 {
 
 .table th, .table td {
     text-align: center;
-    padding: 15px;
+    padding: 0.3rem;
     font-size: 1rem;
 }
 
-.table-bordered {
+#table-repre{
     border: 1px solid #ddd;
+    width: 90%;
 }
 
 .btn-custom {
@@ -274,4 +287,19 @@ input, select {
 th{
     background-color: #7A1F1F;
 }
+#label_id_rep{
+    width: 90%;
+}
+  #boton-clubes1, #boton-clubes2{
+        width: 3rem;
+        border: #4A0D0D solid 1px;
+        background-color: transparent;
+        border-radius: 3px;
+        font-size: 0.6rem;
+        color:#4A0D0D;
+        padding:0.3rem;
+    }
+    #head-repre{
+        font-size: 0.8rem;
+    }
 </style>

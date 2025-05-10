@@ -135,7 +135,7 @@
         public function listRepresentantesById($id_rep){
             try{
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $consulta= "SELECT representante_club.nombres AS nombreR,
+                $consulta= "SELECT representante_club.id AS id, representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, representante_club.email AS email,
                         representante_club.telefono AS telefono, tipo_docum.tipo_docum AS tipodoc,
                         representante_club.num_docum AS numdoc, genero.genero AS genero,
