@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizar Representante legal de Club</title>
-    <!-- Incluir Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="CSS/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="./css/club_manage.css">
-    <link rel="stylesheet" href="css/insert_represent.css">
-</head>
-<body>
 <!-- ================================================================================================================================= -->
-
-<div class="container mt-4">
+<div id="fondo-repres">
+<div class="container mt-4" id="contenedor-general">
     <div id="div-h2"><h3>LTL Website</h3></div>
        
         <!-- Formulario dentro de una tabla centrada -->
@@ -119,17 +107,35 @@
         </tbody>
     </table>
 </form>
-<!-- ================================================================================================================================================================== -->
-<div id="div-botones">
-            <form action="index.php?action=club_manage" method="get" class="form-botones">
-                <button type="submit" name="action" value="club_manage" class="botones">Gestión de Clubes</button>
-            </form>
-            <form action="index.php?action=principal" method="get" class="form-botones">
-                <button type="submit" name="action" value="principal" class="botones">Vista Principal</button>
-            </form>
-        </div>
-        
-    </div>
+</div>
+<!-- ============================================================================================== -->
+<link rel="stylesheet" href="./css/club_manage.css">
+<link rel="stylesheet" href="css/insert_represent.css">
+<style>
+    #fondo-repres{
+        background-image: url('./IMG/LTL/renteria.jpg');
+        background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+        background-position: center center; /* Centra la imagen */
+        background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+        background-repeat: no-repeat;
 
-</body>
-</html>
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #contenedor-general{
+        margin:2rem;
+        background-color: #4A0D0D;
+        border: #D4AF37 solid 1px;
+    }
+    #boton-clubes1, #boton-clubes2{
+        width: 3rem;
+        border: #4A0D0D solid 1px;
+        background-color: transparent;
+        border-radius: 3px;
+        font-size: 0.6rem;
+        color:#4A0D0D;
+        padding:0.3rem;
+    }
+</style>

@@ -1,6 +1,6 @@
 
-<div id="fondo-representante">
-<div class="container mt-4" id="container" >
+<div id="fondo-repres">
+<div class="container mt-4" id="contenedor-general" >
 
 <?php if(isset($listaRep) && count($listaRep)>0):?>
         <h2>Representante</h2>
@@ -34,7 +34,7 @@
             <p>No se encontraron usuarios con ese nombre</p>
         <?php endif;?>
 <!-- ================================================================================================================ -->
-        <form action="index.php?action=search_repres" method="get" id="form_buscar_club">
+        <form action="index.php?action=search_repres" method="get" id="form_buscar_repres">
             <input type="hidden" name="action" value="search_repres">
     
             <select name="id_rep" id="id_rep" class="form-select" required>
@@ -88,7 +88,7 @@
         }   
 <?php }?>
 
-#fondo-representante{
+#fondo-repres{
             background-image: url('./IMG/LTL/mat.jpg');
             background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
             background-position: center center; /* Centra la imagen */
@@ -101,6 +101,16 @@
             align-items: center;
             justify-content: center;
 
+}
+#contenedor-general{
+    width: 90%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin:2rem;
+    background-color: #4A0D0D;
+    border: #D4AF37 solid 1px;
 }
 #boton_submit{ 
     background: linear-gradient(to bottom, #ffd700, white);
@@ -116,14 +126,14 @@ h2{
     font-size: 2vw;
     color:white;
 }
-#form_buscar_club{
+#form_buscar_repres{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width:100%;
-    padding:0;
-    height: 2.2vw;
-   
+    align-items: center;
+    width:90%;
+    background-color: green;
+    margin-top:2rem;
    }
 label{
     color:white;
@@ -155,17 +165,6 @@ label{
 </style>
 <!-- ============================================================================================================= -->
 <style>
-.container {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color:#4A0D0D;
-    border-radius: 4px;
-    border: 1px solid  #D4AF37;/*Dorado*/
-    width: 80%;
-    margin:2rem;
-}
 h1 {
     color: #7A1F1F;; /* Verde militar */
     font-family: 'calibri', sans-serif;
@@ -224,9 +223,9 @@ input, select {
     font-size: 1.2rem;
     border-radius: 7px;
 }
-.form-control, .form-select{
-    width: 80%;
-    font-size: small;
+.form-select{
+    width: 49%;
+    font-size: 0.8rem;
     margin:0;
 }
 .btn-custom{
