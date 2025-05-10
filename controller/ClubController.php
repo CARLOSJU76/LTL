@@ -155,31 +155,34 @@
                         }
             
                 $elementos= $this->clubModel->getEmailR($id);//Agregado para actualizar los perfiles de usuario.
-                $emailAntiguo= $elementos[0]['email'];
+                $emailAntiguo= $elementos;
                 $this->clubModel->quitarPerfilR($emailAntiguo);
                 $this->clubModel->setPerfilR($email);
 
-                        $this->clubModel->updateRepre($nombre, $apellido, $codigo_td,
-                                                 $num_docum, $genero, $email, $telefono, $foto,  $id);
-                        echo"<p style= 'color: yellow;'>Los datos del Representante han sido actualizado exitosamente</p>";
-                        echo "<form action='index.php?action=club_manage' method='get' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='club_manage'>Gestión de Clubes</button>
-                        </form>";
+                        return $this->clubModel->updateRepre($nombre, $apellido, $codigo_td,
+                                                 $num_docum, $genero, $email, 
+                                                 $telefono, $foto,  $id);
+                        
+                }else{
+                    return[
+                        'msg'=> "Hubo un error. El solicitud POST no encontrada.",
+                        'tipo'=>"error"
+                        ];
                 }
             }
             public function deleteRepre(){
-                if($_SERVER['REQUEST_METHOD']=='GET'){
-                    $id_rep=$_GET['id_rep'];
+                if($_SERVER['REQUEST_METHOD']=='POST'){
+                    $id_rep=$_POST['id_rep'];
                 
                     $elementos= $this->clubModel->getEmailR(($id_rep));
-                    $emailAntiguo= $elementos[0]['email'];
+                    $emailAntiguo= $elementos;
                     $this->clubModel->quitarPerfilR($emailAntiguo);
-                    $this->clubModel->deleteRepre($id_rep);
-
-                    echo"<p style='color:yellow;'>Los datos del Representante han sido eliminados  de la base de datos</p>";
-                    echo "<form action='index.php?action=club_manage' method='get' enctype='multipart/form-data'>
-                    <button type='submit' name='action' value='club_manage'>Gestión de Clubes</button>
-                    </form>";
+                    return $this->clubModel->deleteRepre($id_rep);
+                }else{
+                    return[
+                        'msg'=> "Hubo un error. El solicitud POST no encontrada.",
+                        'tipo'=>"error"
+                        ];
                 }
             }
             public function getFotoR($id){

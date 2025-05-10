@@ -1,6 +1,15 @@
 <div id="fondo-clubes">
 <div class="container mt-4" id="contenedor-general" >
-    <?php if(isset($arrayC) && count($arrayC)>0):?>
+   
+  <!-- DEPURACIÓN: Mostrar contenido de $arrayC -->
+  <!-- <pre>
+    <?php
+        if (isset($arrayC)) {
+            print_r($arrayC);
+        }
+    ?>
+    </pre>    -->
+<?php if(isset($arrayC) && count($arrayC)>0):?>
     <h2>Clubes</h2>
     <table class="table table-bordered">
         <thead>
@@ -16,8 +25,16 @@
             <?php foreach($arrayC as $cl): ?>
             <tr>
                 <td style="font-size: 0.7rem;"><?=$cl['nombreClub']?></td>
-                <td style="font-size: 0.7rem;"><?=$cl['nombreR'] . ' ' . $cl['apellidoR']?></td>
-                <td style="font-size: 0.7rem;"><?=$cl['documento']?></td>
+                <td style="font-size: 0.7rem;">
+                    <?php
+                        $nombre = !empty($cl['nombreR']) ? $cl['nombreR'] : 'Por definir';
+                        $apellido = !empty($cl['apellidoR']) ? $cl['apellidoR'] : '';
+                        echo $nombre . ' ' . $apellido;
+                    ?>
+                </td>
+                <td style="font-size: 0.7rem;">
+                    <?= !empty($cl['documento']) ? $cl['documento'] : 'Por definir' ?>
+                </td>
                 <td style="font-size: 0.7rem;"><?=$cl['fecha']?></td>
                 <td class="td-botones">
                     <!--  -->

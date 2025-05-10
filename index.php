@@ -115,32 +115,6 @@
                 $listaRep= $clubControl->buscarRepresentantes();
                 include 'view-profile/list_repres.php';
                 break;
-            case 'update_repre':
-                if($_SERVER['REQUEST_METHOD']=='POST'){
-                $clubControl->updateRepre();
-                $repres=$clubControl->buscarRepresentantes();
-
-
-                }else {
-                    $mensaje=0;
-                    // Verificar si 'id_rep' está presente y no está vacío en la URL
-                    if (isset($_GET['id_rep']) && !empty($_GET['id_rep'])) {
-                        $repreData = $clubControl->buscarRepresentantes();
-                        include_once 'view-profile/update_repres.php';
-                    } else if((isset($_GET['id_rep']) && empty($_GET['id_rep']))) {
-                        $mensaje=1;
-                        // Si 'id_rep' no está presente o está vacío, incluir 'list_repres.php' y mostrar mensaje
-                        include_once 'view-profile/list_repres.php';  // Incluye la vista de los representantes
-                        // Añadir el contenedor con el mensaje después de incluir la vista
-
-                    }
-                }
-                break;
-//=============================================================================================================================
-            case 'delete_repre':
-                $clubControl->deleteRepre();
-                include 'view-profile/list_repres.php';
-                break;
 //=============================================================================================================================
             case 'insert_deportista':
                 if($_SERVER["REQUEST_METHOD"]== "POST"){
@@ -301,9 +275,14 @@
                 }break;
 //====================================================================================================
             case 'list_club':
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
                     $permitido=4;
                     $resultado= $clubControl->getClubesByNombre();
                     $arrayC=$resultado['data'];
+                    $_SESSION['msg']= $resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
                     $title = "Relación de Clubes";
                     $content = __DIR__ . '/view-profile/list_clubes.php';
                     include __DIR__ . '/layouts/main_clubes.php';
@@ -346,7 +325,6 @@
                         exit();
                     }
             }
-            
 //=====================================================================================================
             case 'delete_club':
                     if (session_status() === PHP_SESSION_NONE) {
@@ -358,8 +336,6 @@
                     $_SESSION['tipo']=$resultado['tipo'];
                     header("Location: index.php?action=list_club");
                     exit();
-                    break;
-
 //=====================================================================================================
             case 'insert_representante':
                     if($_SERVER["REQUEST_METHOD"]== "POST"){
@@ -387,14 +363,53 @@
                 $permitido=4;
                 $resultado= $clubControl->listarRepresentantes();
                 $listaRep=$resultado['data'];
-                if(isset($_SESSION['msg']) && isset($_SESSION['tipo'])){
-                    $_SESSION['msg']= $resultado['msg'];
-                    $_SESSION['tipo']=$resultado['tipo'];
-                }
                 $title = "Relación de Representantes";
                 $content = __DIR__ . '/view-profile/list_repres.php';
                 include __DIR__ . '/layouts/main_clubes.php';
                 break;
+//========================================================================================================
+            case 'update_repre':
+                if($_SERVER['REQUEST_METHOD']=='POST'){
+
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $permitido=4;
+                    $resultado=$clubControl->updateRepre();
+                    $repres=$clubControl->buscarRepresentantes();
+                    $_SESSION['msg1']=$resultado['msg'];
+                    $_SESSION['tipo1']=$resultado['tipo'];
+                    header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    exit();
+                }else {
+                  
+                    if (isset($_GET['id_rep']) && !empty($_GET['id_rep'])) {
+                        $permitido=4;
+                        $repreData = $clubControl->buscarRepresentantes();
+                        $title = "Edición de datos de Representante";
+                        $content = __DIR__ . '/view-profile/update_repres.php';
+                        include __DIR__ . '/layouts/main_clubes.php';
+                     
+                    } else if((isset($_GET['id_rep']) && empty($_GET['id_rep']))) {
+                        $permitido=4;
+                        $mensaje=1;
+                        $title = "Relación de Representantes";
+                        $content = __DIR__ . '/view-profile/list_repres.php';
+                        include __DIR__ . '/layouts/main_clubes.php';
+                    }
+                }break;
+//=============================================================================================================================
+case 'delete_repre':
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;
+    $resultado=$clubControl->deleteRepre();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=list_repres");
+    exit();
 //================SECCIÓN ADMINISTRAR ELEMENTOS===========================================================
 //========================================================================================================
 case 'elements_manage':

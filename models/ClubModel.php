@@ -78,47 +78,57 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 //=======================================================================================================================
-        public function getClubesbyNombre($codigo){
-            try{
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $consulta= "SELECT clubes.codigo AS club_id,clubes.nombreClub AS nombreClub,clubes.id_representante AS id, representante_club.nombres AS nombreR,
-                        representante_club.apellidos AS apellidoR, clubes.fecha_conformacion AS fecha,
-                        representante_club.num_docum AS documento, representante_club.foto AS foto FROM clubes
-                        INNER JOIN representante_club ON clubes.id_representante= representante_club.id
-                        WHERE clubes.codigo LIKE ?" ;
+public function getClubesbyNombre($codigo){
+    try {
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $consulta = "SELECT clubes.codigo AS club_id, clubes.nombreClub AS nombreClub, clubes.id_representante AS id,
+                            representante_club.nombres AS nombreR, representante_club.apellidos AS apellidoR,
+                            clubes.fecha_conformacion AS fecha, representante_club.num_docum AS documento
+                     FROM clubes
+                     INNER JOIN representante_club ON clubes.id_representante = representante_club.id
+                     WHERE clubes.codigo LIKE ?";
 
-                $stmt= $this->conn->prepare($consulta);
-                $stmt->execute(['%' . $codigo . '%']);
-                $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->conn->prepare($consulta);
 
-                if (!$stmt) {
-                    return [
-                        'msg' => "Error al preparar la consulta.",
-                        'tipo' => "error"
-                    ];
-                }
-                if (  $stmt->execute(['%' . $codigo . '%'])) {
-                    $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    return [
-                        'msg' => "Aqui estan los datos del club.",
-                        'tipo' => "success",
-                        'data'=> $resultado
-                    ];
-                } else {
-                    $error = $stmt->errorInfo();
-                    return [
-                        'msg' => "Error al ejecutar la consulta: " . $error[2],
-                        'tipo' => "error"
-                    ];
-                }
-            }catch (PDOException $e) {
-                error_log("Error al insertar club: " . $e->getMessage());
-                return [
-                    'msg' => "Error al insertar club: " . $e->getMessage(),
-                    'tipo' => "error"
-                ];
-            }
+        if (!$stmt) {
+            return [
+                'msg' => "Error al preparar la consulta.",
+                'tipo' => "error"
+            ];
         }
+
+        if ($stmt->execute(['%' . $codigo . '%'])) {
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Normalizar campos vacíos
+            foreach ($resultado as &$club) {
+                $club['nombreR'] = !empty($club['nombreR']) ? $club['nombreR'] : 'Por definir';
+                $club['apellidoR'] = !empty($club['apellidoR']) ? $club['apellidoR'] : '';
+                $club['documento'] = !empty($club['documento']) ? $club['documento'] : 'Por definir';
+            }
+
+            return [
+                'msg' => "Aquí están los datos del club.",
+                'tipo' => "success",
+                'data'=> $resultado
+            ];
+        } else {
+            $error = $stmt->errorInfo();
+            return [
+                'msg' => "Error al ejecutar la consulta: " . $error[2],
+                'tipo' => "error"
+            ];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al insertar club: " . $e->getMessage());
+        return [
+            'msg' => "Error al insertar club: " . $e->getMessage(),
+            'tipo' => "error"
+        ];
+    }
+}
+
 //========================================================================================================================
 //=========================================================================================================================
         public function buscarClub($codigo){
@@ -135,7 +145,7 @@
         public function listRepresentantesById($id_rep){
             try{
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $consulta= "SELECT representante_club.nombres AS nombreR,
+                $consulta= "SELECT representante_club.id AS id, representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, representante_club.email AS email,
                         representante_club.telefono AS telefono, tipo_docum.tipo_docum AS tipodoc,
                         representante_club.num_docum AS numdoc, genero.genero AS genero,
@@ -249,7 +259,7 @@
 //======================================================================================================================
 //======================================================================================================================
         public function buscarRepresentantes($id_rep){
-            $consulta= "SELECT representante_club.nombres AS nombreR,
+            $consulta= "SELECT representante_club.id AS id, representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, representante_club.email AS email,
                         representante_club.telefono AS telefono, tipo_docum.tipo_docum AS tipodoc,
                         representante_club.num_docum AS numdoc, genero.genero as genero,
@@ -264,15 +274,68 @@
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);            
         }        
         public function updateRepre($nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $telefono, $foto, $id_rep){
-            $query= "UPDATE representante_club SET nombres=?, apellidos=?, codigo_tipodoc=?, num_docum=?, genero=?, email=?, telefono= ?,
-            foto=? WHERE id=?";
-            $stmt=$this->conn->prepare($query);
-            $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $telefono, $foto, $id_rep ]);
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query= "UPDATE representante_club SET nombres=?, apellidos=?, codigo_tipodoc=?, num_docum=?, genero=?, email=?, telefono= ?,
+                        foto=? WHERE id=?";
+                $stmt=$this->conn->prepare($query);
+                if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if($stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $telefono, $foto, $id_rep ])){
+                    return [
+                        'msg' => "Los datos del representante han sido actualizados exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            }catch (PDOException $e) {
+                error_log("Error al actualizar datos del representante: " . $e->getMessage());
+                return [
+                    'msg' => "Error al actualizar datos del representante: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
         }
         public function deleteRepre($id_rep){
-            $query= "DELETE FROM representante_club WHERE id LIKE ?";
-            $stmt= $this->conn->prepare($query);
-            $stmt->execute([$id_rep]);
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $query= "DELETE FROM representante_club WHERE id LIKE ?";
+                $stmt= $this->conn->prepare($query);
+                $stmt->execute([$id_rep]);
+                if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if( $stmt->execute([$id_rep])){
+                    return [
+                        'msg' => "Los datos del representante han sido  eliminados.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            }catch (PDOException $e) {
+                error_log("Error al actualizar datos del representante: " . $e->getMessage());
+                return [
+                    'msg' => "Error al actualizar datos del representante: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
         } 
         public function getFotoR($id)  {
             $consulta=$this->conn->prepare("SELECT foto FROM representante_club WHERE id=? ");
@@ -298,10 +361,12 @@
             $consulta=$this->conn->prepare("UPDATE perfil SET perfil= perfil-1000 WHERE email= ?");
             $consulta->execute([$email]);            
         }
-        public function getEmailR($id_rep){
-            $consulta=$this->conn->prepare("SELECT email FROM representante_club WHERE id= ?");
+        public function getEmailR($id_rep) {
+            $consulta = $this->conn->prepare("SELECT email FROM representante_club WHERE id = ?");
             $consulta->execute([$id_rep]);
-            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+            return $resultado ? $resultado['email'] : null;
         }
+        
 }
 ?>
