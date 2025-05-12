@@ -53,28 +53,59 @@ public function insertEntrenador($nombre, $apellido, $codigo_td, $num_docum, $ge
     }
 
 //==================================================================================================================
-        
 public function listDeportistasById($id_dep){
-    $consulta= "SELECT deportista.id AS id, deportista.nombres AS nombreD,
-                deportista.apellidos AS apellidoD, tipo_docum.tipo_docum AS tipodoc,
-                deportista.fecha_nacimiento AS fecha, deportista.telefono AS telefono,
-                deportista.direccion as direccion, deportista.email AS email, 
-                genero.genero as genero, modalidad.modalidad AS modalidad,
-                ciudad.ciudad AS ciudad, departamento.departamento AS departamento, 
-                pais.pais AS pais, clubes.nombreClub AS club, deportista.foto AS foto
-                FROM deportista
-                INNER JOIN tipo_docum ON deportista.codigo_tipodoc=tipo_docum.codigo 
-                INNER JOIN genero ON deportista.codigo_genero= genero.codigo
-                INNER JOIN ciudad ON deportista.id_ciudad= ciudad.codigo
-                INNER JOIN departamento ON deportista.id_departamento= departamento.id
-                INNER JOIN pais ON deportista.id_pais= pais.id
-                INNER JOIN clubes ON deportista.codigo_club= clubes.codigo
-                INNER JOIN modalidad ON deportista.modalidad=modalidad.id
-                WHERE deportista.id LIKE ?" ;
-           
-    $stmt= $this->conn->prepare($consulta);
-    $stmt->execute(['%' . $id_dep . '%']);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+
+    try{
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $consulta= "SELECT deportista.id AS id, deportista.nombres AS nombreD,
+        deportista.apellidos AS apellidoD, tipo_docum.tipo_docum AS tipodoc,
+        deportista.fecha_nacimiento AS fecha, deportista.telefono AS telefono,
+        deportista.direccion as direccion, deportista.email AS email, 
+        genero.genero as genero, modalidad.modalidad AS modalidad,
+        ciudad.ciudad AS ciudad, departamento.departamento AS departamento, 
+        pais.pais AS pais, clubes.nombreClub AS club, deportista.foto AS foto
+        FROM deportista
+        INNER JOIN tipo_docum ON deportista.codigo_tipodoc=tipo_docum.codigo 
+        INNER JOIN genero ON deportista.codigo_genero= genero.codigo
+        INNER JOIN ciudad ON deportista.id_ciudad= ciudad.codigo
+        INNER JOIN departamento ON deportista.id_departamento= departamento.id
+        INNER JOIN pais ON deportista.id_pais= pais.id
+        INNER JOIN clubes ON deportista.codigo_club= clubes.codigo
+        INNER JOIN modalidad ON deportista.modalidad=modalidad.id
+        WHERE deportista.id LIKE ?" ;
+   
+$stmt= $this->conn->prepare($consulta);
+$stmt->execute(['%' . $id_dep . '%']);
+$resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);     
+if (!$stmt) {
+    return [
+        'msg' => "Error al preparar la consulta.",
+        'tipo' => "error"
+    ];
+}
+if($stmt->execute(['%' . $id_dep . '%'])){   
+    return [
+        'msg' => "Datos de los deportistas obtenidos exitosamente.",
+        'tipo' => "success",
+        'data'=> $resultado
+    ];
+}else{
+    $error = $stmt->errorInfo();
+    return [
+        'msg' => "Error al ejecutar la consulta: " . $error[2],
+        'tipo' => "error"
+    ];
+}
+        
+    }catch (PDOException $e) {
+        error_log("Error al tratar de obtener datos: " . $e->getMessage());
+        return [
+            'msg' => "Error al tratar de obtener datos: " . $e->getMessage(),
+            'tipo' => "error"
+        ];
+    }
+   
 }
 public function listSportman(){
     $consulta="SELECT * FROM deportista";

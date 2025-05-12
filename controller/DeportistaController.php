@@ -102,7 +102,6 @@ public function insertEntrenador() {
                 </form>";
     }
 }
-
 //=================================================================================================================
     public function listDeportistas(){
         $id_dep=$_GET['id_dep'] ?? '';

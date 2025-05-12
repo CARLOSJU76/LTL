@@ -6,16 +6,36 @@
             $this->conn=$db;
         }
         public function insertClub($nombre_club, $representante,$fecha_conformacion){
-            try{$consulta= "INSERT INTO clubes(nombreClub,id_representante, fecha_conformacion) VALUES (?,?,?)";
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $consulta= "INSERT INTO clubes(nombreClub,id_representante, fecha_conformacion) VALUES (?,?,?)";
             $stmt= $this->conn->prepare($consulta);
+
+            if (!$stmt) {
+                return [
+                    'msg' => "Error al preparar la consulta.",
+                    'tipo' => "error"
+                ];
+            }
             if($stmt->execute([$nombre_club, $representante, $fecha_conformacion])){
-                return true;
+               
+                return [
+                    'msg' => "Los datos del Club fueron registrados exitosamente.",
+                    'tipo' => "success"
+                ];
             }else{
-                return false;
+                $error = $stmt->errorInfo();
+                return [
+                    'msg' => "Error al ejecutar la consulta: " . $error[2],
+                    'tipo' => "error"
+                ];
             }
             }catch (PDOException $e) {
-                error_log("Error al insertar categoría por edad: " . $e->getMessage());
-                return false;
+                error_log("Error al insertar club: " . $e->getMessage());
+                return [
+                    'msg' => "Error al insertar club: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
             }
         }
         public function insertRepresentante($nombre, $apellido, $codigo_td, $num_docum, $genero, $email, $telefono,$foto){
@@ -32,6 +52,7 @@
                         ];
                     }
                     if ($stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $email,$telefono, $foto])) {
+                
                         return [
                             'msg' => "Los datos del representante fueron registrados exitosamente.",
                             'tipo' => "success"

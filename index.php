@@ -100,11 +100,7 @@
                 }include 'views/set_new_password.php';
                 break;
            
-            case 'sport_manage':
-                if($_SERVER['REQUEST_METHOD']=='GET'){
-                include 'view-nomina/sport_manage.php';
-                }break;
-
+         
             
             case 'search_club':
                 $arrayC=$clubControl->buscarClub();
@@ -163,10 +159,7 @@
                     exit();
                     }break;
 //================================================================================================================
-            case 'list_deportista':
-                $deportistas= $depoControl->listDeportistas();
-                include_once 'view-nomina/list_deportista.php';
-                break;
+           
 //================================================================================================================
             case 'list_entrenador':
                 $entrenadores= $depoControl->listEntrenadores();
@@ -245,6 +238,30 @@
                     $eleControl->getDivisionesG();
                     exit();
                 }break;
+//====================SECCIÓN DEPORTISTAS Y ENTRENADORES==================================================
+//========================================================================================================
+case 'sport_manage':
+    if($_SERVER['REQUEST_METHOD']=='GET'){
+        $permitido=4;
+        $title = "Sección Deportistas y Entrenadores";
+        $content = __DIR__ . '/view-nomina/sport_manage.php';
+        include __DIR__ . '/layouts/main.php';
+    }break;
+//========================================================================================================
+
+case 'list_deportista':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+        $permitido=4;
+    $resultado= $depoControl->listDeportistas();
+    $_SESSION['msg']= $resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    $deportistas= $resultado['data'];
+    $title = "Registro de Clubes";
+    $content = __DIR__ . '/view-nomina/list_deportista.php';
+    include __DIR__ . '/layouts/main_clubes.php';
+    break;
 //====================SECCIÓN CLUB MANAGE=================================================================
 //========================================================================================================
             case 'club_manage':

@@ -22,22 +22,12 @@
                 $representante=$_POST['representante'];
                 $fecha_conformacion= $_POST['fecha_conformacion'];
 
-                $resultado=$this->clubModel->insertClub($nombre_club, $representante,$fecha_conformacion);
-                if($resultado){
-                    return[
-                        'msg'=> "EL club fue registrado exitosamente.",
-                        "tipo"=>"success"
-                    ];
-                }else{
-                    return[
-                        'msg'=> "No fue posible ejecutar el registro.",
-                        "tipo"=>"error"
-                    ];
-                }
+                return $this->clubModel->insertClub($nombre_club, $representante,$fecha_conformacion);
+              
             }else{
                 return[
-                    'msg'=> "No fue posible ejecutar el registro.",
-                    "tipo"=>"error"
+                    'msg'=> "Hubo un error. El solicitud POST no encontrada.",
+                    'tipo'=>"error"
                 ];
             }
         }
@@ -57,9 +47,12 @@
                 $target_file= $target_dir .basename($photo);
                 move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
 //============================================================================================================
-              return $this->clubModel->insertRepresentante($nombre,$apellido, $codigo_td,
+                $resultado= $this->clubModel->insertRepresentante($nombre,$apellido, $codigo_td,
                                                 $num_docum, $genero, $email, $telefono, $photo);
-
+                if($resultado['tipo']=="success"){
+                    $this->clubModel->setPerfilR($email);
+                }
+                return $resultado;
             }else{
                 return[
                     'msg'=> "Hubo un error. El solicitud POST no encontrada.",
