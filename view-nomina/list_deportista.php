@@ -45,9 +45,9 @@
                             <button type="submit" id="boton-clubes1" name="action" value="update_deportista" >Actualizar</button>
                         </form>
                     <!-- Formulario para eliminar -->
-                        <form action="index.php?action=delete_repre" method="post" class="form-botones" style="display:inline;"  onsubmit="return confirmDelete()">
+                        <form action="index.php?action=delete_deportista" method="post" class="form-botones" style="display:inline;"  onsubmit="return confirmDelete()">
                             <input type="hidden" name="id_dep" value="<?= $depor['id'] ?>">
-                            <button type="submit" id="boton-clubes2" name="action" value="delete_repre" >Borrar</but>
+                            <button type="submit" id="boton-clubes2" name="action" value="delete_deportista" >Borrar</but>
                         </form>
                     </td>
                 </tr>

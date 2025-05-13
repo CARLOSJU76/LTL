@@ -158,45 +158,6 @@
                     $eleControl->getCiudad();
                     exit();
                     }break;
-//================================================================================================================
-           
-//================================================================================================================
-            case 'list_entrenador':
-                $entrenadores= $depoControl->listEntrenadores();
-                include_once 'view-nomina/list_entrenador.php';
-                break;
-//================================================================================================================
-            case 'search_entrenador':
-                $entrenadores= $depoControl->buscarEntrenador();
-                include_once 'view-nomina/list_entrenador.php';
-                break;
-
-//================================================================================================================
-                case 'update_entrenador':
-                    if($_SERVER['REQUEST_METHOD']=='POST'){
-                        $depoControl->updateEntrenador();
-                        $data=$depoControl->buscarEntrenador();
-                    }else{
-                        if(isset($_GET['id_ent']) && !empty ($_GET['id_ent'])){
-                        $data=$depoControl->buscarEntrenador();
-                        include_once 'view-nomina/update_entrenador.php';
-                    }else if(isset($_GET['id_ent']) && empty ($_GET['id_ent'])){
-                        $entrenadores=$depoControl->listEntrenadores();
-                        include_once 'view-nomina/list_entrenador.php';
-                    }
-                }break;
-//=============================================================================================================================
-            case 'delete_deportista':
-                $depoControl->deleteDeportista();
-                include 'view-nomina/list_deportista.php';
-                break;
-//=============================================================================================================================
-            case 'delete_entrenador':
-                $depoControl->deleteEntrenador();
-                include 'view-nomina/list_entrenador.php';
-                break;
-
-
 //========================================================================================================
             case 'view_auxiliar':
                 include 'view_auxiliar.php';
@@ -234,7 +195,7 @@ case 'list_deportista':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-        $permitido=4;
+    $permitido=4;
     $resultado= $depoControl->listDeportistas();
     $deportistas= $resultado['data'];
     $title = "Registro de Clubes";
@@ -279,6 +240,68 @@ case 'update_deportista':
             exit;
         }
     }break;
+//=============================================================================================================================
+case 'delete_deportista':
+     if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    $permitido=4;
+    $resultado=$depoControl->deleteDeportista();
+    $_SESSION['msg']=$resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+   header("Location: index.php?action=list_deportista");
+                        exit();
+//================================================================================================================
+case 'list_entrenador':
+     if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;
+    $resultado= $depoControl->listEntrenadores();
+    $entrenadores= $resultado['data'];
+    $_SESSION['msg1']=$resultado['msg'];
+    $_SESSION['tipo1']=$resultado['tipo'];
+
+    $title = "Entrenadores";
+    $content = __DIR__ . '/view-nomina/list_entrenador.php';
+    include __DIR__ . '/layouts/main_deportista.php';
+    break;
+//================================================================================================================
+case 'update_entrenador':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=4;
+        $resultado=$depoControl->updateEntrenador();
+         $_SESSION['msg1']=$resultado['msg'];
+        $_SESSION['tipo1']=$resultado['tipo'];
+        
+        header("Location: index.php?action=list_entrenador");
+        exit();
+    }else{
+        if(isset($_GET['id_ent']) && !empty ($_GET['id_ent'])){
+             if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
+            $permitido=4;
+            $data=$depoControl->buscarEntrenador();
+           $title = "Actualizar datos de Entrenador";
+            $content = __DIR__ . '/view-nomina/update_entrenador.php';
+            include __DIR__ . '/layouts/main_deportista.php';
+            exit;
+        }
+    }break;
+//================================================================================================================
+case 'search_entrenador':
+    $entrenadores= $depoControl->buscarEntrenador();
+     header("Location: index.php?action=list_entrenador");
+        exit();
+//=============================================================================================================================
+case 'delete_entrenador':
+    $depoControl->deleteEntrenador();
+    include 'view-nomina/list_entrenador.php';
+    break;
 //=======================================================================================================
 
 //====================SECCIÓN CLUB MANAGE=================================================================

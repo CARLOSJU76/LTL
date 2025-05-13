@@ -209,30 +209,21 @@ public function updateEntrenador(){
         $this->depoModel->quitarPerfilE($emailAntiguo);
         $this->depoModel->setPerfilE($email);
 
-        $this->depoModel->updateEntrenador($nombre,$apellido, $codigo_td,$num_docum, $genero,
+        return $this->depoModel->updateEntrenador($nombre,$apellido, $codigo_td,$num_docum, $genero,
         $fecha, $pais, $dep, $ciudad, $direccion, $telefono,
          $email, $club, $foto, $id);
-        echo"<br>Los datos del Entrenador han sido actualizado exitosamente<br>";
-        echo "<form action='index.php?action=sport_manage' method='get' enctype='multipart/form-data'>
-        <button type='submit' name='action' value='sport_manage'>Gestión de Deportistas</button>
-        </form>";
     }
 }
 //===================================================================================================================
 public function deleteDeportista(){
-    if($_SERVER['REQUEST_METHOD']=='GET'){
-        $id_dep=$_GET['id_dep'];
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $id_dep=$_POST['id_dep'];
 
         $elementos= $this->depoModel->getEmailD($id_dep);
-        $emailAntiguo= $elementos[0]['email'];
+        $emailAntiguo= $elementos;
         $this->depoModel->quitarPerfilD($emailAntiguo);
        
-        $this->depoModel->deleteDeportista($id_dep);
-
-        echo"<br>Los datos del Deportista han sido eliminados  de la base de datos<br>";
-        echo "<form action='index.php?action=club_manage' method='get' enctype='multipart/form-data'>
-        <button type='submit' name='action' value='club_manage'>Gestión de Clubes</button>
-        </form>";
+        return $this->depoModel->deleteDeportista($id_dep);
     }
 }
 //===================================================================================================================

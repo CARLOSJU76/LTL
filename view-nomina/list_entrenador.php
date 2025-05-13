@@ -5,7 +5,7 @@
 <?php if(isset($entrenadores) && count($entrenadores)>0):?>
 
         <table class="table table-bordered">
-        <h2>Deportistas</h2>
+        <h2>Entrenadores</h2>
             <thead class="th">
                 <tr id="head-row">
                     <th class="head-inser">Deportista</th>
@@ -17,7 +17,6 @@
                     <th class="head-inser">Teléfono</th>
                     <th class="head-inser">Domicilio</th>
                     <th class="head-inser">Email</th>
-                    <th class="head-inser">Modalidad</th>
                     <th class="head-inser">Club</th>
                     <th class="head-inser">Fotografía</th>
                     <th class="head-inser">Acciones</th>
@@ -39,14 +38,14 @@
                     <td><img src="fotos/<?= $trainer['foto']; ?>" width="100" alt="Foto"></td>
 <!--------------------------------------------------------------------------------------------------------------- -->
                     <td class="td-botones">
-                        <form action="index.php?action=update_deportista" method="get" class="form-botones" style="display:inline;">
-                            <input type="hidden" name="id_dep" value="<?= $trainer['id'] ?>">
-                            <button type="submit" id="boton-clubes1" name="action" value="update_deportista" >Actualizar</button>
+                        <form action="index.php?action=update_entrenador" method="get" class="form-botones" style="display:inline;">
+                            <input type="hidden" name="id_ent" value="<?= $trainer['id'] ?>">
+                            <button type="submit" id="boton-clubes1" name="action" value="update_entrenador" >Actualizar</button>
                         </form>
                     <!-- Formulario para eliminar -->
-                        <form action="index.php?action=delete_repre" method="post" class="form-botones" style="display:inline;"  onsubmit="return confirmDelete()">
-                            <input type="hidden" name="id_dep" value="<?= $trainer['id'] ?>">
-                            <button type="submit" id="boton-clubes2" name="action" value="delete_repre" >Borrar</but>
+                        <form action="index.php?action=delete_entrenador" method="post" class="form-botones" style="display:inline;"  onsubmit="return confirmDelete()">
+                            <input type="hidden" name="id_ent" value="<?= $trainer['id'] ?>">
+                            <button type="submit" id="boton-clubes2" name="action" value="delete_entrenador" >Borrar</but>
                         </form>
                     </td>
                 </tr>
@@ -57,27 +56,26 @@
             <p>No se encontraron usuarios con ese nombre</p>
         <?php endif;?>
 <!-- ================================================================================================================ -->
-        <form action="index.php?action=search_repres" method="get" id="form_buscar_club">
-            <input type="hidden" name="action" value="search_repres">
+      <form action="index.php?action=search_entrenador" method="get" id="form_buscar_club">
+    <input type="hidden" name="action" value="search_entrenador">
+    
+        
+        <select name="id_ent" id="id_ent" class="form-select" required>
+            <option value="">Elija un Entrenador de la lista</option>
+            <?php
+                  
+                foreach($entrenadores as $trainer){
+                    echo"<option value='".htmlspecialchars($trainer['id'])."'>".
+                    htmlspecialchars($trainer['nombreE']) ."  ". 
+                    htmlspecialchars($trainer['apellidoE']) . 
+                    "</option>";
+                }
+            ?>
+        </select><br>
+        <input type="submit" value="Buscar Entrenador" id="buscar_club">        
+    </form>
+    <label for="id_ent">Seleccione el Entrenador que desea revisar.</label>
 
-            <select name="id_rep" id="id_rep" class="form-select" required>
-                <option value="">Elija Representante</option>
-                <?php
-                  include_once './controller/ClubController.php';
-                  $trainerreCon= new ClubController();
-                  $arrayRep= $trainerreCon->getRepresentante();
-
-                    foreach($arrayRep as $trainerre1){
-                        echo"<option value='".htmlspecialchars($trainerre1['id'])."'>".
-                        htmlspecialchars($trainerre1['nombres']) ."  ".
-                        htmlspecialchars($trainerre1['apellidos']) .
-                        "</option>";
-                    }
-                ?>
-            </select><br>
-            <input type="submit" value="Buscar" id="buscar_club">
-        </form>
-        <div id="label-buscar-rep"><label  for="id_rep">Seleccione el representante que desea revisar.</label></div>
 <!-- ====================================================================================================================== -->
     </div>
 </div>
@@ -222,92 +220,3 @@ input, select {
 <!-- ============================================================================================================= -->
 
 
-//======================================================================================================
-<div class="container" id="container_general" >
-
-<?php if(isset($entrenadores) && count($entrenadores)>0):?>
-        <h2>Entrenadores</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Entrenador</th>                    
-                    <th>Tipo Doc.</th>
-                    <th>Documento</th>
-                    <th>fecha Nac.</th>
-                    <th>Genero</th>
-                    <th>Lugar Nac.</th>
-                    <th>Teléfono</th>
-                    <th>Domicilio</th>
-                    <th>Email</th>
-                    <th>Club</th>
-                    <th>Fotografía</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php foreach($entrenadores as $trainer): ?>
-                <tr>
-                    <td><?=$trainer['nombreE'] . ' ' . $trainer['apellidoE']?></td>
-                    <td><?=$trainer['tipodoc']?></td>
-                    <td><?=$trainer['id']?></td>                   
-                    <td><?=$trainer['fecha']?></td>
-                    <td><?=$trainer['genero']?></td>
-                    <td><?=$trainer['pais'].'/'.$trainer['departamento'].'/'.$trainer['ciudad']?></td>
-                    <td><?=$trainer['telefono']?></td>
-                    <td><?=$trainer['direccion']?></td>                  
-                    <td><?=$trainer['email']?></td>
-                    <td><?=$trainer['club']?></td>
-                    <td><img src="fotos/<?= $trainer['foto']; ?>" width="100" alt="Foto"></td>
-                    
-                </tr>
-                <?php endforeach; ?>
-
-            </tbody>
-        </table>
-        <?php elseif(isset($listaRep)):?>
-            <p>No se encontraron entrenadores con ese nombre</p>
-
-            <?php endif;?>
-<!-- ================================================================================================================ -->
-<form action="index.php?action=search_entrenador" method="get" id="form_buscar_club">
-    <input type="hidden" name="action" value="search_entrenador">
-    
-        
-        <select name="id_ent" id="id_ent" class="form-select" required>
-            <option value="">Elija un Entrenador de la lista</option>
-            <?php
-                  
-                foreach($entrenadores as $trainer){
-                    echo"<option value='".htmlspecialchars($trainer['id'])."'>".
-                    htmlspecialchars($trainer['nombreE']) ."  ". 
-                    htmlspecialchars($trainer['apellidoE']) . 
-                    "</option>";
-                }
-            ?>
-        </select><br>
-        <input type="submit" value="Buscar Entrenador" id="buscar_club">        
-    </form>
-    <label for="id_ent">Seleccione el Entrenador que desea revisar.</label>
-
-    <div id="div-botones">
-        <!-- ====BOTON PARA ACTUALIZAR===================================================================================== -->
-    <form action="index.php?action=update_entrenador" method="get"  class="form-botones">
-        <input type="hidden" name="id_ent" value="<?= $_GET['id_ent'] ?? '' ?>">
-        <button type="submit" name="action" value="update_entrenador" class="botones">Actualizar datos</button>
-    </form>
-    <!-- BOTON PARA ELIMINAR=========================================================================================================== -->
-    <form action="index.php?action=delete_entrenador" method="get" class="form-botones">
-        <input type="hidden" name="id_ent" value="<?= $_GET['id_ent'] ?? '' ?>">
-        <button type="submit" name="action" value="delete_entrenador" class="botones">Desvincular Deportista</button>
-    </form>
-<!-- ==== RESULTADOS DE LA CONSULTA==================================================================================================== -->
-    <form action="index.php?action=sport_manage" method='get' enctype="multipart/form-data" class="form-botones">
-        <button type="submit" name="action" value="sport_manage" class="botones">Gestión de Deportistas</button>
-    </form>
-    <form action="index.php?action=club_principal" method="get" class="form-botones">
-        <button type="submit" name="action" value="principal" class="botones">Vista Principal</button>
-    </form>
-        
-    </div>
-
-
-</div>

@@ -116,7 +116,9 @@ public function listSportman(){
 }
 //===========================================================================================================
 public function listEntrenadoresById($id_ent){
-    $consulta= "SELECT entrenadores.id AS id, entrenadores.nombres AS nombreE,
+    try{
+         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta= "SELECT entrenadores.id AS id, entrenadores.nombres AS nombreE,
                 entrenadores.apellidos AS apellidoE, tipo_docum.tipo_docum AS tipodoc,
                 entrenadores.fecha_nacimiento AS fecha, entrenadores.telefono AS telefono,
                 entrenadores.direccion as direccion, entrenadores.email AS email, 
@@ -135,7 +137,35 @@ public function listEntrenadoresById($id_ent){
            
     $stmt= $this->conn->prepare($consulta);
     $stmt->execute(['%' . $id_ent . '%']);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);            
+    $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC); 
+     if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                 if(   $stmt->execute(['%' . $id_ent . '%'])){
+                    return [
+                        'data'=> $resultado,
+                        'msg' => "Los datos del entrenador han sido actualizados exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            
+    
+    }catch (PDOException $e) {
+                error_log("Error al actualizar datos del entrenador: " . $e->getMessage());
+                return [
+                    'msg' => "Error al actualizar datos del entrenador: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }  
 }
 //=================================================================================================================
 
@@ -188,7 +218,9 @@ public function buscarEntrenador($id_ent){
 //=================================================================================================================
 public function updateDeportista($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
 $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club,$foto, $id){
-    try{$query= "UPDATE deportista SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
+    try{
+         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $query= "UPDATE deportista SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
                             fecha_nacimiento=?, id_pais=?, id_departamento=?, id_ciudad=?, direccion=?, 
                             telefono=?, email=?, modalidad=?, codigo_club=?, foto=? WHERE id=?";
     $stmt=$this->conn->prepare($query);
@@ -228,12 +260,40 @@ $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club,$foto, $i
 //==================================================================================================================
 public function updateEntrenador($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
 $pais, $dep, $ciudad, $direccion, $telefono, $email, $club,$foto, $id){
-    $query= "UPDATE entrenadores SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
+    try{
+           $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $query= "UPDATE entrenadores SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
                             fecha_nacimiento=?, id_pais=?, id_departamento=?, id_ciudad=?, direccion=?, 
                             telefono=?, email=?, codigo_club=?, foto=? WHERE id=?";
     $stmt=$this->conn->prepare($query);
     $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
     $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto,$id ]);
+     if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+    }
+    if( $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+    $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto,$id ])){
+                    return [
+                        'msg' => "Los datos del entrenador han sido  actualizados",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+    }catch (PDOException $e) {
+                error_log("Error al actualizar datos del entrenador: " . $e->getMessage());
+                return [
+                    'msg' => "Error al actualizar datos del entrenador: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
 }
 //==================================================================================================================
 public function getFotoD($id)  {
@@ -250,9 +310,36 @@ public function getFotoE($id)  {
 
 //===================================================================================================================
 public function deleteDeportista($id_dep){
-    $query= "DELETE FROM deportista WHERE id = ?";
+    try{$query= "DELETE FROM deportista WHERE id = ?";
     $stmt= $this->conn->prepare($query);
     $stmt->execute([$id_dep]);   
+
+     if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+        if(  $stmt->execute([$id_dep])){
+                    return [
+                        'msg' => "Los datos del deportista han sido excluidos exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar al tratar de borrar los datos del deportista: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+    
+    }catch (PDOException $e) {
+                error_log("Error al tratar de borrar los registros:" . $e->getMessage());
+                return [
+                    'msg' => "Error al tratar de borrar los registros: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }       
 
 }
 //===================================================================================================================
@@ -297,12 +384,13 @@ public function getTd(){
         }
 
 //====================================================================================================================
-        public function getEmailD($id){
-            $consulta= $this->conn->prepare("SELECT email FROM deportista WHERE id = ?");
-            $consulta->execute([$id]);
+       public function getEmailD($id) {
+    $consulta = $this->conn->prepare("SELECT email FROM deportista WHERE id = ?");
+    $consulta->execute([$id]);
+    $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
 
-            return $consulta->fetchAll(PDO::FETCH_ASSOC);
-        }
+    return $resultado['email'] ?? null; // Devuelve el email o null si no existe
+}
 //=================================PERFIL ENTRENADORES===============================================================
 //===================================================================================================================
         public function setPerfilE($email){
