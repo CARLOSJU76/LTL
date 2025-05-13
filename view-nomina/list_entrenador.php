@@ -1,87 +1,184 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrenadores LTL</title>
-        <link rel="stylesheet" href="./css/club_manage.css">
-    <link rel="stylesheet" href="./css/listar_repre.css">
-    <style>
-        body{
+
+<div id="fondo-representante">
+    <div id="container-general">
+
+<?php if(isset($entrenadores) && count($entrenadores)>0):?>
+
+        <table class="table table-bordered">
+        <h2>Deportistas</h2>
+            <thead class="th">
+                <tr id="head-row">
+                    <th class="head-inser">Deportista</th>
+                    <th class="head-inser">Tipo Doc</th>
+                    <th class="head-inser">Documento</th>
+                    <th class="head-inser">Fecha Nac.</th>
+                    <th class="head-inser">Genero</th>
+                    <th class="head-inser">Lugar Nac.</th>
+                    <th class="head-inser">Teléfono</th>
+                    <th class="head-inser">Domicilio</th>
+                    <th class="head-inser">Email</th>
+                    <th class="head-inser">Modalidad</th>
+                    <th class="head-inser">Club</th>
+                    <th class="head-inser">Fotografía</th>
+                    <th class="head-inser">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($entrenadores as $trainer): ?>
+                <tr id="repre-row">
+               <td><?=$trainer['nombreE'] . ' ' . $trainer['apellidoE']?></td>
+                    <td><?=$trainer['tipodoc']?></td>
+                    <td><?=$trainer['id']?></td>                   
+                    <td><?=$trainer['fecha']?></td>
+                    <td><?=$trainer['genero']?></td>
+                    <td><?=$trainer['pais'].'/'.$trainer['departamento'].'/'.$trainer['ciudad']?></td>
+                    <td><?=$trainer['telefono']?></td>
+                    <td><?=$trainer['direccion']?></td>                  
+                    <td><?=$trainer['email']?></td>
+                    <td><?=$trainer['club']?></td>
+                    <td><img src="fotos/<?= $trainer['foto']; ?>" width="100" alt="Foto"></td>
+<!--------------------------------------------------------------------------------------------------------------- -->
+                    <td class="td-botones">
+                        <form action="index.php?action=update_deportista" method="get" class="form-botones" style="display:inline;">
+                            <input type="hidden" name="id_dep" value="<?= $trainer['id'] ?>">
+                            <button type="submit" id="boton-clubes1" name="action" value="update_deportista" >Actualizar</button>
+                        </form>
+                    <!-- Formulario para eliminar -->
+                        <form action="index.php?action=delete_repre" method="post" class="form-botones" style="display:inline;"  onsubmit="return confirmDelete()">
+                            <input type="hidden" name="id_dep" value="<?= $trainer['id'] ?>">
+                            <button type="submit" id="boton-clubes2" name="action" value="delete_repre" >Borrar</but>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php elseif(isset($entrenadores)):?>
+            <p>No se encontraron usuarios con ese nombre</p>
+        <?php endif;?>
+<!-- ================================================================================================================ -->
+        <form action="index.php?action=search_repres" method="get" id="form_buscar_club">
+            <input type="hidden" name="action" value="search_repres">
+
+            <select name="id_rep" id="id_rep" class="form-select" required>
+                <option value="">Elija Representante</option>
+                <?php
+                  include_once './controller/ClubController.php';
+                  $trainerreCon= new ClubController();
+                  $arrayRep= $trainerreCon->getRepresentante();
+
+                    foreach($arrayRep as $trainerre1){
+                        echo"<option value='".htmlspecialchars($trainerre1['id'])."'>".
+                        htmlspecialchars($trainerre1['nombres']) ."  ".
+                        htmlspecialchars($trainerre1['apellidos']) .
+                        "</option>";
+                    }
+                ?>
+            </select><br>
+            <input type="submit" value="Buscar" id="buscar_club">
+        </form>
+        <div id="label-buscar-rep"><label  for="id_rep">Seleccione el representante que desea revisar.</label></div>
+<!-- ====================================================================================================================== -->
+    </div>
+</div>
+<!-- ============================================================================================================= -->
+<style>
+<?php
+    $mensaje=0;
+    if($mensaje==1){?>
+        .errors{
+        display:block;}
+        <?php } else {?>
+        .errors{
+            display:none;
+        }
+<?php }?>
+#fondo-representante{
             background-image: url('./IMG/LTL/mat.jpg');
             background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
             background-position: center center; /* Centra la imagen */
             background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
             background-repeat: no-repeat;
 
-        }
-         
-.container, .form-select{
-    border: 3px solid white ;
-    padding-top:0;
-    width: 95%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
 }
-#tabla_inser_clubes{
-    background-color: whitesmoke;
-    width:100%;
+#container-general{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:90%;
+    overflow: scroll;
+    background-color: #4A0D0D;
+    border: #D4AF37 solid 1px;
+    border-radius: 3px;
+    margin:1rem;
 }
-#formulario_inserclubes{
-    margin-top: 0;
-    width: 90%;
+.table {
+    max-width: 90%;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin: 1rem;
 }
-#boton_submit{ 
-    background: linear-gradient(to bottom, #ffd700, white);
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 120, 215, 0.5); 
-    border-radius: 5px;
-    font-family:'Courier New', Courier, monospace;
-    font-size: 1.2vw;
-   font-weight: bold;
-    color:#4A0D0D;
+#head-row{
+    background-color: #4A0D0D;
+    color:#D4AF37;
 }
-#head-inser_club{
-    background-color: #7A1F1F;
+#repre-row{
+    background-color: white;
+    font-size: 0.8rem;
+    border:#D4AF37 solid 1px;
 }
-.form-control, .form-select{
-    width: 58%;
-    height: 100%;
-    margin-bottom: 1%;
-    text-justify: center;
-    font-family:'Courier New', Courier, monospace;
-    font-size: 1.2vw;
-    
+.td-botones{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    align-items: center;
+}
+button {
+    background-color: transparent;
+    color: #4A0D0D;
+    border-radius: 3px;
+    font-size: 0.5rem;
+    padding: 0.5rem;
+    border: #4A0D0D solid 1px;
+    width: 4rem;
 }
 h2{
     font-family:'Courier New', Courier, monospace;
-    font-size: 2vw;
-    color:white;
+    font-size: 2rem;
+    font-weight: 100;
+    color:#D4AF37;
 }
 #form_buscar_club{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width:100%;
-    padding:0;
-    height: 2.2vw;
-   
+    align-items: center;
+    width:85%;
+    padding:0.2rem;
+    font-size: 0.8rem;
+    border:#D4AF37 solid 1px;
    }
-label{
+#label-buscar-rep{
     color:white;
     font-family:'Courier New', Courier, monospace;
-   
-    width: 100%;
-}
-#codigo_club{
-    width:60%;
-    text-align: center;
-    padding:0;
-  font-size: 1vw;
-  margin:0;           
+    width: 85%;
+    margin-bottom:1.5rem;
+    margin-top:0.5rem;
+
 }
 #buscar_club{
     width:49%;
     height: 100%;
     background: linear-gradient(to bottom, #ffd700, white);
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 120, 215, 0.5); 
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 120, 215, 0.5);
     border-radius: 5px;
     font-family:'Courier New', Courier, monospace;
     font-size: 1vw;
@@ -89,19 +186,43 @@ label{
     color:#4A0D0D;
     border:none;
 }
-#head-inser1, #head-inser2,#head-inser3,#head-inser4{
+.head-inser{
     background-color: #7A1F1F;
-    font-family:'Courier New', Courier, monospace;
-    font-size: 1vw;
+    font-family: 'Courier New', Courier, monospace;
+    font-size:0.6rem;
+    padding:0.3rem;
+    border: #D4AF37 solid 1px;
+    border-radius: 4px;
 }
-#container_general{
-    overflow: auto;
-    width: 95%;
+button:hover {
+    background-color:#D4AF37;
+    color:#4A0D0D;
 }
-    </style>
-</head>
-<body>
+input, select {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+}
+#id_rep{
+    height: 100%;
+    width: 49%;
+    font-size: 0.8rem;
+}
+#div-label{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;justify-content: flex-start;
+    padding-left:10rem;
+    padding-top: 0.5rem;
+    padding-bottom: 2rem;
+}
+</style>
+<!-- ============================================================================================================= -->
+<!-- ============================================================================================================= -->
 
+
+//======================================================================================================
 <div class="container" id="container_general" >
 
 <?php if(isset($entrenadores) && count($entrenadores)>0):?>
@@ -190,6 +311,3 @@ label{
 
 
 </div>
-    
-</body>
-</html>

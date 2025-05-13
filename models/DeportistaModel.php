@@ -188,14 +188,43 @@ public function buscarEntrenador($id_ent){
 //=================================================================================================================
 public function updateDeportista($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
 $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club,$foto, $id){
-    $query= "UPDATE deportista SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
+    try{$query= "UPDATE deportista SET nombres=?, apellidos=?, codigo_tipodoc=?, id=?, codigo_genero=?,
                             fecha_nacimiento=?, id_pais=?, id_departamento=?, id_ciudad=?, direccion=?, 
                             telefono=?, email=?, modalidad=?, codigo_club=?, foto=? WHERE id=?";
     $stmt=$this->conn->prepare($query);
     $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
     $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto,$id ]);
-}
+        if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+        if( $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+    $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto,$id ])){
+                    return [
+                        'msg' => "Los datos del deportista han sido actualizados exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            
 
+
+
+}catch (PDOException $e) {
+                error_log("Error al actualizar datos del deportista: " . $e->getMessage());
+                return [
+                    'msg' => "Error al actualizar datos del deportista: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
+}
 //==================================================================================================================
 public function updateEntrenador($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
 $pais, $dep, $ciudad, $direccion, $telefono, $email, $club,$foto, $id){

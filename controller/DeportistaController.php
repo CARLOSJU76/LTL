@@ -162,14 +162,15 @@ public function updateDeportista(){
     $this->depoModel->quitarPerfilD($emailAntiguo);
     $this->depoModel->setPerfilD($email);
 
-        $this->depoModel->updateDeportista($nombre,$apellido, $codigo_td,$num_docum, $genero,
+        return $this->depoModel->updateDeportista($nombre,$apellido, $codigo_td,$num_docum, $genero,
         $fecha, $pais, $dep, $ciudad, $direccion, $telefono,
          $email, $modalidad,$club, $foto, $id);
-        echo"<br>Los datos del Deportistase han sido actualizado exitosamente<br>";
-        echo "<form action='index.php?action=sport_manage' method='get' enctype='multipart/form-data'>
-        <button type='submit' name='action' value='sport_manage'>Gestión de Deportistas</button>
-        </form>";
-    }
+    }else{
+                    return[
+                        'msg'=> "Hubo un error. El solicitud POST no encontrada.",
+                        'tipo'=>"error"
+                        ];
+                }
 }
 //==================================================================================================================
 public function updateEntrenador(){

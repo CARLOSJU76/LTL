@@ -166,30 +166,11 @@
                 include_once 'view-nomina/list_entrenador.php';
                 break;
 //================================================================================================================
-            case 'search_deportista':
-                $deportistas= $depoControl->buscarDeportista();
-                include_once 'view-nomina/list_deportista.php';
-                break;
-//================================================================================================================
             case 'search_entrenador':
                 $entrenadores= $depoControl->buscarEntrenador();
                 include_once 'view-nomina/list_entrenador.php';
                 break;
 
-//================================================================================================================
-            case 'update_deportista':
-                if($_SERVER['REQUEST_METHOD']=='POST'){
-                    $depoControl->updateDeportista();
-                    $data=$depoControl->buscarDeportista();
-                }else{
-                     if(isset($_GET['id_dep']) && !empty ($_GET['id_dep'])){
-                            $data=$depoControl->buscarDeportista();
-                            include_once 'view-nomina/update_deportista.php';
-                    }else if(isset($_GET['id_dep']) && empty ($_GET['id_dep'])){
-                            $deportistas=$depoControl->listDeportistas();
-                            include_once 'view-nomina/list_deportista.php';
-                    }
-            }break;
 //================================================================================================================
                 case 'update_entrenador':
                     if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -255,13 +236,51 @@ case 'list_deportista':
     }
         $permitido=4;
     $resultado= $depoControl->listDeportistas();
-    $_SESSION['msg']= $resultado['msg'];
-    $_SESSION['tipo']=$resultado['tipo'];
     $deportistas= $resultado['data'];
     $title = "Registro de Clubes";
     $content = __DIR__ . '/view-nomina/list_deportista.php';
-    include __DIR__ . '/layouts/main_clubes.php';
+    include __DIR__ . '/layouts/main_deportista.php';
     break;
+
+//================================================================================================================
+case 'search_deportista':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=4;
+    $deportistas= $depoControl->buscarDeportista();
+     $title = "Actualizar Eventos";
+    $content = __DIR__ . '/view-nomina/list_deportista.php';
+    include __DIR__ . '/layouts/main_deportista.php';
+    break;
+//================================================================================================================
+case 'update_deportista':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=4;
+        $resultado=$depoControl->updateDeportista();
+        $_SESSION['msg1']=$resultado['msg'];
+        $_SESSION['tipo1']=$resultado['tipo'];
+        
+      header("Location: index.php?action=list_deportista");
+                        exit();
+    }else{
+        if(isset($_GET['id_dep']) && !empty ($_GET['id_dep'])){
+              if (session_status() === PHP_SESSION_NONE) {
+                            session_start();
+                        }
+            $permitido=4;
+            $data=$depoControl->buscarDeportista();
+            $title = "Actualizar Eventos";
+            $content = __DIR__ . '/view-nomina/update_deportista.php';
+            include __DIR__ . '/layouts/main_deportista.php';
+            exit;
+        }
+    }break;
+//=======================================================================================================
+
 //====================SECCIÓN CLUB MANAGE=================================================================
 //========================================================================================================
             case 'club_manage':
@@ -416,17 +435,17 @@ case 'list_deportista':
                     }
                 }break;
 //=============================================================================================================================
-case 'delete_repre':
+            case 'delete_repre':
 
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-    $permitido=4;
-    $resultado=$clubControl->deleteRepre();
-    $_SESSION['msg']= $resultado['msg'];
-    $_SESSION['tipo']=$resultado['tipo'];
-    header("Location: index.php?action=list_repres");
-    exit();
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $permitido=4;
+                $resultado=$clubControl->deleteRepre();
+                $_SESSION['msg']= $resultado['msg'];
+                $_SESSION['tipo']=$resultado['tipo'];
+                header("Location: index.php?action=list_repres");
+                exit();
 //================SECCIÓN ADMINISTRAR ELEMENTOS===========================================================
 //========================================================================================================
 case 'elements_manage':

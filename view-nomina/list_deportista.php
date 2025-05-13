@@ -40,13 +40,13 @@
 
 <!--------------------------------------------------------------------------------------------------------------- -->
                     <td class="td-botones">
-                        <form action="index.php?action=update_repre" method="get" class="form-botones" style="display:inline;">
-                            <input type="hidden" name="id_rep" value="<?= $depor['id'] ?>">
-                            <button type="submit" id="boton-clubes1" name="action" value="update_repre" >Actualizar</button>
+                        <form action="index.php?action=update_deportista" method="get" class="form-botones" style="display:inline;">
+                            <input type="hidden" name="id_dep" value="<?= $depor['id'] ?>">
+                            <button type="submit" id="boton-clubes1" name="action" value="update_deportista" >Actualizar</button>
                         </form>
                     <!-- Formulario para eliminar -->
                         <form action="index.php?action=delete_repre" method="post" class="form-botones" style="display:inline;"  onsubmit="return confirmDelete()">
-                            <input type="hidden" name="id_rep" value="<?= $depor['id'] ?>">
+                            <input type="hidden" name="id_dep" value="<?= $depor['id'] ?>">
                             <button type="submit" id="boton-clubes2" name="action" value="delete_repre" >Borrar</but>
                         </form>
                     </td>
@@ -58,17 +58,17 @@
             <p>No se encontraron usuarios con ese nombre</p>
         <?php endif;?>
 <!-- ================================================================================================================ -->
-        <form action="index.php?action=search_repres" method="get" id="form_buscar_club">
-            <input type="hidden" name="action" value="search_repres">
+        <form action="index.php?action=search_deportista" method="get" id="form_buscar_club">
+            <input type="hidden" name="action" value="search_deportista">
 
-            <select name="id_rep" id="id_rep" class="form-select" required>
-                <option value="">Elija Representante</option>
+            <select name="id_dep" id="id_rep" class="form-select" required>
+                <option value="">Elija el Deportista</option>
                 <?php
-                  include_once './controller/ClubController.php';
-                  $deporreCon= new ClubController();
-                  $arrayRep= $deporreCon->getRepresentante();
+                  include_once './controller/DeportistaController.php';
+                  $deporCon= new DeportistaController();
+                  $arrayDep= $deporCon->listSportman();
 
-                    foreach($arrayRep as $deporre1){
+                    foreach($arrayDep as $deporre1){
                         echo"<option value='".htmlspecialchars($deporre1['id'])."'>".
                         htmlspecialchars($deporre1['nombres']) ."  ".
                         htmlspecialchars($deporre1['apellidos']) .
@@ -78,7 +78,7 @@
             </select><br>
             <input type="submit" value="Buscar" id="buscar_club">
         </form>
-        <div id="label-buscar-rep"><label  for="id_rep">Seleccione el representante que desea revisar.</label></div>
+        <div id="label-buscar-rep"><label  for="id_rep">Seleccione el Deportista a consultar.</label></div>
 <!-- ====================================================================================================================== -->
     </div>
 </div>
@@ -190,7 +190,7 @@ h2{
 .head-inser{
     background-color: #7A1F1F;
     font-family: 'Courier New', Courier, monospace;
-    font-size=0.6rem;
+    font-size:0.6rem;
     padding:0.3rem;
     border: #D4AF37 solid 1px;
     border-radius: 4px;
