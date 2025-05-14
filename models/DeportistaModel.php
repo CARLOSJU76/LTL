@@ -47,24 +47,39 @@
 public function insertEntrenador($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
                                     $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto) {
             try {
+
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $consulta = "INSERT INTO entrenadores (nombres, apellidos, codigo_tipodoc, id, codigo_genero,
                             fecha_nacimiento, id_pais, id_departamento, id_ciudad, direccion, telefono, email,
                             codigo_club, foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                $resultado=$stmt = $this->conn->prepare($consulta);
-                $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
-                $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto]);
-
-// Verificamos si la inserción fue exitosa.
-                 if ($resultado) {
-                         return true;
-                 } else {
-                         return false;
-                 }
-                 } catch (PDOException $e) {
- // Capturamos cualquier error de base de datos y lo retornamos.
-                 error_log("Error al insertar deportista: " . $e->getMessage());
-                 return false;
+                $stmt = $this->conn->prepare($consulta);
+                 if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
                 }
+                if($stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+                $pais, $dep, $ciudad, $direccion, $telefono, $email, $club, $foto])){
+                    return [
+                        'msg' => "Los datos del entrenador han sido registrados exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+               
+                }catch (PDOException $e) {
+                    error_log("Error al intentar registrar datos del entrenador: " . $e->getMessage());
+                    return [
+                        'msg' => "Error al intentar registrar datos del entrenador " . $e->getMessage(),
+                        'tipo' => "error"
+                    ];
+            }
     }
 
 //==================================================================================================================

@@ -111,15 +111,7 @@
                 $listaRep= $clubControl->buscarRepresentantes();
                 include 'view-profile/list_repres.php';
                 break;
-//=============================================================================================================================
-            case 'insert_entrenador':
-                if($_SERVER["REQUEST_METHOD"]== "POST"){
-                $depoControl->insertEntrenador();
-                include 'view-nomina/insert_entrenador.php';
-                }else {
-                include_once 'view-nomina/insert_entrenador.php';
-                }
-                break;
+
 //=============================================================================================================================
             
 //=============================================================================================================================
@@ -297,6 +289,24 @@ case 'update_entrenador':
             include __DIR__ . '/layouts/main_deportista.php';
             exit;
         }
+    }break;
+//=============================================================================================================================
+case 'insert_entrenador':
+    if($_SERVER["REQUEST_METHOD"]== "POST"){
+          if (session_status() === PHP_SESSION_NONE){
+                        session_start();
+                    }
+        $permitido=4;
+        $resultado= $depoControl->insertEntrenador();
+        $_SESSION['msg']= $resultado['msg'];
+        $_SESSION['tipo']=$resultado['tipo'];
+       header("Location: index.php?action=insert_entrenador");
+        exit;
+    }else {
+          $permitido=4;
+            $title = "Registro Entrenador";
+            $content = __DIR__ . '/view-nomina/insert_entrenador.php';
+            include __DIR__ . '/layouts/main_deportista.php';
     }break;
 //================================================================================================================
 case 'search_entrenador':

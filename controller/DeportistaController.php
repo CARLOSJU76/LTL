@@ -81,17 +81,10 @@ public function insertEntrenador() {
                                                        $email, $club, $foto);
 
         // Verificar el resultado
-        if ($resultado) {
-            $this->depoModel->setPerfilE($email); // Si la inserción fue exitosa, establecer perfil
-            // Aquí podrías redirigir a otra página o mostrar un mensaje de éxito
-            echo"<p style='color:yellow;'>El Entrenador ha sido registrado en la base de datos</p>";
-        } else {
-            // Si hubo un error, mostrar un mensaje de error
-            echo "<p style='color:yellow;'>Hubo un error al insertar el entrenador. Por favor, intenta nuevamente.</p>";
-        }
-        echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='principal'>Página de inicio</button>
-                </form>";
+        if ($resultado['tipo']=="success") {
+            $this->depoModel->setPerfilE($email); 
+        } 
+         return $resultado;
     }
 }
 //=================================================================================================================
