@@ -9,24 +9,39 @@
         public function insertDeport($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
                                     $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto) {
             try {
-                $consulta = "INSERT INTO deportista (nombres, apellidos, codigo_tipodoc, id, codigo_genero,
+                    $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $consulta = "INSERT INTO deportista (nombres, apellidos, codigo_tipodoc, id, codigo_genero,
                             fecha_nacimiento, id_pais, id_departamento, id_ciudad, direccion, telefono, email, modalidad,
                             codigo_club, foto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                $resultado=$stmt = $this->conn->prepare($consulta);
-                $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
-                $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto]);
-
-// Verificamos si la inserción fue exitosa.
-                 if ($resultado) {
-                         return true;
-                 } else {
-                         return false;
-                 }
-                 } catch (PDOException $e) {
- // Capturamos cualquier error de base de datos y lo retornamos.
-                 error_log("Error al insertar deportista: " . $e->getMessage());
-                 return false;
+                    $stmt = $this->conn->prepare($consulta);
+                  
+                    if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
                 }
+                if(  $stmt->execute([$nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
+                    $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club, $foto])){
+                    return [
+                        'msg' => "Los datos del deportista han sido registrados exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+
+                }catch (PDOException $e) {
+                    error_log("Error al intentar registrar datos del deportista: " . $e->getMessage());
+                    return [
+                        'msg' => "Error al intentar registrar datos del deportista: " . $e->getMessage(),
+                        'tipo' => "error"
+                    ];
+            }
     }
 //=================================================================================================================
 public function insertEntrenador($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
@@ -147,7 +162,7 @@ public function listEntrenadoresById($id_ent){
                  if(   $stmt->execute(['%' . $id_ent . '%'])){
                     return [
                         'data'=> $resultado,
-                        'msg' => "Los datos del entrenador han sido actualizados exitosamente.",
+                        'msg' => "Los siguientes, son los entrenadores registrados: ",
                         'tipo' => "success"
                     ];
                 }else {
@@ -214,6 +229,12 @@ public function buscarEntrenador($id_ent){
     $stmt= $this->conn->prepare($consulta);
     $stmt->execute([$id_ent]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);  
+}
+public function getEntrenadores(){
+    $consulta= "SELECT * from entrenadores";
+    $stmt=$this->conn->prepare($consulta);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 //=================================================================================================================
 public function updateDeportista($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,
@@ -344,9 +365,38 @@ public function deleteDeportista($id_dep){
 }
 //===================================================================================================================
 public function deleteEntrenador($id_ent){
-    $query= "DELETE FROM entrenadores WHERE id = ?";
-    $stmt= $this->conn->prepare($query);
-    $stmt->execute([$id_ent]);   
+    try{
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query= "DELETE FROM entrenadores WHERE id = ?";
+            $stmt= $this->conn->prepare($query);
+            $stmt->execute([$id_ent]);
+
+             if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if($stmt->execute([$id_ent])){
+                    return [
+                        'msg' => "El registro de Entrenador ha sido borrado con éxito.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al tratar de ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+
+    }catch (PDOException $e) {
+                error_log("Error al tratar de borrar registros: " . $e->getMessage());
+                return [
+                    'msg' => "Error al tratar de borrar registros del entrenador: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
 }
 //====================================================================================================================
 public function getTd(){

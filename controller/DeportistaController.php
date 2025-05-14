@@ -42,21 +42,13 @@
             move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file);
             
 
-            if($this->depoModel->insertDeport($nombre,$apellido, $codigo_td,$num_docum, $genero,
+            $resultado= $this->depoModel->insertDeport($nombre,$apellido, $codigo_td,$num_docum, $genero,
                                             $fecha, $pais, $dep, $ciudad, $direccion, $telefono,
-                                             $email, $modalidad,$club, $foto) ){
-                    $this->depoModel->setPerfilD($email);
-                echo"<br><p style='color:yellow;'>El Deportista ha sido registrado en la base de datos</p>";
-                echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                                <button type='submit' name='action' value='principal'>Página de inicio</button>
-                        </form>";
-                }else{
-                    echo"<p style='color:yellow;'>Se presentó un error en la inserción de los datos. Intenta nuevamente.</p>";
-                    echo "<form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                                 <button type='submit' name='action' value='principal'>Página de inicio</button>
-                        </form>";
-                }
-                
+                                             $email, $modalidad,$club, $foto);
+            if($resultado['tipo']=="success"){
+                $this->depoModel->setPerfilD($email);
+                return $resultado;
+            }
             }        
        }
 //================================================================================================================
@@ -124,6 +116,9 @@ public function insertEntrenador() {
 public function buscarEntrenador(){
     $id_ent=$_GET['id_ent']?? '';
     return $this->depoModel->buscarEntrenador($id_ent);
+}
+public function getEntrenadores(){
+    return $this->depoModel->getEntrenadores();
 }
 //==================================================================================================================
 public function updateDeportista(){
@@ -228,19 +223,14 @@ public function deleteDeportista(){
 }
 //===================================================================================================================
 public function deleteEntrenador(){
-    if($_SERVER['REQUEST_METHOD']=='GET'){
-        $id_ent=$_GET['id_ent'];
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $id_ent=$_POST['id_ent'];
 
         $elementos= $this->depoModel->getEmailE($id_ent);
         $emailAntiguo= $elementos[0]['email'];
         $this->depoModel->quitarPerfilE($emailAntiguo);
        
-        $this->depoModel->deleteEntrenador($id_ent);
-
-        echo"<p style='color:yellow;'>Los datos del Entrenador han sido eliminados  de la base de datos<br>";
-        echo "<form action='index.php?action=club_manage' method='get' enctype='multipart/form-data'>
-        <button type='submit' name='action' value='club_manage'>Gestión de Clubes</button>
-        </form>";
+        return $this->depoModel->deleteEntrenador($id_ent);
     }
 }
 //===================================================================================================================

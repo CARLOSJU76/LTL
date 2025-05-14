@@ -64,10 +64,14 @@
             <option value="">Elija un Entrenador de la lista</option>
             <?php
                   
-                foreach($entrenadores as $trainer){
-                    echo"<option value='".htmlspecialchars($trainer['id'])."'>".
-                    htmlspecialchars($trainer['nombreE']) ."  ". 
-                    htmlspecialchars($trainer['apellidoE']) . 
+                include_once 'controller/DeportistaController.php';
+                $dc= new DeportistaController();
+                $entrenadores1= $dc->getEntrenadores();
+
+                foreach($entrenadores1 as $trainer1){
+                    echo"<option value='".htmlspecialchars($trainer1['id'])."'>".
+                    htmlspecialchars($trainer1['nombres']) ."  ". 
+                    htmlspecialchars($trainer1['apellidos']) . 
                     "</option>";
                 }
             ?>
