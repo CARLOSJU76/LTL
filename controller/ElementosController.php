@@ -391,19 +391,7 @@ public function insertCategoriaxEdad() {
             $id_lugar=$_POST['id_lugar'];
             $fecha=$_POST['fecha'];
             $hora=$_POST['hora'];
-            if($this->eleModel->insertSession($email_entrenador, $id_lugar,$fecha, $hora)){
-                echo"<br><p style='color:orange;'>Se ha agregado la sesión exitosamente</p>";
-            }else{
-                echo"<p style='color:orange;'>Se presentó un error al tratar de excluir el lugar de entrenamiento. Intenta nuevamente.</p>";
-            }
-            echo "<div style='display:flex; flex-direction: row;'>
-                    <form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='principal'>Ir al inicio</button>
-                    </form> 
-                    <form action='index.php?action=trainer_manage' method='get' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='trainer_manage'>Administrados de Sesiones</button>
-                    </form>
-                </div>";
+            return $this->eleModel->insertSession($email_entrenador, $id_lugar,$fecha, $hora);
         }
         
     }

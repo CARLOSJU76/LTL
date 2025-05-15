@@ -163,6 +163,52 @@
                     $eleControl->getDivisionesG();
                     exit();
                 }break;
+//================================SECCIÓN DE SESINES DE ENTRENAMIENTO=====================================
+//========================================================================================================
+        case 'trainer_manage':
+            if($_SERVER['REQUEST_METHOD']=='GET'){
+                $permitido=2;
+                $title = "Gestión de Entrenamientos";
+                $content = __DIR__ . '/view_sesiones/trainer_m_opcional.php';
+                include __DIR__ . '/layouts/main.php';
+                }break;
+//========================================================================================================
+        case 'schedule_session':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $permitido=2;
+                $resultado=$eleControl->insertSession();
+                $_SESSION['msg']= $resultado['msg'];
+                $_SESSION['tipo']=$resultado['tipo'];
+                $title = "Programar Sesioenes de Entrenamiento";
+                $content = __DIR__ . '/view_sesiones/sesion_program.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
+
+            }else{
+                 $permitido=2;
+                $title = "Programar Sesioenes de Entrenamiento";
+                $content = __DIR__ . '/view_sesiones/sesion_program.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
+            }break;
+//========================================================================================================
+        case 'list_your_sessions':
+            $permitido=2;
+            $sesiones=$eleControl->listYourSessions($fechaA, $horaA);
+             $title = "Relación de Sesiones Programadas";
+                $content = __DIR__ . '/view_sesiones/list_mySesiones.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
+            include_once 'view_sesiones/list_mySesiones.php';
+            break;
+//========================================================================================================
+        case 'list_sessionByFecha':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $sesiones=$eleControl->listSessionByDate();
+                include_once 'view_sesiones/list_sesionByFecha.php';
+            }else{
+                include_once 'view_sesiones/list_sesionByFecha.php';
+            }break;
 //====================SECCIÓN DEPORTISTAS Y ENTRENADORES==================================================
 //========================================================================================================
 case 'sport_manage':
@@ -958,19 +1004,6 @@ case 'update_vision':
         include __DIR__ . '/layouts/main_plataforma.php';
     }break;
 
-
-
-case 'trainer_manage':
-            if($_SERVER['REQUEST_METHOD']=='GET'){
-                //include 'view_sesiones/trainer_manage.php';
-                include 'view_sesiones/trainer_m_opcional.php';
-            }break;
-case 'schedule_session':
-            if($_SERVER['REQUEST_METHOD']=='POST'){
-               $eleControl->insertSession();
-            }else{
-                include_once 'view_sesiones/sesion_program.php';
-            }break;
 case 'list_sessionById':
       if($_SERVER['REQUEST_METHOD']=='POST'){
             $sesiones=$eleControl->listSessionbyTrainer();
@@ -978,13 +1011,7 @@ case 'list_sessionById':
         }else{
             include_once 'view_sesiones/list_sesiones.php';
         }break;
-case 'list_sessionByFecha':
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $sesiones=$eleControl->listSessionByDate();
-        include_once 'view_sesiones/list_sesionByFecha.php';
-    }else{
-        include_once 'view_sesiones/list_sesionByFecha.php';
-    }break;
+
 case 'list_sessionBySite':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $sesiones=$eleControl->listSessionsBySite($fechaA,$horaA);
@@ -994,10 +1021,6 @@ case 'list_sessionBySite':
     }break;
 
 
-case 'list_your_sessions':
-    $sesiones=$eleControl->listYourSessions($fechaA, $horaA);
-    include_once 'view_sesiones/list_mySesiones.php';
-    break;
 case 'delete_session':
     $eleControl->deleteSession();
     break;

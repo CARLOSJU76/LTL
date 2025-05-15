@@ -284,17 +284,35 @@ public function insertAgeCat($categoriaxEdad){
         }
         public function insertSession($email_entrenador, $id_lugar, $fecha, $hora){
             try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $consulta="INSERT INTO sesiones (email_entrenador, id_lugar, fecha, hora) VALUES (?,?,?,?)";
                 $resultado= $stmt=$this->conn->prepare($consulta);
-                $stmt->execute([$email_entrenador, $id_lugar, $fecha, $hora]);
-                if($resultado){
-                    return true;
-                }else{
-                    return false;
+               
+                 if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
                 }
-            }catch(PDOException $e) {
-                error_log("Error al actualizar la visión: " . $e->getMessage());
-                return false;
+                if($stmt->execute([$email_entrenador, $id_lugar, $fecha, $hora])){
+                    return [
+                        'msg' => "La sesión ha sido registrada y programada con éxito.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+               
+            }catch (PDOException $e) {
+                    error_log("Error al intentar registrar la sesión programada: " . $e->getMessage());
+                    return [
+                        'msg' => "Error al intentar registrar la sesión programada: " . $e->getMessage(),
+                        'tipo' => "error"
+                    ];
             }
         }
         public function listSessionByDate($fechaA, $fechaB){

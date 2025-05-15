@@ -1,21 +1,65 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador de Sesiones de Entrenamiento</title>
-    <style>
-        html{
-            font-size:30 px;
-        }
-        body{
-            width: 100%;
-            height: 100%;
-            display:flex;
-            flex-direction: column;
-            align-items: center;
-           
-        }
+<div id= "fondo-menu">
+    <div id="cont_general">
+        <h2 style="font-style:italic; font-family:Arial; color:white; letter-spacing:0.4rem;">LTL WebSite</h2>
+        <form action="index.php?" method="get" id="menuForm">
+    
+            <input type="hidden" name="action" id="actionInput">
+            <input type="hidden" name="user_email" id="user_email">
+            <h2 style="font-style:italic; font-family:Arial; color:white; font-size: 1rem; font-weight: 100; letter-spacing:0.3rem;">Administrador Sesiones de Entrenamiento</h2>
+            <ul class="menu" id="lista_principal">
+                <li id="principal" style="width: 25rem; padding:0.3rem;">
+                    <a href="#" style="color: #4A0D0D; font-weight:100; width: 20rem; ">Sesiones de Entrenamiento</a>
+                    <ul class="submenu">
+                        <li><a href="#"  data-value="schedule_session">Programar Sesiones</a></li>
+                        <li><a href="#">Ver Sesiones programadas</a>
+                            <ul class="submenu1">
+                                <li><a href="#" data-value=""> </a></li>
+                                <li><a href="#" data-value="list_your_sessions">Mis Sesiones programadas</a></li>
+                                <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li>
+                                <li><a href="#" data-value="list_sessionBySite">Programadas x lugar de entrenamiento</a></li>                    
+                            </ul>
+                        </li>
+                        <li><a href="#">Histórico de entrenamientos</a>
+                            <ul class="submenu1">
+                   
+                                <li><a href="#" data-value=""> </a></li>
+                                <li><a href="#" data-value=""> </a></li>
+                                <li><a href="#" data-value="list_workout_byFecha">Mis Sesiones Dirigidas x Fecha</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Asistencias</a>
+                            <ul class="submenu1">
+                                <li><a href="#" data-value=""> </a></li>
+                                <li><a href="#" data-value=""> </a></li>
+                                <li><a href="#" data-value="list_sesion_by_sport">Ver Asistencias por Deportista</a></li>
+                                <li><a href="#" data-value="asistenciax_sesion">Listar Asistencias por Sesion</a></li>
+                                <li><a href="#" data-value="attendance_register">Tomar Asistencia</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </form>
+        <form action='index.php?action=principal' method='post' enctype='multipart/form-data' id="form-bot">
+            <button type='submit' name='action' value='principal' id="boton-sub">Ir al inicio</button>
+        </form> 
+    </div>
+</div>
+<!-- ====================================================================================================== -->
+  <style>
+
+    #fondo-menu{
+        background-image: url('./IMG/LTL/renteria.jpg');
+        background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+        background-position: center center; /* Centra la imagen */
+        background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+        background-repeat: no-repeat;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
         #menuForm{
             display: flex;
             flex-direction: column;
@@ -114,6 +158,9 @@
          flex-direction: column;
          justify-content: space-between;
          align-items: center;
+         margin:3rem;
+        border: 2px solid #D4AF37;
+        border-radius: 4px;
     }
     #form-bot{
         width: 40%;
@@ -131,66 +178,7 @@
         font-style: italic;
         letter-spacing: 0.3rem;
     }
-        
     </style>
-</head>
-<body>
-
-<!-- Menú con submenú -->
-<div id="cont_general">
-<h2 style="font-style:italic; font-family:Arial; color:white; letter-spacing:0.4rem;">LTL WebSite</h2>
-<form action="index.php?" method="get" id="menuForm">
-    
-<input type="hidden" name="action" id="actionInput">
-<input type="hidden" name="user_email" id="user_email">
-<h2 style="font-style:italic; font-family:Arial; color:white; font-size: 1rem; font-weight: 100; letter-spacing:0.3rem;">Administrador Sesiones de Entrenamiento</h2>
-<ul class="menu" id="lista_principal">
-    <li id="principal" style="width: 25rem; padding:0.3rem;">
-        <a href="#" style="color: #4A0D0D; font-weight:100; width: 20rem; ">Sesiones de Entrenamiento</a>
-        <ul class="submenu">
-            <li><a href="#"  data-value="schedule_session">Programar Sesiones</a></li>
-            <li>
-                <a href="#">Ver Sesiones programadas</a>
-                <ul class="submenu1">
-                <li><a href="#" data-value=""> </a></li>
-                    <li><a href="#" data-value="list_your_sessions">Mis Sesiones programadas</a></li>
-                    <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li>
-                    <li><a href="#" data-value="list_sessionBySite">Programadas x lugar de entrenamiento</a></li>                    
-                </ul>
-            </li>
-            <li><a href="#">Histórico de entrenamientos</a>
-            <ul class="submenu1">
-                   
-                   <li><a href="#" data-value=""> </a></li>
-                   <li><a href="#" data-value=""> </a></li>
-                  
-                   <li><a href="#" data-value="list_workout_byFecha">Mis Sesiones Dirigidas x Fecha</a></li>
-                  
-                   <!-- <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li> -->
-                   <!-- <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li> -->
-               </ul>
-            </li>
-            <li>
-                <a href="#">Asistencias</a>
-                <ul class="submenu1">
-                    <li><a href="#" data-value=""> </a></li>
-                    <li><a href="#" data-value=""> </a></li>
-                    <li><a href="#" data-value="list_sesion_by_sport">Ver Asistencias por Deportista</a></li>
-                    <li><a href="#" data-value="asistenciax_sesion">Listar Asistencias por Sesion</a></li>
-                    <li><a href="#" data-value="attendance_register">Tomar Asistencia</a></li>
-                    <!-- <li><a href="#" data-value="list_sessionByFecha">Buscar sesión programada por fecha</a></li> -->
-                    <!-- <li><a href="#">Buscar sesión por lugar de entrenamiento</a></li> -->
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ul>
-
-</form>
-<form action='index.php?action=principal' method='post' enctype='multipart/form-data' id="form-bot">
-    <button type='submit' name='action' value='principal' id="boton-sub">Ir al inicio</button>
-</form> 
-</div>
 
 
 <script>
@@ -214,6 +202,3 @@ document.querySelectorAll('.menu a, .submenu a, .submenu1 a').forEach(item => {
 });
 
 </script>
-
-</body>
-</html>
