@@ -432,17 +432,35 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
         }
     }
     public function deleteSession($id){
-        try{$consulta="DELETE FROM sesiones WHERE codigo= ?";
-            $resultado= $stmt= $this->conn->prepare($consulta);
+        try{
+            
+            $consulta="DELETE FROM sesiones WHERE codigo= ?";
+            $stmt= $this->conn->prepare($consulta);
             $stmt->execute([$id]);
-            if($resultado){
-                return true;
-            }else{
-                return false;
+           if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
             }
-        }catch(PDOException $e) {
-            error_log("Error al tratar de borrar la sesión programada: " . $e->getMessage());
-            return false;
+             if( $stmt->execute([$id])){
+                    return [
+                        'msg' => "La sesión programada ha sido eliminada con éxito.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+        }catch (PDOException $e) {
+                error_log("Error al intentar borrar la sesión pro: " . $e->getMessage());
+                return [
+                    'msg' => "Error el intentar borrar la sesión programada: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
         }
     }
     public function registrarAsistencia($id_sesion, $id_deportistas) {

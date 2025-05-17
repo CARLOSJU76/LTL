@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="JS/jquery-3.7.1.min.js"></script>
-    <title>Centros de Entrenamiento</title>
-</head>
 <style>
     @font-face {
   font-family: 'fuente3';
@@ -201,7 +193,5 @@
 if (userEmail) {
     document.getElementById('user_email_input').value = userEmail;
 }
-
 </script>
-</body>
-</html>
+<script src="JS/jquery-3.7.1.min.js"></script>

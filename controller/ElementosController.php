@@ -427,19 +427,7 @@ public function insertCategoriaxEdad() {
     public function deleteSession(){
         if($_SERVER['REQUEST_METHOD']='POST'){
             $id=$_POST['id'];
-            if($this->eleModel->deleteSession($id)){
-                echo "<br><p style='color:orange;'>Se ha eliminado la sesión de entrenamiento.</p>";
-            }else{
-                echo"<br><p style='color:orange;'>Hubo un error al tratar de elminar la sesión de entrenamiento.</p>";
-            }
-            echo "<div style='display:flex; flex-direction: row;'>
-                    <form action='index.php?action=principal' method='post' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='principal'>Ir al inicio</button>
-                    </form> 
-                    <form action='index.php?action=list_your_sessions' method='get' enctype='multipart/form-data'>
-                        <button type='submit' name='action' value='list_your_sessions'>Sesiones de Entrenamiento</button>
-                    </form>
-                </div>";
+             return $this->eleModel->deleteSession($id);
         }
     }
     public function registrarAsistencia() {

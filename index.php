@@ -163,7 +163,7 @@
                     $eleControl->getDivisionesG();
                     exit();
                 }break;
-//================================SECCIÓN DE SESINES DE ENTRENAMIENTO=====================================
+//================================SECCIÓN DE SESIONES DE ENTRENAMIENTO=====================================
 //========================================================================================================
         case 'trainer_manage':
             if($_SERVER['REQUEST_METHOD']=='GET'){
@@ -196,19 +196,49 @@
         case 'list_your_sessions':
             $permitido=2;
             $sesiones=$eleControl->listYourSessions($fechaA, $horaA);
-             $title = "Relación de Sesiones Programadas";
-                $content = __DIR__ . '/view_sesiones/list_mySesiones.php';
-                include __DIR__ . '/layouts/main_sesiones.php';
-            include_once 'view_sesiones/list_mySesiones.php';
+            $title = "Relación de Sesiones Programadas";
+            $content = __DIR__ . '/view_sesiones/list_mySesiones.php';
+            include __DIR__ . '/layouts/main_sesiones.php';
             break;
 //========================================================================================================
         case 'list_sessionByFecha':
             if($_SERVER['REQUEST_METHOD']=='POST'){
+                $permitido=2;
                 $sesiones=$eleControl->listSessionByDate();
-                include_once 'view_sesiones/list_sesionByFecha.php';
+                $title = "Consulta sesiones por Fecha";
+                $content = __DIR__ . '/view_sesiones/list_sesionByFecha.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
             }else{
-                include_once 'view_sesiones/list_sesionByFecha.php';
+                $permitido=2;
+                $title = "Consulta sesiones por Fecha";
+                $content = __DIR__ . '/view_sesiones/list_sesionByFecha.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
             }break;
+//=======================================================================================================
+case 'list_sessionBySite':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $permitido=2;
+        $sesiones=$eleControl->listSessionsBySite($fechaA,$horaA);
+         $title = "Consulta sesiones por Fecha";
+        $content = __DIR__ . '/view_sesiones/list_sesionBySite.php';
+        include __DIR__ . '/layouts/main_sesiones.php';
+    }else{
+        $permitido=2;
+        $title = "Consulta sesiones por Fecha";
+        $content = __DIR__ . '/view_sesiones/list_sesionBySite.php';
+        include __DIR__ . '/layouts/main_sesiones.php';
+    }break;
+//========================================================================================================
+case 'delete_session':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=2;
+    $resultado=$eleControl->deleteSession();
+    $_SESSION['msg']=$resultado['msg'];
+    $_SESSION['tipo']=$resultado['tipo'];
+    header("Location: index.php?action=list_your_sessions&user_email=" . $_SESSION['email']);
+    exit();
 //====================SECCIÓN DEPORTISTAS Y ENTRENADORES==================================================
 //========================================================================================================
 case 'sport_manage':
@@ -1012,18 +1042,9 @@ case 'list_sessionById':
             include_once 'view_sesiones/list_sesiones.php';
         }break;
 
-case 'list_sessionBySite':
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $sesiones=$eleControl->listSessionsBySite($fechaA,$horaA);
-        include_once 'view_sesiones/list_sesionBySite.php';
-    }else{
-        include_once 'view_sesiones/list_sesionBySite.php';
-    }break;
 
 
-case 'delete_session':
-    $eleControl->deleteSession();
-    break;
+
     case 'attendance_register':
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $resultado = $eleControl->registrarAsistencia();
