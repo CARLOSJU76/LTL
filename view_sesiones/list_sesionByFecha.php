@@ -2,14 +2,14 @@
 
     <?php if(isset($sesiones) && count($sesiones)>0):?>
         <h2 style="font-size: 0.8rem;">Sesiones encontradas:</h2>
-        <table>
+        <table class="table-sesion">
             <thead>
                 <tr>
                     <th>No.</th>
                     <th>Lugar</th>
                     <th>Entrenador</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
+                    <th class="fecha-sesion">Fecha</th>
+                    <th class="hora-sesion">Hora</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -24,8 +24,8 @@
                     <td class="id"> <?=$sesion['id']?></td>
                     <td class="lugar"> <?=$sesion['sitio']?></td>
                     <td class="nombreE"> <?=$sesion['nombreE']?> <?=$sesion['apellidoE']?> </td>
-                    <td class="fechaSession"> <?=$sesion['fecha']?></td>
-                    <td class="fecha"> <?=$sesion['hora']?></td>
+                    <td class="fecha-session-dato"> <?=$sesion['fecha']?></td>
+                    <td class="fecha-session-dato"> <?=$sesion['hora']?></td>
                     <td class="id">
             <?php if ($sesion['email'] == $user_email): ?>
                 <form action="index.php?action=delete_session" method="POST" style="display:inline;">
@@ -39,7 +39,7 @@
             </tbody>
         </table>
         <?php elseif(isset($sesiones)):?>
-            <p style="color: yellow; font-style: italic;">No se encontraron sesiones programnadas en ese rango de tiempo</p>
+            <p style="color: yellow; font-style: italic;">No se encontraron sesiones programadas en ese rango de tiempo</p>
 
         <?php endif;?>     
                                                                                                                                                                                                                                                                                                         
@@ -50,7 +50,7 @@ $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
 ?>
 
 <?php if ($user_email): ?>
-    <form action="index.php?action=list_sessionByFecha" method="post" class="form-insertS" id="formulario">
+    <form action="index.php?action=list_sessionByFecha" method="post"  class="form-sesion">
         <p id="rango">Para ver todas las sesiones programadas en un rango de tiempo, elige dos fechas:</p>
         
         <!-- Primer input para la fecha -->
@@ -97,14 +97,6 @@ $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
             align-items: center;
             justify-content: center;
 }
-.form-insertS{
-    width: 60%;
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #4A0D0D;
-    border: solid #D4AF37 2px;
-}
 #rango{
     width:60%; font-size:0.8rem; color: #D4AF37;
     font-style: italic;letter-spacing: 0.3rem;
@@ -143,23 +135,52 @@ select{
     margin:2rem;
     padding:0.4rem;
     }
-td, th{
-    padding: 1%;
-    font-size:1vw;
-    border:solid #D4AF37 1px;
-}
+
 .lugarE{
     width: 55%;
 }
-table{    
-    width: 100%;
+.table-sesion{    
+    width: 90%;
     border: solid #D4AF37 1px;
+    background-color: #4A0D0D;
+}
+.form-sesion{
+    width: 90;
+    border:solid #D4AF37 1px;
+    background-color: #4A0D0D;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+th{
+    padding: 1%;
+    font-size:1rem;
+    color:#D4AF37;
+    border:solid #D4AF37 1px;
+    font-style: italic;
+}
+td{
+    padding:1%;
+    font-size:0.9rem;
+    color:white;
+    border: #D4AF37 solid 1px;
+    justify-content: center;
+    align-items: center;
+}
+.fecha-sesion, .hora-sesion{
+    color: #D4AF37;
+    width: 7%;
+    justify-content: center;
+    align-items: center;
+}
+.fecha-session-dato{
+    color: white;
+    justify-content: center;
+    align-items: center;
 }
 #formulario{
     margin:5%;
-}
-.fechaSession{
-    width: 7%;
 }
 .lugar{
     width: 30%;
@@ -183,10 +204,25 @@ table{
 }
 .delete-boton{
     background-color: transparent;
-    color:white;
-    border:none;
+    color:#D4AF37;
+    border: #D4AF37 solid 1px;
     font-style: italic;
-    font-size: 0.3rem;
+    font-size: 0.5rem;
+    border-radius: 3px;
+}
+#boton_volver{
+     background-color: #4A0D0D;
+    color:#D4AF37;
+    border: #D4AF37 solid 1px;
+    font-style: italic;
+    font-size: 1rem;
+    border-radius: 3px;
+    padding: 0.4rem;
+}
+.delete-boton:hover, #boton_volver:hover, .form-boton:hover{
+    background-color: #d4af37;
+    color:#4A0D0D;
+    border: #4A0D0D;
 }
 label, .rango{
     font-size:0.6rem;
