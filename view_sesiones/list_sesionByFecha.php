@@ -101,11 +101,6 @@ $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
     width:60%; font-size:0.8rem; color: #D4AF37;
     font-style: italic;letter-spacing: 0.3rem;
 }
-#uno,#dos,#tres{
-    width: 33;
-    margin-top: 3%;
-    margin-bottom: 3%;  
-}
 input{
     width: 80%;
     font-size: 1.3vw;

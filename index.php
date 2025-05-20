@@ -219,13 +219,27 @@ case 'list_sessionBySite':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $permitido=2;
         $sesiones=$eleControl->listSessionsBySite($fechaA,$horaA);
-         $title = "Consulta sesiones por Fecha";
+         $title = "Consulta sesiones por Escenarios de Entrenamiento";
         $content = __DIR__ . '/view_sesiones/list_sesionBySite.php';
         include __DIR__ . '/layouts/main_sesiones.php';
     }else{
         $permitido=2;
-        $title = "Consulta sesiones por Fecha";
+        $title = "Consulta sesiones por Escenarios de Entrenamiento";
         $content = __DIR__ . '/view_sesiones/list_sesionBySite.php';
+        include __DIR__ . '/layouts/main_sesiones.php';
+    }break;
+//========================================================================================================
+    case 'list_workout_byFecha':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $permitido=2;
+        $workouts= $eleControl->listWorkOutsByFecha();
+         $title = "Consulta sesiones por Fecha";
+        $content = __DIR__ . '/view_sesiones/list_workOuts_by_fecha.php';
+        include __DIR__ . '/layouts/main_sesiones.php';
+    }else{
+         $permitido=2;
+        $title = "Consulta sesiones por Fecha";
+        $content = __DIR__ . '/view_sesiones/list_workOuts_by_fecha.php';
         include __DIR__ . '/layouts/main_sesiones.php';
     }break;
 //========================================================================================================
@@ -1080,13 +1094,7 @@ case 'list_sessionById':
         }
         break;
 
-case 'list_workout_byFecha':
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $workouts= $eleControl->listWorkOutsByFecha();
-        include_once 'view_sesiones/list_workOuts_by_fecha.php';
-    }else{
-        include_once 'view_sesiones/list_workOuts_by_fecha.php';
-    }break;
+
 case 'asistenciax_sesion':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $asistencias=$eleControl->asistenciaxSesion();

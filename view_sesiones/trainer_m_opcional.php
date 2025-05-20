@@ -40,9 +40,6 @@
                 </li>
             </ul>
         </form>
-        <form action='index.php?action=principal' method='post' enctype='multipart/form-data' id="form-bot">
-            <button type='submit' name='action' value='principal' id="boton-sub">Ir al inicio</button>
-        </form> 
     </div>
 </div>
 <!-- ====================================================================================================== -->
