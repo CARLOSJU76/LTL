@@ -1,11 +1,10 @@
-<div id="form-insert">
+<div id="fondo-buscarS">
+
     <?php if(isset($workouts) && count($workouts)>0):?>
-       
-        <table id="table-sesiones">
-             <h2 class="titulos">Entrenamientos finalizados:</h2>
+        <h2 style="font-size: 0.8rem;">Sesiones encontradas:</h2>
+        <table class="table-sesion">
             <thead>
                 <tr>
-                  
                     <th>No.</th>
                     <th>Lugar</th>
                     <th>Entrenador</th>
@@ -21,189 +20,230 @@
                 ?>
                 <?php foreach ($workouts as $workout): ?>
                 <tr>
-                   
                     <td class="id"> <?=$workout['id']?></td>
                     <td class="lugar"> <?=$workout['lugar']?></td>
                     <td class="nombreE"> <?=$workout['nombreE']?> <?=$workout['apellidoE']?> </td>
                     <td class="fecha-session"> <?=$workout['fecha']?></td>
                     <td class="fecha-session"> <?=$workout['hora']?></td>
                     <td class="fecha-session"> <?=$workout['total_asistentes']?></td>
-                  
-           
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <?php elseif(isset($workout)):?>
-            <p style="color: yellow; font-style: italic;">No se encontraron sesiones programnadas en ese rango de tiempo</p>
+        <?php elseif(isset($workouts)):?>
+            <p style="color: yellow; font-style: italic;">No se encontraron registros en este período de  tiempo</p>
 
-        <?php endif;?>     
-                                                                                                                                                                                                                                                                                                        
-                
+        <?php endif;?>  
+        
         <?php
-// Verificar si el parámetro 'user_email' está presente en la URL
-$user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
-?>
+            $user_email = isset($_GET['user_email']) ? $_GET['user_email'] : null;
+        ?>                      
 
 <?php if ($user_email): ?>
-    <form action="index.php?action=list_workout_byFecha" method="post"  id="form-session">
-        <p class="titulos">Para ver todos los entrenamientos finalizados en un rango de tiempo, elige dos fechas:</p>
+    <form action="index.php?action=list_workout_byFecha" method="post"  class="form-sesion">
+        <p id="rango">Para ver todas las sesiones dirigidas en un rango de tiempo: elige dos fechas:</p>
+
+         <!-- Primer input para la fecha -->
+        <?php date_default_timezone_set('America/Bogota'); ?>
         
         <!-- Primer input para la fecha -->
-        <?php date_default_timezone_set('America/Bogota'); ?>
-
-        <input type="date" class="fechaInput" name="fecha1" max="<?php echo date('Y-m-d'); ?>" placeholder="fecha del evento"  required>
-        <label class="fechaInput" for="fecha1">Selecciona la primera fecha</label>
+        <input type="date" id="fecha1" class="fechaInput" name="fecha1" max="<?php echo date('Y-m-d'); ?>" placeholder="fecha del evento" class="form-control" required>
+        <label for="fecha1">Selecciona la primera fecha</label>
         
         <!-- Segundo input para la fecha -->
-        <input type="date"  class="fechaInput" name="fecha2" max="<?php echo date('Y-m-d'); ?>" placeholder="fecha del evento"  required>
-        <label  class="fechaInput" for="fecha2">Selecciona la segunda fecha</label>
+        <input type="date" id="fecha2" class="fechaInput" name="fecha2" max="<?php echo date('Y-m-d'); ?>" placeholder="fecha del evento" class="form-control" required>
+        <label for="fecha2">Selecciona la segunda fecha</label>
         
         <!-- Campo oculto para enviar el user_email -->
         <input type="hidden" name="user_email" value="<?= $user_email ?>">
         
         <!-- Botón para enviar el formulario -->
-        <input type="submit" value="Buscar Sesiones" class="form-boton-sesion" id="buscar">
+        <input type="submit" value="Buscar Sesiones" class="form-boton" id="buscar">
     </form>
 <?php else: ?>
     <!-- Opcional: Puedes mostrar un mensaje si no se encuentra el 'user_email' en la URL -->
-    <form action="index.php?" method="get" id="form-boton-back">
-    <input type="hidden" name="user_email" id="user_email_input"> <!-- Input oculto para el email -->
-    <button id="boton_volver" type="submit" name="action" value="list_workout_byFecha">Hacer otra consulta</button>
-</form>
+    <form action="index.php?" method="get" id="formulario">
+        <input type="hidden" name="user_email" id="user_email_input"> <!-- Input oculto para el email -->
+        <button id="boton_volver" type="submit" name="action" value="list_workout_byFecha">Hacer otra consulta</button>
+    </form>
 <?php endif; ?>
 
 </div>  
-<!-- ============================================================================ -->
- <style>
-    @font-face {
-  font-family: 'fuente3';
-  src: url('fonts/fuente3.ttf') format('truetype');/*Nombre real : struck */
+<!-- =================================================================================== -->
+
+<style>
+@font-face {
+    font-family: 'fuente3';
+    src: url('fonts/fuente3.ttf') format('truetype');/*Nombre real : struck */
 }
-    #form-insert{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-style: italic;
-        color:white;
-    }
-    #form-session{
-        width: 60%;
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #4A0D0D;
-        border: solid gold 2px;
-        margin-bottom: 3%;
-        padding:1%;
-    }
-    #table-sesiones{
-        background-color: #4A0D0D;
-        border:black solid 2px;
-    }
-    .titulos{
-        font-size: 1rem;
-        color:  #D4AF37;
-    }
-    .fechaInput{
-        width: 60%;
-        font-size: 0.8rem;
-        font-style: italic;
-        padding:0.3rem;
-    }
-    option{
-        font-size: 0.8vw;
-        font-style: italic;
-    }
-    select{
-        font-size: 0.8rem;
-        font-style:italic;
-        padding: 1%;
-        width: 40%;
-    }
-    .form-boton-sesion{           
-            background-color: transparent; 
-            border:#D4AF37 solid 1px;
-            border-radius: 4px;
-            font-family:Arial, Helvetica, sans-serif;
-            font-style: italic;
-            font-size: 1rem;
-            font-weight: normal;
-            color:#D4AF37;
-            width:40%;
-            margin:1rem;
-            padding:0.4rem;
-        }
-         .form-boton-sesion:hover{
-            background-color: #D4AF37;
-            color: #4A0D0D;
-        }
-    td, th{
-        padding: 1%;
-        font-size:1vw;
-        border:solid gold 1px;
 
+#fondo-buscarS{
+    background-image: url('./IMG/LTL/mat.jpg');
+            /* background-size: cover; Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
 
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+}
+#rango{
+    width:60%; font-size:0.8rem; color: #D4AF37;
+    font-style: italic;letter-spacing: 0.3rem;
+}
+input{
+    width: 80%;
+    font-size: 1.3vw;
+    font-style: italic;
+    padding:2%;
+}
+option{
+    font-size: 0.8vw;
+    font-style: italic;
+}
+select{
+    font-size: 1vw;
+    font-style:italic;
+    padding: 1%;
+    width: 40%;
+}
+.form-boton{
+    background-color: transparent; 
+    border:  solid #D4AF37 1px;
+    border-radius:5px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: bold;
+    color:#D4AF37;
+    width:40%;
+    margin:2rem;
+    padding:0.4rem;
     }
-    .lugarE{
-        width: 55%;
-    }
-    table{    
-        width: 100%;
-        border: solid gold 1px;
-    }
-    #form-boton-back{
-        margin:5%;
-    }
-    .fecha-session{
-        width: 7%;
-    }
-    .lugar{
-        width: 30%;
-    }
-    .nombreE{
-        width:20%;
-    }
-    .id{
-       width: 6%;
-    }
-    .delete-boton{
-        background-color: transparent;
-        color:white;
-        border:none;
-        font-style: italic;
-        font-size: 0.3rem;
-    }
-    label, .rango{
-        font-size:0.6rem;
-        font-family: 'Courier New', Courier, monospace;
-        text-justify: initial;
-      
-        width:40%;
-    }
-    .boton-sub{
-        width: 98%;
-        background-color: transparent;
-        border: solid gold 0.05rem;
-        font-size:0.5rem;
-        border-radius: 3px;
-        margin:1rem;
-      
-        padding:0.3rem;
-        color:gold;
-        font-family: 'Courier New', Courier, monospace;
-        font-style: italic;
-        margin:3px;
-    }
-    #boton1{
-        width: 35%;
-    }
-    #boton2{
-        width: 65%;
-    }
+
+.lugarE{
+    width: 55%;
+}
+.table-sesion{    
+    width: 90%;
+    border: solid #D4AF37 1px;
+    background-color: #4A0D0D;
+}
+.form-sesion{
+    width: 90;
+    border:solid #D4AF37 1px;
+    background-color: #4A0D0D;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+th{
+    padding: 1%;
+    font-size:1rem;
+    color:#D4AF37;
+    border:solid #D4AF37 1px;
+    font-style: italic;
+}
+td{
+    padding:1%;
+    font-size:0.9rem;
+    color:white;
+    border: #D4AF37 solid 1px;
+    justify-content: center;
+    align-items: center;
+}
+.fecha-sesion, .hora-sesion{
+    color: #D4AF37;
+    width: 7%;
+    justify-content: center;
+    align-items: center;
+}
+.fecha-session-dato{
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+#formulario{
+    margin:5%;
+}
+.lugar{
+    width: 30%;
+}
+.nombreE{
+    width:20%;
+}
+.fechaInput{
+    width: 50%;
+    font-size: 0.8rem;
+    font-style: italic;
+    padding:0.3rem;
+    justify-items: center;
+    border-radius: 3px;
+    border:#4A0D0D solid 1px;
+    background-color: #d2d2d2;
+
+}
+.id{
+    width: 6%;
+}
+.delete-boton{
+    background-color: transparent;
+    color:#D4AF37;
+    border: #D4AF37 solid 1px;
+    font-style: italic;
+    font-size: 0.5rem;
+    border-radius: 3px;
+}
+#boton_volver{
+     background-color: #4A0D0D;
+    color:#D4AF37;
+    border: #D4AF37 solid 1px;
+    font-style: italic;
+    font-size: 1rem;
+    border-radius: 3px;
+    padding: 0.4rem;
+}
+.delete-boton:hover, #boton_volver:hover, .form-boton:hover{
+    background-color: #d4af37;
+    color:#4A0D0D;
+    border: #4A0D0D;
+}
+label, .rango{
+    font-size:0.6rem;
+    font-family: 'Courier New', Courier, monospace;
+    text-justify: initial;  
+    width:40%;
+    font-size: 0.8rem;
+    color:#D4AF37;
+    padding-bottom:0.3rem;
+    padding-top:0.1 rem;
+    font-style: italic;
+}
+.boton-sub{
+    width: 98%;
+    background-color: transparent;
+    border: solid #D4AF37 0.05rem;
+    font-size:0.6rem;
+    border-radius: 3px;
+    margin:1rem;  
+    padding:0.3rem;
+    color:#D4AF37;
+    font-family: 'Courier New', Courier, monospace;
+    font-style: italic;
+    margin:3px;
+}
+#boton1{
+    width: 35%;
+}
+#boton2{
+    width: 65%;
+}
 </style>
-<script src="JS/jquery-3.7.1.min.js"></script>
+<!-- =================================================================================== -->
 <script>
     let userEmail = localStorage.getItem('UserEmail');
 
@@ -212,3 +252,7 @@ if (userEmail) {
     document.getElementById('user_email_input').value = userEmail;
 }
 </script>
+ <script src="JS/jquery-3.7.1.min.js"></script>
+
+<!-- =================================================================================================== -->
+<!-- =================================================================================================== -->

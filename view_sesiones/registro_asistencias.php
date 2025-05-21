@@ -9,13 +9,12 @@
 ?>
 </pre> -->
 
-
-<h3 style="color: #4A0D0D" id="sitio">LTL WebSite</h3>
-<h3 style="color: #4A0D0D">Registrar Asistencia a Sesión de Entrenamiento</h3>
 <div id="contenedor-general">
+    <h3 style="color: #D4AF37;" id="sitio">LTL WebSite</h3>
+   
     <?php if (!empty($sesiones) && !empty($deports)): ?>
     <div id="contenedor_form"> 
-       
+        <h3 style="color: #4A0D0D">Registrar Asistencia a Sesión de Entrenamiento</h3>
 
         <!-- Formulario para seleccionar sesión y deportistas -->
         <form action="index.php?action=attendance_register" method="POST" id="formulario">
@@ -85,25 +84,9 @@
         </script>
     <?php endif; ?>
 
-    <!-- Contenedor de botones para navegación y otorgar estímulos -->
-    <div class="button-container">
-        <!-- Botón Ir al inicio -->
-        <form action='index.php?action=principal' method='post' id="boton1">
-            <button type='submit' name='action' value='principal' class="boton-sub">Ir al inicio</button>
-        </form>
-
-        <!-- Botón Sesiones de Entrenamiento -->
-        <form action='index.php?action=trainer_manage' method='get' id="boton2">
-            <button type='submit' name='action' value='trainer_manage' class="boton-sub">Sesiones de Entrenamiento</button>
-        </form>
-
-    </div>
-
 </div>
 
 <script>
-   
-
     // Script para seleccionar/deseleccionar todos los checkboxes
     document.getElementById('select_all').addEventListener('change', function() {
         const checkboxes = document.querySelectorAll('.deportista');
@@ -138,18 +121,30 @@
         align-items: center;
         width: 60%;
         background-color: #f4f4f9;
-
+        margin: 2rem;
+        border: #D4AF37 3px solid;
+        border-radius: 4px;
+    }
+    #id_sesion{
+        width: 20rem;
+        padding: 0.3rem;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        border:#4A0D0D solid 2px;
+        border-radius: 3px;
+        font-style: italic;
     }
 
     /* Estilo para los botones */
     .boton-sub, #submit {
-        padding: 10px 20px;
+        padding: 0.3rem;
         background-color: transparent;
         color: #800000;  /* Color vinotinto */
         border: 2px solid #FFD700; /* Borde oro */
         border-radius: 5px;
         cursor: pointer;
-        margin: 0 10px;  /* Espacio entre los botones */
+        margin-bottom: 1rem;  /* Espacio entre los botones */
+        width: 20rem;;
     }
     
 
@@ -192,11 +187,16 @@
         color: white;
     }
     #contenedor-general{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;        
-        align-items: center;
-        width: 100%
+       background-image: url('./IMG/LTL/mat.jpg');
+            /* background-size: cover; Ajusta la imagen para cubrir toda la pantalla */
+            background-position: center center; /* Centra la imagen */
+            background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+            background-repeat: no-repeat;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
     }
    #opcion_elija{
     padding: 0.5rem; 

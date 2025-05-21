@@ -491,7 +491,8 @@ public function insertCategoriaxEdad() {
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $fecha1= $_POST['fecha1'];
             $fecha2= $_POST['fecha2'];
-            return $this->eleModel->listWorkOuts($fecha1, $fecha2);
+            $email=$_POST['user_email'] ?? '';
+            return $this->eleModel->listWorkOuts($fecha1, $fecha2, $email);
         }
     }
     public function asistenciaxSesion(){

@@ -506,7 +506,7 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
             return false;
         }
     }
-        public function listWorkOuts($fecha1, $fecha2){
+        public function listWorkOuts($fecha1, $fecha2, $email){
         try{
         $consulta= "SELECT asistencia.codigo AS id, sesiones.fecha AS fecha, 
                     sesiones.hora AS hora, lugar_entrenamiento.lugar AS lugar,
@@ -516,10 +516,10 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
                     ON asistencia.codigo_sesion=sesiones.codigo 
                     INNER JOIN lugar_entrenamiento ON sesiones.id_lugar= lugar_entrenamiento.id
                     INNER JOIN entrenadores ON sesiones.email_entrenador= entrenadores.email
-                    WHERE fecha >= ? AND fecha<=? GROUP BY sesiones.codigo";
+                    WHERE fecha >= ? AND fecha<=? AND sesiones.email_entrenador= ? GROUP BY sesiones.codigo";
         
             $resultado= $stmt= $this->conn->prepare($consulta);
-            $stmt->execute([$fecha1, $fecha2]);
+            $stmt->execute([$fecha1, $fecha2, $email]);
                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
                     if($resultado){
                         return true;
