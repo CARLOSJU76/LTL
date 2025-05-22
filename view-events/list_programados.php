@@ -44,7 +44,7 @@
             </tbody>
         </table>
             <?php elseif(isset($eventos)):?>
-                <p style="color=gold; font-style: italic;">No se encontraron coincidencias</p>
+                <p style="color:gold; font-style: italic;">No se encontraron coincidencias</p>
             <?php endif;?>
 <!-- ================================================================================================================ -->
         <form action="index.php?action=search_event" method="get" id="form_buscar_club">

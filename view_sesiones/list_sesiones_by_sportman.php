@@ -41,9 +41,9 @@
     </div>
         <?php else: ?>
     <div id="contenedor_table">
-            <p style="color: orange; font-style: italic;">No se encontraron sesiones para este deportista  :(</p>
+            <p style="color: orange; font-style: italic; margin:3rem;">No se encontraron sesiones para este deportista  :(</p>
              <form action="index.php?action=list_sesion_by_sport" method="get" id="form-volver">
-            <button id="boton_volver" type="submit" name="action" value="list_sesion_by_sport">Hacer otra consulta</button>
+            <button id="boton-volver" type="submit" name="action" value="list_sesion_by_sport">Hacer otra consulta</button>
         </form>
         </div>
 <?php endif; ?>
@@ -66,7 +66,7 @@
     #contenedor_table {
         margin-top: 20px;
         padding: 10px;
-        border: 1px solid #ccc;
+        border: #D4AF37;
         border-radius: 5px;
         background-color:#4A0D0D;
         color: #D4AF37;
@@ -74,9 +74,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 1rem;
     }
     #form-volver {
-        width: 60%;
+        width: 100%;
         padding:0.5rem;
         display: flex;
         justify-content: center;
@@ -159,5 +160,19 @@
         color: #4A0D0D;
         border: #4A0D0D solid 2px;
     }   
+    #boton-volver{
+        width: 70%;
+        background-color: transparent;
+        border:#D4AF37 solid 1px;
+        color:#D4AF37;
+        letter-spacing: 0.3rem;
+        padding:0.3rem;
+        font-style: italic;
+    }
+    #boton-volver:hover{
+        background-color: #D4AF37;
+        color:#4A0D0D;
+        border:#4A0D0D solid 2px;
+    }
 </style>
     

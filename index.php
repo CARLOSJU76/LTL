@@ -8,6 +8,7 @@
     require_once 'controller/GetCommentsController.php';
     require_once 'controller/ElementosController.php';
     require_once 'controller/EventController.php';
+    require_once 'controller/RankingController.php';
 
 
     $signupController= new SignupController();
@@ -17,6 +18,7 @@
     $depoControl= new DeportistaController();
     $eleControl= new ElementosController();
     $eventControl= new EventController();
+    $rankingControl= new RankingController();
     $email_user= $loginController->get_email_user();
 
     $fechaHora = new DateTime();
@@ -258,16 +260,18 @@ case 'delete_session':
     exit();
      case 'attendance_register':
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             $permitido = 2;
             $resultado = $eleControl->registrarAsistencia();
-
-            $msg = $resultado['msg'];
-            $tipo = $resultado['tipo'];
+            $_SESSION['msg'] = $resultado['msg'];
+            $_SESSION['tipo'] = $resultado['tipo'];
             $id_sesion = $resultado['id_sesion'] ?? null;
             $estimulos = $eleControl->getEstimulos();
-            $title = "Registrar Asistencia";
-            $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
-            include __DIR__ . '/layouts/main_sesiones.php';
+
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    exit();
         }else if ($_SERVER['REQUEST_METHOD']=='GET') {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
@@ -278,26 +282,63 @@ case 'delete_session':
               $deports= $resultado['data'];
             $estimulos = $eleControl->getEstimulos();
                // Define título y contenido para el layout
-               $title = "Registrar Asistencia";
+               $title = "Registrar Asistencia 2";
                $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
 
                // Incluye la plantilla base que carga el header, contenido y footer
                include __DIR__ . '/layouts/main_sesiones.php';
-        } else {
-            $permitido = 2;
-            $sesiones = $eleControl->listSessionsForAttendance($fechaA);
-            $resultado = $depoControl->listDeportistas();
-            $deports= $resultado['data'];
-            $estimulos = $eleControl->getEstimulos();
+        }break;
+//========================================================================================================
+ case 'otorgarEstimulo':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                  if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+                $permmitido=2;
+                $resultado = $eleControl->otorgarEstimulo();
 
-            // Define título y contenido para el layout
-            $title = "Registrar Asistencia";
-            $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
+                $_SESSION['msg'] = $resultado['msg'];
+                $_SESSION['tipo'] = $resultado['tipo'];
+                $asistencias=$eleControl->asistenciaxSesionGet();
+                $estimulos=$eleControl->getEstimulos();
+                 header("Location: index.php?action=attendance_register");
+                exit();
 
-            // Incluye la plantilla base que carga el header, contenido y footer
+            }else{
+                $asistencias=$eleControl->asistenciaxSesionGet();
+                $estimulos=$eleControl->getEstimulos();
+                $title = "Registrar Asistencia";
+                $content = __DIR__ . '/view_sesiones/otorgarEstimulo.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
+            }break;
+//========================================================================================================
+    case 'verOtorgarEstimulo':
+            if($_SERVER['REQUEST_METHOD']=='GET'){
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $permitido=2;
+            $asistencias=$eleControl->asistenciaxSesionGet();
+            $estimulos=$eleControl->getEstimulos();
+            $title = "Registro de estimulos";
+            $content = __DIR__ . '/view_sesiones/otorgarEstimulo.php';
             include __DIR__ . '/layouts/main_sesiones.php';
-        }
-        break;
+            }break;
+    
+    case 'asistenciax_sesion':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $permitido=2;
+                $asistencias=$eleControl->asistenciaxSesion();
+                 $title = "Asistencias por Sesión de Entrenamiento";
+                $content = __DIR__ . '/view_sesiones/asistenciax_sesion.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
+            }else{
+                $permitido=2;
+                $myAttendats= $eleControl->listMyAttendants();
+                $title = "Asistencias por Sesión de Entrenamiento";
+                $content = __DIR__ . '/view_sesiones/asistenciax_sesion.php';
+                include __DIR__ . '/layouts/main_sesiones.php';
+            }break;
 //====================SECCIÓN DEPORTISTAS Y ENTRENADORES==================================================
 //========================================================================================================
 case 'sport_manage':
@@ -308,7 +349,6 @@ case 'sport_manage':
         include __DIR__ . '/layouts/main.php';
     }break;
 //========================================================================================================
-
 case 'list_deportista':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -1099,50 +1139,9 @@ case 'list_sessionById':
             include_once 'view_sesiones/list_sesiones.php';
         }else{
             include_once 'view_sesiones/list_sesiones.php';
-        }break;
-
-
-
+        }break; 
 
    
-
-
-case 'asistenciax_sesion':
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $asistencias=$eleControl->asistenciaxSesion();
-
-        include_once 'view_sesiones/asistenciax_sesion.php';
-    }else{
-        $myAttendats= $eleControl->listMyAttendants();
-
-        include_once 'view_sesiones/asistenciax_sesion.php';
-    }break;
-
-    case 'verOtorgarEstimulo':
-            if($_SERVER['REQUEST_METHOD']=='GET'){
-
-            $asistencias=$eleControl->asistenciaxSesionGet();
-            $estimulos=$eleControl->getEstimulos();
-           include_once 'view_sesiones/otorgarEstimulo.php';
-            }break;
-    case 'otorgarEstimulo':
-            if($_SERVER['REQUEST_METHOD']=='POST'){
-                $resultado = $eleControl->otorgarEstimulo();
-
-                $msg = $resultado['msg'];
-                $tipo = $resultado['tipo'];
-                $asistencias=$eleControl->asistenciaxSesionGet();
-                $estimulos=$eleControl->getEstimulos();
-                $title = "Registrar Asistencia";
-                $content = __DIR__ . '/view_sesiones/otorgarEstimulo.php';
-                include __DIR__ . '/layouts/main.php';
-            }else{
-                $asistencias=$eleControl->asistenciaxSesionGet();
-                $estimulos=$eleControl->getEstimulos();
-                $title = "Registrar Asistencia";
-                $content = __DIR__ . '/view_sesiones/otorgarEstimulo.php';
-                include __DIR__ . '/layouts/main.php';
-            }break;
     case 'list_sesion_by_sport':
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $permitido=2;
@@ -1164,7 +1163,27 @@ case 'asistenciax_sesion':
                 $eleControl->obtenerCategoriasxPeso();
                 exit();
             }break;
-           
-    }
+//=========================================================================================
+            case 'rankingx_deportista':
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                 if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+                $permitido=4;
+                $deportistas= $depoControl->listSportman();
+                $resultado=$rankingControl->calcularRanking();
+                $ranking = $resultado['data'] ?? [];
+                $_SESSION['msg'] = $resultado['msg'];
+                $_SESSION['tipo'] = $resultado['tipo'];
+                $title = "Registrar Asistencia";
+                $content = __DIR__ . '/view-nomina/rankingx_deportista.php';
+                include __DIR__ . '/layouts/main_deportista.php';
+            }else{
+                $permitido=4;
+                $deportistas= $depoControl->listSportman();
+                $title = "Registrar Asistencia";
+                $content = __DIR__ . '/view-nomina/rankingx_deportista.php';
+                include __DIR__ . '/layouts/main_deportista.php';
+            }break;
 
-?>
+}

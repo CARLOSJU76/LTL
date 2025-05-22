@@ -10,7 +10,7 @@
                 <option value="list_entrenador">Consultar Entrenadores</option>
                 <option value="insert_deportista">Incluir Deportista</option>
                 <option value="insert_entrenador">Incluir Entrenador</option>
-                <option value="rankings">Consultar Rankings</option>       
+                <option value="rankingx_deportista">Consultar Rankings</option>       
         </select>      
     </form>
 </div>
