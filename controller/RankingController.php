@@ -33,5 +33,13 @@ class RankingController {
             ];
         }
     }
+    public function rankingEventos(){
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $idDeportista = $_POST['idDeportista'];
+            
+            return $this->Ranking_Model->rankingEventos($idDeportista);
+           
+        }
+    }
 }
 ?>

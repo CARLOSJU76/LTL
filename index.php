@@ -1169,19 +1169,20 @@ case 'list_sessionById':
                  if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-                $permitido=4;
+                $permitido=2;
                 $deportistas= $depoControl->listSportman();
-                $resultado=$rankingControl->calcularRanking();
-                $ranking = $resultado['data'] ?? [];
-                $_SESSION['msg'] = $resultado['msg'];
-                $_SESSION['tipo'] = $resultado['tipo'];
-                $title = "Registrar Asistencia";
+                $resultado=$rankingControl->rankingEventos();
+                $_SESSION['msg']= $resultado['total_eventos_mensaje'] ?? 'Operación realizada.';
+                $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
+
+               
+                $title = "Datos de Ranking por Deportista";
                 $content = __DIR__ . '/view-nomina/rankingx_deportista.php';
                 include __DIR__ . '/layouts/main_deportista.php';
             }else{
                 $permitido=4;
                 $deportistas= $depoControl->listSportman();
-                $title = "Registrar Asistencia";
+                $title = "Datos de Ranking por Deportista" ;
                 $content = __DIR__ . '/view-nomina/rankingx_deportista.php';
                 include __DIR__ . '/layouts/main_deportista.php';
             }break;
