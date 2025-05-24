@@ -1010,9 +1010,9 @@ case 'delete_lugar':
                 }
             $permitido = 4;   
             $resultado=$eventControl->showPerformanceByAthlete();
-            $performances= $resultado['data'];
-            $_SESSION['msg']  = $resultado['msg'];
-            $_SESSION['tipo']  = $resultado['tipo'];
+            $performances= $resultado['data']?? "";
+            $_SESSION['msg'] = $resultado['msg'] ?? 'Este deportista no tiene registros.';
+            $_SESSION['tipo'] = $resultado['tipo'] ?? 'error';
             $title = "Consultar Actuaciones por Deportista";
             $content = __DIR__ . '/view-events/performances_by_athlete.php';
             include __DIR__ . '/layouts/main_eventos.php';
@@ -1164,12 +1164,12 @@ case 'list_sessionById':
                 exit();
             }break;
 //=========================================================================================
-            case 'rankingx_deportista':
+            case 'rankingx_eventos':
             if($_SERVER['REQUEST_METHOD']=='POST'){
                  if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-                $permitido=2;
+                $permitido=4;
                 $deportistas= $depoControl->listSportman();
                 $resultado=$rankingControl->rankingEventos();
                 $_SESSION['msg']= $resultado['total_eventos_mensaje'] ?? 'Operación realizada.';
@@ -1177,13 +1177,33 @@ case 'list_sessionById':
 
                
                 $title = "Datos de Ranking por Deportista";
-                $content = __DIR__ . '/view-nomina/rankingx_deportista.php';
+                $content = __DIR__ . '/view-nomina/rankingx_eventos.php';
                 include __DIR__ . '/layouts/main_deportista.php';
             }else{
                 $permitido=4;
                 $deportistas= $depoControl->listSportman();
-                $title = "Datos de Ranking por Deportista" ;
-                $content = __DIR__ . '/view-nomina/rankingx_deportista.php';
+                $title = "Datos de Ranking por Eventos" ;
+                $content = __DIR__ . '/view-nomina/rankingx_eventos.php';
+                include __DIR__ . '/layouts/main_deportista.php';
+            }break;
+            case 'rankingx_asistencias':
+                if($_SERVER['REQUEST_METHOD']=='POST'){
+                    if(session_status()=== PHP_SESSION_NONE){
+                        session_start();
+                    }
+                    $permitido=4;
+                    $deportistas= $depoControl->listSportman();
+                    $resultado=$rankingControl->rankingAsistencia();
+                     $_SESSION['msg']= $resultado['total_asistencias_mensaje'] ?? 'Operación realizada.';
+                    $_SESSION['tipo']= $resultado['tipo'] ?? 'error';
+                    $title = "Datos Ranking por Asistencias";
+                    $content = __DIR__ . '/view-nomina/rankingx_asistencias.php';
+                    include __DIR__ . '/layouts/main_deportista.php';
+                }else{
+                $permitido=4;
+                $deportistas= $depoControl->listSportman();
+                $title = "Datos de Ranking por Asistencias" ;
+                $content = __DIR__ . '/view-nomina/rankingx_asistencias.php';
                 include __DIR__ . '/layouts/main_deportista.php';
             }break;
 

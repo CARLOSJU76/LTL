@@ -37,9 +37,7 @@
             </tbody>
         </table>
     </div>
-    <?php elseif (isset($performances['success']) && !$performances['success']): ?>
-        <p style="color: orange; font-style: italic;"><?= htmlspecialchars($performances['msg']) ?></p>
-    <?php else: ?>
+    <?php elseif (isset($performances) && ($performances)==""): ?>
             <p style="color: orange; font-style: italic;">No se encontraron registros para este evento</p>
 <?php endif; ?>
   
