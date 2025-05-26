@@ -1,4 +1,4 @@
-<form action="index.php?action=rankingx_asistencias" method="POST">
+<form action="index.php?action=ranking_total" method="POST">
     <label for="idDeportista">Consulta de Deportista para ver su puntaje:</label>
     <select name="idDeportista" id="idDeportista">
            <option value="">Elija el Deportista</option>
@@ -8,6 +8,7 @@
         }
         ?>
     </select>
-        <button type="submit"  >Puntaje por Asistencias</button>
-     
+        <button type="submit">Ver Puntaje</button>
+
     </form>
+    

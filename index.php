@@ -1171,19 +1171,23 @@ case 'list_sessionById':
             }
                 $permitido=4;
                 $deportistas= $depoControl->listSportman();
+                 
                 $resultado=$rankingControl->rankingEventos();
+                $deportista= $resultado['deportista'] ?? " ";
+                $detalles= $resultado['detalle'] ?? [];
+                $eventos= $resultado['eventos'] ?? 0;
                 $_SESSION['msg']= $resultado['total_eventos_mensaje'] ?? 'Operación realizada.';
                 $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
 
                
                 $title = "Datos de Ranking por Deportista";
-                $content = __DIR__ . '/view-nomina/rankingx_eventos.php';
+                $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                 include __DIR__ . '/layouts/main_deportista.php';
             }else{
                 $permitido=4;
                 $deportistas= $depoControl->listSportman();
                 $title = "Datos de Ranking por Eventos" ;
-                $content = __DIR__ . '/view-nomina/rankingx_eventos.php';
+                $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                 include __DIR__ . '/layouts/main_deportista.php';
             }break;
             case 'rankingx_asistencias':
@@ -1194,17 +1198,52 @@ case 'list_sessionById':
                     $permitido=4;
                     $deportistas= $depoControl->listSportman();
                     $resultado=$rankingControl->rankingAsistencia();
+                    $deportista= $resultado['deportista'] ?? " ";
+                    $asistencias=$resultado['total_asistencias'] ?? 0;
+                    $detalles= $resultado['detalle'] ?? [];
                      $_SESSION['msg']= $resultado['total_asistencias_mensaje'] ?? 'Operación realizada.';
                     $_SESSION['tipo']= $resultado['tipo'] ?? 'error';
                     $title = "Datos Ranking por Asistencias";
-                    $content = __DIR__ . '/view-nomina/rankingx_asistencias.php';
+                    $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                     include __DIR__ . '/layouts/main_deportista.php';
                 }else{
                 $permitido=4;
                 $deportistas= $depoControl->listSportman();
                 $title = "Datos de Ranking por Asistencias" ;
-                $content = __DIR__ . '/view-nomina/rankingx_asistencias.php';
+                $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                 include __DIR__ . '/layouts/main_deportista.php';
             }break;
-
+case 'ranking_total':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=4;
+        $deportistas= $depoControl->listSportman();
+        $resultado=$rankingControl->ranking();
+        $deportista= $resultado['deportista'] ?? " ";
+        $detalles= $resultado['ranking'] ?? 0;
+        $ranking= $resultado['detalle']?? "El deportista no tiene puntos de ranking.";
+        $_SESSION['msg']= $resultado['msg'] ?? 'Operación realizada.';
+        $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
+        $title = "Datos de Ranking por Deportista";
+        $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
+        include __DIR__ . '/layouts/main_deportista.php';
+    }else{
+        $permitido=4;
+        $deportistas= $depoControl->listSportman();
+        $title = "Datos de Ranking por Deportista" ;
+        $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
+        include __DIR__ . '/layouts/main_deportista.php';
+    }break;
+    case 'puntajes_de_ranking':
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=4;
+        $deportistas= $depoControl->listSportman();
+         $title = "Datos de Ranking por Deportista" ;
+        $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
+        include __DIR__ . '/layouts/main_deportista.php';
+    
 }
