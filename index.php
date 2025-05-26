@@ -1245,5 +1245,20 @@ case 'ranking_total':
          $title = "Datos de Ranking por Deportista" ;
         $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
         include __DIR__ . '/layouts/main_deportista.php';
+        break;
+case 'lista_ranking':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=1;
+    $resultado= $rankingControl->listaRanking();
+    $ranking= $resultado['lista_ranking'] ?? [];
+    $asistencia=$resultado['lista_asistencia'] ?? [];
+    $eventos=$resultado['lista_eventos'] ?? [];
     
+    $title = "Listado de Ranking Local";
+    $content = __DIR__ . '/view-nomina/listas_de_ranking.php';
+    include __DIR__ . '/layouts/main_deportista.php';
+    break;
+
 }
