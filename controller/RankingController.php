@@ -83,13 +83,15 @@ class RankingController {
                 $asistencia= $this->Ranking_Model->rankingAsistencia($id_deportista);
                 $eventos= $this->Ranking_Model->rankingEventos($id_deportista);
                 $nombreD= $asistencia['deportista'] ?? $eventos['deportista'] ?? " ";// Obteniendo el nombre del deportista, si no existe se asigna un espacio en blanco
+                $foto= $asistencia['foto'] ?? $eventos['foto'] ?? " ";// Obteniendo la foto del deportista, si no existe se asigna un espacio en blanco
+                $club= $asistencia['club'] ?? $eventos['club'] ?? " ";// Obteniendo el club del deportista, si no existe se asigna un espacio en blanco
                 $p_asistencia[$index]=$asistencia['total_eventos'];//Obteniendo los puntajes de asistencia
                 $p_eventos[$index]=$eventos['total_eventos'];// Obteniendo los puntajes de eventos
                 $p_ranking[$index]= $asistencia['total_eventos'] + $eventos['total_eventos'];// CObteniendo los puntajes de ranking
 //==================Asignando los puntajes a los arrays===================================================================================
-                $lista_ranking[$index]= ['nombre' => $nombreD, 'puntos_ranking' => $p_ranking[$index]];
-                $lista_asistencia[$index]= ['nombre' => $nombreD, 'puntos_asistencia' => $p_asistencia[$index]];
-                $lista_eventos[$index]= ['nombre' => $nombreD, 'puntos_eventos' => $p_eventos[$index]];
+                $lista_ranking[$index]= ['nombre' => $nombreD, 'puntos_ranking' => $p_ranking[$index], 'foto' => $foto, 'club' => $club];
+                $lista_asistencia[$index]= ['nombre' => $nombreD, 'puntos_asistencia' => $p_asistencia[$index], 'foto' => $foto, 'club' => $club];
+                $lista_eventos[$index]= ['nombre' => $nombreD, 'puntos_eventos' => $p_eventos[$index], 'foto' => $foto, 'club' => $club];
             }
 //==================Ordenando los arrays por puntajes=====================================================================================
            
@@ -97,11 +99,9 @@ class RankingController {
             usort($lista_asistencia, fn($a, $b) => $b['puntos_asistencia'] <=> $a['puntos_asistencia']);
             usort($lista_eventos, fn($a, $b) => $b['puntos_eventos'] <=> $a['puntos_eventos']);
         }
-echo "<pre>";
-    print_r($lista_ranking);
-//    print_r($consolidado);
-//    print_r($total_global); // o cualquier otra variable
-echo "</pre>";
+// echo "<pre>";
+//     print_r($lista_ranking);
+// echo "</pre>";
         return [
             'lista_ranking' => $lista_ranking,
             'lista_asistencia' => $lista_asistencia,

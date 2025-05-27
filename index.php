@@ -92,8 +92,6 @@
                 break;
             case 'set_pass':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
-
-
                 }include 'views/set_new_password.php';
                 break;
             case 'set_new_pass':

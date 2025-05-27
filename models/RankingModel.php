@@ -8,10 +8,12 @@
 //====================================================================================================================
          public function rankingAsistencia($deportista_id){
         $queryAsistencia = "SELECT asistencia.id_deportista AS id_deportista, deportista.nombres AS nombreD, 
-                            deportista.apellidos AS apellidoD,
-                            estimulos.tipo_estimulo AS estimulo, COUNT(*) AS cantidad FROM asistencia
+                            deportista.apellidos AS apellidoD, deportista.foto AS foto, 
+                            clubes.nombreClub AS club, estimulos.tipo_estimulo AS estimulo, 
+                            COUNT(*) AS cantidad FROM asistencia
                             INNER JOIN deportista ON asistencia.id_deportista= deportista.id
                             INNER JOIN estimulos ON asistencia.codigo_estimulo= estimulos.codigo
+                            INNER JOIN clubes ON deportista.codigo_club = clubes.codigo
                             WHERE asistencia.id_deportista = ?
                             GROUP BY estimulo";
         $stmt = $this->conn->prepare($queryAsistencia);
@@ -45,6 +47,8 @@
             'deportista' => $consolidado[0]['nombreD'] . " " . $consolidado[0]['apellidoD'],
             'total_asistencias' => $total_asistencias,
             'detalle' => $consolidado,
+            'foto' => $consolidado[0]['foto'] ?? '',
+            'club' => $consolidado[0]['club'] ?? '',
             'total_asistencias_mensaje' => "El puntaje del deportista " . $consolidado[0]['nombreD'] . " " . $consolidado[0]['apellidoD'] . " es : " . $total_global . " puntos.",
             'total_eventos' => $total_global,
             'tipo' => 'success'
@@ -65,12 +69,14 @@ public function rankingEventos($deportista_id) {
     // Consulta de total eventos por tipo y posición
     $sql = "SELECT actuaciones.id_deportista AS id_deportista, 
             deportista.nombres AS nombreD, deportista.apellidos AS apellidoD,
+            deportista.foto AS foto, clubes.nombreClub AS club,
             tipo_evento.tipo_evento AS tipo_evento,
             actuaciones.posicion AS posicion,        
             COUNT(*) AS cantidad FROM actuaciones
             INNER JOIN eventos ON actuaciones.codigo_evento = eventos.codigo
             INNER JOIN tipo_evento ON eventos.codigo_tipoE = tipo_evento.codigo
             INNER JOIN deportista ON actuaciones.id_deportista = deportista.id
+            INNER JOIN clubes ON deportista.codigo_club = clubes.codigo
             WHERE actuaciones.id_deportista = ?
             GROUP BY tipo_evento.tipo_evento, actuaciones.posicion
             ORDER BY tipo_evento.tipo_evento, actuaciones.posicion";
@@ -130,6 +136,8 @@ public function rankingEventos($deportista_id) {
         'id_deportista'=> $consolidado[0]['id_deportista'],
         'deportista'=> $consolidado[0]['nombreD'] . " " . $consolidado[0]['apellidoD'],
         'detalle' => $consolidado,
+        'foto' => $consolidado[0]['foto'] ?? '',
+        'club' => $consolidado[0]['club'] ?? '',
         'total_eventos_mensaje' => "El puntaje del deportista " . $consolidado[0]['nombreD'] . " " . $consolidado[0]['apellidoD'] . " es : " . $total_global . " puntos.",
         'total_eventos' => $total_global,
         'tipo' => 'success',

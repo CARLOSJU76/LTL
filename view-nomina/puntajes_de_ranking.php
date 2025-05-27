@@ -161,7 +161,7 @@ $opcionSeleccionada = $_SESSION['opcion'] ?? '';
             justify-content: center;
             background-color: #4A0D0D;
             padding:0.5rem;
-            margin=2rem;
+            margin:2rem;
         }
         #label-id {
             color: #D4AF37;
