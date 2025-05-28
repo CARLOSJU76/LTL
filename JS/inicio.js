@@ -14,12 +14,16 @@ let perfil1 =JSON.parse(localStorage.getItem('perfil'));
 let opciones = [
     {id_perfil: 4, valor: '', texto: 'Opciones de Usuario' },
     {id_perfil: 3, valor: 'my_performance', texto: 'My performances' },
+    {id_perfil: 3, valor: 'mis_entrenamientos', texto: 'Mis Sesiones de Entrenamiento' },
     {id_perfil: 2, valor: 'trainer_manage', texto: 'Sesiones de Entrenamiento' },
-    {id_perfil: 1, valor: 'sport_manage', texto: 'Deportistas y Entrenadores' },
+    {id_perfil: 1, valor: 'deportistas', texto: 'Deportistas' },
+    {id_perfil: 1, valor: 'entrenadores', texto: 'Entrenadores' },
+    {id_perfil: 0, valor: 'sport_manage', texto: 'Detalles de nómina' },
     {id_perfil: 0, valor: 'club_manage', texto: 'Gestion de Clubes' },
     {id_perfil: 0, valor: 'elements_manage', texto: 'Gestor de Elementos' },
     {id_perfil: 0, valor: 'event_manage', texto: 'Competencias y Calendario' },
     {id_perfil: 0, valor: 'platform_manage', texto: 'Administrar Plataforma'},
+    {id_perfil: 0, valor: 'puntajes_de_ranking', texto: 'Puntajes de Ranking'},
     {id_perfil: 4, valor: 'logout', texto: 'Salir' }
   ];
  

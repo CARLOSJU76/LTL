@@ -12,9 +12,8 @@
                 <option value="insert_entrenador">Incluir Entrenador</option>
                 <option value="rankingx_eventos">Puntajes por Eventos</option>       
                 <option value="rankingx_asistencias">Puntajes por Asistencias</option>  
-                   <option value="ranking_total">Puntaje de Ranking Global</option>     
-                   <option value="puntajes_de_ranking">Puntajes de Ranking</option>
-                   <option value="lista_ranking">Listas de Ranking</option>
+                <option value="ranking_total">Puntaje de Ranking Global</option>     
+               
         </select>      
     </form>
 </div>

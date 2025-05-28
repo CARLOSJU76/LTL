@@ -79,7 +79,7 @@ session_start();
                     </form>
             </div>
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
-                <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra">Ranking Local</button></a>
+                <a href="index.php?action=lista_ranking" id="anchor-boton"><button id="boton-barra">Ranking Local</button></a>
             </div>
             <!--Botones signup y login  /  Elegir opciones-->
 <!-- =============================================================================================== -->

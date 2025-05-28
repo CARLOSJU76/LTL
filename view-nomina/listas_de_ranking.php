@@ -1,5 +1,6 @@
 <!-- ==================================RANKING GLOBAL=================================================== -->
-<div class="fondo-ranking">
+<div class="fondo-ranking" id="fondo-ranking">
+   
 <?php if(isset($ranking)) : ?>
     <table id="tabla-ranking">
         <tr>
@@ -24,9 +25,9 @@
         
 <?php endforeach; ?>
         <tr>
-            <td colspan="6">
-                <button type="button" id="xAsistencia" >Ver puntajes por Asistencias</button>
-                <button type="button" id="xCompetencia">Ver puntajes por Competencias</button>
+            <td colspan="6" class="td-botones">
+                <button type="button" class="xAsistencia" >Ver puntajes por Asistencias</button>
+                <button type="button" class="xCompetencia">Ver puntajes por Competencias</button>
             </td>
         </tr>
     </table>
@@ -58,9 +59,9 @@
        
 <?php endforeach; ?>
          <tr>
-            <td colspan="6">
-                <button type="button" id="xAsistencia" >Ver puntajes por Asistencias</button>
-                <button type="button" id="xCompetencia">Ver Ranking Global</button>
+            <td colspan="6" class="td-botones">
+                <button type="button" class="xAsistencia" >Ver puntajes por Asistencias</button>
+                <button type="button" class="xRanking">Ver Ranking Global</button>
             </td>
         </tr>
     </table>
@@ -72,7 +73,7 @@
     <table id="tabla-asistencia">
         <tr>
             <td colspan="6">
-                <p style="text-align:center; letter-spacing: 0.3rem; font-weight:bold;">PUNTAJES POR COMPETENCIAS LTL</p>
+                <p style="text-align:center; letter-spacing: 0.3rem; font-weight:bold;">PUNTAJES POR ASISTENCIAS LTL</p>
             </td>
         </tr>
         <?php foreach($asistencia as $index=> $top): 
@@ -92,9 +93,9 @@
         
 <?php endforeach; ?>
         <tr>
-            <td colspan="6">
-                <button type="button" id="xAsistencia" >Ver Ranking Global</button>
-                <button type="button" id="xCompetencia">Ver puntajes por Competencias</button>
+            <td colspan="6" class="td-botones">
+                <button type="button" class="xRanking" >Ver Ranking Global</button>
+                <button type="button" class="xCompetencia">Ver puntajes por Competencias</button>
             </td>
         </tr>
     </table>
@@ -155,18 +156,66 @@
     display: block; 
     margin: 0 auto;
 }
+.td-botones {
+    text-align: center;
+    padding: 1rem;
+}
+.xRanking, .xCompetencia, .xAsistencia {
+    background: linear-gradient(to bottom, #D4AF37, white);
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 120, 215, 0.5); 
+    border-radius: 3px;
+    font-family:'Courier New', Courier, monospace;
+    font-style: italic;
+    font-size: 1rem;
+    padding: 0.3rem;
+   font-weight: lighter;
+    color:#4A0D0D;
+}
 .ocultos{
     display:none;
 }
  </style>
  <!-- ================================================================================================== -->
-  <script>
-    document.getElementById('xAsistencia').addEventListener('click', function() {
-       documento.getElementById('fondo-asistencia').className = "fondo-asistencia";
-        document.getElementById('fondo-eventos').className = "ocultos";
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Función para mostrar una sección y ocultar las demás
+    function mostrarSeccion(idMostrar) {
+    const secciones = ['fondo-ranking', 'fondo-eventos', 'fondo-asistencia'];
+    secciones.forEach(id => {
+        const div = document.getElementById(id);
+        if (div) {
+            if (id === idMostrar) {
+                div.className= idMostrar;
+            } else {
+                div.classList.add('ocultos');
+            }
+        }
+    });
+}
+
+
+    // Botones para ver asistencia
+    document.querySelectorAll('.xAsistencia').forEach(boton => {
+        boton.addEventListener('click', () => {
+            mostrarSeccion('fondo-asistencia');
+        });
     });
 
-    document.getElementById('xCompetencia').addEventListener('click', function() {
-        document.querySelector('.fondo-asistencia').style.display = 'none';
-        document.querySelector('.fondo-ranking').style.display = 'block';
+    // Botones para ver competencias
+    document.querySelectorAll('.xCompetencia').forEach(boton => {
+        boton.addEventListener('click', () => {
+            mostrarSeccion('fondo-eventos');
+        });
     });
+
+    // Botones para ver ranking global
+    document.querySelectorAll('.xRanking').forEach(boton => {
+        boton.addEventListener('click', () => {
+            mostrarSeccion('fondo-ranking');
+        });
+    });
+
+    // Mostrar por defecto el ranking global
+    mostrarSeccion('fondo-ranking');
+});
+</script>

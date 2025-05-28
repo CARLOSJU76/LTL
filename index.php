@@ -1180,7 +1180,7 @@ case 'list_sessionById':
                
                 $title = "Datos de Ranking por Deportista";
                 $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
-                include __DIR__ . '/layouts/main_deportista.php';
+                include __DIR__ . '/layouts/main.php';
             }else{
                 $permitido=4;
                 $deportistas= $depoControl->listSportman();
@@ -1203,7 +1203,7 @@ case 'list_sessionById':
                     $_SESSION['tipo']= $resultado['tipo'] ?? 'error';
                     $title = "Datos Ranking por Asistencias";
                     $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
-                    include __DIR__ . '/layouts/main_deportista.php';
+                    include __DIR__ . '/layouts/main.php';
                 }else{
                 $permitido=4;
                 $deportistas= $depoControl->listSportman();
@@ -1226,7 +1226,7 @@ case 'ranking_total':
         $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
         $title = "Datos de Ranking por Deportista";
         $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
-        include __DIR__ . '/layouts/main_deportista.php';
+        include __DIR__ . '/layouts/main.php';
     }else{
         $permitido=4;
         $deportistas= $depoControl->listSportman();
@@ -1242,13 +1242,13 @@ case 'ranking_total':
         $deportistas= $depoControl->listSportman();
          $title = "Datos de Ranking por Deportista" ;
         $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
-        include __DIR__ . '/layouts/main_deportista.php';
+        include __DIR__ . '/layouts/main.php';
         break;
 case 'lista_ranking':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=1;
+    $permitido=0;
     $resultado= $rankingControl->listaRanking();
     $ranking= $resultado['lista_ranking'] ?? [];
     $asistencia=$resultado['lista_asistencia'] ?? [];
@@ -1256,7 +1256,20 @@ case 'lista_ranking':
     
     $title = "Listado de Ranking Local";
     $content = __DIR__ . '/view-nomina/listas_de_ranking.php';
-    include __DIR__ . '/layouts/main_deportista.php';
+    include __DIR__ . '/layouts/main.php';
     break;
-
+    case 'mis_entrenamientos':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=3;
+        $resultado=$eleControl->getSessionsBySport();
+        $sesiones= $resultado['data'] ?? [];
+        $_SESSION['msg']= $resultado['msg'] ?? 'Operación realizada.';
+        $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
+        $title = "Mis Entrenamientos";
+        $content = __DIR__ . '/view_sesiones/listar_mis_entrenamientos.php';
+        include __DIR__ . '/layouts/main.php';
+        break;
 }
+
