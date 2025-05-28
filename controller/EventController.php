@@ -304,5 +304,25 @@ public function deleteEvento(){
                     ];
                 }
             }
+            public function getMyPerformances($email) {
+              
+                    $performances= $this->eventModel->showPerformanceByAthlete($email);
+                    if (!empty($performances)) {
+                        return [
+                            'success' => true,
+                            'msg' => "Las actuaciones de este deportista fueron obtenidas exitosamente.",
+                            'tipo' => 'success',
+                            'data' => $performances
+                        ];
+                    }else {
+                    return [
+                        'success' => false,
+                        'msg' => "No se encontraron actuaciones del Deportista.",
+                        'tipo' => 'error',
+                        'data' => []
+                    ];
+                }
+                
+            }
 }
 ?>

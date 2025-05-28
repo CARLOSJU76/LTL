@@ -142,7 +142,22 @@ public function listSportman(){
     $stmt= $this->conn->prepare($consulta);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC); 
-
+}
+public function get_id_by_email($email){
+    $consulta= "SELECT id, nombres, apellidos FROM deportista WHERE email = ?";
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute([$email]);
+    $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($resultado) {
+       return [
+        'id' => $resultado['id'],
+        'nombres' => $resultado['nombres'],
+        'apellidos' => $resultado['apellidos']
+       ];
+    } else {
+        return null; // O manejar el caso de no encontrar el ID
+    }
 }
 //===========================================================================================================
 public function listEntrenadoresById($id_ent){

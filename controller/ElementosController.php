@@ -579,6 +579,27 @@ public function insertCategoriaxEdad() {
                 ];
             }
         }
+        public function getmySessions($id_deportista) {
+        // Obtener sesiones desde el modelo
+            $sesiones = $this->eleModel->getSessionsBySport($id_deportista);
+    
+            if (!empty($sesiones)) {
+                return [
+                    'success' => true,
+                    'msg' => "Las asistencias del deportista fueron obtenidas exitosamente.",
+                    'tipo' => 'success',
+                    'data' => $sesiones
+                ];
+               
+            }else {
+                return [
+                    'success' => false,
+                    'msg' => "No se encontraron asistencias para el deportista.",
+                    'tipo' => 'error',
+                    'data' => []
+                ];
+            }
+        }
         public function obtenerCategoriasxPeso() {
             $id_ce = $_GET['id_ce'] ?? null;
             $id_mod = $_GET['id_mod'] ?? null;

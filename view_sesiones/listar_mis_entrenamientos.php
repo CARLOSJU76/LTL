@@ -1,5 +1,3 @@
- 
-
 <?php
 if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -7,7 +5,17 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $usuario=$_SESSION['user_id'] ?? '';
 $email=$_SESSION['email'] ?? '';
-include_once('./controllers/DeportistaModel.php');
+include_once('./controller/DeportistaController.php');
+include_once('./controller/ElementosController.php');
+$depoControl= new DeportistaController();
+$eleControl= new ElementosController();
+$datos=$depoControl->get_id_by_email($email);
+$id=$datos['id'];
+$nombre=$datos['nombres'];
+$apellido=$datos['apellidos'];
+
+$resultado = $eleControl->getmySessions($id);
+$sesiones= $resultado['data'] ?? [];
 ?>
 
 
@@ -15,7 +23,7 @@ include_once('./controllers/DeportistaModel.php');
    
 <?php if(!empty($sesiones)): ?>
     <div id="contenedor_table"> 
-        <h2>Sesiones encontradas:<?php $usuario?></h2>
+        <h2><?php echo $nombre . " " . $apellido ?>, aquí están tus entrenamientos: </h2>
         <table>
             <thead>
                 <tr>
@@ -39,16 +47,10 @@ include_once('./controllers/DeportistaModel.php');
                 <?php endforeach; ?>
             </tbody>
         </table>
-       <form action="index.php?action=list_sesion_by_sport" method="get" id="form-volver">
-            <button id="boton_volver" type="submit" name="action" value="list_sesion_by_sport">Hacer otra consulta</button>
-        </form>
     </div>
         <?php else: ?>
     <div id="contenedor_table">
             <p style="color: orange; font-style: italic; margin:3rem;">No se encontraron sesiones para este deportista <?php echo $email?> <?php echo $usuario?> </p>
-             <form action="index.php?action=list_sesion_by_sport" method="get" id="form-volver">
-            <button id="boton-volver" type="submit" name="action" value="list_sesion_by_sport">Hacer otra consulta</button>
-        </form>
         </div>
 <?php endif; ?>
 </div>

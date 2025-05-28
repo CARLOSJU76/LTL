@@ -1263,13 +1263,30 @@ case 'lista_ranking':
             session_start();
         }
         $permitido=3;
-        $resultado=$eleControl->getSessionsBySport();
-        $sesiones= $resultado['data'] ?? [];
-        $_SESSION['msg']= $resultado['msg'] ?? 'Operación realizada.';
-        $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
+      
         $title = "Mis Entrenamientos";
         $content = __DIR__ . '/view_sesiones/listar_mis_entrenamientos.php';
         include __DIR__ . '/layouts/main.php';
+        break;
+
+    case 'mis_competencias':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=3;
+        
+        $title = "Mis Actuaciones";
+        $content = __DIR__ . '/view-events/my_performaces.php';
+        include __DIR__ . '/layouts/main.php';
+        break;
+    case 'menu_sesiones':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=3;
+        $title = "Próximas Sesiones de Entrenamiento";
+        $content = __DIR__ . '/view_sesiones/menu_sesiones_to_sportman.php';
+        include __DIR__ . '/layouts/main_sesiones.php';
         break;
 }
 

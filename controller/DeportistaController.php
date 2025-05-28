@@ -95,6 +95,9 @@ public function insertEntrenador() {
     public function listSportman(){
         return $this->depoModel->listSportman();
     }
+    public function get_id_by_email($email){
+        return $this->depoModel->get_id_by_email($email);
+    }
     //=================================================================================================================
     public function listEntrenadores(){
         $id_ent=$_GET['id_ent'] ?? '';

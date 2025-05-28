@@ -13,8 +13,9 @@ let perfil1 =JSON.parse(localStorage.getItem('perfil'));
 
 let opciones = [
     {id_perfil: 4, valor: '', texto: 'Opciones de Usuario' },
-    {id_perfil: 3, valor: 'my_performance', texto: 'My performances' },
+    {id_perfil: 3, valor: 'mis_competencias', texto: 'Mis Competencias' },
     {id_perfil: 3, valor: 'mis_entrenamientos', texto: 'Mis Sesiones de Entrenamiento' },
+    {id_perfil: 3, valor: 'menu_sesiones', texto: 'Próximas Sesiones' },
     {id_perfil: 2, valor: 'trainer_manage', texto: 'Sesiones de Entrenamiento' },
     {id_perfil: 1, valor: 'deportistas', texto: 'Deportistas' },
     {id_perfil: 1, valor: 'entrenadores', texto: 'Entrenadores' },
