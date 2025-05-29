@@ -7,9 +7,9 @@
             <div class="form-group">
                     <select name="action" id="select-elementos" class="form-select form-select-lg" onchange="this.form.submit()">
                         <option value="" disabled selected>Ver Sesiones Programadas</option> <!-- Opción predeterminada -->
-                        <option value="list_sessions">Ver todas las Sesiones</option>
-                        <option value="list_sessionByFecha">Buscar Sesiones por fecha</option>
-                        <option value="list_sessionBySite">Buscar Sesiones por Escenario</option>
+                        <option value="proximas_xsite">Ver sesiones por Escenario</option>
+                        <option value="list_sessionById">Buscar Sesiones por Entrenador</option>
+                        
                     </select>
             </div>   
         </form>

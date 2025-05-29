@@ -11,7 +11,7 @@
                     <th>Entrenador</th>
                     <th>Fecha</th>
                     <th>Hora</th>
-                    <th>Acciones</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -27,14 +27,6 @@
                     <td> <?=$sesion['fecha']?></td>
                     <td> <?=$sesion['hora']?></td>
                     <?php if($permitido != 1): ?>
-                    <td>
-                        <?php if ($sesion['email'] == $user_email): ?>
-                        <form action="index.php?action=delete_session" method="POST" style="display:inline;">
-                            <input type="hidden" name="id" value="<?=$sesion['id']?>"> 
-                            <button class="delete-boton" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?')">Eliminar</button>
-                        </form>
-                        <?php endif; ?>
-                    </td>
                     <?php endif; ?>
                 </tr>
                 <?php endforeach; ?>
@@ -50,7 +42,7 @@
           
          
             
-        <form action="index.php? action=list_sessionBySite" method="post"  id="form-sesion">
+        <form action="index.php? action=proximas_xsite" method="post"  id="form-sesion">
            
             <h2 class="titulos-sesion">Elige un escenario</h2>
             <input type="hidden" name="user_email" id="user_email_input"> 

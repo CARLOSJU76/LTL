@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="JS/jquery-3.7.1.min.js"></script>
-    <title>Centros de Entrenamiento</title>
+    <title>Sesiones Programadas por Entrenador</title>
 </head>
 <style>
     @font-face {
@@ -101,7 +101,7 @@
 <body>
 <div class="form-insert">
 
-    <?php if(isset($sesiones) && count($sesiones)>0):?>
+    <?php if(isset($sesiones)):?>
         <h2>Sesiones encontradas:</h2>
         <table>
             <thead>
@@ -116,19 +116,11 @@
             <tbody>
                 <?php foreach ($sesiones as $sesion): ?>
                 <tr>
-                   
                     <td> <?=$sesion['id']?></td>
                     <td class="lugar"> <?=$sesion['sitio']?></td>
                     <td> <?=$sesion['nombreE']?></td>
                     <td> <?=$sesion['fecha']?></td>
                     <td> <?=$sesion['hora']?></td>
-                    <td>
-                    <form action="index.php?action=delete_session" method="POST" style="display:inline;">
-                    <input type="hidden" name="id" value="<?=$sesion['id']?>">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?')">Eliminar</button>
-                </form>
-
-                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -144,13 +136,10 @@
             
                     <option value="">Elija una Opción</option>
                     <?php
-                        include_once 'controller/ElementosController.php';
-                        $objeto=new DeportistaController();
-                        $entrenadores=$objeto->listEntrenadores();
                         foreach($entrenadores as $coach){
-                            echo"<option value='".htmlspecialchars($coach['id'])."'>".
-                            htmlspecialchars($coach['nombreE']).
-                            htmlspecialchars($coach['apellidoE']).
+                            echo"<option value='".htmlspecialchars($coach['email'])."'>".
+                            htmlspecialchars($coach['nombres']).
+                            htmlspecialchars($coach['apellidos']).
                             "</option>";
                         }
                     ?>

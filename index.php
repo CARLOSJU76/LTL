@@ -341,7 +341,7 @@ case 'delete_session':
 //========================================================================================================
 case 'sport_manage':
     if($_SERVER['REQUEST_METHOD']=='GET'){
-        $permitido=4;
+        $permitido=0;
         $title = "Sección Deportistas y Entrenadores";
         $content = __DIR__ . '/view-nomina/sport_manage.php';
         include __DIR__ . '/layouts/main.php';
@@ -351,7 +351,7 @@ case 'list_deportista':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;
+    $permitido=0;
     $resultado= $depoControl->listDeportistas();
     $deportistas= $resultado['data'];
     $title = "Registro de Clubes";
@@ -364,7 +364,7 @@ case 'insert_deportista':
           if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
-        $permitido=4;
+        $permitido=0;
         $resultado= $depoControl->insertDeport();
         $_SESSION['msg']= $resultado['msg'];
         $_SESSION['tipo']=$resultado['tipo'];
@@ -372,7 +372,7 @@ case 'insert_deportista':
         $content = __DIR__ . '/view-nomina/insert_deportista.php';
         include __DIR__ . '/layouts/main_deportista.php';
         }else {
-            $permitido=4;
+            $permitido=0;
             $title = "Registro Deportista";
             $content = __DIR__ . '/view-nomina/insert_deportista.php';
             include __DIR__ . '/layouts/main_deportista.php';
@@ -382,7 +382,7 @@ case 'search_deportista':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;
+    $permitido=0;
     $deportistas= $depoControl->buscarDeportista();
      $title = "Actualizar Eventos";
     $content = __DIR__ . '/view-nomina/list_deportista.php';
@@ -394,7 +394,7 @@ case 'update_deportista':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=4;
+        $permitido=0;
         $resultado=$depoControl->updateDeportista();
         $_SESSION['msg1']=$resultado['msg'];
         $_SESSION['tipo1']=$resultado['tipo'];
@@ -406,7 +406,7 @@ case 'update_deportista':
               if (session_status() === PHP_SESSION_NONE) {
                             session_start();
                         }
-            $permitido=4;
+            $permitido=0;
             $data=$depoControl->buscarDeportista();
             $title = "Actualizar Eventos";
             $content = __DIR__ . '/view-nomina/update_deportista.php';
@@ -419,7 +419,7 @@ case 'delete_deportista':
      if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-    $permitido=4;
+    $permitido=0;
     $resultado=$depoControl->deleteDeportista();
     $_SESSION['msg']=$resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -430,7 +430,7 @@ case 'list_entrenador':
      if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;
+    $permitido=0;
     $resultado= $depoControl->listEntrenadores();
     $entrenadores= $resultado['data'];
     $title = "Entrenadores";
@@ -443,7 +443,7 @@ case 'update_entrenador':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=4;
+        $permitido=0;
         $resultado=$depoControl->updateEntrenador();
          $_SESSION['msg1']=$resultado['msg'];
         $_SESSION['tipo1']=$resultado['tipo'];
@@ -455,7 +455,7 @@ case 'update_entrenador':
              if (session_status() === PHP_SESSION_NONE) {
                             session_start();
                         }
-            $permitido=4;
+            $permitido=0;
             $data=$depoControl->buscarEntrenador();
            $title = "Actualizar datos de Entrenador";
             $content = __DIR__ . '/view-nomina/update_entrenador.php';
@@ -469,14 +469,14 @@ case 'insert_entrenador':
           if (session_status() === PHP_SESSION_NONE){
                         session_start();
                     }
-        $permitido=4;
+        $permitido=0;
         $resultado= $depoControl->insertEntrenador();
         $_SESSION['msg']= $resultado['msg'];
         $_SESSION['tipo']=$resultado['tipo'];
        header("Location: index.php?action=insert_entrenador");
         exit;
     }else {
-          $permitido=4;
+          $permitido=0;
             $title = "Registro Entrenador";
             $content = __DIR__ . '/view-nomina/insert_entrenador.php';
             include __DIR__ . '/layouts/main_deportista.php';
@@ -486,7 +486,7 @@ case 'search_entrenador':
      if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;
+    $permitido=0;
     $entrenadores= $depoControl->buscarEntrenador();
     $title = "Datos del Entrenador";
     $content = __DIR__ . '/view-nomina/list_entrenador.php';
@@ -497,7 +497,7 @@ case 'delete_entrenador':
     if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-    $permitido=4;
+    $permitido=0;
     $resultado=$depoControl->deleteEntrenador();
     $_SESSION['msg1']=$resultado['msg'];
     $_SESSION['tipo1']=$resultado['tipo'];
@@ -509,7 +509,7 @@ case 'delete_entrenador':
 //========================================================================================================
             case 'club_manage':
                 if($_SERVER['REQUEST_METHOD']=='GET'){
-                    $permitido=4;
+                    $permitido=0;
                     $title = "Gestión de Clubes";
                     $content = __DIR__ . '/view-profile/club_manage.php';
                     include __DIR__ . '/layouts/main.php';
@@ -520,7 +520,7 @@ case 'delete_entrenador':
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
-                    $permitido=4;
+                    $permitido=0;
                     $resultado=$clubControl->insertClub();
                     $_SESSION['msg']= $resultado['msg'];
                     $_SESSION['tipo']=$resultado['tipo'];
@@ -528,7 +528,7 @@ case 'delete_entrenador':
                     $content = __DIR__ . '/view-profile/insert_Club.php';
                     include __DIR__ . '/layouts/main_clubes.php';
                 }else {
-                    $permitido=4;
+                    $permitido=0;
                     $title = "Registro de Clubes";
                     $content = __DIR__ . '/view-profile/insert_Club.php';
                     include __DIR__ . '/layouts/main_clubes.php';
@@ -538,7 +538,7 @@ case 'delete_entrenador':
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
-                    $permitido=4;
+                    $permitido=0;
                     $resultado= $clubControl->getClubesByNombre();
                     $arrayC=$resultado['data'];
                     $_SESSION['msg']= $resultado['msg'];
@@ -565,7 +565,7 @@ case 'delete_entrenador':
                         if (session_status() === PHP_SESSION_NONE) {
                             session_start();
                         }
-                    $permitido=4;
+                    $permitido=0;
                     $resultado=$clubControl->getClubesByNombre();
                     $clubData=$resultado['data'];
                     $_SESSION['msg']=$resultado['msg'];
@@ -590,7 +590,7 @@ case 'delete_entrenador':
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
-                    $permitido=4;
+                    $permitido=0;
                     $resultado=$clubControl->deleteClub();
                     $_SESSION['msg']= $resultado['msg'];
                     $_SESSION['tipo']=$resultado['tipo'];
@@ -602,7 +602,7 @@ case 'delete_entrenador':
                         if (session_status() === PHP_SESSION_NONE) {
                             session_start();
                         }
-                        $permitido=4;
+                        $permitido=0;
                     $resultado=$clubControl->insertRepresentante();
                     $_SESSION['msg']= $resultado['msg'];
                     $_SESSION['tipo']=$resultado['tipo'];
@@ -610,7 +610,7 @@ case 'delete_entrenador':
                     $content = __DIR__ . '/view-profile/insert_representante.php';
                     include __DIR__ . '/layouts/main_clubes.php';
                     }else {
-                        $permitido=4;
+                        $permitido=0;
                         $title = "Registro de Representantes de Club";
                         $content = __DIR__ . '/view-profile/insert_representante.php';
                         include __DIR__ . '/layouts/main_clubes.php';
@@ -620,7 +620,7 @@ case 'delete_entrenador':
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
-                $permitido=4;
+                $permitido=0;
                 $resultado= $clubControl->listarRepresentantes();
                 $listaRep=$resultado['data'];
                 $title = "Relación de Representantes";
@@ -634,7 +634,7 @@ case 'delete_entrenador':
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
-                    $permitido=4;
+                    $permitido=0;
                     $resultado=$clubControl->updateRepre();
                     $repres=$clubControl->buscarRepresentantes();
                     $_SESSION['msg1']=$resultado['msg'];
@@ -644,14 +644,14 @@ case 'delete_entrenador':
                 }else {
                   
                     if (isset($_GET['id_rep']) && !empty($_GET['id_rep'])) {
-                        $permitido=4;
+                        $permitido=0;
                         $repreData = $clubControl->buscarRepresentantes();
                         $title = "Edición de datos de Representante";
                         $content = __DIR__ . '/view-profile/update_repres.php';
                         include __DIR__ . '/layouts/main_clubes.php';
                      
                     } else if((isset($_GET['id_rep']) && empty($_GET['id_rep']))) {
-                        $permitido=4;
+                        $permitido=0;
                         $mensaje=1;
                         $title = "Relación de Representantes";
                         $content = __DIR__ . '/view-profile/list_repres.php';
@@ -664,7 +664,7 @@ case 'delete_entrenador':
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
-                $permitido=4;
+                $permitido=0;
                 $resultado=$clubControl->deleteRepre();
                 $_SESSION['msg']= $resultado['msg'];
                 $_SESSION['tipo']=$resultado['tipo'];
@@ -674,7 +674,7 @@ case 'delete_entrenador':
 //========================================================================================================
 case 'elements_manage':
     
-    $permitido=4;
+    $permitido=0;
     $title = "Administrar Elementos";
     $content = __DIR__ . '/view-elementos/elements_manage.php';
     include __DIR__ . '/layouts/main.php';
@@ -682,7 +682,7 @@ case 'elements_manage':
 //========================================================================================================
 case 'insert_elements':
     
-    $permitido=4;
+    $permitido=0;
     $title = "Registrar Elementos";
     $content = __DIR__ . '/view-elementos/insert_elements.php';
     include __DIR__ . '/layouts/main_elementos.php';
@@ -692,7 +692,7 @@ case 'insert_categoriaxEdad':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;
+    $permitido=0;
     $resultado=$eleControl->insertCategoriaxEdad();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -703,7 +703,7 @@ case 'insert_modalidad':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;    
+    $permitido=0;    
     $resultado=$eleControl->insertModalidad();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -715,7 +715,7 @@ case 'insert_divisionxPeso':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;   
+    $permitido=0;   
     $resultado= $eleControl->insertDivisionPeso();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -726,7 +726,7 @@ case 'list_elements':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;   
+    $permitido=0;   
     $edades=$eleControl->getCategoria();
     $modalidades=$eleControl->getModalidades();
     $divisiones=$eleControl->getDivisiones();
@@ -740,7 +740,7 @@ case 'delete_elements':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;  
+    $permitido=0;  
     $title = "Relación de Categorías y Modalidades";
     $content = __DIR__ . '/view-elementos/delete_elements.php';
     include __DIR__ . '/layouts/main_elementos.php';
@@ -751,7 +751,7 @@ case 'delete_categoria':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;  
+    $permitido=0;  
     $resultado=$eleControl->deleteCategoria();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -763,7 +763,7 @@ case 'delete_modalidad':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;  
+    $permitido=0;  
     $resultado=$eleControl->deleteModalidad();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -775,7 +775,7 @@ case 'delete_division':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4; 
+    $permitido=0; 
     $resultado=$eleControl->deleteDivision();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -786,7 +786,7 @@ case 'lugar_entrenamiento':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;  
+    $permitido=0;  
     $lugares= $eleControl->listLugares();
     $title = "Relación de Categorías y Modalidades";
     $content = __DIR__ . '/view-elementos/lugar_entrenamiento.php';
@@ -797,7 +797,7 @@ case 'insert_lugar':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4;   
+    $permitido=0;   
     $resultado= $eleControl->insertLugar();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -817,7 +817,7 @@ case 'delete_lugar':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=4; 
+    $permitido=0; 
     $resultado=   $eleControl->deleteLugar();
     $_SESSION['msg']= $resultado['msg'];
     $_SESSION['tipo']=$resultado['tipo'];
@@ -828,7 +828,7 @@ case 'delete_lugar':
         case 'event_manage':
             if($_SERVER['REQUEST_METHOD']=='GET'){
                 $title = "Administrar Eventos";
-                $permitido=4;
+                $permitido=0;
                 $content = __DIR__ . '/view-events/event-manage.php';
                 include __DIR__ . '/layouts/main.php';
             }break;
@@ -1028,7 +1028,7 @@ case 'delete_lugar':
 //========================================================================================================
 case 'platform_manage':    
     $title = "Administrar Plataforma";
-    $permitido=4;
+    $permitido=0;
     $content = __DIR__ . '/view_plataforma/platform_manage.php';
     include __DIR__ . '/layouts/main.php';
     break;
@@ -1133,9 +1133,14 @@ case 'update_vision':
 
 case 'list_sessionById':
       if($_SERVER['REQUEST_METHOD']=='POST'){
-            $sesiones=$eleControl->listSessionbyTrainer();
+            $resultado=$eleControl->listSessionbyTrainer();
+              $entrenadores=$depoControl->getEntrenadores();
+            $sesiones = $resultado['data'] ?? [];
+            $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';
+            $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
             include_once 'view_sesiones/list_sesiones.php';
         }else{
+            $entrenadores=$depoControl->getEntrenadores();
             include_once 'view_sesiones/list_sesiones.php';
         }break; 
 
@@ -1167,7 +1172,7 @@ case 'list_sessionById':
                  if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-                $permitido=4;
+                $permitido=0;
                 $deportistas= $depoControl->listSportman();
                  
                 $resultado=$rankingControl->rankingEventos();
@@ -1182,7 +1187,7 @@ case 'list_sessionById':
                 $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                 include __DIR__ . '/layouts/main.php';
             }else{
-                $permitido=4;
+                $permitido=0;
                 $deportistas= $depoControl->listSportman();
                 $title = "Datos de Ranking por Eventos" ;
                 $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
@@ -1193,7 +1198,7 @@ case 'list_sessionById':
                     if(session_status()=== PHP_SESSION_NONE){
                         session_start();
                     }
-                    $permitido=4;
+                    $permitido=0;
                     $deportistas= $depoControl->listSportman();
                     $resultado=$rankingControl->rankingAsistencia();
                     $deportista= $resultado['deportista'] ?? " ";
@@ -1205,7 +1210,7 @@ case 'list_sessionById':
                     $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                     include __DIR__ . '/layouts/main.php';
                 }else{
-                $permitido=4;
+                $permitido=0;
                 $deportistas= $depoControl->listSportman();
                 $title = "Datos de Ranking por Asistencias" ;
                 $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
@@ -1216,7 +1221,7 @@ case 'ranking_total':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=4;
+        $permitido=0;
         $deportistas= $depoControl->listSportman();
         $resultado=$rankingControl->ranking();
         $deportista= $resultado['deportista'] ?? " ";
@@ -1228,7 +1233,7 @@ case 'ranking_total':
         $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
         include __DIR__ . '/layouts/main.php';
     }else{
-        $permitido=4;
+        $permitido=0;
         $deportistas= $depoControl->listSportman();
         $title = "Datos de Ranking por Deportista" ;
         $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
@@ -1238,7 +1243,7 @@ case 'ranking_total':
          if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=4;
+        $permitido=0;
         $deportistas= $depoControl->listSportman();
          $title = "Datos de Ranking por Deportista" ;
         $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
@@ -1262,7 +1267,7 @@ case 'lista_ranking':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=3;
+        $permitido=1;
       
         $title = "Mis Entrenamientos";
         $content = __DIR__ . '/view_sesiones/listar_mis_entrenamientos.php';
@@ -1273,7 +1278,7 @@ case 'lista_ranking':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=3;
+        $permitido=1;
         
         $title = "Mis Actuaciones";
         $content = __DIR__ . '/view-events/my_performaces.php';
@@ -1283,10 +1288,24 @@ case 'lista_ranking':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=3;
+        $permitido=1;
         $title = "Próximas Sesiones de Entrenamiento";
         $content = __DIR__ . '/view_sesiones/menu_sesiones_to_sportman.php';
-        include __DIR__ . '/layouts/main_sesiones.php';
+        include __DIR__ . '/layouts/main.php';
         break;
+    case 'proximas_xsite':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $permitido=1;
+        $sesiones=$eleControl->listSessionsBySite($fechaA,$horaA);
+         $title = "Consulta sesiones por Escenarios de Entrenamiento";
+        $content = __DIR__ . '/view_sesiones/list_sesionBysite_depor.php';
+        include __DIR__ . '/layouts/main_sesiones.php';
+    }else{
+        $permitido=1;
+        $title = "Consulta sesiones por Escenarios de Entrenamiento";
+        $content = __DIR__ . '/view_sesiones/list_sesionBysite_depor.php';
+        include __DIR__ . '/layouts/main_sesiones.php';
+    }break;
+
 }
 

@@ -344,24 +344,46 @@ public function insertAgeCat($categoriaxEdad){
 //===================================Esta función para perfil Deportista:===============
         public function listSessionbyTrainer($id_entrenador){
             try{
+                  $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
                             entrenadores.apellidos AS apellidoE, lugar_entrenamiento.lugar AS sitio,
                             sesiones.fecha AS fecha, sesiones.hora AS hora 
                             FROM sesiones INNER JOIN entrenadores
-                            ON entrenadores.id= sesiones.id_entrenador INNER JOIN lugar_entrenamiento
+                            ON entrenadores.email= sesiones.email_entrenador INNER JOIN lugar_entrenamiento
                             ON sesiones.id_lugar= lugar_entrenamiento.id
                             WHERE sesiones.email_entrenador= ? ORDER BY sesiones.fecha ASC, sesiones.hora ASC";
-                    $resultado= $stmt= $this->conn->prepare($consulta);
-                        $stmt->execute([$id_entrenador]);
-                        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
-                    if($resultado){
-                        return true;
-                    }else{
-                        return false;
-                    }
-            }catch(PDOException $e) {
+                            $stmt= $this->conn->prepare($consulta);
+                         
+                            $stmt->execute([$id_entrenador]);
+                              
+
+               if (!$stmt) {
+                                    return [
+                                            'msg' => "Error al preparar la consulta.",
+                                            'tipo' => "error"
+                                    ];
+                            }
+                            if($stmt->execute([$id_entrenador])){
+                                 $resultado=$stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                return [
+                                    'msg' => "Sesiones encontradas.",
+                                    'tipo' => "success",
+                                    'data' => $resultado
+                                    ];       
+                            }else{
+                                $error = $stmt->errorInfo();
+                                return [
+                                    'msg' => "Error al ejecutar la consulta: " . $error[2],
+                                    'tipo' => "error"
+                                ];
+                            }
+        }catch(PDOException $e) {
                 error_log("Error al actualizar la visión: " . $e->getMessage());
-                return false;
+                return [
+                    'msg' => "Error al actualizar la visión: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
             }
     } 
 //====================================================================================
