@@ -32,7 +32,7 @@
                 if($registrando= $this->signUpModel->registrando($conteo,$user, $email, $clave)){
                     $token=$this->signUpModel->getToken();
                     $envio_mail=new Mailer();
-                    // $this->signUpModel->setPerfil($email);
+                      $this->signUpModel->setPerfil($email);
                     $envio_mail->sendVerificationMail($email,  $token,$user);            
                     $this->objeto->notificacion($registrando, $user);
                 }   
@@ -54,6 +54,7 @@
         
                         if ($email) {
                             $this->signUpModel->verifyEmail($token);
+                        
                             $datos['estado'] = 1;
                         } else {
                             $datos['estado'] = 0;

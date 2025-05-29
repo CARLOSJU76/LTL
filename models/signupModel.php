@@ -93,13 +93,14 @@ include_once 'funciones/Mailer.php';
         $verificar= $this->conn->prepare("SELECT COUNT(*) FROM perfil WHERE email= ?");
         $verificar->execute([$email]);
         $conteo=$verificar->fetchColumn();
-        if($conteo<1){
+        if($conteo==1){
+            $agregar=$this->conn->prepare("UPDATE perfil SET perfil= perfil + 1 WHERE email = ?");
+            $agregar->execute([$email]);
+
+        }else{
             $perfil=1;
             $setPerfiL= $this->conn->prepare("INSERT INTO perfil (email, perfil) VALUES (?,?)");
             $setPerfiL->execute([$email, $perfil]);
-        }else{
-            $agregar=$this->conn->prepare("UPDATE perfil SET perfil= perfil + 1 WHERE email = ?");
-            $agregar->execute([$email]);
         }
     }
 

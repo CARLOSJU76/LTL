@@ -395,10 +395,10 @@ public function insertCategoriaxEdad() {
         }
         
     }
-    public function listSessionbyTrainer(){
+    public function listSessionbyTrainer($fechaA, $horaA){
         if($_SERVER['REQUEST_METHOD']=='POST'){
             $id_entrenador= $_POST['id_entrenador'];
-            return $this->eleModel->listSessionbyTrainer($id_entrenador);
+            return $this->eleModel->listSessionbyTrainer($id_entrenador, $fechaA, $horaA);
         }
     }
     public function listSessionByDate(){

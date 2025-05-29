@@ -1133,7 +1133,7 @@ case 'update_vision':
 
 case 'list_sessionById':
       if($_SERVER['REQUEST_METHOD']=='POST'){
-            $resultado=$eleControl->listSessionbyTrainer();
+            $resultado=$eleControl->listSessionbyTrainer($fechaA, $horaA);
               $entrenadores=$depoControl->getEntrenadores();
             $sesiones = $resultado['data'] ?? [];
             $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';

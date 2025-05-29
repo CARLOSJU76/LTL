@@ -342,7 +342,7 @@ public function insertAgeCat($categoriaxEdad){
             }
         }
 //===================================Esta función para perfil Deportista:===============
-        public function listSessionbyTrainer($id_entrenador){
+        public function listSessionbyTrainer($id_entrenador,$fechaA, $horaA){
             try{
                   $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $consulta=  "SELECT sesiones.codigo AS id, entrenadores.nombres AS nombreE,
@@ -351,10 +351,12 @@ public function insertAgeCat($categoriaxEdad){
                             FROM sesiones INNER JOIN entrenadores
                             ON entrenadores.email= sesiones.email_entrenador INNER JOIN lugar_entrenamiento
                             ON sesiones.id_lugar= lugar_entrenamiento.id
-                            WHERE sesiones.email_entrenador= ? ORDER BY sesiones.fecha ASC, sesiones.hora ASC";
+                            WHERE sesiones.email_entrenador= ? AND (sesiones.fecha > ?
+                            OR (sesiones.fecha = ? AND sesiones.hora >= ?))
+                            ORDER BY sesiones.fecha ASC, sesiones.hora ASC";
                             $stmt= $this->conn->prepare($consulta);
                          
-                            $stmt->execute([$id_entrenador]);
+                            $stmt->execute([$id_entrenador,$fechaA,$fechaA, $horaA]);
                               
 
                if (!$stmt) {
@@ -363,7 +365,7 @@ public function insertAgeCat($categoriaxEdad){
                                             'tipo' => "error"
                                     ];
                             }
-                            if($stmt->execute([$id_entrenador])){
+                            if($stmt->execute([$id_entrenador, $fechaA, $fechaA, $horaA])){
                                  $resultado=$stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                 return [
