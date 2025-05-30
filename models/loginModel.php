@@ -71,16 +71,6 @@ public function verificarUser($usuario){
             $datos= $stmt->fetch(PDO::FETCH_ASSOC);
             return $datos;
         }
-        public function setPass($email, $clave){
-            
-            $encriptada = password_hash($clave, PASSWORD_DEFAULT);    
-            $stmt= $this->conn->prepare("UPDATE usuarios set passw= ? where email= ? or usuario= ?");
-           if($stmt->execute([$encriptada, $email, $email]) )            {
-            return true;
-           }else{
-            return false;
-           }
-        }
         public function getPerfil($email){
 
             $verificar = $this->conn->prepare("SELECT COUNT(*) FROM perfil WHERE  email = ?");
@@ -95,9 +85,89 @@ public function verificarUser($usuario){
             $perfil= $consulta->fetch(PDO::FETCH_ASSOC);
             return (int) $perfil['perfil'];
             }
-
-            
         }
+        public function setPass($email, $clave){
+            
+            $encriptada = password_hash($clave, PASSWORD_DEFAULT); 
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $stmt= $this->conn->prepare("UPDATE usuarios set passw= ? where email= ? or usuario= ?");
+                $stmt->execute([$encriptada, $email, $email]);
+                if (!$stmt) {
+                        return [
+                                'msg' => "Error al preparar la consulta.",
+                                'tipo' => "error"
+                        ];
+                }
+                if($stmt->execute([$encriptada, $email, $email])){   
+                        return [
+                                'msg' => "El cambio de contraseña fué exitoso.",
+                                'tipo' => "success"
+                        ];
+                }else{
+                        $error = $stmt->errorInfo();
+                        return [
+                                'msg' => "Error al tratar de cambiar la contraseña: " . $error[2],
+                                'tipo' => "error"
+                    ];
+                }
+            
+            }catch (PDOException $e) {
+                error_log("Error al tratar de cambiar la contraseña: " . $e->getMessage());
+                return [
+                        'msg' => "Error al tratar de cambiar la contraseña: " . $e->getMessage(),
+                        'tipo' => "error"
+                ];
+            }
+    }
+    public function cambiar_pass($email, $actual, $nueva){
+            try{
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $stmt = $this->conn->prepare("SELECT passw FROM usuarios WHERE email = ? OR usuario = ?");
+                $stmt->execute([$email, $email]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+                if ($row && password_verify($actual, $row['passw'])) {
+                    // La contraseña actual es correcta, proceder a cambiarla
+                    $nueva_encriptada = password_hash($nueva, PASSWORD_DEFAULT);
+                    $update_stmt = $this->conn->prepare("UPDATE usuarios SET passw = ? WHERE email = ? OR usuario = ?");
+                    $update_stmt->execute([$nueva_encriptada, $email, $email]);
+                    if (!$update_stmt) {
+                        return [
+                                'msg' => "Error al preparar la consulta.",
+                                'tipo' => "error"
+                        ];
+                    }
+                    if($update_stmt->execute([$nueva_encriptada, $email, $email])){   
+                        return [
+                                'msg' => "La contraseña ha sido modificada exitosamente.",
+                                'tipo' => "success"
+                        ];
+                    }else{
+                        $error = $stmt->errorInfo();
+                        return [
+                                'msg' => "Error al tratar de modificar la contraseña." . $error[2],
+                                'tipo' => "error"
+                        ];
+                    }   
+                } else {
+                    // La contraseña actual no es correcta
+                    return [
+                        'msg' => "La contraseña es incorrecta.",
+                        'tipo' => "error"
+                    ];
+                }
+            }catch (PDOException $e) {
+                error_log("Error al tratar de modificar la contraseña: " . $e->getMessage());
+                return [
+                        'msg' => "Error al tratar de modificar la contraseña: " . $e->getMessage(),
+                        'tipo' => "error"
+                ];
+            }
+        }
+
+
+
     }
 
 

@@ -90,16 +90,45 @@
 
                 }include 'views/rec_pass_form.php';
                 break;
-            case 'set_pass':
-                if($_SERVER['REQUEST_METHOD']=='GET'){
-                }include 'views/set_new_password.php';
-                break;
             case 'set_new_pass':
                 if($_SERVER['REQUEST_METHOD']=='POST'){
                     $loginController->establecer_newpass();
-                }include 'views/set_new_password.php';
+                    include 'views/principal.php';
+                }break;
+            case 'set_pass':
+                include 'views/set_new_password.php';
                 break;
-           
+
+            case 'set_new_pass':
+                if($_SERVER['REQUEST_METHOD']=='POST'){
+                     if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $resultado=$loginController->establecer_newpass();
+                    $_SESSION['msg']= $resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
+                     header("Location: index.php?action=principal");
+                exit;
+                }
+            case 'cambiar_pass':
+                if($_SERVER["REQUEST_METHOD"]=="POST"){
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $permitido=4;
+                    $resultado=$loginController->cambiar_pass();
+                    $_SESSION['msg']= $resultado['msg'];
+                    $_SESSION['tipo']=$resultado['tipo'];
+                      header("Location: index.php?action=principal");
+                exit;
+                }else {
+                    $permitido=4;
+                    $title = "Cambiar Contraseña";
+                    $content = __DIR__ . '/views/cambiar_pass.php';
+                    include __DIR__ . '/layouts/main.php';
+                }break;
+//=============================================================================================================================
+
          
             
             case 'search_club':

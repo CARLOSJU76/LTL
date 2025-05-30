@@ -20,7 +20,7 @@ AccesoDenegado($permitido);
 $title = $title ?? 'Mi sitio'; 
 include __DIR__ . '/header_clubes.php';
 ?>
-
+<!-- ============================================================================================= -->
 <?php
 
 // Captura y limpia el mensaje flash desde la sesión
@@ -72,6 +72,7 @@ if (isset($_SESSION['msg1'], $_SESSION['tipo1'])) {
         }, 5000); // Espera 5 segundos antes de desvanecer
     </script>
 <?php endif; ?>
+<!-- ============================================================================================= -->
 
 <?php
 // Verifica si hay contenido para incluir la vista específica

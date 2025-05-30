@@ -7,7 +7,13 @@ function AccesoDenegado($int){
         header("Location: views/no_autorizado.php");
         exit();
         }else{
-            $array = str_split($_SESSION['perfil']);
+
+//========================================================================
+$array= $_SESSION['perfil'];
+$array = strval($array);
+$array = str_pad($array, 5, '0', STR_PAD_LEFT);
+//=======================================================================
+
             if( !isset($array[$int]) || $array[$int] != 1){
                 header("Location: views/no_autorizado.php");
                 exit();

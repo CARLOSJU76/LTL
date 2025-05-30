@@ -77,18 +77,37 @@ class LoginController{
             $confirm=$_POST['confirm'];
 
             if($confirm===$clave){
-                if($this->loginModel->setPass($usuario, $clave)){
-                  echo"<div class='success'>La contraseña ha sido reestablecida exitosamente.<br>
-                            <a href='index.php?actio=principal'>Volver a la página de inicio</a>
-                        </div>";
-                }else{
-                    echo"hubo un error al tratar de actualizar la contraseña";
-                }
+                return $this->loginModel->setPass($usuario, $clave);
+           
+        }else{
+            return [
+                'msg' => "Las contraseñas no coinciden.",
+                'tipo' => "error"
+            ];
+        }
+    }
+}
+//==================================================Cambiar Contraseña=====================================
+    public function cambiar_pass(){
+        if($_SERVER["REQUEST_METHOD"]=="POST"){
+            $email=$_POST["email"];
+            $actual=$_POST["actual"];
+            $nueva=$_POST['nueva'];
+            $confirm=$_POST['confirm'];
+
+            if($confirm===$nueva){
+                $resultado=$this->loginModel->cambiar_pass($email,$actual, $nueva);
+                return $resultado;
             }else{
-                echo "Los campos de las contraseñas deben coincidir";
+                return [
+                    'msg' => "Las contraseñas no coinciden.",
+                    'tipo' => "error"
+                ];
             }
         }
     }
+
+
     public function getUserEmail($usuario){
         return $this->loginModel->get_user_email($usuario);
 
