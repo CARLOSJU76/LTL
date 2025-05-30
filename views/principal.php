@@ -43,7 +43,7 @@ session_start();
     <!--Imagen de Icono Inicial  -->
     <!-- ======================================================================================= -->
         <div id="div-x">
-            <img src="IMG/icono-de-favoritos.png" id="imagen-x">
+            <img src="IMG/logo_ltl.png" id="imagen-x">
             <label id="etiqueta">
                 <input type="checkbox" id="toggleButton">
                 <div class="toggle">
@@ -57,7 +57,7 @@ session_start();
     <!-- ======================================================================================= -->
         <div class="row" id="toggleElement">
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas1">
-                <img src="IMG/icono-de-favoritos.png" id="img-icon">
+                <img src="IMG/logo_ltl.png" style="aspect-ratio: 1/1; width: 5rem;" id="img-icon">
             </div>
     <!-- Botones de la barra -->
     <!--======================================================================================== -->
