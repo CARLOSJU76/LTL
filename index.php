@@ -90,11 +90,7 @@
 
                 }include 'views/rec_pass_form.php';
                 break;
-            case 'set_new_pass':
-                if($_SERVER['REQUEST_METHOD']=='POST'){
-                    $loginController->establecer_newpass();
-                    include 'views/principal.php';
-                }break;
+           
             case 'set_pass':
                 include 'views/set_new_password.php';
                 break;
@@ -1085,7 +1081,7 @@ case 'cargar_estados':
 //=======================================================================================================
 case 'ver_estados':
     if($_SERVER['REQUEST_METHOD']=='GET'){
-        $permitido = 4;
+        $permitido = -1;
         $estadosf= $eleControl->listarEstadosF();
         $title = "Consultar Actuaciones por Evento";
         $content = __DIR__ . '/view_plataforma/ver_estados.php';
@@ -1094,7 +1090,7 @@ case 'ver_estados':
 //=======================================================================================================
 case 'ver_estadosf':
     if($_SERVER['REQUEST_METHOD']=='POST'){
-        $permitido = 4;
+        $permitido = -1;
         $estates= $eleControl->getEstadosById();
         $title = "Consultar Actuaciones por Evento";
         $content = __DIR__ . '/view_plataforma/ver_anio.php';
@@ -1105,7 +1101,7 @@ case 'ver_mision':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido = 4;
+    $permitido = -1; // Permiso para ver la misión
     $mision= $eleControl->getMision();
     $title = "Consultar Actuaciones por Evento";
     $content = __DIR__ . '/view_plataforma/ver_mision.php';
@@ -1116,7 +1112,7 @@ case 'ver_vision':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido = 4;
+    $permitido = -1;
     $vision= $eleControl->getVision();
     $title = "Consultar Actuaciones por Evento";
     $content = __DIR__ . '/view_plataforma/ver_vision.php';
@@ -1128,14 +1124,14 @@ case 'update_mision':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido = 4;
+        $permitido = 0;
         $eleControl->updateMision();
         $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';
         $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
         header("Location: index.php?action=update_mision");
         exit();
     }else{
-        $permitido = 4;
+        $permitido = 0;
         $title = "Consultar Actuaciones por Evento";
         $content = __DIR__ . '/view_plataforma/update_mision.php';
         include __DIR__ . '/layouts/main_plataforma.php';
@@ -1147,14 +1143,14 @@ case 'update_vision':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido = 4;
+        $permitido = 0;
         $eleControl->updateVision();
         $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';
         $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
         header("Location: index.php?action=update_vision");
         exit();
     }else{
-        $permitido = 4;
+        $permitido = 0;
         $title = "Consultar Actuaciones por Evento";
         $content = __DIR__ . '/view_plataforma/update_vision.php';
         include __DIR__ . '/layouts/main_plataforma.php';
@@ -1162,15 +1158,29 @@ case 'update_vision':
 
 case 'list_sessionById':
       if($_SERVER['REQUEST_METHOD']=='POST'){
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0;
             $resultado=$eleControl->listSessionbyTrainer($fechaA, $horaA);
               $entrenadores=$depoControl->getEntrenadores();
             $sesiones = $resultado['data'] ?? [];
             $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';
             $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
-            include_once 'view_sesiones/list_sesiones.php';
+
+            $title = "Sesiones por Entrenador";
+            $content = __DIR__ . '/view_sesiones/list_sesiones.php';
+            include __DIR__ . '/layouts/main_sessiones_deportista.php';
+
         }else{
+             if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0;
             $entrenadores=$depoControl->getEntrenadores();
-            include_once 'view_sesiones/list_sesiones.php';
+             $title = "Sesiones por Entrenador";
+            $content = __DIR__ . '/view_sesiones/list_sesiones.php';
+            include __DIR__ . '/layouts/main_sessiones_deportista.php';
         }break; 
 
    
@@ -1282,7 +1292,7 @@ case 'lista_ranking':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=0;
+    $permitido=-1;
     $resultado= $rankingControl->listaRanking();
     $ranking= $resultado['lista_ranking'] ?? [];
     $asistencia=$resultado['lista_asistencia'] ?? [];
@@ -1296,7 +1306,7 @@ case 'lista_ranking':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=1;
+        $permitido=-1;
       
         $title = "Mis Entrenamientos";
         $content = __DIR__ . '/view_sesiones/listar_mis_entrenamientos.php';
@@ -1307,7 +1317,7 @@ case 'lista_ranking':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=1;
+        $permitido=3;
         
         $title = "Mis Actuaciones";
         $content = __DIR__ . '/view-events/my_performaces.php';
@@ -1317,23 +1327,29 @@ case 'lista_ranking':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=1;
+        $permitido=3;
         $title = "Próximas Sesiones de Entrenamiento";
         $content = __DIR__ . '/view_sesiones/menu_sesiones_to_sportman.php';
         include __DIR__ . '/layouts/main.php';
         break;
     case 'proximas_xsite':
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     if($_SERVER['REQUEST_METHOD']=='POST'){
-        $permitido=1;
+        $permitido=3;
         $sesiones=$eleControl->listSessionsBySite($fechaA,$horaA);
          $title = "Consulta sesiones por Escenarios de Entrenamiento";
         $content = __DIR__ . '/view_sesiones/list_sesionBysite_depor.php';
-        include __DIR__ . '/layouts/main_sesiones.php';
+        include __DIR__ . '/layouts/main_sessiones_deportista.php';
     }else{
-        $permitido=1;
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=3;
         $title = "Consulta sesiones por Escenarios de Entrenamiento";
         $content = __DIR__ . '/view_sesiones/list_sesionBysite_depor.php';
-        include __DIR__ . '/layouts/main_sesiones.php';
+        include __DIR__ . '/layouts/main_sessiones_deportista.php';
     }break;
 
 }

@@ -3,21 +3,20 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 function AccesoDenegado($int){
-    if (!isset($_SESSION['perfil'])){
+    if ($int != -1 && !isset($_SESSION['perfil'])){
         header("Location: views/no_autorizado.php");
         exit();
         }else{
-
 //========================================================================
-$array= $_SESSION['perfil'];
+$array= $_SESSION['perfil'] ?? '';
 $array = strval($array);
 $array = str_pad($array, 5, '0', STR_PAD_LEFT);
 //=======================================================================
 
-            if( !isset($array[$int]) || $array[$int] != 1){
-                header("Location: views/no_autorizado.php");
-                exit();
-            }
+            if ($int != -1 && (!isset($array[$int]) || $array[$int] != 1)) {
+    header("Location: views/no_autorizado.php");
+    exit();
+}
         }
 }
 AccesoDenegado($permitido);
