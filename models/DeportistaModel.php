@@ -94,8 +94,8 @@ public function listDeportistasById($id_dep){
         deportista.direccion as direccion, deportista.email AS email, 
         genero.genero as genero, modalidad.modalidad AS modalidad,
         ciudad.ciudad AS ciudad, departamento.departamento AS departamento, 
-        pais.pais AS pais, clubes.nombreClub AS club, deportista.foto AS foto
-        FROM deportista
+        pais.pais AS pais, clubes.nombreClub AS club, deportista.foto AS foto, 
+        clubes.codigo AS codigo_club  FROM deportista
         INNER JOIN tipo_docum ON deportista.codigo_tipodoc=tipo_docum.codigo 
         INNER JOIN genero ON deportista.codigo_genero= genero.codigo
         INNER JOIN ciudad ON deportista.id_ciudad= ciudad.codigo
@@ -169,8 +169,8 @@ public function listEntrenadoresById($id_ent){
                 entrenadores.direccion as direccion, entrenadores.email AS email, 
                 genero.genero as genero, ciudad.ciudad AS ciudad,
                 departamento.departamento AS departamento, pais.pais AS pais, 
-                clubes.nombreClub AS club, entrenadores.foto AS foto
-                FROM entrenadores
+                clubes.nombreClub AS club, clubes.codigo AS codigo_club,
+                 entrenadores.foto AS foto FROM entrenadores
                 INNER JOIN tipo_docum ON entrenadores.codigo_tipodoc=tipo_docum.codigo 
                 INNER JOIN genero ON entrenadores.codigo_genero= genero.codigo
                 INNER JOIN ciudad ON entrenadores.id_ciudad= ciudad.codigo
@@ -265,6 +265,12 @@ public function getEntrenadores(){
     $stmt=$this->conn->prepare($consulta);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public function getEntrenadorByEmail($email){
+    $consulta= "SELECT * FROM entrenadores WHERE email = ?";
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute([$email]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 //=================================================================================================================
 public function updateDeportista($nombre, $apellido, $codigo_td, $num_docum, $genero, $fecha,

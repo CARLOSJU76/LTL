@@ -89,6 +89,21 @@
             $stmt = $this->conn->query($query);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+       public function getClub_byRepre_Email($email) {
+    $query = "SELECT id FROM representante_club WHERE email = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute([$email]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $rep_id= $result ? $result['id'] : null;
+
+    $query1="SELECT codigo, nombreClub FROM clubes WHERE id_representante = ?";
+    $stmt1 = $this->conn->prepare($query1);
+    $stmt1->execute([$rep_id]);
+    return $stmt1->fetch(PDO::FETCH_ASSOC);
+    
+    }
+
         public function getClubes(){
             $consulta= "SELECT clubes.nombreClub AS nombreClub, representante_club.nombres AS nombreR,
                         representante_club.apellidos AS apellidoR, clubes.fecha_conformacion AS fecha,

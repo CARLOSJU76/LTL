@@ -1,8 +1,15 @@
+
+<?php if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $email_user = $_SESSION['email'] ?? 'No encontrado';
+                    $perfil= $_SESSION['perfil'] ?? 'No encontrado';
+?>
 <div id="fondo-session">
     <div id="contenedor-general">
         <form action="index.php?action=schedule_session" method="post">
             <h2 style="letter-spacing:0.3rem; font-weight:100;">Programación de Entrenamiento</h2>
-            <input type="hidden" name="user_email" value="<?= $_GET['user_email'] ?? '' ?>">
+            <input type="hidden" name="user_email" value="<?php echo htmlspecialchars($email_user)?>"><br> 
 <!--===================================================================================-->
             <select name="id_lugar" requiered>
                 <option value="">Elija un Sitio de Entrenamiento</option>

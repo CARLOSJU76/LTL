@@ -39,7 +39,7 @@
                 INNER JOIN departamento ON eventos.id_departamento = departamento.id
                 INNER JOIN pais ON eventos.id_pais = pais.id
                 INNER JOIN categoriaxedad ON eventos.codigo_categoriaxEdad= categoriaxedad.id
-                WHERE eventos.codigo LIKE ?" ;
+                WHERE eventos.codigo LIKE ? ORDER BY eventos.fecha_Evento ASC"; ;
            
             $stmt= $this->conn->prepare($consulta);
             $stmt->execute(['%' . $id_event . '%']);
@@ -90,7 +90,7 @@ public function deleteEvento($id_evento) {
 
 
     public function getEventos(){
-        $consulta= "SELECT codigo, nombre_Evento, codigo_categoriaxEdad FROM eventos";
+        $consulta= "SELECT codigo, nombre_Evento, fecha_Evento, codigo_categoriaxEdad FROM eventos ORDER BY fecha_Evento ASC";
         $stmt= $this->conn->prepare($consulta);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

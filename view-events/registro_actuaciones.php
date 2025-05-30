@@ -10,9 +10,11 @@
             <select name="codigo_evento" id="codigo_evento" required>
                 <option value="">Selecciona un evento</option>
                 <?php foreach ($eventos as $evento): ?>
-                <option value="<?= $evento['codigo'] ?>" data-id_ce="<?= $evento['codigo_categoriaxEdad'] ?>">
+                    <?php if($evento['fecha_Evento'] < $fechaA):?>
+                <option value="<?= $evento['codigo'] ?>">
                     <?= htmlspecialchars($evento['nombre_Evento']) ?>
                 </option>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </select>
             <input type="hidden" id="id_ce_evento_seleccionado" value="">

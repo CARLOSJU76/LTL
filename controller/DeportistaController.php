@@ -116,6 +116,9 @@ public function buscarEntrenador(){
 public function getEntrenadores(){
     return $this->depoModel->getEntrenadores();
 }
+public function getEntrenadorByEmail($email){
+    return $this->depoModel->getEntrenadorByEmail($email);
+}
 //==================================================================================================================
 public function updateDeportista(){
     if($_SERVER['REQUEST_METHOD']=='POST'){

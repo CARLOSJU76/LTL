@@ -62,11 +62,11 @@ session_start();
     <!-- Botones de la barra -->
     <!--======================================================================================== -->
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
-                <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra" >Inicio</button></a>
+                <a href="#" id="anchor-boton"><button id="boton-barra" >Inicio</button></a>
             </div>
 
             <div class="col-sm-6 col-md-4 col-lg-2" id="filas">
-                <a href="views/sidebar.html" id="anchor-boton"><button id="boton-barra" >Calendarios</button></a>
+                <a href="index.php?action=listar_eventos" id="anchor-boton"><button id="boton-barra" >Calendarios</button></a>
             </div>
             <div class="col-sm-6 col-md-4 col-lg-2" id="filas">
             <form action="index.php" method="GET" id="Plataforma">

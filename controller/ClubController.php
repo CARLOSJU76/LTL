@@ -69,7 +69,9 @@
         public function getRepresentante(){
            return $this->clubModel->getRepresentante();
             }
-
+        public function getClub_byRepre_Email($email){
+            return $this->clubModel->getClub_byRepre_Email($email);
+        }
             public function listClubes(){
                 return $this->clubModel->getClubes();
             }

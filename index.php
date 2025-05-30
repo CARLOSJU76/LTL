@@ -384,6 +384,29 @@ case 'list_deportista':
     include __DIR__ . '/layouts/main_deportista.php';
     break;
 //=============================================================================================================================
+case 'list_deportista_Rep':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=1;
+    $resultado= $depoControl->listDeportistas();
+    $deportistas= $resultado['data'];
+    $title = "Registro de Clubes";
+    $content = __DIR__ . '/view-nomina/list_deportista_Rep.php';
+    include __DIR__ . '/layouts/main.php';
+    break;
+case 'list_entrenadores_Rep':
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $permitido=1;
+    $resultado= $depoControl->listEntrenadores();
+    $entrenadores= $resultado['data'];
+    $title = "Registro de Clubes";
+    $content = __DIR__ . '/view-nomina/list_entrenador_Rep.php';
+    include __DIR__ . '/layouts/main.php';
+    break;
+//=============================================================================================================================
 case 'insert_deportista':
     if($_SERVER["REQUEST_METHOD"]== "POST"){
           if (session_status() === PHP_SESSION_NONE) {
@@ -419,7 +442,7 @@ case 'update_deportista':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $permitido=0;
+        $permitido=0 ?? 1;
         $resultado=$depoControl->updateDeportista();
         $_SESSION['msg1']=$resultado['msg'];
         $_SESSION['tipo1']=$resultado['tipo'];
@@ -431,7 +454,7 @@ case 'update_deportista':
               if (session_status() === PHP_SESSION_NONE) {
                             session_start();
                         }
-            $permitido=0;
+            $permitido=0 ?? 1;
             $data=$depoControl->buscarDeportista();
             $title = "Actualizar Eventos";
             $content = __DIR__ . '/view-nomina/update_deportista.php';
@@ -1351,6 +1374,16 @@ case 'lista_ranking':
         $content = __DIR__ . '/view_sesiones/list_sesionBysite_depor.php';
         include __DIR__ . '/layouts/main_sessiones_deportista.php';
     }break;
+    case 'listar_eventos':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=-1;
+        $eventos= $eventControl->listEventos();
+        $title = "Consultar Eventos";
+        $content = __DIR__ . '/view-events/listar_todos_eventos.php';
+        include __DIR__ . '/layouts/main.php';
+        break;
 
 }
 
