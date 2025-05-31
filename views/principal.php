@@ -57,12 +57,12 @@ session_start();
     <!-- ======================================================================================= -->
         <div class="row" id="toggleElement">
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas1">
-                <img src="IMG/logo_ltl.png" style="aspect-ratio: 1/1; width: 5rem;" id="img-icon">
+                <img src="IMG/logo_ltl.png" id="img-icon">
             </div>
     <!-- Botones de la barra -->
     <!--======================================================================================== -->
             <div class="col-sm-6 col-md-4 col-lg-2"  id="filas">
-                <a href="#" id="anchor-boton"><button id="boton-barra" >Inicio</button></a>
+                <a href="index.php?action=manual" id="anchor-boton"><button id="boton-barra" >Manual</button></a>
             </div>
 
             <div class="col-sm-6 col-md-4 col-lg-2" id="filas">

@@ -1385,5 +1385,32 @@ case 'lista_ranking':
         include __DIR__ . '/layouts/main.php';
         break;
 
+    case 'manual':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=-1;
+        $title = "Manual de Usuario";
+        $content = __DIR__ . '/views/manual.php';
+        include __DIR__ . '/layouts/main.php';
+        break;
+    case 'insert_deportista_Rep':
+    if($_SERVER["REQUEST_METHOD"]== "POST"){
+          if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+        $permitido=1;
+        $resultado= $depoControl->insertDeport();
+        $_SESSION['msg']= $resultado['msg'];
+        $_SESSION['tipo']=$resultado['tipo'];
+        $title = "Registro Deportista";
+        $content = __DIR__ . '/view-nomina/insert_deportista_rep.php';
+        include __DIR__ . '/layouts/main.php';
+        }else {
+            $permitido=1;
+            $title = "Registro Deportista";
+            $content = __DIR__ . '/view-nomina/insert_deportista_rep.php';
+            include __DIR__ . '/layouts/main.php';
+        }break;
 }
 

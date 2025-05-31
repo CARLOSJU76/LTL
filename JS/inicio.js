@@ -20,6 +20,8 @@ let opciones = [
     {id_perfil: 2, valor: 'trainer_manage', texto: 'Sesiones de Entrenamiento' },
     {id_perfil: 1, valor: 'list_deportista_Rep', texto: 'Deportistas' },
     {id_perfil: 1, valor: 'list_entrenadores_Rep', texto: 'Entrenadores' },
+    {id_perfil: 1, valor: 'insert_deportista_Rep', texto: 'Registro de Deportistas' },
+    //{id_perfil: 1, valor: 'insert_entrenador_Rep', texto: 'Registro de Entrenadores' },
     {id_perfil: 0, valor: 'sport_manage', texto: 'Detalles de nómina' },
     {id_perfil: 0, valor: 'club_manage', texto: 'Gestion de Clubes' },
     {id_perfil: 0, valor: 'elements_manage', texto: 'Gestor de Elementos' },

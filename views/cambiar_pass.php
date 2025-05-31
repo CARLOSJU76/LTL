@@ -8,7 +8,7 @@
 <!--<?php echo htmlspecialchars($usuario); ?> tEXTO PAR AGREGAR EN EL HIDDEN-->
 
 <div id="fondo_cambiar_pass">
-        <h3 style="color:white;"><?php echo htmlspecialchars($email_user); ?> <?php echo htmlspecialchars($perfil); ?> </h3>
+        <h3 style="color:white; letter-spacing:0.3rem; font-weight:lighter; font-style:italic; font-family: 'Courier New', Courier, monospace;"><?php echo htmlspecialchars($email_user); ?></h3>
         <form action="index.php?action=cambiar_pass" method="POST" id="form_cambiar_pass">
             <h3 style="font-weight: lighter; letter-spacing:0.3rem;">Cambiar contraseña</h3>
             <input class="select-cambiar_pass" type="hidden" name="email" value="<?php echo htmlspecialchars($email_user)?>"><br> 
