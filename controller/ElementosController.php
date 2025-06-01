@@ -264,17 +264,19 @@ public function insertCategoriaxEdad() {
             $target_file = $target_dir . basename($pdf);
             move_uploaded_file($_FILES["estados_pdf"]["tmp_name"], $target_file);
     
-            if($this->eleModel->cargarEstados($nualidad, $pdf)) {
-                return[
-                    'msg' => "El documento fue cargado exitosamente. =)",
-                    'tipo' => 'success'
-                ];
-            } else {
-               return [
-                    'msg' => "Hubo un error al cargar el documento. =(",
-                    'tipo' => 'error'
-                ];
-            }
+            return$this->eleModel->cargarEstados($nualidad, $pdf);
+        }
+    }
+    public function updateEstados(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id_estado = $_POST['id_estado'];
+        
+            $pdf = $_FILES['estados_pdf']['name'];
+            $target_dir = "pdfs/";
+            $target_file = $target_dir . basename($pdf);
+            move_uploaded_file($_FILES["estados_pdf"]["tmp_name"], $target_file);
+    
+            return$this->eleModel->updateEstados( $pdf, $id_estado);
         }
     }
 //===============================================================================================================

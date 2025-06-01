@@ -302,13 +302,11 @@ case 'delete_session':
             $permitido = 2;
             $sesiones = $eleControl->listSessionsForAttendance($fechaA);
             $resultado = $depoControl->listDeportistas();
-              $deports= $resultado['data'];
+            $deports= $resultado['data'];
             $estimulos = $eleControl->getEstimulos();
                // Define título y contenido para el layout
-               $title = "Registrar Asistencia 2";
+               $title = "Registrar Asistencia";
                $content = __DIR__ . '/view_sesiones/registro_asistencias.php';
-
-               // Incluye la plantilla base que carga el header, contenido y footer
                include __DIR__ . '/layouts/main_sesiones.php';
         }break;
 //========================================================================================================
@@ -904,7 +902,7 @@ case 'delete_lugar':
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-            $permitido = 4;   
+            $permitido = 0;   
             $eventos= $eventControl->listEventos();
             $title = "Consultar Eventos Finalizados";
             $content = __DIR__ . '/view-events/list_events.php';
@@ -926,9 +924,9 @@ case 'delete_lugar':
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-            $permitido = 4;   
+            $permitido = 0;   
             $resultado= $eventControl->buscarEvento();
-            $eventos=$resultado['data'];
+            $eventos=$resultado['data'] ?? [];
             $_SESSION['msg'] = $resultado['msg'];
             $_SESSION['tipo'] = $resultado['tipo'];  
             $title = "Consultar Eventos";
@@ -991,7 +989,7 @@ case 'delete_lugar':
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
-                $permitido = 4;   
+                $permitido = 0;   
         
                 $resultado=$eventControl->registrarActuacion();
                 $_SESSION['msg']= $resultado['msg'];
@@ -1001,7 +999,7 @@ case 'delete_lugar':
                 $redirect = $_SERVER['HTTP_REFERER'];  
                 header("Location: $redirect ");
             }else{
-                $permitido = 4;   
+                $permitido = 0;   
                 $eventos= $eventControl->getEventos();// -> función para listar eventos
                 $deportistas= $depoControl->listSportman();
                 $modalidades= $eleControl->getModalidades(); //-> función para listar modalidades
@@ -1111,6 +1109,25 @@ case 'ver_estados':
         include __DIR__ . '/layouts/main.php';
     }break;
 //=======================================================================================================
+case 'update_estados':
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0;
+        $resultado = $eleControl->updateEstados();
+        $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';
+        $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
+        header("Location: index.php?action=update_estados");
+        exit();
+    }else{
+        $permitido = 0;
+        $estadosf= $eleControl->listarEstadosF();
+        $title = "Actualizar Estados Financieros";
+        $content = __DIR__ . '/view_plataforma/update_estadosf.php';
+        include __DIR__ . '/layouts/main_plataforma.php';
+    }break;
+//=======================================================================================================
 case 'ver_estadosf':
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $permitido = -1;
@@ -1155,6 +1172,7 @@ case 'update_mision':
         exit();
     }else{
         $permitido = 0;
+        $mision= $eleControl->getMision();
         $title = "Consultar Actuaciones por Evento";
         $content = __DIR__ . '/view_plataforma/update_mision.php';
         include __DIR__ . '/layouts/main_plataforma.php';
@@ -1174,6 +1192,7 @@ case 'update_vision':
         exit();
     }else{
         $permitido = 0;
+         $vision= $eleControl->getVision();
         $title = "Consultar Actuaciones por Evento";
         $content = __DIR__ . '/view_plataforma/update_vision.php';
         include __DIR__ . '/layouts/main_plataforma.php';

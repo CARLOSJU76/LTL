@@ -69,10 +69,10 @@
                   $arrayDep= $deporCon->listSportman();
 
                     foreach($arrayDep as $deporre1){
-                        echo"<option value='".htmlspecialchars($deporre1['id'])."'>".
-                        htmlspecialchars($deporre1['nombres']) ."  ".
-                        htmlspecialchars($deporre1['apellidos']) .
-                        "</option>";
+                        echo"<option value='".htmlspecialchars($deporre1['id'])."'>
+                        ".htmlspecialchars($deporre1['nombres']) ."  
+                        ".htmlspecialchars($deporre1['apellidos']) ."
+                        </option>";
                     }
                 ?>
             </select><br>

@@ -3,7 +3,7 @@
        
         <form action="index.php?action=update_mision" method="post" class="formulario" id="formulario"onsubmit="validarFormulario(event)">
             <h2>Actualizace la Misión:</h2>    
-            <textarea name="nueva_mision" placeholder="Actualice aquí la misión" id="text_mision"></textarea>
+            <textarea name="nueva_mision" placeholder="Actualice aquí la misión" id="text_mision">   <?php echo $mision['mision']  ?></textarea>
             <input type="submit" value="Actualizar Misión" id="boton_update_mision">
         </form>
         
@@ -37,7 +37,8 @@
             width: 90%;
             height:100%;
             margin: 0.5em;
-            font-size: italic;
+            font-size: 1rem;
+            font-style: italic;
         }
         #boton_update_mision{
             background: linear-gradient(to bottom, #ffd700, white);

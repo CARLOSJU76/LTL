@@ -47,7 +47,9 @@
         }
 //=================================================================================================================
 public function buscarEvento($id_event) {
-    $consulta = "SELECT eventos.codigo AS id_ev, tipo_evento.tipo_evento AS tipoEv,
+    try{
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = "SELECT eventos.codigo AS id_ev, tipo_evento.tipo_evento AS tipoEv,
                 eventos.nombre_Evento AS nombreEv, eventos.fecha_Evento AS fechaEv,
                 ciudad.ciudad AS ciudadEv, departamento.departamento AS dptoEv,
                 pais.pais AS paisEv, categoriaxedad.categoria AS cateEv 
@@ -59,17 +61,40 @@ public function buscarEvento($id_event) {
                 INNER JOIN categoriaxedad ON eventos.codigo_categoriaxEdad= categoriaxedad.id
                 WHERE eventos.codigo = ?" ;
     
-    $stmt = $this->conn->prepare($consulta);
-    $stmt->execute([$id_event]);
+        $stmt = $this->conn->prepare($consulta);
+
+         if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+        if( $stmt->execute([$id_event]) ){
+            $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
+// echo "<pre style='background-color: #f0f0f0; padding: 10px; border-radius: 5px;'>";
+// print_r($resultado);
+// echo "</pre>";
+                    return [
+                        'msg' => "La búsqueda ha dado resultados: ",
+                        'tipo' => "success",
+                        'data' => $resultado
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
     
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Verificar si se obtuvieron resultados
-    if (count($result) > 0) {
-        return ['tipo' => "success", 'msg'=>"La operación ha dado resultados.", 'data' => $result];
-    } else {
-        return ['tipo' => "error", 'msg' => 'No se encontraron se encontraro eventos.'];
-    }
+    }catch (PDOException $e) {
+                error_log("Error al buscar datos del evento: " . $e->getMessage());
+                return [
+                    'msg' => "Error al buscar datos del evento: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
 }
 //=============================================================================================================    
 public function deleteEvento($id_evento) {

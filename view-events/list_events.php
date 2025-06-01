@@ -54,13 +54,17 @@
     <select name="id_evento" id="id_evento" class="form-select" required>
         <option value="">Elija el Evento</option>
         <?php
-            foreach($eventos as $event){
-                if(strtotime($event['fechaEv']) < strtotime($fechaA)){
-                    echo"<option value='".htmlspecialchars($event['id_ev'])."'>
-                    ". htmlspecialchars($event['nombreEv']) ."  
-                    </option>";
-                }
-            }
+                  include_once './controller/EventController.php';
+                  $objeto= new EventController(); 
+                  $arrayEv= $objeto->listEventos();
+
+                    foreach($arrayEv as $event1){
+                             if(strtotime($event1['fechaEv']) < strtotime($fechaA)){
+                                echo"<option value='".htmlspecialchars($event1['id_ev'])."'>
+                                        ". htmlspecialchars($event1['nombreEv']) ."
+                                    </option>";
+                            }
+                        }
         ?>
     </select><br>
     <input type="submit" value="Buscar Evento" id="buscar_club">        

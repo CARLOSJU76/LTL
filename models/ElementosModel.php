@@ -165,16 +165,29 @@ public function insertAgeCat($categoriaxEdad){
         }
         public function cargarEstados($nualidad, $pdf){
             try{$consulta =("INSERT INTO estadosf (nualidad, pdf) VALUES (?, ?)");
-            $resultado=$stmt= $this->conn->prepare($consulta);
-            $stmt->execute([$nualidad, $pdf]);
-            if ($resultado) {
-                return true;
-        } else {
-                return false;
-        }
+            $stmt= $this->conn->prepare($consulta);
+            
+            if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+             if( $stmt->execute([$nualidad, $pdf])){
+                    return [
+                        'msg' => "El documento fue registrado exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
             }catch (PDOException $e) {
                 // Capturamos cualquier error de base de datos y lo retornamos.
-                            error_log("Error al insertar deportista: " . $e->getMessage());
+                            error_log("Error al tratar de registrar el documento: " . $e->getMessage());
                             return false;
             }
 
@@ -183,6 +196,38 @@ public function insertAgeCat($categoriaxEdad){
             $consulta= "SELECT * FROM estadosf";
             $stmt= $this->conn->query($consulta);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public function updateEstados($pdf, $id){
+            try{ 
+                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $consulta = "UPDATE estadosf SET pdf= ? WHERE id= ?";
+                $stmt= $this->conn->prepare($consulta);
+               
+            if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+             if( $stmt->execute([$pdf, $id])){
+                    return [
+                        'msg' => "El documento fue actualizado exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+            } catch (PDOException $e) {
+        error_log("Error al trata de actualizar el documento: " . $e->getMessage());
+        return [
+            'msg' => "Error al tratar de actualizar el documento: " . $e->getMessage(),
+            'tipo' => "error"
+        ];
+    }
         }
         public function getEstadosById($id){
             $consulta="SELECT nualidad, pdf FROM estadosf WHERE id= ?";

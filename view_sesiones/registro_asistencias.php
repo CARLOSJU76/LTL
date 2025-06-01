@@ -1,16 +1,6 @@
-<!-- <pre>
-<?php
-    echo "Valor de \$fechaA: ";
-    var_dump($fechaA);
-    echo "Sesiones:";
-    var_dump($sesiones);
-    echo "Deportistas:";
-    var_dump($deports);
-?>
-</pre> -->
 
 <div id="contenedor-general">
-    <h3 style="color: #D4AF37;" id="sitio">LTL WebSite</h3>
+    <h3 style="color: #D4AF37;" id="sitio">LTL WebSite--</h3>
    
     <?php if (!empty($sesiones) && !empty($deports)): ?>
     <div id="contenedor_form"> 
@@ -53,14 +43,8 @@
     </div>
 
     <?php else: ?>
-
-        
-        
-        <!-- <form id="attendanceForm" action="index.php" method="get">
-            <input type="hidden" name="action" value="attendance_register">
-            <input type="hidden" name="user_email" id="user_email">
-            <button type="submit">Registrar asistencia</button>
-        </form> -->
+        <p style=" padding: 0.3rem; background-color:#D4AF37; color: #4A0D0D; letter-spacing: 0.2rem; font-style: italic; font-weight: lighter;">No hay sesiones de entrenamiento o deportistas disponibles.</p>
+   
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {

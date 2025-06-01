@@ -7,17 +7,19 @@
             <h2>Registro de Actuaciones</h2>
                 <!-- Selección de evento -->
             <label for="codigo_evento">Evento:</label>
-            <select name="codigo_evento" id="codigo_evento" required>
-                <option value="">Selecciona un evento</option>
-                <?php foreach ($eventos as $evento): ?>
-                    <?php if($evento['fecha_Evento'] < $fechaA):?>
-                <option value="<?= $evento['codigo'] ?>">
-                    <?= htmlspecialchars($evento['nombre_Evento']) ?>
-                </option>
-                <?php endif; ?>
-                <?php endforeach; ?>
-            </select>
-            <input type="hidden" id="id_ce_evento_seleccionado" value="">
+           <select name="codigo_evento" id="codigo_evento" required>
+    <option value="">Selecciona un evento</option>
+    <?php foreach ($eventos as $evento): ?>
+        <?php if($evento['fecha_Evento'] < $fechaA):?>
+            <option value="<?= $evento['codigo'] ?>" 
+                    data-categoria="<?= $evento['codigo_categoriaxEdad'] ?>">
+                <?= htmlspecialchars($evento['nombre_Evento']) ?>
+            </option>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</select>
+<input type="hidden" id="id_ce_evento_seleccionado">
+
 
         <hr>
 
@@ -122,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Capturar el id_ce del evento seleccionado
     document.getElementById('codigo_evento').addEventListener('change', function () {
         const selected = this.options[this.selectedIndex];
-        const id_ce = selected.getAttribute('data-id_ce');
+        const id_ce = selected.getAttribute('data-categoria');
         idCeInput.value = id_ce;
     });
 

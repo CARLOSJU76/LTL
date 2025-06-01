@@ -6,7 +6,9 @@
         <select name="codigo_evento" id="select-consulta">
             <option value="">Seleccione el Evento que desea Analizar</option>
             <?php foreach ($eventos as $evento): ?>
+                  <?php if(strtotime($evento['fecha_Evento']) < strtotime($fechaA)):?>
                 <option value="<?php echo $evento['codigo']; ?>"><?php echo $evento['nombre_Evento']  ?></option>
+                    <?php endif; ?>
             <?php endforeach; ?>
         </select>
         <input type="submit" value="Ver Resultados del Evento" id="submit-consulta">

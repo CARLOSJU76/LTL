@@ -302,11 +302,7 @@ $pais, $dep, $ciudad, $direccion, $telefono, $email, $modalidad, $club,$foto, $i
                         'tipo' => "error"
                     ];
                 }
-            
-
-
-
-}catch (PDOException $e) {
+    }catch (PDOException $e) {
                 error_log("Error al actualizar datos del deportista: " . $e->getMessage());
                 return [
                     'msg' => "Error al actualizar datos del deportista: " . $e->getMessage(),

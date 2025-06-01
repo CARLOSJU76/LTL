@@ -4,7 +4,7 @@
         <form action="index.php?action=update_vision" method="post" class="formulario" id="formulario" onsubmit="validarFormulario(event)">
             <h2>Actualizace la Visión:</h2>    
              <textarea name="nueva_vision" placeholder="Actualice aquí la Visión" id="text_vision">
-            </textarea>
+            <?php echo $vision['vision']?></textarea>
             <input type="submit" value="Actualizar Visión" id="boton_update_vision">
 
         </form>
@@ -35,11 +35,12 @@
             border-radius: 4px;
             border:solid 1px #4A0D0D ;
         }
-        textarea{
+         textarea{
             width: 90%;
             height:100%;
             margin: 0.5em;
-            font-size: italic;
+            font-size: 1rem;
+            font-style: italic;
         }
         #boton_update_vision{
             background: linear-gradient(to bottom, #ffd700, white);
