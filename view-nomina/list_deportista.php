@@ -60,6 +60,8 @@
 <!-- ================================================================================================================ -->
         <form action="index.php?action=search_deportista" method="get" id="form_buscar_club">
             <input type="hidden" name="action" value="search_deportista">
+            <inout type="hidden" name="desde" values="perfil_adm">
+            <input type="hidden" name="viene_de" value="deportista_Adm">
 
             <select name="id_dep" id="id_rep" class="form-select" required>
                 <option value="">Elija el Deportista</option>

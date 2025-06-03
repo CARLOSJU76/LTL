@@ -51,6 +51,20 @@
             background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
             background-repeat: no-repeat;
         }
+        #select-estados{
+            width: 16rem;
+            margin: 0.2rem;
+            font-family: 'Courier New', Courier, monospace;
+            color:blacK;
+            font-style: italic;
+            font-weight: lighter;
+            font-size: 1.2rem;
+            letter-spacing: 0.3rem;
+            justify-content: center;
+            background-color: white;
+            border: gold solid 1px;
+            border-radius: 3px;
+        }
         .botones{
             display:flex;
             align-items:center;
@@ -58,17 +72,25 @@
             border: gold solid 1px;
             color:gold;
             font-family: 'Courier New', Courier, monospace;
+            font-style: italic;
+            letter-spacing: 0.2rem;
             border-radius:3px;
             margin:0.2rem;
-            width: 8rem;
-        
+            width: 15rem;
             justify-content:center;
             padding:1%;
-            
-    cursor: pointer;
+            cursor: pointer;
         }
         input[type="file"] {
     display: none;
+    }
+    #label-input, #submit-input {
+        font-size: 1rem;
+    }
+    #submit-input:hover, #label-input:hover {
+        background-color: gold;
+        color: black;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
     </style>
 

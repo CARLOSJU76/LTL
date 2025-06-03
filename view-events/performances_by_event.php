@@ -38,6 +38,10 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <form action="index.php?" method="get" id="formulario">
+            <input type="hidden" name="user_email" id="user_email_input"> <!-- Input oculto para el email -->
+            <button id="boton_volver" type="submit" name="action" value="show_performanceByEvent">Hacer otra consulta</button>
+        </form>
     </div>
     <?php elseif (isset($performances['success']) && !$performances['success']): ?>
         <p style="color: orange; font-style: italic;"><?= htmlspecialchars($performances['msg']) ?></p>
@@ -100,6 +104,10 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     #contenedor_table h2 {
@@ -139,5 +147,20 @@
         font-weight: bold;
         color: #4A0D0D;
     }
+    #boton_volver{
+    margin-top: 1rem;
+     background-color: #4A0D0D;
+    color:#D4AF37;
+    border: #D4AF37 solid 1px;
+    font-style: italic;
+    font-size: 1rem;
+    border-radius: 3px;
+    padding: 0.4rem;
+}
+.delete-boton:hover, #boton_volver:hover, .form-boton:hover{
+    background-color: #d4af37;
+    color:#4A0D0D;
+    border: #4A0D0D;
+}
 </style>
     

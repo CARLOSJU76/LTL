@@ -19,7 +19,7 @@
     <div id="div-h2"><h3 style="color:#D4AF37;">LTL Website</h3></div>
        
         <!-- Formulario dentro de una tabla centrada -->
-        <form action="index.php?action=insert_deportista" method="post" id="formulario_inserclubes" enctype="multipart/form-data">
+        <form action="index.php?action=insert_deportista_Rep" method="post" id="formulario_inserclubes" enctype="multipart/form-data">
             <table class="table" id="tabla_inser_clubes">
                 <thead>
                     <tr>
@@ -30,7 +30,7 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <input type="text" name="nombre" id="nombre" placeholder="Nombre del dirigente" class="form-control" required>
+                                <input type="text" name="nombre" id="nombre" placeholder="Nombre del deportista" class="form-control" required>
                             </div>
                         </td>
                     </tr>

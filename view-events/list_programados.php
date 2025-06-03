@@ -49,6 +49,7 @@
 <!-- ================================================================================================================ -->
         <form action="index.php?action=search_event" method="get" id="form_buscar_club">
             <input type="hidden" name="action" value="search_event">
+            <input type="hidden" name="viene_de" value="programados">
             <select name="id_evento" id="id_evento" class="form-select" required>
                 <option value="">Elija el Evento</option>
                     <?php

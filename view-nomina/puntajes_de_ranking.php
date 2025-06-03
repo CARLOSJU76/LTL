@@ -130,9 +130,9 @@ $opcionSeleccionada = $_SESSION['opcion'] ?? '';
         </select>
          <label id="label-id" for="idDeportista">Consulta el puntaje de los deportistas por asistencias y eventos.</label>
         <div id="submit-buttons">
-            <button type="submit" name="action" id="xasistencia">Puntaje por Asistencias</button>
-            <button type="submit" name="action" id="xeventos">Puntaje por Eventos</button>    
-            <button type="submit" name="action" id="xtotal">Puntaje de Ranking Global</button>  
+            <button type="submit" name="action" id="xasistencia" class="botones-ranking">Puntaje por Asistencias</button>
+            <button type="submit" name="action" id="xeventos" class="botones-ranking">Puntaje por Eventos</button>    
+            <button type="submit" name="action" id="xtotal" class="botones-ranking">Puntaje de Ranking Global</button>  
         </div>
         
         </form>
@@ -207,6 +207,21 @@ $opcionSeleccionada = $_SESSION['opcion'] ?? '';
 
 #tabla-ranking tr:hover {
     background-color: #5E1A1A; /* hover para filas */
+}
+ .botones-ranking{
+    margin-top: 1rem;
+     background-color: #4A0D0D;
+    color:#D4AF37;
+    border: #D4AF37 solid 1px;
+    font-style: italic;
+    font-size: 1rem;
+    border-radius: 3px;
+    padding: 0.4rem;
+}
+.botones-ranking:hover{
+    background-color: #d4af37;
+    color:#4A0D0D;
+    border: #4A0D0D;
 }
 
     </style>

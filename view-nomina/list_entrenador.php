@@ -58,6 +58,8 @@
 <!-- ================================================================================================================ -->
       <form action="index.php?action=search_entrenador" method="get" id="form_buscar_club">
     <input type="hidden" name="action" value="search_entrenador">
+    <input type="hidden" name="desde" value="perfil_admin">
+    <input type="hidden" name="viene_de" value="entrenador_adm">
     
         
         <select name="id_ent" id="id_ent" class="form-select" required>

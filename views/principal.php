@@ -95,6 +95,7 @@ session_start();
                         </select>
                     </form>
                     <form id="perfil-administrador"  class="opciones_inactivas">
+                        <input type="hidden" name="desde" value="perfil_inicio">
                         <select name="action" id="select-admin" class="opciones_activas">
                             <!-- <option value="" disabled selected>Opciones de Administrador</option>
                             <option class="option"  value="club_manage">Gestión de clubes</option>

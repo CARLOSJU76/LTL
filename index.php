@@ -428,11 +428,24 @@ case 'search_deportista':
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=0;
+    $viene_de=$_GET['viene_de'];
+    $desde=$_GET['desde'] ?? 'perfil_inicio';
+    if($desde=="perfil_admin"){
+         $permitido=0;
+    }else{
+        $permitido=1;
+    }
+   
     $deportistas= $depoControl->buscarDeportista();
-     $title = "Actualizar Eventos";
-    $content = __DIR__ . '/view-nomina/list_deportista.php';
-    include __DIR__ . '/layouts/main_deportista.php';
+     $title = "Actualizar Datos de Deportista";
+   
+    if($viene_de=="deportista_Rep"){
+         $content = __DIR__ . '/view-nomina/list_deportista_Rep.php';
+        include __DIR__ . '/layouts/main.php';
+    }elseif($viene_de== "deportista_Adm"){
+         $content = __DIR__ . '/view-nomina/list_deportista.php';
+         include __DIR__ . '/layouts/main_deportista.php';
+    }
     break;
 //================================================================================================================
 case 'update_deportista':
@@ -532,11 +545,23 @@ case 'search_entrenador':
      if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    $permitido=0;
+    $viene_de=$_GET['viene_de'];
+    $desde=$_GET['desde'] ?? 'perfil_inicio';
+    if($desde=="perfil_admin"){
+        $permitido=0;
+    }else{
+        $permitido=1;
+    }
     $entrenadores= $depoControl->buscarEntrenador();
     $title = "Datos del Entrenador";
-    $content = __DIR__ . '/view-nomina/list_entrenador.php';
-    include __DIR__ . '/layouts/main_deportista.php';
+    if ($viene_de=="entrenador_rep"){
+          $content = __DIR__ . '/view-nomina/list_entrenador_Rep.php';
+           include __DIR__ . '/layouts/main.php';
+    }elseif($viene_de=="entrenador_adm"){
+        $content = __DIR__ . '/view-nomina/list_entrenador.php';
+        include __DIR__ . '/layouts/main_deportista.php';
+    }
+   
     break;
 //=============================================================================================================================
 case 'delete_entrenador':
@@ -913,7 +938,7 @@ case 'delete_lugar':
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-            $permitido = 4;   
+            $permitido = 0;   
             $eventos= $eventControl->listEventos();
             $title = "Consultar Eventos Programados";
             $content = __DIR__ . '/view-events/list_programados.php';
@@ -924,13 +949,18 @@ case 'delete_lugar':
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
+            $viene_de=$_GET['viene_de'];
             $permitido = 0;   
             $resultado= $eventControl->buscarEvento();
             $eventos=$resultado['data'] ?? [];
             $_SESSION['msg'] = $resultado['msg'];
             $_SESSION['tipo'] = $resultado['tipo'];  
             $title = "Consultar Eventos";
-            $content = __DIR__ . '/view-events/list_events.php';
+            if($viene_de == "programados"){
+                $content = __DIR__ . '/view-events/list_programados.php';
+            }elseif($viene_de== "finalizados"){
+                 $content = __DIR__ . '/view-events/list_events.php';
+            }
             include __DIR__ . '/layouts/main_eventos.php';
             break;
 //================================================================================================================
@@ -1014,7 +1044,7 @@ case 'delete_lugar':
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
-            $permitido = 4;   
+            $permitido = 0;   
             $resultado = $eventControl->showPerformanceByEvent();
         
             // Verifica si el resultado es un array y contiene las claves esperadas
@@ -1026,7 +1056,7 @@ case 'delete_lugar':
                 if (session_status() === PHP_SESSION_NONE) {
                 session_start();
                 }
-                $permitido = 4;   
+                $permitido = 0;   
                 // Si no hay datos o hay un problema, asignamos valores predeterminados
                 $performances = [];
                 $_SESSION['msg']= "No hay registros incluidos en este evento.";
@@ -1040,7 +1070,7 @@ case 'delete_lugar':
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-            $permitido = 4;   
+            $permitido = 0;   
             $eventos = $eventControl->getEventos(); // Función para listar eventos
             $title = "Consultar Actuaciones por Evento";
             $content = __DIR__ . '/view-events/performances_by_event.php';
@@ -1224,6 +1254,8 @@ case 'list_sessionById':
             $content = __DIR__ . '/view_sesiones/list_sesiones.php';
             include __DIR__ . '/layouts/main_sessiones_deportista.php';
         }break; 
+//=========================================================================================================
+
 
    
     case 'list_sesion_by_sport':
@@ -1247,6 +1279,33 @@ case 'list_sessionById':
                 $eleControl->obtenerCategoriasxPeso();
                 exit();
             }break;
+//=========================================================================================
+case 'list_sessionById_dep':
+      if($_SERVER['REQUEST_METHOD']=='POST'){
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 3;
+            $resultado=$eleControl->listSessionbyTrainer($fechaA, $horaA);
+              $entrenadores=$depoControl->getEntrenadores();
+            $sesiones = $resultado['data'] ?? [];
+            $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';
+            $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
+
+            $title = "Sesiones por Entrenador";
+            $content = __DIR__ . '/view_sesiones/list_sesiones_dep.php';
+            include __DIR__ . '/layouts/main_sessiones_deportista.php';
+
+        }else{
+             if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 3;
+            $entrenadores=$depoControl->getEntrenadores();
+             $title = "Sesiones por Entrenador";
+            $content = __DIR__ . '/view_sesiones/list_sesiones_dep.php';
+            include __DIR__ . '/layouts/main_sessiones_deportista.php';
+        }break; 
 //=========================================================================================
             case 'rankingx_eventos':
             if($_SERVER['REQUEST_METHOD']=='POST'){

@@ -14,7 +14,7 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <input type="text" name="nombre" id="nombre" placeholder="Nombre del dirigente" class="form-control" required>
+                                <input type="text" name="nombre" id="nombre" placeholder="Nombre del deportista" class="form-control" required>
                             </div>
                         </td>
                     </tr>

@@ -8,7 +8,7 @@
                     <select name="action" id="select-elementos" class="form-select form-select-lg" onchange="this.form.submit()">
                         <option value="" disabled selected>Ver Sesiones Programadas</option> <!-- Opción predeterminada -->
                         <option value="proximas_xsite">Ver sesiones por Escenario</option>
-                        <option value="list_sessionById">Buscar Sesiones por Entrenador</option>
+                        <option value="list_sessionById_dep">Buscar Sesiones por Entrenador</option>
                         
                     </select>
             </div>   
