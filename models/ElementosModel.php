@@ -688,7 +688,84 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
         $stmt->execute([$id_ce, $id_mod]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
+    public function sliderItems() {
+        $consulta = "SELECT * FROM slider_items ORDER BY creado_en DESC";
+        $stmt = $this->conn->query($consulta);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function procesarSlider($tipo, $archivo) {
+        try { //$stmt = $conexion->prepare("INSERT INTO slider_items (tipo, archivo) VALUES (?, ?)");
+            $consulta = "INSERT INTO slider_items (tipo, archivo) VALUES (?, ?)";
+            $stmt = $this->conn->prepare($consulta);
+            if ($stmt->execute([$tipo, $archivo])) {
+                return [
+                    'msg' => "El archivo se ha subido correctamente.",
+                    'tipo' => "success"
+                ];
+            } else {
+                return [
+                    'msg' => "Error al subir el archivo.",
+                    'tipo' => "error"
+                ];
+            }
+        } catch (PDOException $e) {
+            error_log("Error al procesar el slider: " . $e->getMessage());
+            return [
+                'msg' => "Error al procesar el slider: " . $e->getMessage(),
+                'tipo' => "error"
+            ];
+        }
+    }
+    public function toggleSliderItem($id) {
+        try {
+            $consulta = "UPDATE slider_items SET activo = NOT activo WHERE id = ?";
+            $stmt = $this->conn->prepare($consulta);
+            if ($stmt->execute([$id])) {
+                return [
+                    'msg' => "El estado del slider ha sido actualizado correctamente.",
+                    'tipo' => "success"
+                ];
+            } else {
+                return [
+                    'msg' => "Error al actualizar el estado del slider.",
+                    'tipo' => "error"
+                ];
+            }
+        } catch (PDOException $e) {
+            error_log("Error al activar/desactivar el slider: " . $e->getMessage());
+            return [
+                'msg' => "Error al activar/desactivar el slider: " . $e->getMessage(),
+                'tipo' => "error"
+            ];
+        }
+    }
+    public function deleteSliderItem($id) {
+        try {
+            $consulta = "DELETE FROM slider_items WHERE id = ?";
+            $stmt = $this->conn->prepare($consulta);
+            if ($stmt->execute([$id])) {
+                return [
+                    'msg' => "El archivo del slider ha sido eliminado correctamente.",
+                    'tipo' => "success"
+                ];
+            } else {
+                return [
+                    'msg' => "Error al eliminar el archivo del slider.",
+                    'tipo' => "error"
+                ];
+            }
+        } catch (PDOException $e) {
+            error_log("Error al eliminar el slider: " . $e->getMessage());
+            return [
+                'msg' => "Error al eliminar el slider: " . $e->getMessage(),
+                'tipo' => "error"
+            ];
+        }
+    }
+    public function getSliderItems() { //("SELECT * FROM slider_items WHERE activo = 1 ORDER BY creado_en DESC")
+        $consulta = "SELECT * FROM slider_items WHERE activo=1  ORDER BY creado_en DESC";
+        $stmt = $this->conn->query($consulta);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

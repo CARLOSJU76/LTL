@@ -1490,5 +1490,47 @@ case 'lista_ranking':
             $content = __DIR__ . '/view-nomina/insert_deportista_rep.php';
             include __DIR__ . '/layouts/main.php';
         }break;
+    case 'slider_items':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0;   
+        $items= $eleControl->sliderItems();
+        $title = "Administrar Slider";
+        $content = __DIR__ . '/view-elementos/admin_slider.php';
+        include __DIR__ . '/layouts/main_elementos.php';
+        break;
+    case 'procesar_slider':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $permitido = 0;   
+            $resultado = $eleControl->procesarSlider();
+            $_SESSION['msg'] = $resultado['msg'];
+            $_SESSION['tipo'] = $resultado['tipo'];
+            header("Location: index.php?action=slider_items");
+            exit();
+        }break;
+    case 'toggle_slider':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0;   
+        $resultado = $eleControl->toggleSlider();
+        $_SESSION['msg'] = $resultado['msg'];
+        $_SESSION['tipo'] = $resultado['tipo'];
+        header("Location: index.php?action=slider_items");
+        exit();
+    case 'eliminar_slider':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0;   
+        $resultado = $eleControl->deleteSliderItem();
+        $_SESSION['msg'] = $resultado['msg'];
+        $_SESSION['tipo'] = $resultado['tipo'];
+        header("Location: index.php?action=slider_items");
+        exit();
 }
 

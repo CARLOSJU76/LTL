@@ -11,6 +11,7 @@
             <option value="list_elements">Consultar Categorías</option>
             <option value="delete_elements">Eliminar Elementos</option>
             <option value="lugar_entrenamiento">Lugares de Entrenamiento</option>
+            <option value="slider_items">Administrar Slider</option>
         </select>      
     </form>
 </div>

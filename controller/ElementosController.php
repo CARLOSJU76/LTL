@@ -617,8 +617,53 @@ public function insertCategoriaxEdad() {
             header('Content-Type: application/json');
             echo json_encode($categorias);
         }
+        public function sliderItems(){
+            return $this->eleModel->sliderItems();
+        }
+        public function procesarSlider() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $targetDir = "uploads/slider/";
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0755, true);
+                }
+                foreach ($_FILES['multimedia']['tmp_name'] as $i => $tmpName) {
+                $name = $_FILES['multimedia']['name'][$i];
+                $path = $targetDir . time() . '_' . basename($name);
+                $type = mime_content_type($tmpName);
+               
+                  if (move_uploaded_file($tmpName, $path)) {
+                        $tipo = str_starts_with($type, 'video') ? 'video' : 'imagen';
+                        $this->eleModel->procesarSlider($tipo, $path);
+                        return [
+                            'msg' => "El archivo $name se ha subido correctamente.",
+                            'tipo' => 'success'
+                        ];
+                  }else {
+                        return [
+                            'msg' => "Error al subir el archivo $name.",
+                            'tipo' => 'error'
+                        ];
+                    }
+            }
+        }
+        
         
     }
-
+    public function toggleSlider() {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            return $this->eleModel->toggleSliderItem($id);
+        }
+    }
+    public function deleteSliderItem() {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            return $this->eleModel->deleteSliderItem($id);
+        }
+    }
+    public function getSliderItems() {
+        return $this->eleModel->getSliderItems();
+    }
+}
 
 ?>

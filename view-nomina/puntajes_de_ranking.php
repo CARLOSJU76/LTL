@@ -119,7 +119,7 @@ $opcionSeleccionada = $_SESSION['opcion'] ?? '';
 <?php endif; ?>
 
             
-        <select name="idDeportista" id="idDeportista">
+        <select name="idDeportista" id="idDeportista" required>
            <option value="">Elija el Deportista</option>
             <?php
             foreach ($deportistas as $deportista) {

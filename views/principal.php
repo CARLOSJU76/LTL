@@ -187,28 +187,23 @@ if (isset($_SESSION['msg1'], $_SESSION['tipo1'])) {
 
     <!-- Sección de slider -->
      <!-- ========================================================================================= -->
-    <div class="slider">
+   <div class="slider">
+    <!-- <?php include_once "./controller/ElementosController.php";
+        $objeto= new ElementosController();
+        $items = $objeto->getSliderItems();
+    ?> -->
+    <?php foreach ($items as $item): ?>
         <div class="slide">
-            <img src="./IMG/LTL/mat.jpg" alt="imagen1" id="imagen-img">
-            <button class="prev"onclick="prevSlide()">&#10094</button>
-            <button class="next"onclick="nextSlide()">&#10095</button>
+            <?php if ($item['tipo'] === 'video'): ?>
+                <video src="<?= $item['archivo'] ?>" autoplay muted loop class="slider-media"></video>
+            <?php else: ?>
+                <img src="<?= $item['archivo'] ?>" alt="slider" class="slider-media">
+            <?php endif; ?>
+            <button class="prev" onclick="prevSlide()">&#10094;</button>
+            <button class="next" onclick="nextSlide()">&#10095;</button>
         </div>
-        <div class="slide">
-            <img src="IMG/LTL/dark-mat.jpg" alt="imagen2" id="imagen-img">
-            <button class="prev"onclick="prevSlide()">&#10094</button>
-            <button class="next"onclick="nextSlide()">&#10095</button>
-        </div>
-        <div class="slide">
-            <img src="IMG//LTL/renteria.jpg" alt="imagen3" id="imagen-img">
-            <button class="prev"onclick="prevSlide()">&#10094</button>
-            <button class="next"onclick="nextSlide()">&#10095</button>
-        </div>
-        <div class="slide">
-            <img src="IMG//LTL/luchafemenil.jpg" alt="imagen3" id="imagen-img">
-            <button class="prev"onclick="prevSlide()">&#10094</button>
-            <button class="next"onclick="nextSlide()">&#10095</button>
-        </div>
-    </div>
+    <?php endforeach; ?>
+</div>
 </div>
 
 <!-- FORMULARIO LOGIN -->

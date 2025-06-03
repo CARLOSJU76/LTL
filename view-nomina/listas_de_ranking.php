@@ -15,6 +15,7 @@
             $foto=$top['foto'] ?? "IMG/LTL/no_foto.png"; // Ruta por defecto si no hay foto
             $puntaje=$top['puntos_ranking'];
         ?>
+        <?php if ($puntaje !=0): ?>
         <tr>
             <td><?= $puesto?>. </td>
             <td><?= $nombreD ?></td>
@@ -22,6 +23,7 @@
             <td><img id="fotoD" src="fotos/<?= $foto; ?>" width="50" alt="Foto" ></td>
             <td><?= $puntaje ?> puntos</td>
         </tr>
+        <?php endif; ?>
         
 <?php endforeach; ?>
         <tr>
@@ -49,6 +51,7 @@
             $foto=$top['foto'] ?? "IMG/LTL/no_foto.png"; // Ruta por defecto si no hay foto
             $puntaje=$top['puntos_eventos'];
         ?>
+         <?php if ($puntaje !=0): ?>
         <tr>
             <td><?= $puesto?>. </td>
             <td><?= $nombreD ?></td>
@@ -56,7 +59,7 @@
             <td><img id="fotoD" src="fotos/<?= $foto; ?>" width="50" alt="Foto" ></td>
             <td><?= $puntaje ?> puntos</td>
         </tr>
-       
+            <?php endif; ?>
 <?php endforeach; ?>
          <tr>
             <td colspan="6" class="td-botones">
@@ -83,6 +86,7 @@
             $foto=$top['foto'] ?? "IMG/LTL/no_foto.png"; // Ruta por defecto si no hay foto
             $puntaje=$top['puntos_asistencia'];
         ?>
+         <?php if ($puntaje !=0): ?>
         <tr>
             <td><?= $puesto?>. </td>
             <td><?= $nombreD ?></td>
@@ -90,7 +94,7 @@
             <td><img id="fotoD" src="fotos/<?= $foto; ?>" width="50" alt="Foto" ></td>
             <td><?= $puntaje ?> puntos</td>
         </tr>
-        
+            <?php endif; ?>
 <?php endforeach; ?>
         <tr>
             <td colspan="6" class="td-botones">
