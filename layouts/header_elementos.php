@@ -12,6 +12,8 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            background-color: transparent;
+            padding: 0.2rem;
         }
 
         header {
@@ -22,7 +24,7 @@
             background-color: #4A0D0D;
             color: #D4AF37;
             position: relative;
-            padding: 1rem;
+            padding: 2rem;
         }
 
         /* Botón hamburguesa */
@@ -165,6 +167,9 @@
             }
             
             }
+            main {
+    padding: 0; /* o elimínalo si no usas <main> */
+}
     </style>
 </head>
 <body>
@@ -191,7 +196,7 @@
        
     </header>
 
-    <main style="padding: 1rem;">
+    <main style="padding: 0.1rem;">
         <!-- Contenido principal aquí -->
     </main>
 

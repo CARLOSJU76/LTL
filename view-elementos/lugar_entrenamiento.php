@@ -137,7 +137,7 @@
         padding:2%;
     }
     #tabla-lugares{
-        color= #D4AF37;
+        color: #D4AF37;
     }
     #uno,#dos,#tres{
         display: flex;
@@ -183,12 +183,12 @@
     }
     .lugarE{
         width: 55%;
-        color= #D4AF37;
+        color: #D4AF37;
     }
     table{
     
         width: 100%;
-        color= #D4AF37;
+        color: #D4AF37;
         font-weight: lighter;
     }
 </style>

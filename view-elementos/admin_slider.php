@@ -1,13 +1,4 @@
-
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Administrar Slider</title>
-    <link rel="stylesheet" href="CSS/bootstrap.min.css">
-</head>
-<body>
+<div id="fondo-slide">
 <div class="container mt-5">
     <h2>Gestión de Slider</h2>
 
@@ -52,7 +43,36 @@
         </tbody>
     </table>
 </div>
+</div>
+<!-- ============================================================================ -->
 
+<link rel="stylesheet" href="CSS/bootstrap.min.css">
+<style>
+#fondo-slide{
+     width: 100%;
+        background-image: url('./IMG/LTL/renteria.jpg');
+        background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+        background-position: center center; /* Centra la imagen */
+        background-attachment: fixed; /* Hace que la imagen se quede fija al hacer scroll */
+        background-repeat: no-repeat;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+.container {
+    background-color: #4A0D0D;
+    color:#D4AF37;
+    font-style: italic;
+    border:#D4AF37 solid 2px;
+    border-radius: 5px;
+    margin: 2rem;
+}
+
+
+</style>
+<!-- ================================================================= -->
 <script>
 function addInput() {
     const container = document.getElementById('multimediaContainer');
@@ -64,5 +84,3 @@ function addInput() {
     container.appendChild(inputGroup);
 }
 </script>
-</body>
-</html>

@@ -94,9 +94,9 @@ session_start();
                             <option value="2">Inicia Sesión</option>
                         </select>
                     </form>
-                    <form id="perfil-administrador"  class="opciones_inactivas">
+                    <form id="perfil-administrador"  class="opciones_inactivas" >
                         <input type="hidden" name="desde" value="perfil_inicio">
-                        <select name="action" id="select-admin" class="opciones_activas">
+                        <select name="action" id="select-admin" class="opciones_activas" style="font-style: italic;" >
                             <!-- <option value="" disabled selected>Opciones de Administrador</option>
                             <option class="option"  value="club_manage">Gestión de clubes</option>
                             <option value="sport_manage">Deportistas y Entrenadores</option>
@@ -188,10 +188,10 @@ if (isset($_SESSION['msg1'], $_SESSION['tipo1'])) {
     <!-- Sección de slider -->
      <!-- ========================================================================================= -->
    <div class="slider">
-    <!-- <?php include_once "./controller/ElementosController.php";
+    <?php include_once "./controller/ElementosController.php";
         $objeto= new ElementosController();
         $items = $objeto->getSliderItems();
-    ?> -->
+    ?>
     <?php foreach ($items as $item): ?>
         <div class="slide">
             <?php if ($item['tipo'] === 'video'): ?>
