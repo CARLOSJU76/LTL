@@ -767,5 +767,42 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
         $stmt = $this->conn->query($consulta);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getUnidades(){
+        $consulta= "SELECT * FROM unidades";
+        $stmt=$this->conn->query($consulta);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } 
+    public function creacionDePruebas($nombre_prueba, $unidades){
+        try{
+             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+             $consulta= "INSERT INTO r1m (nombre_prueba, unidades) values (?, ?)";
+              $stmt=$this->conn->prepare($consulta);
+              $stmt->execute([$nombre_prueba, $unidades]);
+                if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if($stmt->execute([$nombre_prueba, $unidades])){
+                     return [
+                        'msg' => "La prueba ha sido creada exitosamente.",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "Error al ejecutar la consulta: " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+        }catch (PDOException $e) {
+                error_log("Error al tratar de crear la prueba: " . $e->getMessage());
+                return [
+                    'msg' => "Error al tratar de crear la prueba: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }
+    }
 }
 ?>

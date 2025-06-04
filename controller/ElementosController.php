@@ -664,6 +664,16 @@ public function insertCategoriaxEdad() {
     public function getSliderItems() {
         return $this->eleModel->getSliderItems();
     }
+    public function getUnidades(){
+        return $this->eleModel->getUnidades();
+    }
+    public function creacionDePruebas(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $nombre_prueba=['nombre_prueba'];
+            $unidades=['unidades'];
+            return $this->eleModel->creacionDePruebas($nombre_prueba, $unidades);
+        }
+    }
 }
 
 ?>

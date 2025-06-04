@@ -119,11 +119,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin:2rem;
         }
 #tabla-ranking, #tabla-eventos, #tabla-asistencia {
         width: 80%;
-        margin-top: 1rem;
+        margin: 1rem 1rem;
         border-collapse: collapse;
         background-color: #2E0909; /* fondo oscuro para la tabla */
         color: #D4AF37; /* texto dorado */

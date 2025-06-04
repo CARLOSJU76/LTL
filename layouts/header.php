@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            background-color: #D4AF37;
         }
 
         header {
@@ -189,7 +190,7 @@
        
     </header>
 
-    <main style="padding: 1rem;">
+    <main style="padding: 0.05rem;">
         <!-- Contenido principal aquí -->
     </main>
 

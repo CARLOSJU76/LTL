@@ -12,6 +12,7 @@
             <option value="delete_elements">Eliminar Elementos</option>
             <option value="lugar_entrenamiento">Lugares de Entrenamiento</option>
             <option value="slider_items">Administrar Slider</option>
+            <option value="crear_pruebas">Crear Tests Físicos</option>
         </select>      
     </form>
 </div>

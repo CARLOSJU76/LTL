@@ -1532,5 +1532,27 @@ case 'lista_ranking':
         $_SESSION['tipo'] = $resultado['tipo'];
         header("Location: index.php?action=slider_items");
         exit();
+    case 'crear_pruebas':
+         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0; 
+        $resultado= $eleControl->creacionDePruebas();
+        $_SESSION['msg'] = $resultado['msg'];
+        $_SESSION['tipo'] = $resultado['tipo'];
+        $title = "Incluir Tests Físicos";
+        $content = __DIR__ . '/view-elementos/crear_pruebas.php';
+        include __DIR__ . '/layouts/main_elementos.php';
+    }else{
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido = 0;   
+        $unidades= $eleControl->getUnidades();
+        $title = "Incluir Tests Físicos";
+        $content = __DIR__ . '/view-elementos/crear_pruebas.php';
+        include __DIR__ . '/layouts/main_elementos.php';
+    }break;
 }
 
