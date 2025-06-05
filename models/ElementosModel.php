@@ -775,9 +775,9 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
     public function creacionDePruebas($nombre_prueba, $unidades){
         try{
              $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-             $consulta= "INSERT INTO r1m (nombre_prueba, unidades) values (?, ?)";
+             $consulta= "INSERT INTO r1m (nombre_prueba, unidades_id) values (?, ?)";
               $stmt=$this->conn->prepare($consulta);
-              $stmt->execute([$nombre_prueba, $unidades]);
+           
                 if (!$stmt) {
                     return [
                         'msg' => "Error al preparar la consulta.",
@@ -803,6 +803,20 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
                     'tipo' => "error"
                 ];
             }
+    }
+    public function getTodasLasPruebas(){
+        $consulta= "SELECT r1m.nombre_prueba AS nombre_prueba, 
+                    unidades.unidades AS unidades FROM
+                    r1m INNER JOIN unidades ON r1m.unidades_id= unidades.id";
+        $stmt=$this->conn->prepare($consulta);
+        $stmt->execute();
+       $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // echo "<pre>";
+
+    // print_r($resultado);
+
+    // echo "</pre>";
+       return $resultado;
     }
 }
 ?>

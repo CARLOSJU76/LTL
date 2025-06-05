@@ -669,10 +669,13 @@ public function insertCategoriaxEdad() {
     }
     public function creacionDePruebas(){
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            $nombre_prueba=['nombre_prueba'];
-            $unidades=['unidades'];
+            $nombre_prueba=$_POST['nombre_prueba'];
+            $unidades=$_POST['unidades'];
             return $this->eleModel->creacionDePruebas($nombre_prueba, $unidades);
         }
+    }
+    public function getTodasLasPruebas(){
+        return $this->eleModel->getTodasLasPruebas();
     }
 }
 

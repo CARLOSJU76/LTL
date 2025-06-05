@@ -16,6 +16,7 @@ let opciones = [
     {id_perfil: 4, valor: 'cambiar_pass', texto: 'Cambiar Contraseña' },
     {id_perfil: 3, valor: 'mis_competencias', texto: 'Mis Competencias' },
     {id_perfil: 3, valor: 'mis_entrenamientos', texto: 'Mis Sesiones de Entrenamiento' },
+    {id_perfil: 3, valor: 'mis_puntajes', texto: 'Mis Puntajes'},
     {id_perfil: 3, valor: 'menu_sesiones', texto: 'Próximas Sesiones' },
     {id_perfil: 2, valor: 'trainer_manage', texto: 'Sesiones de Entrenamiento' },
     {id_perfil: 1, valor: 'list_deportista_Rep', texto: 'Deportistas' },

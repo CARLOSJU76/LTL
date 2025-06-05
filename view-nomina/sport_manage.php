@@ -9,11 +9,7 @@
                 <option value="list_deportista">Consultar Deportistas</option>
                 <option value="list_entrenador">Consultar Entrenadores</option>
                 <option value="insert_deportista">Incluir Deportista</option>
-                <option value="insert_entrenador">Incluir Entrenador</option>
-                <option value="rankingx_eventos">Puntajes por Eventos</option>       
-                <option value="rankingx_asistencias">Puntajes por Asistencias</option>  
-                <option value="ranking_total">Puntaje de Ranking Global</option>     
-               
+                <option value="insert_entrenador">Incluir Entrenador</option>  
         </select>      
     </form>
 </div>
