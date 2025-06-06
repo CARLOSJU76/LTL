@@ -805,7 +805,7 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
             }
     }
     public function getTodasLasPruebas(){
-        $consulta= "SELECT r1m.nombre_prueba AS nombre_prueba, 
+        $consulta= "SELECT r1m.id AS id, r1m.nombre_prueba AS nombre_prueba, 
                     unidades.unidades AS unidades FROM
                     r1m INNER JOIN unidades ON r1m.unidades_id= unidades.id";
         $stmt=$this->conn->prepare($consulta);
@@ -818,5 +818,48 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
     // echo "</pre>";
        return $resultado;
     }
+    public function ejecutarPrueba($entrenador_id, $prueba_id,  $fecha, $deportista_id, $resultado,) {
+        try {
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $verificar= "SELECT COUNT(*) FROM resultados_pruebas 
+             WHERE prueba_id = ? AND deportista_id = ? AND fecha = ?";
+            $stmtVerificar = $this->conn->prepare($verificar);
+            $stmtVerificar->execute([$prueba_id, $deportista_id, $fecha]);
+            $existe = $stmtVerificar->fetchColumn();
+            
+
+             if ($existe > 0) {
+                  return [
+                    'tipo' => "repetido"
+                  ];
+            }else{
+                 $consulta = "INSERT INTO resultados_pruebas (entrenador_id, prueba_id, deportista_id, resultado, fecha) 
+                         VALUES (?, ?, ?, ?, ?)";
+                $stmt = $this->conn->prepare($consulta);
+            
+                if (!$stmt) {
+                  return [
+                        'tipo' => "error"
+                    ];
+                }
+            
+                if ($stmt->execute([$entrenador_id, $prueba_id, $deportista_id, $resultado, $fecha])) {
+                    return [
+                        'tipo' => "success"
+                    ];
+                } else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'tipo' => "error"
+                    ];
+                }
+            } 
+        } catch (PDOException $e) {
+            error_log("Error al tratar de registrar la prueba: " . $e->getMessage());
+            return [
+                'tipo' => "error"
+            ];
+        }
+}
 }
 ?>

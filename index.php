@@ -1320,27 +1320,34 @@ case 'list_sessionById_dep':
                 $_SESSION['msg']= $resultado['total_eventos_mensaje'] ?? 'Operación realizada.';
                 $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
                 if($from=="perfil_deportista"){
+                    $permitido=3;
+                    $title = "Mis puntajes";
+                    $content = __DIR__ . '/view-nomina/mis_puntajes.php';
+                }else{
+                    $permitido=0;
+                    $title = "Datos de Ranking por Deportista";
+                    $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
+                }
+                include __DIR__ . '/layouts/main.php';
+            }else{
+                $from= $_POST['from']?? '';
+                $deportistas= $depoControl->listSportman();
+                if($from=="perfil_deportista"){
                      $title = "Mis puntajes";
                       $content = __DIR__ . '/view-nomina/mis_puntajes.php';
                 }else{
                      $title = "Datos de Ranking por Deportista";
-                $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
+                    $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                 }
                 include __DIR__ . '/layouts/main.php';
-            }else{
-                $permitido=0;
-                $deportistas= $depoControl->listSportman();
-                $title = "Datos de Ranking por Eventos" ;
-                $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
-                include __DIR__ . '/layouts/main_deportista.php';
             }break;
+            
             case 'rankingx_asistencias':
                 if($_SERVER['REQUEST_METHOD']=='POST'){
                     if(session_status()=== PHP_SESSION_NONE){
                         session_start();
                     }
                     $from= $_POST['from']?? '';
-                    $permitido=0;
                     $deportistas= $depoControl->listSportman();
                     $resultado=$rankingControl->rankingAsistencia();
                     $deportista= $resultado['deportista'] ?? " ";
@@ -1349,19 +1356,30 @@ case 'list_sessionById_dep':
                      $_SESSION['msg']= $resultado['total_asistencias_mensaje'] ?? 'Operación realizada.';
                     $_SESSION['tipo']= $resultado['tipo'] ?? 'error';
                     if($from=="perfil_deportista"){
+                         $permitido=3;
                         $title = "Mis puntajes";
                         $content = __DIR__ . '/view-nomina/mis_puntajes.php';
                     }else{
+                        $from= $_POST['from']?? '';
+                        $permitido=0;
                         $title = "Datos de Ranking por Deportista";
                 $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                 }
                 include __DIR__ . '/layouts/main.php';
                 }else{
-                $permitido=0;
-                $deportistas= $depoControl->listSportman();
-                $title = "Datos de Ranking por Asistencias" ;
+                    $from= $_POST['from']?? '';
+                    $deportistas= $depoControl->listSportman();
+                   if($from=="perfil_deportista"){
+                         $permitido=3;
+                        $title = "Mis puntajes";
+                        $content = __DIR__ . '/view-nomina/mis_puntajes.php';
+                    }else{
+                        $from= $_POST['from']?? '';
+                        $permitido=0;
+                        $title = "Datos de Ranking por Deportista";
                 $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
-                include __DIR__ . '/layouts/main_deportista.php';
+                }
+                include __DIR__ . '/layouts/main.php';
             }break;
 case 'ranking_total':
     if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -1378,19 +1396,32 @@ case 'ranking_total':
         $_SESSION['msg']= $resultado['msg'] ?? 'Operación realizada.';
         $_SESSION['tipo']= $resultado['tipo'] ?? 'success';
         if($from=="perfil_deportista"){
+                    $permitido=3;
                      $title = "Mis puntajes";
                       $content = __DIR__ . '/view-nomina/mis_puntajes.php';
                 }else{
+                    $permtido=0;
                      $title = "Datos de Ranking por Deportista";
                 $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
                 }
                 include __DIR__ . '/layouts/main.php';
     }else{
-        $permitido=0;
+          if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $from= $_POST['from']?? '';
         $deportistas= $depoControl->listSportman();
-        $title = "Datos de Ranking por Deportista" ;
-        $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
-        include __DIR__ . '/layouts/main_deportista.php';
+        if($from=="perfil_deportista"){
+                         $permitido=3;
+                        $title = "Mis puntajes";
+                        $content = __DIR__ . '/view-nomina/mis_puntajes.php';
+                    }else{
+                        $from= $_POST['from']?? '';
+                        $permitido=0;
+                        $title = "Datos de Ranking por Deportista";
+                $content = __DIR__ . '/view-nomina/puntajes_de_ranking.php';
+                }
+                include __DIR__ . '/layouts/main.php';
     }break;
     case 'mis_puntajes':
           if (session_status() === PHP_SESSION_NONE) {
@@ -1566,9 +1597,8 @@ case 'lista_ranking':
         $unidades= $eleControl->getUnidades();
         $_SESSION['msg'] = $resultado['msg'];
         $_SESSION['tipo'] = $resultado['tipo'];
-        $title = "Incluir Tests Físicos";
-        $content = __DIR__ . '/view-elementos/crear_pruebas.php';
-        include __DIR__ . '/layouts/main_elementos.php';
+         header('Location: index.php?action=crear_pruebas&status=success');
+        exit();
     }else{
          if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -1580,5 +1610,29 @@ case 'lista_ranking':
         $content = __DIR__ . '/view-elementos/crear_pruebas.php';
         include __DIR__ . '/layouts/main_elementos.php';
     }break;
+    case 'ejecutar_prueba':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $permitido = 2;   
+            $pruebas= $eleControl->getTodasLasPruebas();
+            $resultado = $eleControl->ejecutarPrueba();
+            $_SESSION['msg'] = $resultado['msg'];
+            $_SESSION['tipo'] = $resultado['tipo'];
+            header("Location: index.php?action=ejecutar_prueba");
+            exit();
+        } else {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $permitido = 2;   
+             $pruebas= $eleControl->getTodasLasPruebas();
+             $deportistas=$depoControl->listSportman();
+            $title = "Ejecutar Prueba";
+            $content = __DIR__ . '/view-nomina/test_fisico.php';
+            include __DIR__ . '/layouts/main.php';
+        }break;
+
 }
 

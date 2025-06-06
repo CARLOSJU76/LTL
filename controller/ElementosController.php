@@ -677,6 +677,14 @@ public function insertCategoriaxEdad() {
     public function getTodasLasPruebas(){
         return $this->eleModel->getTodasLasPruebas();
     }
+    public function ejecutarPrueba(){
+        $entrenador_id = $_POST['entrenador_id'];
+        $prueba_id = $_POST['prueba_id'];
+        $fecha = $_POST['fecha'];
+        $deportistas = $_POST['deportistas'];
+        $resultados = $_POST['resultados'];
+
+    }
 }
 
 ?>

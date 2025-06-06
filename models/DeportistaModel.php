@@ -159,6 +159,23 @@ public function get_id_by_email($email){
         return null; // O manejar el caso de no encontrar el ID
     }
 }
+public function get_idEntrenador_by_email($email){
+    $consulta= "SELECT id, nombres, apellidos FROM entrenadores WHERE email = ?";
+    $stmt= $this->conn->prepare($consulta);
+    $stmt->execute([$email]);
+    $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($resultado) {
+       return [
+        'id' => $resultado['id'],
+        'nombres' => $resultado['nombres'],
+        'apellidos' => $resultado['apellidos']
+       ];
+    } else {
+        return null; // O manejar el caso de no encontrar el ID
+    }
+}
+
 //===========================================================================================================
 public function listEntrenadoresById($id_ent){
     try{

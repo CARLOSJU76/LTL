@@ -123,9 +123,10 @@ $depor_id= $objeto->get_id_by_email($email)['id'];
        <input type="hidden" name="from" value="perfil_deportista">
          <label id="label-id" >Consulta tus puntajes por asistencias y eventos.</label>
         <div id="submit-buttons">
-            <button type="submit" name="action" id="xasistencia" class="botones-ranking">Puntaje por Asistencias</button>
-            <button type="submit" name="action" id="xeventos" class="botones-ranking">Puntaje por Eventos</button>    
-            <button type="submit" name="action" id="xtotal" class="botones-ranking">Puntaje de Ranking Global</button>  
+          
+        <button type="submit" name="action" id="xtotal" class="botones-ranking">Puntaje de Ranking Global</button>    
+        <button type="submit" name="action" id="xeventos" class="botones-ranking">Puntaje por Eventos</button>    
+        <button type="submit" name="action" id="xasistencia" class="botones-ranking">Puntaje por Asistencias</button>
         </div>
         
         </form>

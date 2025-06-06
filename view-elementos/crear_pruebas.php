@@ -65,7 +65,7 @@
         width: 60%;
         padding:1rem;
         border: #D4AF37 solid 2px;
-        border-radius= 4px;
+        border-radius:4px;
     }
     #tabla-pruebas{
         color:#D4AF37;
