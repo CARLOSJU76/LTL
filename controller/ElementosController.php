@@ -682,9 +682,44 @@ public function insertCategoriaxEdad() {
         $prueba_id = $_POST['prueba_id'];
         $fecha = $_POST['fecha'];
         $deportistas = $_POST['deportistas'];
-        $resultados = $_POST['resultados'];
+        $uno=0;
+        $dos=0;
+        $tres=0;
+        $cuatro=0;
+        $cinco=0;
+        $seis=0;
+        foreach ($deportistas as $item) {
+            $deportista_id = $item['deportista_id'];
+            $resultado = $item['resultado'];
+
+            $respuesta = $this->eleModel->ejecutarPrueba(
+                $entrenador_id,
+                $prueba_id,
+                $fecha,
+                $deportista_id,
+                $resultado
+            );
+            if($respuesta==1){
+            $uno++;
+            }elseif($respuesta==2){
+            $dos++;
+            }else if($respuesta=3){
+            $tres++;
+            }elseif($respuesta==4){
+            $cuatro++;
+            }else if($respuesta=5){
+            $cinco++;
+            }else{
+                $seis++;
+            }
+        }
+        return[
+           
+            'tipo'=>'success',
+            'msg'=>'resultados: '. $uno.$dos.$tres.$cuatro.$cinco.$seis.'.'
+        ];
 
     }
-}
 
+}
 ?>

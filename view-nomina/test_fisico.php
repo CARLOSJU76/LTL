@@ -30,19 +30,19 @@ $entrenador_id= $objeto->get_idEntrenador_by_email($email)['id'];
 <!-- ==================================================================================== -->
     <!-- Múltiples deportistas y resultados -->
     <div id="deportistas-container">
-        <div class="deportista-item">
-            <select name="deportistas[]" required>
-                <option value="">Seleccione un deportista</option>
-                <?php foreach ($deportistas as $deportista): ?>
-                    <option value="<?= $deportista['id'] ?>">
-                        <?= htmlspecialchars($deportista['nombres']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-<!-- ==================================================================================== -->
-            <input type="number" name="resultados[]" placeholder="Resultado" step="0.001" required>
-        </div>
+    <div class="deportista-item" data-index="0">
+        <select name="deportista[0][deportista_id]" required>
+            <option value="">Seleccione un deportista</option>
+            <?php foreach ($deportistas as $deportista): ?>
+                <option value="<?= $deportista['id'] ?>">
+                    <?= htmlspecialchars($deportista['nombres']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <input type="number" name="deportista[0][resultado]" placeholder="Resultado" step="0.001" required>
     </div>
+</div>
+
 
     <!-- Botón para añadir más deportistas -->
     <button type="button" onclick="agregarDeportista()">Agregar otro deportista</button><br><br>
@@ -57,10 +57,23 @@ $entrenador_id= $objeto->get_idEntrenador_by_email($email)['id'];
 <script>
 function agregarDeportista() {
     const contenedor = document.getElementById('deportistas-container');
-    const item = document.querySelector('.deportista-item');
-    const clon = item.cloneNode(true);
-    clon.querySelector('select').selectedIndex = 0;
-    clon.querySelector('input').value = '';
+    const items = contenedor.querySelectorAll('.deportista-item');
+    const ultimo = items[items.length - 1];
+    const nuevoIndice = items.length;
+
+    const clon = ultimo.cloneNode(true);
+    clon.setAttribute('data-index', nuevoIndice);
+
+    const select = clon.querySelector('select');
+    const input = clon.querySelector('input');
+
+    // Actualizar name para que sea deportista[N][...]
+    select.name = `deportista[${nuevoIndice}][deportista_id]`;
+    select.selectedIndex = 0;
+
+    input.name = `deportista[${nuevoIndice}][resultado]`;
+    input.value = '';
+
     contenedor.appendChild(clon);
 }
 </script>
