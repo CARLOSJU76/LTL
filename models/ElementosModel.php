@@ -818,41 +818,109 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
     // echo "</pre>";
        return $resultado;
     }
-    public function ejecutarPrueba($entrenador_id, $prueba_id,  $fecha, $deportista_id, $resultado,) {
-    
-            $verificar= "SELECT COUNT(*) FROM resultados_pruebas 
-             WHERE prueba_id = ? AND deportista_id = ? AND fecha = ?";
-            $stmtVerificar = $this->conn->prepare($verificar);
-            $stmtVerificar->execute([$prueba_id, $deportista_id, $fecha]);
-            $existe = $stmtVerificar->fetchColumn();
-            
+    public function ejecutarPrueba($entrenador_id, $prueba_id, $fecha, $deportista_id, $resultado) {
+    try {
+        // Inicia la transacción
+        $this->conn->beginTransaction();
 
-            if ($existe > 0) {
-                 $actualizar="UPDATE resultados_pruebas SET resultado=? where deportista_id=?";
-                 $stmtActualizar=$this->conn->prepare($actualizar);
-                if(!$stmtActualizar){
-                    $resultado= 1;
-                 }
-                if($stmtActualizar->execute([$resultado, $deportista_id])){
-                    $resultado=2;
-                }else{
-                    $resultado=7;}
-            }else{
-                 $consulta = "INSERT INTO resultados_pruebas (entrenador_id, prueba_id, deportista_id, resultado, fecha) 
+        // Verificar si ya existe un registro
+        $verificar = "SELECT COUNT(*) FROM test_fisico
+                      WHERE prueba_id = ? AND deportista_id = ? AND fecha = ?";
+        $stmtVerificar = $this->conn->prepare($verificar);
+        $stmtVerificar->execute([$prueba_id, $deportista_id, $fecha]);
+        $existe = $stmtVerificar->fetchColumn();
+
+        if ($existe > 0) {
+            // Si existe, actualiza
+            $actualizar = "UPDATE test_fisico SET resultado = ? 
+                           WHERE deportista_id = ? AND prueba_id = ? AND fecha = ?";
+            $stmtActualizar = $this->conn->prepare($actualizar);
+
+            if (!$stmtActualizar) {
+                $this->conn->rollBack();
+                return 1; // Error al preparar la actualización
+            }
+
+            if ($stmtActualizar->execute([$resultado, $deportista_id, $prueba_id, $fecha])) {
+                $this->conn->commit();
+                return 2; // Actualización exitosa
+            } else {
+                $this->conn->rollBack();
+                return 7; // Error al ejecutar la actualización
+            }
+        } else {
+            // Si no existe, insertar
+            $consulta = "INSERT INTO test_fisico 
+                         (entrenador_id, prueba_id, deportista_id, resultado, fecha) 
                          VALUES (?, ?, ?, ?, ?)";
-                $stmt = $this->conn->prepare($consulta);
-            
-                if (!$stmt) {
-                 $resultado=3;
-                }
-            
-                if ($stmt->execute([$entrenador_id, $prueba_id, $deportista_id, $resultado, $fecha])) {
-                  $resultado=4;
-                } else {
-                   $resultado=5;
-                }  
-           }
-     return $resultado;
+            $stmt = $this->conn->prepare($consulta);
+
+            if (!$stmt) {
+                $this->conn->rollBack();
+                return 3; // Error al preparar la inserción
+            }
+
+            if ($stmt->execute([$entrenador_id, $prueba_id, $deportista_id, $resultado, $fecha])) {
+                $this->conn->commit();
+                return 4; // Inserción exitosa
+            } else {
+                $this->conn->rollBack();
+                return 5; // Error al ejecutar la inserción
+            }
+        }
+
+    } catch (Exception $e) {
+        // En caso de error inesperado, deshacer cambios
+        $this->conn->rollBack();
+        return 6; // Error general en la transacción
     }
+}
+public function getResultadosPruebas($deportista_id, $prueba_id) {
+
+    try{
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $consulta = "SELECT deportista.nombres AS nombreD, deportista.apellidos AS apellidoD,
+                r1m.nombre_prueba AS prueba, entrenadores.nombres AS nombreE, 
+                entrenadores.apellidos AS apellidoE, test_fisico.fecha AS fecha, 
+                test_fisico.resultado AS resultado, r1m.unidades AS unidades
+                FROM test_fisico INNER JOIN 
+                deportista ON test_fisico.deportista_id = deportista.id
+                INNER JOIN r1m ON test_fisico.prueba_id = r1m.id
+                INNER JOIN entrenadores ON test_fisico.entrenador_id = entrenadores.id
+                WHERE deportista_id = ? AND prueba_id = ? 
+                ORDER BY fecha DESC";
+                $stmt = $this->conn->prepare($consulta);
+                if (!$stmt) {
+                    return [
+                        'msg' => "Error al preparar la consulta.",
+                        'tipo' => "error"
+                    ];
+                }
+                if( $stmt->execute([$deportista_id, $prueba_id])) {
+                    $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    return [
+                        'data'=> $resultado,
+                        'msg' => "Se han obtenido los resultados, ",
+                        'tipo' => "success"
+                    ];
+                }else {
+                    $error = $stmt->errorInfo();
+                    return [
+                        'msg' => "No fue posible obtener los resultados " . $error[2],
+                        'tipo' => "error"
+                    ];
+                }
+                $stmt->execute([$deportista_id, $prueba_id]);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (PDOException $e) {
+                error_log("Error hacer la consulta: " . $e->getMessage());
+                return [
+                    'msg' => "Error al hacer la consulta de los resultados: " . $e->getMessage(),
+                    'tipo' => "error"
+                ];
+            }  
+   
+}
+
 }
 ?>

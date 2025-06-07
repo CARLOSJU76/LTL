@@ -677,49 +677,55 @@ public function insertCategoriaxEdad() {
     public function getTodasLasPruebas(){
         return $this->eleModel->getTodasLasPruebas();
     }
-    public function ejecutarPrueba(){
-        $entrenador_id = $_POST['entrenador_id'];
-        $prueba_id = $_POST['prueba_id'];
-        $fecha = $_POST['fecha'];
-        $deportistas = $_POST['deportistas'];
-        $uno=0;
-        $dos=0;
-        $tres=0;
-        $cuatro=0;
-        $cinco=0;
-        $seis=0;
-        foreach ($deportistas as $item) {
-            $deportista_id = $item['deportista_id'];
-            $resultado = $item['resultado'];
+   public function ejecutarPrueba() {
+    $entrenador_id = $_POST['entrenador_id'];
+    $prueba_id = $_POST['prueba_id'];
+    $fecha = $_POST['fecha'];
+    $deportistas = $_POST['deportista']; // Corrección clave
 
-            $respuesta = $this->eleModel->ejecutarPrueba(
-                $entrenador_id,
-                $prueba_id,
-                $fecha,
-                $deportista_id,
-                $resultado
-            );
-            if($respuesta==1){
-            $uno++;
-            }elseif($respuesta==2){
-            $dos++;
-            }else if($respuesta=3){
-            $tres++;
-            }elseif($respuesta==4){
-            $cuatro++;
-            }else if($respuesta=5){
-            $cinco++;
-            }else{
-                $seis++;
-            }
+    // Contadores
+    $insertadas = 0;
+    $actualizadas = 0;
+    $fallidas = 0;
+
+    foreach ($deportistas as $item) {
+        $deportista_id = $item['deportista_id'];
+        $resultado = $item['resultado'];
+
+        $respuesta = $this->eleModel->ejecutarPrueba(
+            $entrenador_id,
+            $prueba_id,
+            $fecha,
+            $deportista_id,
+            $resultado
+        );
+
+        switch ($respuesta) {
+            case 2: // Actualización exitosa
+                $actualizadas++;
+                break;
+            case 4: // Inserción exitosa
+                $insertadas++;
+                break;
+            default: // Cualquier otro caso es error
+                $fallidas++;
+                break;
         }
-        return[
-           
-            'tipo'=>'success',
-            'msg'=>'resultados: '. $uno.$dos.$tres.$cuatro.$cinco.$seis.'.'
-        ];
-
     }
 
+    // Construir mensaje para el usuario
+    $total = $insertadas + $actualizadas + $fallidas;
+    return [
+        'tipo' => $fallidas > 0 ? 'warning' : 'success',
+        'msg' => "Total procesadas: $total. Registradas por primera vez: $insertadas. Actualizadas: $actualizadas. Fallidas: $fallidas."
+    ];
+}
+public function getResultadosPruebas() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $prueba_id = $_POST['prueba_id'];
+        $fecha = $_POST['fecha'];
+        return $this->eleModel->getResultadosPruebas($prueba_id, $fecha);
+    }
+}
 }
 ?>
