@@ -1633,6 +1633,32 @@ case 'lista_ranking':
             $content = __DIR__ . '/view-nomina/test_fisico.php';
             include __DIR__ . '/layouts/main.php';
         }break;
+    case  'getResultadosPruebasXDeportista':
+          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $permitido=2;
+        $resultado = $eleControl->getResultadosPruebasXDeportista();
+        $resultados= $resultado['data'] ?? [];
+        $_SESSION['msg'] = $resultado['msg'] ?? 'Operación realizada.';         
+        $_SESSION['tipo'] = $resultado['tipo'] ?? 'success';
+        $deportistas= $depoControl->listSportman();
+        $pruebas= $eleControl->getTodasLasPruebas();
+        $title = "Resultados de Pruebas Físicas";
+        $content = __DIR__ . '/view-nomina/resultados_tests_xdeportista.php';
+        include __DIR__ . '/layouts/main.php';
+
+    }else{
+        $permitido=2;
+         $deportistas= $depoControl->listSportman();
+        $pruebas= $eleControl->getTodasLasPruebas();
+         $title = "Resultados de Pruebas Físicas";
+        $content = __DIR__ . '/view-nomina/resultados_tests_xdeportista.php';
+        include __DIR__ . '/layouts/main.php';
+
+    }break;
+
 
 }
 

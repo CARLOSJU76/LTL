@@ -720,12 +720,13 @@ public function insertCategoriaxEdad() {
         'msg' => "Total procesadas: $total. Registradas por primera vez: $insertadas. Actualizadas: $actualizadas. Fallidas: $fallidas."
     ];
 }
-public function getResultadosPruebas() {
+public function getResultadosPruebasXDeportista() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $prueba_id = $_POST['prueba_id'];
-        $fecha = $_POST['fecha'];
-        return $this->eleModel->getResultadosPruebas($prueba_id, $fecha);
+        $deportista= $_POST['deportista_id'];
+        return $this->eleModel->getResultadosPruebasXDeportista($deportista, $prueba_id);
     }
 }
+
 }
 ?>

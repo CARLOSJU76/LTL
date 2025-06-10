@@ -19,6 +19,7 @@ let opciones = [
     {id_perfil: 3, valor: 'mis_puntajes', texto: 'Mis Puntajes'},
     {id_perfil: 3, valor: 'menu_sesiones', texto: 'Próximas Sesiones' },
     {id_perfil: 2, valor: 'trainer_manage', texto: 'Sesiones de Entrenamiento' },
+    {id_perfil: 2, valor: 'getResultadosPruebasXDeportista', texto: 'Resultados de tests Deportista' },
     {id_perfil: 1, valor: 'list_deportista_Rep', texto: 'Deportistas' },
     {id_perfil: 1, valor: 'list_entrenadores_Rep', texto: 'Entrenadores' },
     {id_perfil: 1, valor: 'insert_deportista_Rep', texto: 'Registro de Deportistas' },

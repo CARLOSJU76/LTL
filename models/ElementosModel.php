@@ -875,18 +875,19 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
         return 6; // Error general en la transacción
     }
 }
-public function getResultadosPruebas($deportista_id, $prueba_id) {
+public function getResultadosPruebasXDeportista($deportista_id, $prueba_id) {
 
     try{
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
          $consulta = "SELECT deportista.nombres AS nombreD, deportista.apellidos AS apellidoD,
                 r1m.nombre_prueba AS prueba, entrenadores.nombres AS nombreE, 
                 entrenadores.apellidos AS apellidoE, test_fisico.fecha AS fecha, 
-                test_fisico.resultado AS resultado, r1m.unidades AS unidades
+                test_fisico.resultado AS resultado, unidades.unidades AS unidades
                 FROM test_fisico INNER JOIN 
                 deportista ON test_fisico.deportista_id = deportista.id
                 INNER JOIN r1m ON test_fisico.prueba_id = r1m.id
                 INNER JOIN entrenadores ON test_fisico.entrenador_id = entrenadores.id
+                INNER JOIN unidades ON r1m.unidades_id = unidades.id
                 WHERE deportista_id = ? AND prueba_id = ? 
                 ORDER BY fecha DESC";
                 $stmt = $this->conn->prepare($consulta);
