@@ -621,34 +621,46 @@ public function insertCategoriaxEdad() {
             return $this->eleModel->sliderItems();
         }
         public function procesarSlider() {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $targetDir = "uploads/slider/";
-                if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0755, true);
-                }
-                foreach ($_FILES['multimedia']['tmp_name'] as $i => $tmpName) {
-                $name = $_FILES['multimedia']['name'][$i];
-                $path = $targetDir . time() . '_' . basename($name);
-                $type = mime_content_type($tmpName);
-               
-                  if (move_uploaded_file($tmpName, $path)) {
-                        $tipo = str_starts_with($type, 'video') ? 'video' : 'imagen';
-                        $this->eleModel->procesarSlider($tipo, $path);
-                        return [
-                            'msg' => "El archivo $name se ha subido correctamente.",
-                            'tipo' => 'success'
-                        ];
-                  }else {
-                        return [
-                            'msg' => "Error al subir el archivo $name.",
-                            'tipo' => 'error'
-                        ];
-                    }
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $targetDir = "uploads/slider/";
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        // Recuperar títulos y descripciones
+        $titulos = $_POST['titulo'];
+        $descripciones = $_POST['descripcion'];
+
+        foreach ($_FILES['multimedia']['tmp_name'] as $i => $tmpName) {
+            $name = $_FILES['multimedia']['name'][$i];
+            $path = $targetDir . time() . '_' . basename($name);
+            $type = mime_content_type($tmpName);
+
+            // Verifica y mueve el archivo subido
+            if (move_uploaded_file($tmpName, $path)) {
+                $tipo = str_starts_with($type, 'video') ? 'video' : 'imagen';
+
+                // Obtiene título y descripción para este archivo
+                $titulo = isset($titulos[$i]) ? $titulos[$i] : '';
+                $descripcion = isset($descripciones[$i]) ? $descripciones[$i] : '';
+
+                // Llama al modelo para insertar el registro con título y descripción
+                $this->eleModel->procesarSlider($tipo, $path, $titulo, $descripcion);
+            } else {
+                return [
+                    'msg' => "Error al subir el archivo $name.",
+                    'tipo' => 'error'
+                ];
             }
         }
-        
-        
+
+        return [
+            'msg' => "Todos los archivos se han procesado correctamente.",
+            'tipo' => 'success'
+        ];
     }
+}
+
     public function toggleSlider() {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
@@ -661,6 +673,29 @@ public function insertCategoriaxEdad() {
             return $this->eleModel->deleteSliderItem($id);
         }
     }
+   public function editarSlider() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $id = $_POST['id'] ?? null;
+        $titulo = $_POST['titulo'] ?? '';
+        $descripcion = $_POST['descripcion'] ?? '';
+
+        if ($id) {
+            return $this->eleModel->editarSlider($id, $titulo, $descripcion);
+        } else {
+            return [
+                'msg' => "ID de slider no especificado.",
+                'tipo' => 'error'
+            ];
+        }
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
+        $id = $_GET['id'];
+        return $this->eleModel->getSliderById($id); // Debes tener esta función en el modelo
+    }
+}
+public function getSliderById($id) {
+    return $this->eleModel->getSliderById($id); 
+}
+
     public function getSliderItems() {
         return $this->eleModel->getSliderItems();
     }

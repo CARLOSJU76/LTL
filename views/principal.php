@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,6 +123,8 @@ session_start();
             <?php  
                 if (isset($_SESSION['username'])) {
                     echo htmlspecialchars($_SESSION['username']);
+                }else{
+                    echo 'Bienvenido, Usuario';
                 }
             ?>
         </span>

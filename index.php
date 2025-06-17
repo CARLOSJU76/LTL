@@ -255,21 +255,17 @@ case 'list_sessionBySite':
     }break;
 //========================================================================================================
     case 'list_workout_byFecha':
-    if($_SERVER['REQUEST_METHOD']=='POST'){
+          if($_SERVER['REQUEST_METHOD']=='POST'){
+            $workouts= $eleControl->listWorkOutsByFecha();
+        }
         if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+            session_start();
         }
         $permitido=2;
-        $workouts= $eleControl->listWorkOutsByFecha();
-         $title = "Consulta sesiones por Fecha";
-        $content = __DIR__ . '/view_sesiones/list_workOuts_by_fecha.php';
-        include __DIR__ . '/layouts/main_sesiones.php';
-    }else{
-         $permitido=2;
         $title = "Consulta sesiones por Fecha";
         $content = __DIR__ . '/view_sesiones/list_workOuts_by_fecha.php';
         include __DIR__ . '/layouts/main_sesiones.php';
-    }break;
+      break;
 //========================================================================================================
 case 'delete_session':
     if (session_status() === PHP_SESSION_NONE) {
@@ -1586,6 +1582,21 @@ case 'lista_ranking':
         $_SESSION['tipo'] = $resultado['tipo'];
         header("Location: index.php?action=slider_items");
         exit();
+    case 'editar_slider':
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Procesar la edición
+        $resultado = $eleControl->editarSlider();
+        $_SESSION['mensaje'] = $resultado['msg'];
+        $_SESSION['tipo_mensaje'] = $resultado['tipo'];
+        header('Location: index.php?action=admin_slider');
+        exit;
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+      $id=$_GET['id'];
+        $slider = $eleControl->getSliderById($id);
+        require 'views/editar_slider.php';
+    }
+    break;
+
     case 'crear_pruebas':
          if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         if (session_status() === PHP_SESSION_NONE) {

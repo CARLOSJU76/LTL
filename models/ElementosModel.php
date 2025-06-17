@@ -693,29 +693,30 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
         $stmt = $this->conn->query($consulta);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function procesarSlider($tipo, $archivo) {
-        try { //$stmt = $conexion->prepare("INSERT INTO slider_items (tipo, archivo) VALUES (?, ?)");
-            $consulta = "INSERT INTO slider_items (tipo, archivo) VALUES (?, ?)";
-            $stmt = $this->conn->prepare($consulta);
-            if ($stmt->execute([$tipo, $archivo])) {
-                return [
-                    'msg' => "El archivo se ha subido correctamente.",
-                    'tipo' => "success"
-                ];
-            } else {
-                return [
-                    'msg' => "Error al subir el archivo.",
-                    'tipo' => "error"
-                ];
-            }
-        } catch (PDOException $e) {
-            error_log("Error al procesar el slider: " . $e->getMessage());
+   public function procesarSlider($tipo, $archivo, $titulo, $descripcion) {
+    try {
+        $consulta = "INSERT INTO slider_items (tipo, archivo, titulo, descripcion) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($consulta);
+        if ($stmt->execute([$tipo, $archivo, $titulo, $descripcion])) {
             return [
-                'msg' => "Error al procesar el slider: " . $e->getMessage(),
+                'msg' => "El archivo se ha subido correctamente.",
+                'tipo' => "success"
+            ];
+        } else {
+            return [
+                'msg' => "Error al subir el archivo.",
                 'tipo' => "error"
             ];
         }
+    } catch (PDOException $e) {
+        error_log("Error al procesar el slider: " . $e->getMessage());
+        return [
+            'msg' => "Error al procesar el slider: " . $e->getMessage(),
+            'tipo' => "error"
+        ];
     }
+}
+
     public function toggleSliderItem($id) {
         try {
             $consulta = "UPDATE slider_items SET activo = NOT activo WHERE id = ?";
@@ -762,6 +763,41 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
             ];
         }
     }
+    public function editarSlider($id, $titulo, $descripcion) {
+    try {
+        $consulta = "UPDATE slider_items SET titulo = ?, descripcion = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($consulta);
+        if ($stmt->execute([$titulo, $descripcion, $id])) {
+            return [
+                'msg' => "El slider se ha actualizado correctamente.",
+                'tipo' => "success"
+            ];
+        } else {
+            return [
+                'msg' => "Error al actualizar el slider.",
+                'tipo' => "error"
+            ];
+        }
+    } catch (PDOException $e) {
+        error_log("Error al editar el slider: " . $e->getMessage());
+        return [
+            'msg' => "Error al editar el slider: " . $e->getMessage(),
+            'tipo' => "error"
+        ];
+    }
+}public function getSliderById($id) {
+    try {
+        $consulta = "SELECT * FROM slider_items WHERE id = ?";
+        $stmt = $this->conn->prepare($consulta);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Error al obtener slider: " . $e->getMessage());
+        return false;
+    }
+}
+
+
     public function getSliderItems() { //("SELECT * FROM slider_items WHERE activo = 1 ORDER BY creado_en DESC")
         $consulta = "SELECT * FROM slider_items WHERE activo=1  ORDER BY creado_en DESC";
         $stmt = $this->conn->query($consulta);
