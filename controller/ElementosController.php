@@ -679,11 +679,21 @@ public function editarSlider() {
         $id = $_POST['id'] ?? null;
         $titulo = $_POST['titulo'] ?? '';
         $descripcion = $_POST['descripcion'] ?? '';
-        $posicion = $_POST['posicion_texto'] ?? 'centro';
-        $justificacion = $_POST['justificacion_texto'] ?? 'centro';
+        $posicion_vertical = $_POST['posicion_vertical'] ?? 'centro';
+        $justificacion_horizontal = $_POST['justificacion_horizontal'] ?? 'centro';
+        $titulo_color= $_POST['titulo_color'];
+        $titulo_estilo= $_POST['titulo_estilo'];
+        $titulo_tamano= $_POST['titulo_tamano'];
+        $titulo_fuente= $_POST['titulo_fuente'];
+        $descripcion_color= $_POST['descripcion_color'];
+        $descripcion_estilo= $_POST['descripcion_estilo'];
+        $descripcion_tamano= $_POST['descripcion_tamano'];
+        $descripcion_fuente= $_POST['descripcion_fuente'];
 
         if ($id) {
-            return $this->eleModel->editarSlider($id, $titulo, $descripcion, $posicion, $justificacion);
+            return $this->eleModel->editarSlider($id, $titulo, $descripcion, $posicion_vertical, $justificacion_horizontal, 
+                            $titulo_color, $titulo_estilo, $titulo_tamano, $titulo_fuente,
+                            $descripcion_color, $descripcion_estilo, $descripcion_tamano, $descripcion_fuente);
         } else {
             return [
                 'msg' => "ID de slider no especificado.",

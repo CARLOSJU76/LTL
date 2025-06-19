@@ -1540,6 +1540,7 @@ case 'lista_ranking':
             $content = __DIR__ . '/view-nomina/insert_deportista_rep.php';
             include __DIR__ . '/layouts/main.php';
         }break;
+//=========================seccion SLIDER===============================================================
     case 'slider_items':
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -1596,6 +1597,7 @@ case 'lista_ranking':
         require 'views/editar_slider.php';
     }
     break;
+//============================================================================================
 
     case 'crear_pruebas':
          if ($_SERVER['REQUEST_METHOD'] === 'POST'){

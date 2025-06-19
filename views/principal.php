@@ -191,24 +191,50 @@ if (isset($_SESSION['msg1'], $_SESSION['tipo1'])) {
 
     <!-- Sección de slider -->
      <!-- ========================================================================================= -->
-   <div class="slider">
-    <?php include_once "./controller/ElementosController.php";
-        $objeto= new ElementosController();
+  <div class="slider">
+    <?php 
+        include_once "./controller/ElementosController.php";
+        $objeto = new ElementosController();
         $items = $objeto->getSliderItems();
     ?>
     <?php foreach ($items as $item): ?>
-        <div class="slide">
+        <div class="slide" style="position: relative;">
             <?php if ($item['tipo'] === 'video'): ?>
                 <video src="<?= $item['archivo'] ?>" autoplay muted loop class="slider-media"></video>
             <?php else: ?>
                 <img src="<?= $item['archivo'] ?>" alt="slider" class="slider-media">
             <?php endif; ?>
+
+            <!-- Título del Slider -->
+            <div class="slider-text titulo <?= $item['posicion_vertical'] ?> <?= $item['justificacion_horizontal'] ?>"
+                 style="
+                    color: <?= htmlspecialchars($item['titulo_color']) ?>;
+                    font-size: <?= htmlspecialchars($item['titulo_tamano']) ?>;
+                    font-style: <?= $item['titulo_estilo'] === 'cursiva' ? 'italic' : 'normal' ?>;
+                    font-weight: <?= $item['titulo_estilo'] === 'negrita' ? 'bold' : 'normal' ?>;
+                    font-family: <?= htmlspecialchars($item['titulo_fuente']) ?>;
+                 ">
+                <?= htmlspecialchars($item['titulo']) ?>
+            </div>
+
+            <!-- Descripción del Slider -->
+            <div class="slider-text descripcion <?= $item['posicion_vertical'] ?> <?= $item['justificacion_horizontal'] ?>"
+                 style="
+                    color: <?= htmlspecialchars($item['descripcion_color']) ?>;
+                    font-size: <?= htmlspecialchars($item['descripcion_tamano']) ?>;
+                    font-style: <?= $item['descripcion_estilo'] === 'cursiva' ? 'italic' : 'normal' ?>;
+                    font-weight: <?= $item['descripcion_estilo'] === 'negrita' ? 'bold' : 'normal' ?>;
+                    font-family: <?= htmlspecialchars($item['descripcion_fuente']) ?>;
+                 ">
+                <?= htmlspecialchars($item['descripcion']) ?>
+            </div>
+
             <button class="prev" onclick="prevSlide()">&#10094;</button>
             <button class="next" onclick="nextSlide()">&#10095;</button>
         </div>
     <?php endforeach; ?>
 </div>
-</div>
+
 
 <!-- FORMULARIO LOGIN -->
  <!-- ====================================================================================================================== -->

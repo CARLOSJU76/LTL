@@ -527,3 +527,33 @@ body{
     z-index: 3;
   
 }
+/* Estilos para titulos y descripciones de slider: */
+.slider-text {
+    position: absolute;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Posición Vertical */
+.arriba    { top: 10px; transform: translateY(0); }
+.centro    { top: 50%; transform: translateY(-50%); }
+.abajo     { bottom: 10px; transform: translateY(0); }
+
+/* Justificación Horizontal */
+.izquierda { text-align: left; left: 10px; right: auto; }
+.centro    { text-align: center; left: 50%; transform: translate(-50%, -50%); }
+.derecha   { text-align: right; right: 10px; left: auto; }
+
+.slider-text.titulo {
+    position: absolute;
+    z-index: 2;
+}
+
+/* Descripción: desplazada un poco hacia abajo para no solaparse con el título */
+.slider-text.descripcion {
+    position: absolute;
+    margin-top: 40px; /* separa de Título */
+    z-index: 2;
+}

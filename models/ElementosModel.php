@@ -764,11 +764,18 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
         }
     }
 //========================================================================================================
-public function editarSlider($id, $titulo, $descripcion, $posicion_texto, $justificacion_texto) {
+public function editarSlider($id, $titulo, $descripcion, $posicion_vertical, $justificacion_horizontal, 
+                            $titulo_color, $titulo_estilo, $titulo_tamano, $titulo_fuente,
+                            $descripcion_color, $descripcion_estilo, $descripcion_tamano, $descripcion_fuente) {
     try {
-        $consulta = "UPDATE slider_items SET titulo = ?, descripcion = ?, posicion_texto = ?, justificacion_texto = ? WHERE id = ?";
+        $consulta = "UPDATE slider_items SET titulo = ?, descripcion = ?, posicion_vertical = ?, justificacion_horizontal = ?,
+                    titulo_color= ?, titulo_estilo= ?, titulo_tamano= ?, titulo_fuente= ?,
+                    descripcion_color= ?, descripcion_estilo= ?, descripcion_tamano= ?,
+                    descripcion_fuente=?  WHERE id = ?";
         $stmt = $this->conn->prepare($consulta);
-        if ($stmt->execute([$titulo, $descripcion, $posicion_texto, $justificacion_texto, $id])) {
+        if ($stmt->execute([$titulo, $descripcion, $posicion_vertical, $justificacion_horizontal,
+            $titulo_color, $titulo_estilo, $titulo_tamano, $titulo_fuente, $descripcion_color,
+            $descripcion_estilo, $descripcion_tamano, $descripcion_fuente, $id])) {
             return [
                 'msg' => "El slider se ha actualizado correctamente.",
                 'tipo' => "success"
@@ -950,8 +957,6 @@ public function getResultadosPruebasXDeportista($deportista_id, $prueba_id) {
                         'tipo' => "error"
                     ];
                 }
-                $stmt->execute([$deportista_id, $prueba_id]);
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }catch (PDOException $e) {
                 error_log("Error hacer la consulta: " . $e->getMessage());
                 return [
