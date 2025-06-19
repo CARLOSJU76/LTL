@@ -673,14 +673,17 @@ public function insertCategoriaxEdad() {
             return $this->eleModel->deleteSliderItem($id);
         }
     }
-   public function editarSlider() {
+//=======================================================================================================
+public function editarSlider() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id = $_POST['id'] ?? null;
         $titulo = $_POST['titulo'] ?? '';
         $descripcion = $_POST['descripcion'] ?? '';
+        $posicion = $_POST['posicion_texto'] ?? 'centro';
+        $justificacion = $_POST['justificacion_texto'] ?? 'centro';
 
         if ($id) {
-            return $this->eleModel->editarSlider($id, $titulo, $descripcion);
+            return $this->eleModel->editarSlider($id, $titulo, $descripcion, $posicion, $justificacion);
         } else {
             return [
                 'msg' => "ID de slider no especificado.",
@@ -689,9 +692,10 @@ public function insertCategoriaxEdad() {
         }
     } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
         $id = $_GET['id'];
-        return $this->eleModel->getSliderById($id); // Debes tener esta función en el modelo
+        return $this->eleModel->getSliderById($id);
     }
 }
+
 public function getSliderById($id) {
     return $this->eleModel->getSliderById($id); 
 }

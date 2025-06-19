@@ -1586,9 +1586,9 @@ case 'lista_ranking':
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Procesar la edición
         $resultado = $eleControl->editarSlider();
-        $_SESSION['mensaje'] = $resultado['msg'];
-        $_SESSION['tipo_mensaje'] = $resultado['tipo'];
-        header('Location: index.php?action=admin_slider');
+        $_SESSION['msg'] = $resultado['msg'];
+        $_SESSION['tipo'] = $resultado['tipo'];
+        header('Location: index.php?action=slider_items');
         exit;
     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
       $id=$_GET['id'];

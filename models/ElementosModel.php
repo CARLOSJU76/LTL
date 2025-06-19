@@ -763,11 +763,12 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
             ];
         }
     }
-    public function editarSlider($id, $titulo, $descripcion) {
+//========================================================================================================
+public function editarSlider($id, $titulo, $descripcion, $posicion_texto, $justificacion_texto) {
     try {
-        $consulta = "UPDATE slider_items SET titulo = ?, descripcion = ? WHERE id = ?";
+        $consulta = "UPDATE slider_items SET titulo = ?, descripcion = ?, posicion_texto = ?, justificacion_texto = ? WHERE id = ?";
         $stmt = $this->conn->prepare($consulta);
-        if ($stmt->execute([$titulo, $descripcion, $id])) {
+        if ($stmt->execute([$titulo, $descripcion, $posicion_texto, $justificacion_texto, $id])) {
             return [
                 'msg' => "El slider se ha actualizado correctamente.",
                 'tipo' => "success"
@@ -785,7 +786,9 @@ public function listSessionsBySite($id_lugar, $fechaA, $horaA){
             'tipo' => "error"
         ];
     }
-}public function getSliderById($id) {
+}
+//========================================================================================================
+public function getSliderById($id) {
     try {
         $consulta = "SELECT * FROM slider_items WHERE id = ?";
         $stmt = $this->conn->prepare($consulta);
